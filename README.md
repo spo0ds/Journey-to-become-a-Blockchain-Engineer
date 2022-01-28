@@ -27,6 +27,18 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Summary |
 |  **DAOs**|
 | **Ethereum Transaction On a Live  Blockchain** |
+| - Wallet Creation |
+| - Etherscan |
+| - Multiple Accounts |
+| - Mnemonic ,  Public & Private keys |
+| - Mnemonic vs Private vs Public keys |
+| - Mainnet & Testnets |
+| - Initiating our first Transaction |
+| - Transaction details |
+| - Gas fees, Transaction fees, Gas limit, Gas price |
+| - Gas vs Gas price vs Gas Limit vs Transaction fee |
+| - Gas estimator |
+| **How Blockchain works/whats going on Inside the Blockchain** |
 | - Hash or Hashing or SHA256 |
 | - Block |
 | - Blockchain |
@@ -133,9 +145,11 @@ Smart contracts allows us to engage  in trustless and trust minimized agreements
 DAOS are organizations that live online and live in the smart contracts.They're similar to regular organization in the traditional world however thay have people who maybe hold governance tokens to make voting decisions or they do all the governance on chain on this decentralized settlement layer giving us the freedom to engage with eachother as we please.
 
 
-**Ethereum Transaction On a Live  Blockchain**
+## **Ethereum Transaction On a Live  Blockchain**
 
 First thing that we're going to need is an `ethereum wallet`.So go to `metamask` because it's one of the most popular wallet and one of the easiest to use.Download the wallet and it's going to be a little extension in the top right corner of your browser.This way we can really easily see at any time what we have in our wallet.This will store all our ethereum based currencies.Go ahead and install metamask.
+
+**Wallet Creation**
 
 ![Metamask](/Images/Day1/a1.png)
 
@@ -161,21 +175,35 @@ Our mnemonic phrase that secret phrase that we got has given us access to a new 
 
 ![Metamask](/Images/Day1/a6.png)
 
+**Etherscan**
+
 The address of our account, we can use a tool like `etherscan`.
 
 ![Metamask](/Images/Day1/a7.png)
 
 So if we look at this address that we just created, we can see that no transactions have happened.It's empty.It has zero ether.It has zero dollars worth of value.Address above is the unique address which represents exclusively the single account that we just created.
 
+**Multiple Accounts**
+
 We can even click the circle and create more account and give it a different account name.
 
 ![Metamask](/Images/Day1/a8.png)
 
-Account 2 will have different account address.The mnemonic that we've been given gives us access to create multiple accounts with the same mnemonic.So havin that mnemonic will give us access to every single account that's ever created with that mnemonic.This is why securing your mnemonic is so crucial especially if you create multiple different accounts.Each account has a unique identifier with them as well.The account address is the public address.However there's also a private key to work with this account a secret key.We can view it by clicking three dots, go to account details and export private key.
+Account 2 will have different account address.
+
+**Mnemonic ,  Public & Private keys**
+
+The mnemonic that we've been given gives us access to create multiple accounts with the same mnemonic.So havin that mnemonic will give us access to every single account that's ever created with that mnemonic.This is why securing your mnemonic is so crucial especially if you create multiple different accounts.Each account has a unique identifier with them as well.The account address is the public address.However there's also a private key to work with this account a secret key.We can view it by clicking three dots, go to account details and export private key.
 
 ![Metamask](/Images/Day1/a9.png)
 
-This is a single password associated with this account.If you give somebody access to this private key, they'll have access to account 2.They won't have access to my account 1 because private key of account 2 is only associated with account 2.The mnemonic however is associated with all accounts.This is why when people say store your keys in safe place, they're referring to both private keys and mnemonic.If you lose your private key, you'll lose access to that account.If you lose your mnemonic you loose access to all your accounts.
+This is a single password associated with this account.If you give somebody access to this private key, they'll have access to account 2.They won't have access to my account 1 because private key of account 2 is only associated with account 2.The mnemonic however is associated with all accounts.
+
+**Mnemonic vs Private vs Public keys**
+
+This is why when people say store your keys in safe place, they're referring to both private keys and mnemonic.If you lose your private key, you'll lose access to that account.If you lose your mnemonic you loose access to all your accounts.
+
+**Mainnet & Testnets**
 
 What else is going on in metamask is we can see this section here that says `Ethereum mainnet`.If we click it we can actually see a bunch of other networks in here.
 
@@ -186,6 +214,8 @@ When you buy eth and work with eth you're working on the ethereum mainnet.When y
 ![Metamask](/Images/Day1/a11.png)
 
 Later on we're actually going to show you how to work with other evm compatible chains.Don't worry about evm compatible means for now but we can work with avalanche, polygon and other applications through networks interface as well.
+
+**Initiating our first Transaction**
 
 Infact we're going to make our first transaction on the Rinkeby Testnet and this will simulate exactly what it's like to make the transaction on the ethereum mainnet.
 
@@ -203,6 +233,8 @@ If we take the account address and go over to Rinkeby Etherscan, we now see the 
 
 But if we look at `Ethereum Mainnet` we've nothing there.We've just made our first transaction.And if we refresh the page, we can also see this is our first transaction that was made.Some account sent us 18.75 ether.We can even look at the details of the transaction.
 
+**Transaction details**
+
 Etherscan is what's known as `Block Explorer`.Block Explorer is an application that allows us to to see details of things that happen on a blockchain easily.We can see the transaction details of the transaction that we made and whenever we work with `Smart Contract` we'll also see them in a transaction similar to what we'll see in a transaction detail.
 
 ![Metamask](/Images/Day1/a14.png)
@@ -213,13 +245,19 @@ We can see the block number which we can see in a little bit.
 
 We can see from this unique account which is the faucet account.
 
+**Gas fees, Transaction fees, Gas limit, Gas price**
+
 Gas refers to the fee paid to node operators for successfully including a transaction in a blockchain.Now exactly how this works is actually going to change pretty soon but the concept is basically anytime you want to change the state of blockchain wheteher this is a sending some ethereum or making any type of transaction, you actually have to pay a little bit of ethereum or a little bit of that native blockchain token to actually execute that transaction.Whenever we do something on the blockchain,it costs gas and if we do something that would take a lot of energy for the blockchain to do, it will cost more gas.So if I send single transaction that's gonna cost 21000 gas.However if I were to send a transaction that called the smart contract function and did a whole bunch of other stuff, it'd cost more gas.We see here whoever sent us eth also paid the blockchain miners or blockchain validators a little bit of ethereum to include our transaction.We actually get to pick how much of a fee we want to send with our transactions.  
 
 ![Metamask](/Images/Day1/a15.png)
 
+**Gas vs Gas price vs Gas Limit vs Transaction fee**
+
 Why would we ever wanna pay more gas price? Why do I even have the option to pay more?
 
 Blockchain can only process so many transactions at a time and nodes and blockchain nodes can only process so many at a time.So when I make a transaction a node has to decide why they want to include my transaction into the block.If there're ton of people looking to make these transactions then the nodes are going to be highly incentivized to pick the transactions that're going to give them a high price that are going to give them alot of money for including that transaction.
+
+**Gas estimator**
 
 In ethgasstation.info, we could get the gas estimator of the blockchain.
 
@@ -239,6 +277,11 @@ With just this little bit of information, you now know how to interact with bloc
 
 Let's look under the hood of ethereum and what is actually going on with these transactions and with these gas and with these blockchains and what's really going on.Let's learn all the fundamentals of a blockchain.
 
+## **How Blockchain works/whats going on Inside the Blockchain**
+
+
+** Hash or Hashing or SHA256**
+
 Before we get started, we need to take a look at this thing that we call SHA256 hash.Hash looks like bunch of random numbers and it's a fingerprint of some digital data.
 
 hash below starts with `e3b0` which is the hash of nothing.
@@ -252,6 +295,8 @@ It just so happens it's a fingerprint of whatever I type in this box.If I type t
 This is hash of the text 'blockchain' all lowercase which starts with 5318.If I delete the text and type the same text again, it'll have same hash.It's the `digital fingerprint` of the text 'blockchain'.
 
 You could type tons and tons of text and you'd get a hash and the interesting thing about is if there's a tiny amount of information, no information or entire library of congress, you're always gonna get a hash that is this long shown above.You're not gonna be able to pre guess what it is.You'd always get exactly the same hash regardless of how many times you put exactly the same information in.
+
+**Block**
 
 Let's extend the idea of hash into something that we're gonna call block.
 
@@ -270,6 +315,8 @@ Above you can see `mine` button.When I click mine button, it's gonna run through
 ![Metamask](/Images/Day1/a22.png)
 
 It stopped at 64,658 and that one just happens to hash out to something that starts with four zeros and it satisfies little definition of what a `signed block` is.
+
+**Blockchain**
 
 Blockchain is just the chain of these block.How do you put them together? Let's do that.
 
@@ -309,6 +356,8 @@ What I wanted to tell is that if I go and change the last block, all I've to do 
 
 `How do I know that my blockchain has been remined ?`
 
+**Decentralized/Distributed Blockchain**
+
 Let's take a look at `Distributed Blockchain`.
 
 ![Metamask](/Images/Day1/a29.png)
@@ -325,6 +374,8 @@ If I type something on Peer B block 4 and remine block 4 and block 5.
 
 All the block in Peer B is green.However the Peer A chain says that last hash start with '0000e4', Peer C says '0000e4' but the middle one says '00004c'.So just by glancing Peer B hash, something is wrong with that Peer B even though all of the hash start with four zeros.Essentially it's two against one.Peer A argues it's '0000e4', Peer B argues it's '00004c' and Peer C argues it's '0000e4'.So '0000e4' wins.So that's how a completely distributed copy having a copy on many different computers they can all very quickly see if all of the blocks are identical.Blockchains can have 400000/500000 blocks very easily so rather than checking through all of them, all you really have to do is to look at the hash of the most recent one and you can that if anything in the past was altered.You can tell by looking at the last block in the chain.
 
+
+**Tokens/Transaction History**
 
 That's the entire thing.There's no more to it than that but it's kind of not really useful because we don't have something in this data area that means anything I keep typing any text that's sort of irrelevant information.So what we really want is a `token`.Let's do a token on our blockchain.
 
@@ -346,6 +397,18 @@ In the next block, another 100 dollars comes out of nowhere and goes to 'Anders'
 
 If we look at this blockchain that we've created and zip forward in time and we notice that 'Jackson' is giving 'Alexa' 2 dollars.Does Jackson have 2 dollars? We go back a block before and see that 'Emily' had gotten 10 dollars from 'Andres' gave 10 to 'Jackson'.So 'Jackson' does have the money.That's actually one of the benefit's of having a previous in the block.It's easy to go backwards.
 
+
+**Summary**
+
+- Ethereum actually runs on Keccak256.
+- Hash is a unique fixed length string to identify a piece of data.
+- Hash algorithm is a function that computes data into a unique hash.
+- Mining is the process of finding a "solution" to the blockchain "problem".
+- Nodes get paid for mining blocks.
+- Block is a list of transactions mined together.
+- Blockchains are decentralized and distributed because many independent users are going to run this blockchain software and they'll check and compare against eachother to see which blockchains are acting honestly and which ones are acting maliciously.
+- Nonce is a "number used once" to find the "solution" to the blockchain problem.
+- Nonce is also used to define the transaction number for an account/address.
 
 
 
