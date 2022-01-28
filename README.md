@@ -1,3 +1,9 @@
+# Journey-to-become-a-Blockchain-Engineer
+
+I'm sharing everything I'm learning to become a Blockchain Engineer
+
+![Blockchain](/Images/main.jpg)
+
 | Day 1 |
 | ------ |
 |  **Blockchain** |
@@ -130,4 +136,6 @@ DAOS are organizations that live online and live in the smart contracts.They're 
 **Ethereum Transaction On a Live  Blockchain**
 
 First thing that we're going to need is an `ethereum wallet`.So go to `metamask` because it's one of the most popular wallet and one of the easiest to use.Download the wallet and it's going to be a little extension in the top right corner of your browser.This way we can really easily see at any time what we have in our wallet.This will store all our ethereum based currencies.Go ahead and install metamask.
+
+![Metamask](/Images/a1.jpg)
 
