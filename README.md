@@ -2,5 +2,5 @@
 
 I'm sharing everything I'm learning to become a Blockchain Engineer
 
-![Blockchain](/images/main.png)
+![Blockchain](/images/main.jpg)
 
