@@ -1,9 +1,3 @@
-# Journey-to-become-a-Blockchain-Engineer
-
-I'm sharing everything I'm learning to become a Blockchain Engineer
-
-![Blockchain](/Images/main.jpg)
-
 | Day 1 |
 | ------ |
 |  **Blockchain** |
@@ -25,6 +19,15 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | -  Removal of Counterparty risks |
 | - Trust Minimized  Agreements |
 | - Summary |
+|  **DAOs**|
+| **Ethereum Transaction On a Live  Blockchain** |
+| - Hash or Hashing or SHA256 |
+| - Block |
+| - Blockchain |
+| - Decentralized/Distributed Blockchain |
+| - Tokens/Transaction History |
+| - Summary |
+
 
 ## **Blockchain**
 
@@ -117,4 +120,14 @@ Smart contracts allows us to engage  in trustless and trust minimized agreements
 - Smart contracts remove massive conflict of interest traditional agreements have.
 - Smart contracts allows us to engage in trustless and trust minimized agreements.
 - Smart contracts are typically paired with some type of oracle to get the information about the real world.When they're paired with oracle, they're called `Hybrid Smart Contracts`.
+
+
+**DAOs**
+
+DAOS are organizations that live online and live in the smart contracts.They're similar to regular organization in the traditional world however thay have people who maybe hold governance tokens to make voting decisions or they do all the governance on chain on this decentralized settlement layer giving us the freedom to engage with eachother as we please.
+
+
+**Ethereum Transaction On a Live  Blockchain**
+
+First thing that we're going to need is an `ethereum wallet`.So go to `metamask` because it's one of the most popular wallet and one of the easiest to use.Download the wallet and it's going to be a little extension in the top right corner of your browser.This way we can really easily see at any time what we have in our wallet.This will store all our ethereum based currencies.Go ahead and install metamask.
 
