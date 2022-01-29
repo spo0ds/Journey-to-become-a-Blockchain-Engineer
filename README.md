@@ -440,6 +440,19 @@ If we look at this blockchain that we've created and zip forward in time and we 
 - Nonce is also used to define the transaction number for an account/address.
 
 
+## **Signing and Verifying a Transaction**
+
+We're going to talk about signing the transactions, private keys and some other cryptography bacause in the blockchain below we see fantastc transactions but how do we know that it was Darcy who was the one to send 25 dollars to Bingley.How do we know that actually happened?This is where all those pieces that we just learned about in our test net in our metamask account are really going to come to life .
+
+![Transaction](/Images/Day2/b1.png)
+
+**Public & Private Keys**
+
+
+
+
+
+
 
 
 
