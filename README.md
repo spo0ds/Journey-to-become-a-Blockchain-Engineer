@@ -45,6 +45,35 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Decentralized/Distributed Blockchain |
 | - Tokens/Transaction History |
 | - Summary |
+| - Day2 |
+|        |
+| **Signing and Verifying a Transaction** |
+| - Public & Private Keys |
+| - Signatures |
+| - Transactions |
+| - Summary |
+| **Concepts are same** |
+| - Nodes |
+| - Centralized entity vs  Decentralized Blockchain |
+| - Transactions are Listed |
+| - Consensus ,Proof of Work ,Proof of Stake |
+| - Consensus |
+| - proof of work/Sybil resistance mechanism |
+| - Blocktime |
+| - Chain selection rule |
+| - Nakamoto consensus |
+| - Block Confirmations |
+| - Block rewards & transaction fees |
+| - Sybil attack |
+| - 51% attack |
+| - Drawbacks of pow |
+| - proof of stake/sybil resistance mechanism |
+| - Validators |
+| - pros & cons of pos |
+| - Scalability problem & Sharding solution |
+| - Layer 1 & Layer 2 |
+| - Rollups |
+| - Summary |
 
 
 ## **Blockchain**
