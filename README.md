@@ -4,7 +4,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 
 ![Blockchain](/Images/main.jpg)
 
-| Day 1 |
+| <p align="center"> Day 1 </p> |
 | ------ |
 |  **Blockchain** |
 | - Bitcoin |
@@ -45,7 +45,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Decentralized/Distributed Blockchain |
 | - Tokens/Transaction History |
 | - Summary |
-| Day2 |
+| <p align="center"> Day2 </p> |
 |        |
 | **Signing and Verifying a Transaction** |
 | - Public & Private Keys |
