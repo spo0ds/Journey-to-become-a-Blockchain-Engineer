@@ -45,7 +45,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Decentralized/Distributed Blockchain |
 | - Tokens/Transaction History |
 | - Summary |
-| - Day2 |
+| Day2 |
 |        |
 | **Signing and Verifying a Transaction** |
 | - Public & Private Keys |
