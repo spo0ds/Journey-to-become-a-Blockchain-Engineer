@@ -566,6 +566,124 @@ The number of confirmations is the number of additional blocks added on after ou
 
 **Block rewards & transaction fees**
 
+`This has recently changed as of EIP 1559`.
+POW also tells us where these transaction fees and these block rewards go to.Remember how we made this transaction we had to talk about gas and a transaction fee.So who's getting paid? Who's getting this transaction and this transaction fee is going to the miners or validators?
+
+In a POW network they're called miners and in POS they're called validators.There are little bit different and we'll get into that when we talk about POS.
+
+In this POW system all these nodes are competing against eachother to find the answer to the blockchain riddle.Remember in our example it has to find hash that has four zeros at the start and again depending on the blockchain implementation that riddle is going to be a little bit different.
+
+But all the nodes are trying as many as possible to try to get this answer first why because the first node to figure out the answer to the blockchain rule is going to get that transaction fee.They're going to get paid from that.
+
+When a node get's paid they actually gets paid in two different ways.One is going to be with a transaction fee and another piece is going to be the block reward.
+
+ - **Transaction fees**
+
+Remember we talked about alternating the gas price that's the transaction fee that we're gonna pay to these blockchain nodes for including our transaction.The block reward is given to the nodes from the protocol from the blockchain itself.
+
+ - **Block Reward**
+
+You've probably heard of the bitcoin halving before.The halving is referring to this block reward getting cut in half and it's supposed to be cut in half roughly every four years.This block reward increases the circulation amount of whatever cryptocurrency that is being rewarded.For example on ethereum the block reward is giving out ethereum and on bitcoin it's giving out bitcoin.
+
+So these nodes are competing against eachother to be the first one to find this transaction to be the first one to find the answer to this problem so that they can be the ones to win both this block reward and your transaction fee.Some blockchain like bitcoin for example has a set time when they're no longer going to give out block rewards and the mminers or the nodes are only going to get paid from transaction fees.
+
+Gas fees are paid by whoever initialized the transaction.When we got our funds from the faucet there were some server and somebody else was paying the transaction fee for us.However we send ether from one account to another our first account actually paid some transaction fee to send that ether.
+
+In POS there's also a gas fee but it's paid out to validators instead of miners and we'll talk about that in a little bit.
+
+Now let's talk about two types of attack that can happen in this blockchain worlds.
+
+
+**Sybil attack**
+
+The Sybil Attack is when a user creates a whole bunch of pseudo-anonymous accounts to try to influence a network.Now obviously on bitcoin and ethereum this is really really difficult because the user needs to do all these work in POW or have a ton of collateral in proof of stake which again we'll talk about in a little bit.
+
+
+**51% attack**
+
+As we saw as part of our consensus protocol these blockchains are going to agree that the longest chain is the one that they're going to go with so long as it matches up with 51% of the rest of the network.This means that if you have the longest chain and you've more than 51% of the rest of the network you can do whats called a fork in the network and bring in the network onto your now longest chain.
+
+Sybil attacks obviously are when a single node or a single entity tries to affect the decentrality of the network by pretending to be multiple different people although they're just the same person or entity and like I said it's really difficult to do in POW and POS.
+
+### Longest Chain Rule
+
+Now you can see that blockchains are very democratic.Whichever blockchain has the most buy-in and is the longest is the blockchain that the whole system is going to corroborate.When nodes produce a new block and add to the longest chain the other nodes will follow this longest chain that the rest of the network is agreeing with add those blocks to their chain and follow up.So very small reorganizations are actually pretty common when a blockchain picks a block from a different longest chain puts it on and then has to swap it out for another block and continue with the different blockchain.
+
+However if a group of nodes had enough nodes or enough power they could essentially be 51% of the network and influence the network in whatever direction they wanted.This is what known as 51% attack.This happened on blockchains like Ethereum Classic which is not Ethereum.This is why the bigger a blockchain is the more decentralized and the more secure it becomes.
+
+
+**Drawbacks of pow**
+
+POW is fantastic because it allows us to very easily protect against these sybil attacks and keep our blockchains decentralized and secure.However it has some drawbacks as well.POW costs a lot of electricity because every single node is running aa fast as they can to win this race to get the rewards.This leads to obviously an environmental impact.Since POW and Nakamoto Consensus a lot of other protocols have taken this idea and gone in a different direction with a different sybil resistance protocol.Alot of them with the intention to be alot more environmentally friendly and the most popular one rn is POS.
+
+**proof of stake/sybil resistance mechanism**
+
+There are some chains that are already using this Proof of Stake protocol and that are live and thriving.Some of them are like `avalanche`, `solana`, `polygon`, `polkadot` and `terra` and additionally ethereum has decided to upgrade to eth2 which will have this proof of stake algorithm as well.
+
+It's a different sybil resistant mechanism instead of solving this difficult problem POS nodes put up some collateral that they're going to behave honestly aka they stake.In the example of ethereum 2 nodes put up some ethereum as a stake they're going to behave honestly in the network.
+
+If they misbehave to the network they're going to be slashed or removed some of their stake.Obviously this is a very good sybil resistance mechanism because if you try to create a whole bunch of anonymous accounts then each one of those accounts you have to put up some stake and if you misbehave you're going to run the risk of loosing all the money that you put up as collateral.
+
+
+**Validators**
+
+In POS miners are actually called `validators` because they're no longer mining anything.They're actually just validating other nodes.Unlike POW which every node is racing to be the first one to find the block in POS nodes are randomly chosen to propose the new block and then the rest of the validators will validate if that node has porposed the block honestly.
+
+As you saw with our cryptography lesson it's usually very easy for other nodes to verify if a proposal or a transaction is honest.
+
+### Randomness
+
+It's a really important topic when we're talking about blockchains because keep in mind these blockchains are deterministics systems.They're walled garded from the rest of the world and as you know a deterministic system by definition can't have random numbers.So how do we choose the random validators in the system?
+
+Well it changes from blockchain to blockchain and actually choosing the node will change blockchain to blockchain but in eth2 they're using what's called randow at least for the original implementation.This is a decentralized autonomous organization that collectively chooses the random number and collectively chooses which node is going to run next.
+
+
+**pros & cons of pos**
+
+POS obviously has some pros and cons as well.
+
+Pros are that again it's a great sybil resistance mechanism and a great way to figure out who the author of a block should be and the other pros are that it's way less computationally expensive to figure out new block because instead of every single node on the network trying to do this only one node needs to do this and the rest of the nodes just need to be validate.
+
+Cons are that it's usually considered a slightly less descentralized network due to the upfront staking costs, it costs to participate.This gets into a little bit of a philosophical battle on how decentralized is decentralized enough and I think it's upto the community to decide and as we progress I think we'll learn more and more about how decentralized is decentralized enough.The general consensus among blockchain engineers though is that POS is very very decentralized and very secure.This massive environmental impact improvement is one of the two main reasons why eth is shifting to eth2.It reduces the environment impact by upto 99%.
+
+
+**Scalability problem & Sharding solution**
+
+- Scalability
+
+When we're talking about gas prices we're saying that the gas prices can get really high if a lot of people want to send a transaction because a block only has so much block space and the nodes can only add so many transactions.So when alot of people wanna use blockchain the gas price skyrockets.This is not very scalable because we wanna add more and more people to these blockchains it's going to cost more and more to use the blockchains because more people are going to want to get into blocks.This means that there's kind of a ceiling to how many people can use the system because of the financial constraints will get imposed as gas prices keep rising. Eth2 is not only attacking the environmental impact of POW by switching to POS but they're also implementing this new methodology called `Sharding`.
+
+- Sharding
+
+Sharding is a solution to this scalability problem.A sharding blockchain really just means that it's going to be a blockchain of blockchains.There's a main chain that's going to coordinate  everything amongst several chains that hook into this main chain.This means that there's more chains for people to make transactions on effectively increasing the amount of blockspace that there is.Sharding can greatly increase the number of transactions on a blockchain layer1.There's another term that might be the first time you've heard it's a layer1.
+
+
+**Layer 1 & Layer 2**
+
+Layerr1 refers to any base layer blockchain implementation.Bitcoin's,Ethereum and Avalanche a layer1.These are base layer blockchain solutions.
+
+A layer2 is any application that is added on top of layer1;added on top of blockchain.Some examples of layer2 are going to be chainlink, arbitrum or optimism.Arbitrum and optimism are very interesting because they're layer2s that also look to solve the scalability issue.They are known as `Rollups`.
+
+
+**Rollups**
+
+Arbitrum and Optimism roll up their transaction into a layer1 like ethereum.We're not gonna go to deep into rollups and how they actually work but all you really need to know is that a rollup is kind of like a `shraded chain`.They derive their security from the base layer from the layer1 like ethereum and they bulk send their transactions onto the layer1.They solve some of the scalability issues by being another blockchain that people can make transactions on still on kind of base ethereum layer.Now they're different from `side chains` because side chains derive their security from their own protocols.Rollups derive their security from the base layers.So arbitrum and optisium for example is going to be just about as secure as ethereum.
+
+
+
+**Summary**
+
+- BTC and ETH are both Proof-of-Work blockchains that follow Nakamoto Consensus.
+- ETH2 will be a Proof-of-Stake shraded blockchain.
+- Sybil attacks are prevented due to protocols like POW & POS.
+- 51% attack grows increasingly harder with the size of blockchain.
+- Consensus is how blockchains decide what the state of the chain is.
+- Sharding and rollups are solution to scalability issues on layer1's.
+- A layer1 is any base blockchain implementation like bitcoin or ethereum.
+- A blockchain scalability problem is that there's not enough block space for the amount of transactions that want to get in them which leads to very high gas price.
+- Gas prices are how much it costs to interact with a blockchain.
+
+
 
     
     
