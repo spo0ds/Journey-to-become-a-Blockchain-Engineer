@@ -56,7 +56,6 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Nodes |
 | - Centralized entity vs  Decentralized Blockchain |
 | - Transactions are Listed |
-| - Consensus ,Proof of Work ,Proof of Stake |
 | - Consensus |
 | - proof of work/Sybil resistance mechanism |
 | - Blocktime |
@@ -447,6 +446,129 @@ We're going to talk about signing the transactions, private keys and some other 
 ![Transaction](/Images/Day2/b1.png)
 
 **Public & Private Keys**
+
+Here we've an example of public and private keys.
+
+![Public_Private_Key](/Images/Day2/b2.png)
+
+Private key: Only Known to the Key holder, it's used to "sign" transactions.
+    
+You really wanna keep secret because you're going to be using this as a kind of your secret password for all the transactions .
+
+I can really pick any private key I want with this `Elliptic Curve Digital Signature Algorithm` for ethereum and bitcoin they both use this elliptic curve digital signature algorithm.It's a variant of the digital signature algorithm and It's going to create it's public key.
+
+That public key we want everybody to have access to right.Whole world can see this public key.
+
+We're going to use the private key as like a password to quote/unquote digitally signed transaction and then people can verify them with this public key.
+
+Let's see what this actually look likes
+
+**Signatures**
+
+If we go to signatures tab and let's say we have this message that we want let's say "hi world"
+
+What's going to happen is the private key that we created, we can use to sign this data(hi world).We're using digital signature algorithm to create this message signature.
+
+![Message_Signature](/Images/Day2/b3.png)
+
+What's really powerful about how this algorithm works is that you can create this message signature with your private key but somebody else can't derive your private key from the message signature.This is what makes this really really powerful.
+
+However if we go to verify using our public key, anybody can verify that the signature is yours.
+
+![Message_Verification](/Images/Day2/b4.png)
+
+
+**Transactions**
+
+If somebody try to fake a transaction, they need to verify their's signature against my public key and very easily it turns red cause it's not verified.
+
+We can take that into transactions into exact same way.
+
+![Transaction_verification](/Images/Day2/b5.png)
+
+If I wanna send 20 dollars from my account to another account using my private key, I can sign that transactions and anybody else in the world could verify the transactions.This is why people say to protect your keys.
+
+Your Ethereum address is actually a piece of your public key.To get our address to ethereum all we have to do is take this public key we've created with our private key, hash it using that same ethereum hashing algorithm and take the last 20 bytes and that's how we'll actually derive to our address.
+
+Knowing the exact methodology of how to get the address doesn't really matter because it could change blockchain to blockchain but just know that's essentially how kind of these addresses are derived.
+
+Note : This isn't how we send the transaction.So this is just going to sign it, create a transaction for us to send.We'll learn later on how to send these transactions.
+
+
+## **Concepts are same**
+
+Now we know all the cryptography pieces and all the little nitty grittes of how the blockchain actually works and how our signatures work and how everything sticks together.Let's talk a little bit about how this works in actuality and what's really going on.
+
+For alot of this each different blockchain has slightly different algorithms, metrics and criteria for doing alot of this stuff.So when we're talking about specific implementations keep in mind the exact algorithm might be little different but the concepts are all still gonna be exactly the same.Hashing and hash function is going to be same no matter where you look.A decentralized blockchain is going to be same no matter where you look.How it's actually implemented is a little bit different.
+
+Traditionally when you run an application you know be it as a website or something that connects to some server, you're interacting with a centralized entity and unlike how we saw with the blockchain with multiple different peers.It's going to be run by a single centralized group.It still could be run on many different servers but all those servers are still going to be controlled by the same centralized group.Blockchain as we saw run on a network of independent nodes.When we saw peerA, peerB, peerc and more, those were different examples of different independent users running the blockchain technology on their node.
+
+**Node**
+
+Node here means single instance of a decentralized system.When I say single node,when I'm talking about a blockchain, talking about one of those peerA's peerB's and so on running that blockhain software.I'm talking about one server running this technology and again it's the network it's this combination of these nodes interacting with eachother that creates this entire blockchain.What makes these so potent too is that anybody can join the network and that's why they're decentralized.The barrier to entry is a little bit of hardware requirements.Anybody can join these networks and participate and that's what make it truly decentralized.In fact you can go to github right now and run your ethereum node in a few seconds.
+
+**Centralized entity vs  Decentralized Blockchain**
+
+In the traditional world applications are run by centralized entities and if that entity goes down or is maliciously bribed or decides they wanna shut off they just can because they're the ones that control everything.
+
+Blockchain by contrast don't have this problem.If one node or one entity that runs several nodes goes down since there're so many independent nodes running that it doesn't matter.The blockchain and the system will persist so long as there is atleast one node always running.Luckily for us most of the popular chains like bitcoin and ethereum have thousands and thousands of nodes.As we've showed in our demo if one nodes acts maliciously, all the other nodes will ignore that node and kick that out or even punish it in some systems because they can easily check everybody else's node and see this one is out of sync with the majority and yes majority rules when it comes to blockchain.
+
+**Transactions are Listed**
+
+Each blockchain keeps a full list of every transaction and interaction that's happened on that blockchain and we saw if a node tries to act maliciously then all their hashes are going to be way out of whack and they're not going to match anybody else.This gives the blockchain incredibly potent immutabilty trait where nothing can be changed or corrupted.
+
+So in essence we can think of a blockchain as a decentralized database and with ethereum it has an extra additional feature where it also can do computation in a decentralized manner.
+
+**Consensus**
+
+When we went through that blockchain example and we did that mining feature this is what's known as `proof of work`.Proof of work and proof of stake fall under the umbrella of consensus amd consensus is a really important topic when it comes to blockchain.
+
+Consensus is defines as the mechanism used to reach an agreement on the state or a single value on the blockchain especially in a decentralized system.I briefly alluded to this consensus mechanism in our blockchain example when I said if one changes something and the other two don't then majority will rule and kick that one out.This is part of that concensus mechanism.
+
+Now very roughly a consensus protocol in a blockchain can be broken down into two pieces.
+- `Chain Selection Algorithm`
+- `Sybil Resistance mechanism` 
+
+**Proof of Work/Sybil resistance mechanism**
+
+That mining piece we're doing or the proof of work algorithm is what's known as a sybil resistance mechanism and this is what ethereum and bitcoin currently use.Proof of work is known as a sybil resistance mechanism because it defines a way to figure out who is the block author: which node is going to be the node who did the work to find that mine and be the author of the block so all the other nodes could verify that it's accurate.
+
+### **Sybil Resistance**
+
+Sybil Resistance is a blockchain's ability to defend against users creating a large number of pseudo-anonymous identities to gain a disproportionately advantageous influence over said system and in laymen's term it's basically a way for blockchain to defend aganst somebody making a fake nodes so that they can get more and more rewards.
+
+There are two types of sybil resistance that we're gonna talk about here namely POW (Proof of Work) and POS (Proof of Stake).
+
+### **POW**
+
+In POW this is sybil resistant because a single node has to go through a very computationally expensive process called mining which we demonstrated earlier to figure out the answer to the blockchain's riddle of finding that correct nonce.
+
+In POW this works because no matter how many pseudo-anonymous accounts you make each one still has to undergo this very computationally expensive activity of finding the answer to the proof-of-work problem which again in our demonstration it was finding a nonce with that first four zeros but each blockchain might change the riddle or change the problem to be little bit different.
+
+**Blocktime**
+
+In fact some of these blockchain make this riddle intentionally hard or intentionally easy to change what's called block time.The block time is how long it takes between blocks being published and it's proportional to how hard these algorithms are.So these problems can actually change depending on how long they want the block time to be.
+
+If the system want the block time to be very very long they just make the problem very very hard and viceversa.We'll ralk about civil attacks in a little bit and how they can affect the system but with proof of work it's a verifiable way to figure out who the block author is and be civil resistant.
+
+**Chain selection rule**
+
+Now you need to combine this with the chain selection rule create this consensus.There are some consensus protocols that have more features but very very roughly there are two pieces that we're going to look at.The second piece is going to be chain selection rule.How do we know which blockchain is actually the real blockchain and the true blockchain?
+
+**Nakamoto consensus**
+
+On Bitcoin and Ethereum they both use a form of consensus called `Nakamoto Consensus` and this is a combination of POW and longest chain rule.The decentralized network decides that whichever blockchain has the longest chain or the most number of blocks on it is going to be the chain that they use.This makes lot of sense because every additional block that a chain is behind it's going to take more and more computation for it to come up.That's why we saw on our transaction we actually saw confirmations.
+
+**Block Confirmations**
+
+The number of confirmations is the number of additional blocks added on after our transaction went through in a block.So if we see confirmations is two it it means the block that our transactions was in has two blocks ahead of it in the longest chain.Now I do wanna point out that a lot of people use POW as a consensus protocol and I do wanna say that this is a little bit inaccurate but sometimes people use it interchangeably.POW is a piece of overall consensus protocol which in bitcoin and ethereum  one's current case is nakamoto consensus.
+
+
+**Block rewards & transaction fees**
+
+
+    
+    
 
 
 
