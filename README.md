@@ -73,7 +73,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Layer 1 & Layer 2 |
 | - Rollups |
 | - Summary |
-| <p align="center"> Day 1 </p> |
+| <p align="center"> Day 3 </p> |
 | ## **Solidity** |
 | **Lesson 1 - Remix IDE & its features** |
 | - Solidity version |
