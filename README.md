@@ -74,7 +74,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Rollups |
 | - Summary |
 | <p align="center"> Day 3 </p> |
-| ## **Solidity** |
+| **Solidity** |
 | **Lesson 1 - Remix IDE & its features** |
 | - Solidity version |
 | - Defining a  Contract |
