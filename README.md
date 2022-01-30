@@ -852,9 +852,9 @@ The reason we can access this age variable inside store function is because age 
 
 You can also make a function called retrieve and make it a public function that is of type view and returns uint256.All this is going to do is return favorite number.
 
-![retrieve_function](/Images/Day3/c11)
+![retrieve_function](/Images/Day3/c11.png)
 
-![deployed_retrieve](/Images/Day3/c12)
+![deployed_retrieve](/Images/Day3/c12.png)
 
 Question: "Why store function has orange color and other two has blue? "
 
@@ -868,7 +868,7 @@ A view function means that we want to read some state off the blockchain.We're j
 
 A pure functions are functions that purely do some type of math.
 
-![pure_function](/Images/Day3/c13)
+![pure_function](/Images/Day3/c13.png)
 
 We're doing some type of math above but we're not actually saving state anywhere.It's also going to have blue color button.
 
@@ -882,15 +882,15 @@ We've a whole number of different choices but the one we're going to talk about 
 
 Struct are ways to define new types in solidity.They're almost like creating new objects.
 
-![struct](/Images/Day3/c14)
+![struct](/Images/Day3/c14.png)
 
 We've a new type of people that has a favorite number and a name inside of it.Now what we could do with struct is :
 
-![struct_init](/Images/Day3/c15)
+![struct_init](/Images/Day3/c15.png)
 
 Let's deploy this contract and see what it looks like:
 
-![struct_deployed](/Images/Day3/c16)
+![struct_deployed](/Images/Day3/c16.png)
 
 We've Humans struct which at 0th index is the age and 1st index is the name.
 
@@ -904,7 +904,7 @@ Instead of just creating one person, we actually want to create a whole list of 
 
 Array is a way of storing list or a group of some object.
 
-![dynamic_array](/Images/Day3/c17)
+![dynamic_array](/Images/Day3/c17.png)
 
 **Dynamic Array**
 
@@ -912,7 +912,7 @@ The array we created above is a dynamic array.It's a dynamic array cause it chan
 
 **Fixed Array**
 
-![fixed_array](/Images/Day3/c18)
+![fixed_array](/Images/Day3/c18.png)
 
 This array could only have a maximum of one boy inside of it.
 
@@ -922,7 +922,7 @@ We're going to work with dynamic array because we want to add an arbitrary numbe
 
 Let's go and create a new function called add boy.
 
-![struct_array](/Images/Day3/c19)
+![struct_array](/Images/Day3/c19.png)
 
 We can see our new function addBoys where we pass a string memory name and a uint256 age.Then we create a Humans object and we push it onto our boys array.
 
@@ -942,7 +942,7 @@ Memory means after execution delete this variable and storage means keep it fore
 
 Let's deploy and see what happens now:
 
-![deployed_struct_array](/Images/Day3/c20)
+![deployed_struct_array](/Images/Day3/c20.png)
 
 We've this addBoys function and since we're making a state change, here we can see that this indeed is a orange button instead of being a blue button.
 
@@ -953,11 +953,11 @@ What if I'm looking for a boy's age from his name in the array?
 Mapping takes some type of key and spits out whatever variable it's mapped to.
 In our case we want to find the age of the boy using his name.
 
-![mapp_function](/Images/Day3/c21)
+![mapp_function](/Images/Day3/c21.png)
 
 Let's deploy and see:
 
-![map_function_deployed](/Images/Day3/c22)
+![map_function_deployed](/Images/Day3/c22.png)
 
 **SPDX License**
 
