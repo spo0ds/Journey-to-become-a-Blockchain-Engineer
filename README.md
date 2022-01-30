@@ -824,16 +824,12 @@ If we add public to our age, we recompile, delete our previous contract and rede
 Let's talk about why this public variable allowed us to see this new button this age button?
 
 This `public` keyword defines the visibility of the variable or the function.There are currently four different types of visibility.
-
 - External
 External function means it can't be called by the same contract.It has to be called by an external contract.
-
 - Public
 Public functions can be called by anybody including variables.Oddly enough variables are a function call to just look at them and return whatever that variable is. 
-
 - Internal
 Internal functions can only be called by other functions inside of it's existing contract or in it's derived contract.
-
 - Private
 Private is the most restricitive as private functions and state variables are only visible for contracts they are defined in and not derived contracts.
 
