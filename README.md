@@ -713,6 +713,137 @@ Arbitrum and Optimism roll up their transaction into a layer1 like ethereum.We'r
 - Gas prices are how much it costs to interact with a blockchain.
 
 
+## **Remix IDE & its features**
+
+Welcome to the [remix ide](https://remix.ethereum.org).
+
+![remix_ide](/Images/Day3/c1.png)
+
+This is where we start to work with solidity, smart contracts and deploy it to blockchains.
+
+There's a bunch of solidity plugins like solidity, learneth, solhinthinter and more.But we're going to go ahead with solidity.We're going to create a little application that can store information on the blockchain for us.So we're going to create new file (.sol)
+
+Solidity's compiler tab (Eth looking like on the tab) which compiles all the solidity code down to machine understandable code or machine language.Here's whole bunch of parameters we can choose when working with solidity like compiler version, choose the language, evm version.So let's code our first solidity contract.
+
+We're going to use something a little bit special here when we deploy the code. We're going to use `JavaScript VM` which simulates actually deploying to a test net or a real network.We're not actually going to deploy on a real network.We'll in a little bit but just to get started we're going to work with JavaScript VM which is kind of a fake environment for now.
+
+Testing locally and understanding how to test locally will make your coding experience a lot faster as you saw when we sent some transactions, some of them actually took a lot of time to actually deploy.We don't want to have to spend that much time waiting around for our tests to actually finish. 
+
+
+**Solidity version**
+
+The first thing that you gonna need in any solidity program is the solidity version.That's always going to be at the top of your solidity code.It is defined by:
+
+![pragma_version1](/Images/Day3/c2.png)
+
+Ctrl + s will save and "compile".
+
+If we want a specific version of solidity, we could also do:
+
+But for this if we just hit ctrl + s it'll try to compile on previous compiler version.This might give error.You need to click the "Compile" button for compiler automatically switch to the specific compiler version.
+
+![pragma_verision2](/Images/Day3/c3.png)
+
+We can also do:
+
+`pragma solidity ^0.6.0;`
+
+which allows us to work with any version of 0.6.
+
+We'll be working with compiler version 0.6.0.However in future contracts that we work with we're actually going to work with different versions of solidity.The reason we're going to be changing versions throught the journey is that solidity is constantly updating language,being good at switching between versions is going to make you an incredibly powerful smart contract engineer.
+
+
+**Defining a  Contract**
+
+To define our contract:
+![solidity_contracts](/Images/Day3/c4.png)
+
+`contract` is a keyword in solidity.You can think of contract similar to a class in Java or any other OOP language.Here "SimpleStorage" is the name of the contract.
+
+You could hypothetically deploy this right now and this would be a valid contract.
+
+**Variable types & Declaration**
+
+In solidity there're many different types that we can work with.Let's go into some of the types of solidity we can have.
+
+![variable_types](/Images/Day3/c5.png)
+
+You can also do:
+
+`uint x = 5;`
+
+But if you want to be little more precise, alot of protocols and smart contracts will do whole name like `uint256`.
+
+We can also do bytes1, bytes2 upto bytes32.
+
+**Solidity Documentation**
+
+If you wanna learn more about the different types and the different variables that you can use, head over to the [solidity documentation](https://docs.soliditylang.org/en/v0.8.11/).
+
+**Initializing**
+
+Even if I didn't manually inilialize to 5, it'll get initialize to a null value.For now let's just not initialized it to anything that way it'll get automatically initialized to zero.This means when we deploy this contract as of right now, x will start off as zero.
+
+**Functions or methods**
+
+Functions or methods are self contained modules that will execute some task for us and in solidity it's the exact same thing they're defined by:
+![functions](/Images/Day3/c6.png)
+
+This is in simplest form of how you can define a function.This functions set's whatever value(whole number) we pass to the age. 
+
+
+**Deploying a Contract**
+
+So let's go ahead and actually deploy this contract to actually interact with it.
+
+If we hit eth looking button, which will bring us to the deploy tab and will allow us to deploy our smart contract.
+
+![deploy_contract1](/Images/Day3/c7.png)
+
+Using our JavaScript VM it's given us fake accout with some ethereum in it.It has a 100 ethereum in it to start and same as before anytime we want to interact with the blockchain we have to pay a little bit of gas even in our fake virtual machine here.We want to simulate that so you'll see it has some of the same parameters here as making a transaction like gas limit for example.
+
+When we deploy a contract, it's going to cost a little bit of ethereum or a little bit of gas to do so.Let's go ahead and click deploy button.
+
+![deploy_contract2](/Images/Day3/c8.png)
+
+We can look at all the transactions we've recorded.We can see it says "Deployed Contracts" and we've our contract.
+
+In this SimpleStorage Contract we see this big store button because there's one public function that we can actually interact with.So we can add 25 there, we hit store and look at our contract that we've paid little bit more gas to interact with the function.
+
+Anytime we want to make a state change in the blockchain we've to pay a little bit of gas.The reason metamask isn't popping up is because we're kind of doing it in this simulated environment.
+
+**Public , Internal , private , External Visibility**
+
+This is great however it looks like we can't actually see what out age is.We can't actually look at it.So how do we actually make sure that we can view the age?
+
+If we add public to our age, we recompile, delete our previous contract and redeploy and we can see button's pop up.
+
+![redeploy1](/Images/Day3/c9.png)
+![redeploy2](/Images/Day3/c10.png)
+
+Let's talk about why this public variable allowed us to see this new button this age button?
+
+This `public` keyword defines the visibility of the variable or the function.There are currently four different types of visibility.
+
+- External
+External function means it can't be called by the same contract.It has to be called by an external contract.
+
+- Public
+Public functions can be called by anybody including variables.Oddly enough variables are a function call to just look at them and return whatever that variable is. 
+
+- Internal
+Internal functions can only be called by other functions inside of it's existing contract or in it's derived contract.
+
+- Private
+Private is the most restricitive as private functions and state variables are only visible for contracts they are defined in and not derived contracts.
+
+The reason that we didn't see age in our original contract deployment is that if we don't give a state variable a visibility, it'll automatically get set to "internal".
+
+**Modifying a Variable**
+
+
+
+
 
     
     
