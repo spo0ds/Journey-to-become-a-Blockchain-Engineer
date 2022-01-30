@@ -73,7 +73,36 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Layer 1 & Layer 2 |
 | - Rollups |
 | - Summary |
-
+| <p align="center"> Day 1 </p> |
+| ## **Solidity** |
+| **Lesson 1 - Remix IDE & its features** |
+| - Solidity version |
+| - Defining a  Contract |
+| - Variable types & Declaration |
+| - Solidity Documentation |
+| - Initializing |
+| - Functions or methods |
+| - Deploying a Contract |
+| - Public , Internal , private , External Visibility |
+| - Modifying a Variable |
+| - Scope |
+| - View functions |
+| - Pure function |
+| - Structs |
+| - Intro to storage |
+| - Arrays |
+| - Dynamic array |
+| - Fixed array |
+| - Adding to an array |
+| - Compiler Errors |
+| - Memory Keyword |
+| - Storage keyword |
+| - Mappings Datastructure |
+| - SPDX license |
+| - Deploying to a live network |
+| - Interacting with deployed contracts |
+| - EVM |
+| - Summary |
 
 ## **Blockchain**
 
