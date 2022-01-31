@@ -103,6 +103,22 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Interacting with deployed contracts |
 | - EVM |
 | - Summary |
+| **Lesson 2 - StorageFactory** |
+| - Factory pattern |
+| - New contract StorageFactory |
+| - Import 1 contract into another |
+| - Deploy a Contract from a Contract |
+| - Track simple storage contracts |
+| - Interacting with Contract deployed Contract |
+| - Calling Store & Retrieve Functions from SF |
+| - Address & ABI |
+| - Compiling & storing in SS through SF |
+| - Adding Retrieve Function |
+| - Compiling |
+| - Making the Code lil bit Simpler |
+| - Additional Note |
+| - Inheritance |
+| - Recap |
 
 ## **Blockchain**
 
