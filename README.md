@@ -120,6 +120,51 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Additional Note |
 | - Inheritance |
 | - Recap |
+| <p align="center"> Day 5 </p> |
+| **Lesson 3 - Fund me** |
+| - purpose of this contract |
+| - Payable function , wei , gwei & ether |
+| - Mapping , msg. sender , msg.value |
+| - Funding |
+| - ETH -> USD /conversion |
+| - Deterministic problem & Oracle solution |
+| - Centralized Oracles |
+| - Decentralized Oracle Networks |
+| - Chainlink Datafeeds |
+| - Chainlink Code documentation on ETH/USD |
+| - Importing Datafeed code from Chainlink NPM package |
+| - Interfaces |
+| - ABI/Application Binary Interface |
+| - Interacting with an Interface Contract |
+| - Finding the Pricefeed Address |
+| - Deploying |
+| - Getprice function |
+| - Tuples |
+| - Typecasting |
+| - deploying |
+| - Clearing unused Tuple Variables & Deploying |
+| - Making the contract look Clean |
+| - Wei/Gwei Standard (Matching Units) |
+| - getting the price using Get conversion rate |
+| - deploying |
+| - Safemath & Integer Overflow |
+| - Libraries |
+| - Setting Threshold |
+| - Require statement |
+| - Revert |
+| - Deplying & Transaction |
+| - Withdraw Function |
+| - Transfer , Balance , This |
+| - Deploying |
+| - Owner , Constructor Function |
+| - Deploying |
+| - Modifiers |
+| - Deploying |
+| - Resetting the Funders Balances to Zero |
+| - For loop |
+| - Summary |
+| - Deploying & Transaction |
+| - Forcing a Trasacttion |
 
 ## **Blockchain**
 
