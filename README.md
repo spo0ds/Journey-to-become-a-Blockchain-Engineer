@@ -1532,21 +1532,134 @@ We could do that by:
 
 ![require](/Images/Day5/e31.png)
 
+When a function call reaches a require statement, it'll check the truthiness of whatever require you've asked.In our case the converted rate of msg.value needs to be greater than or equal to our minUSD.If they didn't send us enough ether then we're going to stop executing.    
+
 **Revert**
-If the converted rate of msg.value is less than 50$, we're going to stop executing.We're going to kick it out and revert the transactions.This means user gonna get their money back as well as any unspent gas and this is highly recommended.  
+If the converted rate of msg.value is less than 50$, we're going to stop executing.We're going to kick it out and revert the transactions.This means user gonna get their money back as well as any unspent gas and this is highly recommended.We can also add a revert error message.   
 
 ![revert](/Images/Day5/e32.png)
 
 
+**Deplying & Transaction**
+
+Let's go and deploy the contract.If I try to fund less than 50$, below error message will be displayed.
+
+![revertdeployed](/Images/Day5/e33.png)
+
+The contract isn't even letting us to make the transaction.Whenever you see gas estimation failed errors usually that means something reverted or you didn't do something that was required.
 
 
+**Withdraw Function**
+
+Now we can fund this contract with a certain minimum USD value.You'll notice though that right now we don't do anything with this money.We're going to fund this contract however that's it and we don't have a function in here to actually withdraw the money.There's no way even though we just sent this contract some money.There's no way for us to get it back.How do we fix this?We could add a withDraw function.
+
+![withDraw](/Images/Day5/e34.png)
+
+This is also going to be a payable function because we're going to be transferring eth.
+
+**Transfer , Balance , This**
+
+![transfer](/Images/Day5/e35.png)
+
+Transfer is a function that we can call on any address to send eth from one address to another.In this case we're transferring ethereum to msg.sender.We're going to send all the money that's been funded.So to get all the money that's been funded, we did `address(this).balance`
+
+this is a keyword in solidity.Whenever you refer to "this", we're about contract that you're currently in and when we add address of this we're saying we want the address of the contract that we're currently in.
+
+Whenever we call an address and then the balance attribute, you can see the balance in ether of a contract.So with that line we're saying whoever called the withdraw function because whoever calls the function is going to be a msg.sender transfer them all of our money.
+
+**Deploying**
+
+Let's fund the transaction with lots of ether.We fund it with one whole ether, hit the fund button and we're sending 1 whole ether into this contract.If we look at our balance it's will get down by 1 ether.Let's try to get it back.If we call withdraw function, once the transaction goes through we should get all of our ether back.
 
 
+**Owner , Constructor Function**
+
+Maybe we don't want anybody to be able to withdraw all the funds in this contract.We want only the funding admin to be able to withdraw funds so how do we set this up in a way that only the contract owner can actually withdraw funds?
+
+Well we learned before that the require function can actually stop contracts from executing unless some certain parameters are met.We can do the same thing here with:
+
+`require msg.sender = owner`
+
+But we don't have an owner to this contract yet.How do we get an owner to this contract the instant that we deploy it?
+
+We could have a function called createOwner but what happens if somebody calls this function right after we deploy it then we wouldn't be the owner anymore.
+
+So we need a function to get called the instant we deploy this smart contract and that's exactly what the constructer does.So typically at the top of your smart contracts, you'll see a constructor and this is a function that gets called the instant your contact gets deployed.
+
+![constructor](/Images/Day5/e36.png)
+
+**Deploying**
+
+Let's deploy the contract now.We can see our address as the owner of the contract.
+
+After we've owner, we can go to withDraw function and set the require statement.
+
+![requireOwner](/Images/Day5/e37.png)
+
+After we deploy again, if the contract has same address that deploy to withdraw, only then it'll successfully withdraw.
 
 
-    
-    
+**Modifiers**
 
+We can now require this withdraw function is only callable by the owner.Now What if we have a ton of contracts that want to use `require(msg.sender == owner)`?IS there an easier way to wrap our functions and some require or some other executable?
+
+This is where modifiers come in.We can use modifiers to write in the definition of our function, add some parameter that allows it to only be called by our admin contract.
+
+Modifiers are used to change the behaviour of a function in a declarative way.Let's create our first modifier:
+
+![modifiers](/Images/Day5/e38.png)
+
+What a modifier is going to do is before we run the function do the require statement first and then wherever your underscore is in the modifier run the rest of the code.
+
+Now what we can do is make the withDraw function as admin.What's gonna happen is before we do the transfer, we're actually gonna check the modifier which runs the msg.sender == owner. 
+
+![withdrawadmin][/Images/Day5/e39.png]
+
+
+**Deploying**
+
+Let's deploy the contract in JavaScript VM, we can call withDraw from the address of the deployed account only.
+
+
+**Resetting the Funders Balances to Zero**
+
+The only thing that we're really missing is that when we withdraw from the contract, we're not updating our balances of people who funded this?So even after with we withdraw this is always gonna be the same.We need to go through all the funders in this mapping and reset their balances to zero but how do we actually do that?
+
+
+**For loop**
+
+We can actually loop through all the keys in a mapping.When a mapping is initialized, every single key is essentially initialized.We obviously can't go through every single possible key on the planet.However we can create another data structure called "Array".
+
+Let's go and create a funders array that way we can loop through them and reset everyone's balance to zero.
+
+<iframe
+  src="https://carbon.now.sh/embed?bg=rgba%28171%2C+184%2C+195%2C+1%29&t=seti&wt=none&l=solidity&width=680&ds=true&dsyoff=20px&dsblur=68px&wc=true&wa=true&pv=56px&ph=56px&ln=false&fl=1&fm=Hack&fs=14px&lh=133%25&si=false&es=1x&wm=false&code=%252F%252F%2520SPDX-License-Identifier%253A%2520MIT%250A%250Aimport%2520%2522%2540chainlink%252Fcontracts%252Fsrc%252Fv0.6%252Finterfaces%252FAggregatorV3Interface.sol%2522%253B%250Aimport%2520%2522%2540chainlink%252Fcontracts%252Fsrc%252Fv0.6%252Fvendor%252FSafeMathChainlink.sol%2522%253B%250Apragma%2520solidity%2520%253E%253D0.6.6%2520%253C0.9.0%253B%250A%250Acontract%2520FundMe%2520%257B%250A%2520%2520%2520%2520using%2520SafeMathChainlink%2520for%2520uint256%253B%250A%2520%2520%2520%2520mapping%28address%2520%253D%253E%2520uint256%29%2520public%2520addressFundedAmount%253B%250A%2520%2520%2520%2520address%255B%255D%2520public%2520funders%253B%250A%2520%2520%2520%2520address%2520owner%253B%250A%250A%2520%2520%2520%2520constructor%28%29%2520public%2520%257B%250A%2520%2520%2520%2520%2520%2520%2520%2520owner%2520%253D%2520msg.sender%253B%2520%252F%252F%2520sender%2520of%2520the%2520message%2520is%2520us%250A%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%252F%252F%2520one%2520that%2520deploys%2520the%2520smart%2520contract%250A%2520%2520%2520%2520%257D%250A%250A%2520%2520%2520%2520function%2520fund%28%29%2520public%2520payable%257B%250A%2520%2520%2520%2520%2520%2520%2520%2520uint256%2520minUSD%2520%253D%252050%2520*%252010%2520**%252018%2520%253B%250A%2520%2520%2520%2520%2520%2520%2520%2520require%28convert%28msg.value%29%2520%253E%253D%2520minUSD%252C%2520%2522You%2520need%2520to%2520spend%2520more%2520ETH%21%2522%29%253B%250A%2520%2520%2520%2520%2520%2520%2520%2520addressFundedAmount%255Bmsg.sender%255D%2520%252B%253D%2520msg.value%253B%250A%250A%2520%2520%2520%2520%2520%2520%2520%2520funders.push%28msg.sender%29%253B%2520%2520%252F%252F%2520storing%2520fundres%2520address%2520into%2520array%250A%2520%2520%2520%2520%257D%250A%250A%2520%2520%2520%2520function%2520getVersion%28%29%2520public%2520view%2520returns%28uint256%29%257B%250A%2520%2520%2520%2520%2520%2520%2520%2520AggregatorV3Interface%2520rate%2520%253D%2520AggregatorV3Interface%280x8A753747A1Fa494EC906cE90E9f37563A8AF630e%29%253B%250A%2520%2520%2520%2520%2520%2520%2520%2520return%2520rate.version%28%29%253B%250A%2520%2520%2520%2520%257D%250A%250A%2520%2520%2520%2520function%2520getPrice%28%29%2520public%2520view%2520returns%28uint256%29%257B%250A%2520%2520%2520%2520%2520%2520%2520%2520AggregatorV3Interface%2520rate%2520%253D%2520AggregatorV3Interface%280x8A753747A1Fa494EC906cE90E9f37563A8AF630e%29%253B%250A%2520%2520%2520%2520%2520%2520%2520%2520%28%252Cint256%2520answer%252C%252C%252C%29%2520%253D%2520rate.latestRoundData%28%29%253B%250A%250A%2520%2520%2520%2520%2520%2520%2520%2520return%2520uint256%28answer%29%253B%250A%2520%2520%2520%2520%257D%2520%250A%250A%2520%2520%2520%2520function%2520convert%28uint256%2520fundedAmount%29%2520public%2520view%2520returns%28uint256%29%257B%250A%2520%2520%2520%2520%2520%2520%2520%2520uint256%2520ethPrice%2520%253D%2520getPrice%28%29%253B%250A%2520%2520%2520%2520%2520%2520%2520%2520uint256%2520inUSD%2520%253D%2520%28ethPrice%2520*%2520fundedAmount%29%252F1000000000000000000%253B%250A%2520%2520%2520%2520%2520%2520%2520%2520return%2520inUSD%253B%250A%2520%2520%2520%2520%257D%250A%250A%2520%2520%2520%2520modifier%2520admin%2520%257B%250A%2520%2520%2520%2520%2520%2520%2520%2520require%28msg.sender%2520%253D%253D%2520owner%29%253B%250A%2520%2520%2520%2520%2520%2520%2520%2520_%253B%250A%2520%2520%2520%2520%257D%250A%250A%2520%2520%2520%2520function%2520withDraw%28%29%2520payable%2520admin%2520public%2520%257B%250A%2520%2520%2520%2520%2520%2520%2520%2520msg.sender.transfer%28address%28this%29.balance%29%253B%250A%2520%2520%2520%2520%2520%2520%2520%2520%250A%2520%2520%2520%2520%2520%2520%2520%2520%252F%252F%2520to%2520reset%2520the%2520amount%250A%2520%2520%2520%2520%2520%2520%2520%2520for%2520%28uint256%2520index%253D0%253B%2520index%253Cfunders.length%253B%2520index%252B%252B%29%257B%250A%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520address%2520funderAddress%2520%253D%2520funders%255Bindex%255D%253B%250A%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520%2520addressFundedAmount%255BfunderAddress%255D%2520%253D%25200%253B%250A%2520%2520%2520%2520%2520%2520%2520%2520%257D%250A%2520%2520%2520%2520%2520%2520%2520%2520funders%2520%253D%2520new%2520address%255B%255D%280%29%253B%2520%252F%252F%2520resetting%2520array%250A%2520%2520%2520%2520%257D%2520%250A%2520%2520%2520%2520%2520%2520%2520%2520%2520%250A%257D%250A%250A%250A%250A%250A%250A%250A%250A"
+  style="width: 1019px; height: 1452px; border:0; transform: scale(1); overflow:hidden;"
+  sandbox="allow-scripts allow-same-origin">
+</iframe>
+
+
+**Summary**
+
+- Right away when we deploy this we're set as owner.
+- We can allow anybody to fund.
+- They have to fund it with minimum USD value that we actually set.
+- Whenever they fund we keep track of how much they're funding and who's been funding us.
+- We can get the price of Ethereum that they send in the terms of USD.
+- We can convert it and check to see if they're sending us the right amount.
+- We have our admin modifier so that we're the only ones who can withdraw from the contract.
+- When we do withdraw everything from the contract, we reset all the funders who have currently participated in our crowdsourcing application.
+
+
+**Deploying & Transaction**
+
+Let's see if everything works end to end.If we fund 0.1 eth to the contract, and we look at the 0th index of funders, we'll see the address that funded the contract.Even other account could fund the contract.
+
+**Forcing a Trasacttion**
+
+Let's try to be malicious.Let's have another account withdraw all the funds in here.If another account clicks withdraw function, the transaction will fail.We're relentlessly malicious we want to send the transaction regardless so even though I'm not the admin of the contract I've gone ahead and still tried to send those withdrawl.So what happens now?
+
+We'll see remix saying something went wrong.
 
 
 
