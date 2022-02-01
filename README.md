@@ -1377,6 +1377,168 @@ Remember how we said before we talked a little bit about ABI.Interfaces actually
 Anytime you're going to interact with another contract in solidity or smart contract programming in general, you're going to need that contracts ABI.We'll go into what these ABI's looks like a little bit later.
 
 
+**Interacting with an Interface Contract**
+
+How do we work with interface contract?
+
+To interact with an interface contract it's going to work the exact same way is interacting with struct or a variable.
+
+Let's define a new function called getVersion and we're going to call the version function of interface on our contract.
+
+![getVersion](/Images/Day5/e17.png)
+
+The same way we define variables and structs, we define working with other contracts and interfaces.
+
+![AVinitialization](/Images/DAy5/e18.png)
+
+First thing we named is type which is AVI.Since we're inside of a contract, we're going to skip visibility and give the name "rate".Then we initialize a contract.How do we actually choose where to interact with the AVI contract?Well we pass the address of where the contract is located.
+
+**Finding the Pricefeed Address**
+
+In order to find where this ETH/USD pricefeed contract is located on the Rinkeby chain, we can look at the [ethereum price feeds](https://docs.chain.link/docs/ethereum-addresses/) chainlink documentation.It has a ton of different price feeds and even more not price feeds related data.Scroll to Rinkeby because on each different chain the contract address that has all the price feed information is going to be different.Scroll down and find ETH/USD.
+
+Copy that address and pass it to AVI initialization.
+
+`It's saying that we've a contract that has "AggregatorV3Interface" contract's function defined in the interface located at that address.`If that's true, we should be able to call "rate.version".
+
+![callingRate](/Images/Day5/e19.png)
+
+**Deploying**
+
+Let's compile it and deploy it to testnet(Injected Web3 as Environment).`Remember that address is located on a actual testnet.On an actual network.`We'll learn later on how we can actually work with a simulated chain and work with these price feeds but that's much later in the journey.
+
+![versionCall](/Images/Day5/e20.png)
+
+We can see that the version of our aggregatorV3Interface is version 4.So we just made a contract call to another contract from our contract using an interface.This is why interfaces are so powerful because they're a minimalistic view into another contract.
+
+**Getprice function**
+
+This is great we've a getVersion function but this still isn't the function that we want.We want to call a getprice function which if we look at our interface, we can see there's a latestRoundData function that returns an answer.
+
+Let's go ahead and make a function that calls getprice instead.
+
+![getPrice](/Images/Day5/e21.png)
+
+**Tuples**
+
+This latestRoundData function returns five variables.So how do we actually work with that? 
+
+![tuples](/Images/Day5/e22.png)
+
+A tuple is a list of objects of potentially different types whose number is a constant at compile-time.We can define several variables inside tuples.
+
+Since lastRoundData function returns five different values, we can also make out contract return those five values.That above is a syntax for getting a tuple.Although our compiler will give us some warnings, it's saying unused variables because we're not using them for anything.We'll come back to that.
+
+Then we can pick the variables that we want to return. Answer is the rate so we return that.
+
+
+**Typecasting**
+
+But compiling the code gives an error.It says return type argument int256 is not implicitly convertible to expected type."Answer" is an int256 and we want to return uint256.How do we rectify this?
+
+We can fix the error by typecasting.Integers in solidity are really easy to cast into eachother.We could just do:
+
+![typecast](/Images/Day5/e23.png)
+
+Now our compiler is happy.This getPrice function should return the latest price of Ethereum in terms of USD.
+
+**Deploying**
+
+Let's go ahead and deploy this contract.
+
+![deployedGetPrice](/Images/Day5/e24.png)
+
+We can know the rate of Ethereum in terms of USD is 2746.19432590 $.
+
+
+**Clearing unused Tuple Variables & Deploying**
+
+Let's clean up the function before we go up.As you can see one thing the compiler is complaining about is we've unused local variables but latesRoundData returns five different variables.How do we actually return the five variables but make our compiler happy with us?
+
+We can actually return blanks for each one of the unused sections with commas in between eachother like:
+
+![cleanedTuple](/Images/Day5/e25.png)
+
+
+**Wei/Gwei Standard (Matching Units)**
+
+Let's put everything into the gwei/wei standard.We saw that getPrice has 8 decimal places.However the smallest unit of measure, it has 18.So typically let's make everything have 18 decimals as well.You don't have to do this and it'll save some gas if you don't.We could do:
+
+`return uint256(answer * 10000000000);`
+
+**getting the price using Get conversion rate**
+
+We've the price of Ethereum in USD.We could set the price of our funding function to anything that we want.For example let's say 50$.We could convert whatever value they send us to it's USD equivalent and see if it's greater than or less than 50$.
+
+Let's make a new function that converts that value that they send to its USD equivalent.
+
+![convertfunction](/Images/Day5/e26.png)
+
+Let's test this out and see why we have to do one more thing?
+
+![deployconvert](/Images/Day5/e27.png)
+
+This seems like a really big number i.e 2746194325900.00000000.This says that 1gwei is equal to 2746194325900 in USD.The price of 1ETH is not even that much.The reason that's off is we've to divide by 100000000.Both ethPrice and fundedAmount has 10<sup>19</sup> tacked on to them.
+
+![fixedconversion](/Images/Day5/e28.png)
+
+**Safemath & Integer Overflow**
+
+Since we're on the topic of math, let's talk briefly about some of the pitfalls of solidity especially when it comes to math.
+
+Prior to solidity 0.8 if you added to the maximum size, a uint number could be wrap around the lowest number that it would be.For example:
+
+if we add two uint8 number :
+255 + uint8(1) = 0
+255 + uint(100) = 99
+
+This is because integer can actually wrap around once they reach their maximum cap.They basically reset.
+
+This is something we need to watchout for when working with solidity.If we're doing multiplication on really big numbers, we can accidentally pass this cap.Luckily as a version 0.8 of solidity, it actually checks for overflow and it's defaults to check for overflow to increase readability of code even if that comes a slight increase of gas costs.
+
+Just be aware if you're using a lower version that 0.8 you're going to have to do something to make up for this.
+
+We could write whole bunch of code to check all of our math or we could just import "SafeMath" from another package.Similar to chainlink we can import SafeMath from tool called OpenZeppelin.
+
+OpenZeppelin is a open source tool that allows us to use a lot of already pre-built contracts.
+
+![SafeMath](/Images/Day5/e29.png)
+
+**Libraries**
+
+Libraries is similar to contracts, but their purpose is that they are deployed only once at a specific address and their code is reused.
+
+Using keyword:
+The directive using A for B; can be used to attach library functions (from the library A) to any type (B) in the context of a contract.
+
+In this case we're attaching a SafeMath chainlink library to uint256 so that these overflows are automatically checked for.
+
+This is for those of you who are familier with SafeMath and integer overflows and underflows.We're not going to be calling the functions that SafeMath provides us like div, add, mull all those functions.Simply because in 0.8 moving forward we no longer have to use those.We can just use regular operator like '+' & '-'.
+
+
+**Setting Threshold**
+
+We know have a way to get the conversion rate of whatever eth is sent and turn it into USD.Now we can set a threshold in terms of USD but how do we guarantee that whatever amount that the users send when they call fund is going to be atleast 50$.
+
+First set the minimum value by:
+![minUSD](/Images/USD/e30.png)
+
+
+**Require statement**
+
+Now that we have a minimum amount how do we actually make sure that this minimum amount is met in the value they send us?
+
+We could do that by:
+
+![require](/Images/Day5/e31.png)
+
+**Revert**
+If the converted rate of msg.value is less than 50$, we're going to stop executing.We're going to kick it out and revert the transactions.This means user gonna get their money back as well as any unspent gas and this is highly recommended.  
+
+![revert](/Images/Day5/e32.png)
+
+
+
 
 
 
