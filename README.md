@@ -1822,6 +1822,29 @@ Let's go ahead and create a new file and we'll call it deploy.py.
 
 **Reading our solidity file in python**
 
+First thing we wanna do is read SimpleStorage solidity file.We need to get the solidity file into deploy scripts so that our python file knows what it's going to deploy.
+
+![reading_file](/Images/Day6/f3.png)
+
+**Keyboard Shortcuts**
+
+To look at keyboard shortcut's you could hit `ctrl` + `p`, add `>` type `keybord shortcut references` to see all the shortcuts reference.It'll bring to the keyboard reference page based off of what OS you've.
+
+**Py-Solc-x**
+
+Now that we can actually read from our SimpleStorage.sol file we actually have to compile it because back in remix every single time we did anything with our files, we'd to compile them first.We need some compiler in python.Luckily there's a fantastic python package called `Py-Solc-x`You can install it by:
+
+`pip install py-solc-x`
+
+**Importing solcx**
+
+The way we can use it is by importing it into our python file.
+
+![importing_solcx](/Images/Day6/f4.png)
+
+**Compiled_sol**
+
+
 
 
  
