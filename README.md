@@ -1731,6 +1731,102 @@ Let's try to be malicious.Let's have another account withdraw all the funds in h
 We'll see remix saying something went wrong.
 
 
+## **Python**
+We've been working with remix so far to start our smart contract in our solidity development journey.Remix is an incredibly powerful web IDE .Remix should always be the starting ground for anybody looking to start their smart contract journey because it's a wonderfully friendly way to really show what's going on behind the scenes and it's easy to see everything we're doing with ethereum, chainlink and our smart contracts.
+
+**Limitations of Remix**
+
+- Can't integrate other parts of a project.
+- Limited support for tests or custom deployments.
+- Can't save files locally without a plugin.
+- Any custom functionality requires a plugin.
+- Needs an internet connection.
+- Doesn't have python.
+
+In order for us to deploy, test and automate everything about our smart contract development cycle, we want to connect our solidity and our smart contracts with more traditional programming language like python.This way we can customize our entire development environment in any way we like.
+
+First we'll learn to work with `web3.py` which is an incredibly powerful python package for doing everything we wanna do with smart contracts.After we learn some basics of web3.py, we'll move on to `brownie` which is a smart contract development framework built on top of web3.py which makes our life even easier.However it's really important to learn web3.py because this will teach us what's going behind the scenes of brownie.
+
+**VScode , Python , Solidity Setup**
+
+For the rest of the journey I'm going to be working with visual studio code which is an incredibly powerful text editor that will give us a lot of formatting and a lot of really nice tools to work with deploying and interacting with our smart contracts.
+
+You can download VScode [here](https://code.visualstudio.com/).
+
+extensions to installed:
+- python3
+- solidity
+
+**VScode features**
+
+One of the amazing things about VScode is you can actually open a terminal up inside a visual studio code. You can go over to the top bar to terminal and select new terminal.
+
+You can actually hit `ctrl` + `(backtick)` to toggle back and forth between having terminal open and closing it.
+
+**Testing python install & Troubleshooting**
+
+We can test in terminal to see if python is installed correctly.If we type `python --version`, you should get something like:
+
+![python_version](/Images/Day6/f1.png)
+
+If it doesn't work you can look for troubleshoot in google.Whatever the error you've, you'll get a link which will lead you to the answer.
+
+**Creating a new folder**
+
+In our terminal we can create some folder.You can create one by doing:
+
+`mkdir folder_name`
+
+and to go inside the folder:
+
+`cd folder_name/`
+
+
+
+**SimpleStorage. sol**
+
+We'll be working with SimpleStorage again the exact same contracts but instead we're going to be using web3.py.
+
+We want our visual studio to know that we're in the folder where we wanna work.We can click files icon, click open folder and open the folder that you wanna work in.
+
+**Remember to save**
+
+Now the file is in VScode, we can see we've little dot here.
+
+![vs_dot](/Images/Day6/f2.png)
+
+Whenever you see that dot, it means that your VScode file isn't saved.We wanna always save it otherwise when we compile, things might not work correctly.
+
+We can see there's line under pragma.It's VScode way of telling there's an error at this position.This is just the extension being a little bit confused.We can safely ignore this but if it's really bothersome you can:
+
+`right click it and do something like solidity change global compiler version` or 
+`go to perferences then settings.Type solidity and change the remote compile version to 6.0.6`
+
+Also we wanna fave format on save as checked.This allows to format our code whenever we save the code.
+
+**Python Formatter & settings**
+
+First thing we're gonna do is installed a black python formatter.To install it type this command in terminal:
+
+`pip install black`
+
+search for python formatting and set formatting provider to 'black'.
+
+**Author's recommended Settings**
+
+It's highly recommended to have both format on save for both python and solidity. 
+
+**working with python**
+
+Let's go ahead and create a new file and we'll call it deploy.py.
+
+**Reading our solidity file in python**
+
+
+
+ 
+
+
 
 
 
