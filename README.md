@@ -165,6 +165,81 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Summary |
 | - Deploying & Transaction |
 | - Forcing a Trasacttion |
+| <p align="center"> Day 6 </p> |
+| **Lesson 4 - Web3. py SimpleStorage** |
+| - Limitations of Remix |
+| - VScode , Python , Solidity Setup |
+| - VScode features |
+| - Testing python install & Troubleshooting |
+| - Creating a new folder |
+| - SimpleStorage. sol |
+| - Remember to save |
+| - VScode Solidity Settings |
+| - Python Formatter & settings |
+| - Author's recommended Settings |
+| - working with python |
+| - Reading our solidity file in python |
+| - Running in Python |
+| - Keyboard Shortcuts |
+| - Py-Solc-x |
+| - Importing solcx |
+| - Compiled_sol |
+| - Bracket pair colorized |
+| - pysolcx documentation |
+| - Printing Compiled_sol |
+| - Comparison wih remix (Lowlevelstuffs , ABI) |
+| - Saving Compiled Code/writing |
+| - import Json |
+| - Json formatting/settings |
+| - Deploying in Python (Bytecode , ABI) |
+| - Which Blockchain/Where to deploy |
+| - Ganache Chain |
+| - Ganache UI |
+| - Introduction to Web3. py |
+| - pip install web3 |
+| - import web3 |
+| - Http/Rpc provider |
+| - Connecting to Ganache(RPC server,Documentation,Chain ID,address,Privatekey) |
+| - Deploy to Ganache |
+| - Building a Transaction |
+| - Nonce |
+| - Getting Nonce |
+| - Create a Transaction |
+| - Transaction Parameters |
+| - Signing Our Transaction(signed_txn) |
+| - Never Hardcode your Private keys |
+| - Environment Variables |
+| - Setting Environment variables |
+| - Limitations of Exporting  Environment Variables |
+| - Private key PSA |
+| - Accessing Environment Variables |
+| - .env file, .gitignore, pip install python-dotenv |
+| - load_dotenv() |
+| - Sending the signed Transaction |
+| - Deployment |
+| - Block confirmation(wait_for_transaction_reciept) |
+| - interact/work with thee contract |
+| - Address & ABI |
+| - Retrieve() , Call & Transact |
+| - Store function |
+| - Creating Transaction(Store_transaction) |
+| - Signing Transaction(signed_store_txn) |
+| - Sending Transaction(send_store_tx,tx_receipt) |
+| - Deployment |
+| - some nice syntax & deployment |
+| - ganache-cli  |
+| - install Nodejs |
+| - install yarn |
+| - Run ganache cli , ganache documentation |
+| - update privatekeys,addresses,http provider |
+| - open new terminal & deploy |
+| - deploy to testnet/mainnet |
+| - Infura, Alchemy |
+| - Create project |
+| - update the rinkeby url, Chain id ,  address &  private key |
+| - Deploying |
+| - summary/recap |
+
 
 ## **Blockchain**
 
