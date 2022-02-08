@@ -2060,6 +2060,139 @@ If we close our shell and reopen it, run echo and the saved variable we'll get n
 load_dotenv() looks for .env file and automatically imports it into our scripts.
 
 
+If we print our signed_txn, we could see a signed transaction.This is exactly what happening when we were looking back at public private keys.We are signing a transaction that is actually deploying a contract to the blockchain that anybody can easily verify.
+
+**Sending the signed Transaction**
+
+We finally have our signed transaction.We want to send this to the blockchain so it can actually deploy.
+
+![signed_transaction](/Images/Day6/f21.png)
+
+**Deployment**
+
+This will send our transaction to the blockchain.Now if we look at our local ganache and we look at transaction right now, we can see that a transaction actually did go through.
+
+![ganache_transaction](/Images/Day6/f22.png)
+
+**Block confirmation(wait_for_transaction_reciept)**
+
+One other thing that's really good practice whenever sending a transaction is we wait for some block confirmations to happen.
+
+![block_confirmation](/Images/Day6/f23.png)
+
+This will have our code stop and wait for this transaction hash to go through.
+
+**interact/work with thee contract**
+
+We've deployed the contract but how do we actually interact and work with the contract.Let's start doing that.When working with contracts, working on chain, we always need to things.
+- Contract Address
+- Contract ABI
+
+**Address & ABI**
+
+We need to make new contract object to work with contract.Let's go ahead and create that SimpleStorage contract so we can actually interact with it.
+
+![addressABI](/Images/Day6/f24.png)
+
+We've address and the abi we can start interacting with the contract exactly as we did in remix.
+
+**Retrieve() , Call & Transact**
+
+Let's do a print statement to get that initial value that is returned from our retrieve function.It should be initialized to zero.
+
+![retrieveFunction](/Images/Day6/f25.png)
+
+![retrieveOutput](/Images/Day6/f26.png)
+
+We get this function retrieve bound to in these parentheses.What's going on?
+
+**Call Vs Transact**
+
+When making transactions in the blockchain, there's actually two different ways that we can interact with them.We can interact with the call or with a transact.When we use a call, this is just to simulate making the call and getting a return value.Calls don't make a state change to the blockchain.It's similar to how in remix we would call the blue buttons and nothing on the blockchain would actually change.We can actually also call orange buttons and just not actually make a state change.Remix defaults the blue buttons to be calls and orange buttons to be transacts.In python we can actually pick which one we want to do.
+
+A transact call is when we actually make a state change and this is when we actually have to build a transaction and send a transaction.You can always just call a function no matter what that function is but just keep in mind you won't make a state change.You can also always transact on a function even if it's just a view and this will attempt to make a state change.
+
+Something like retrieve even if we transact on it, it won't make a state change.
+
+![call_function](/Images/Day6/f27.png)
+
+If we run this, you'll see we do get the zero because now we're actually calling the transaction.
+
+**Store function**
+
+We've our initial value for our retrieve function.Let's try to update the age using store function.
+
+We know that the store function is orange and we'll make a transaction but if we wanted to we can even just use call on it.
+
+![store_function](/Images/Day6/f28.png)
+
+When we send this,it'll return a blank because the store function has no return typr.If we give it a return(uint256) and return an age, you'll see the age returned back.
+
+If we go to the ganache you'll see that we keep making whole bunch of different contract but none of these are contract interactions.That's because we call a function.We just simulate working with it.If we call retrieve again right afterwards, you'll see that it's still zero.
+
+**Creating Transaction(Store_transaction)**
+
+Let's build a new transaction to actually store some value into this contract.Since we want to make a transaction, we gotta go through the same process as we deployed the contract.
+
+![store_transaction](/Images/Day6/f29.png)
+
+**Signing Transaction(signed_store_txn)**
+
+Now we've the transaction let's go ahead and sign it.
+
+![signedStoreTxn](/Images/Day6/f30.png)
+
+**Sending Transaction(send_store_tx,tx_receipt)**
+
+Then ofcourse we need to send it.
+
+![sendStoreTx](/Images/DAy6/f31.png)
+
+**Deployment**
+
+Let's run this.Alright we still have the print function printing out the current value of retrieve.Let's go over to ganache and see if there's anything different here.
+
+![contractCall](/Images/Day6/f32.png)
+
+There is instead of all the contract creations, we now have a contract call.If we call our retrieve function again, it'll print out new updated value.
+
+**ganache-cli**
+
+Ganache UI is really nice because we can see alot of things that are going on.However it's a little tricky to do alot of progammatic stuff.Oftentimes engineer will use what's called a command line interface of ganache.
+
+We're going to use the ganache-cli and this is what brownie is going to use on the backend when we move to brownie.Let's learn how to do that.
+
+**install Nodejs**
+
+In order to use the ganache-cli, first thing we need to do is download node.js.You can come to this [download page](https://nodejs.org/en/download/) and choose your OS and download it accordingly.
+
+**install yarn**
+
+Next we're actually going to install yarn.Yarn is a package manager.similar to pip which allow us to actually download pieces and packages like the ganache-cli from the package repository.
+
+We can install it with:
+
+On Debian or Ubuntu Linux, you can install Yarn via our Debian package repository. You will first need to configure the repository:
+
+`curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list`
+
+Then you can simply:
+
+`sudo apt update && sudo apt install yarn`
+
+Then we want to install actual ganache-cli.We're gonna be installing it with yarn.so to install this:
+
+`yarn global add ganache-cli` on a terminal.
+
+This will install ganache-cli as a global command in our terminal.We can test to see if we've done it right.
+
+**Run ganache cli , ganache documentation**
+
+We can test the ganache-cli by running `ganache-cli --version`.
+
+
+
 
 
  
