@@ -1872,6 +1872,60 @@ First we actually get the byte code.We need the bytecode of the file so that we 
 
 Now that we have out byte code we also need ABI.
 
+![abi](/Images/Day6/f8.png)
+
+Now we've two main pieces to deploy, all we've to do is deploy.
+
+**Which Blockchain/Where to deploy**
+
+The question that becomes is where are we gonna deploy it to.Which blockchain are we going to deploy to?In remix when we're first playing around, we're using a JavaScript VM, we absolutely could and we'll learn to deploy to a testnet because that's going to be the same way that we're going to deploy to a mainnet.But before we do that we should learn how to deploy on a simulated environment.
+
+**Ganache Chain**
+
+This is where `Ganache` going to come to the rescue.Ganache is a simuated blockchain that we can actually use to deploy our smart contracts to and have it interact like it's a real blockchain.Ganache is going to allow us to spin up our own local blockchain.
+
+You can download Ganache from [here](https://trufflesuite.com/ganache/).
+
+![ganache](/Images/Day6/f9.png)
+
+User interface is really nice because it allows us to do one click blockchain or create our own local blockchain.That means this blockchain isn't connected to any other blockchain out there but it'll act like a blockchain and will be lot faster than us having to interact with a testnet and we control the entire blockchain because it's only one node.Ganache is our JavaScript VM.
+
+**Ganache UI**
+
+We go ahead and click quickstart which will automatically upload and get started with our own local fake blockchain.
+
+![ganacheUI](/Images/Day6/f10.png)
+
+You can even see it gives us some accounts.Each one of these addresses has a private key.In your ganache if you click key, it'll show key.
+
+Let's learn how to connect to this ganache blockchain from the UI first and then we'll learn how to do the command line version.
+
+**Introduction to Web3. py**
+
+This is when we finally start working with web3.py.we just do below command in VScode terminal:
+
+`pip install web3`
+
+Now we can start working with web3.py.
+
+![web3importing](/Images/Day6/f11.png)
+
+**Http/Rpc provider**
+
+To connect the contract to blockchain we choose http provider.If we look at ganache instance, we've rpc server which has the url HTTP://127.0.0.1:7545.This is the url that we're going to use to connect to this blockchain.In remix we're actually using our metamasks directly to connect to the blockchain.However we wanna connect directly to our simulated blockchain.
+
+**Connecting to Ganache(RPC server,Documentation,Chain ID,address,Privatekey)**
+
+![connectingGanache](/Imges/Day6/f12.png)
+
+With everything that we show you, you probably going to want to get really familier with the documentation because even after being a pro, you're going to want to use it more and more and more if you want to learn about other providers.You can go to providers page of the documentation. 
+
+The next thing that we always gonna need is `chain id` or `network id`.What is the id of the blockchain? For ganache it's 5777.We also need address.We can grab fake address to work with.
+
+![conectingGanache2](/Images/Day6/f13.png)
+
+Similar to how in remix when we working with the JavaScript VM we're given a bunch of fake addresses.We're doing the same thing but with ganache.Then we also want our private key.We need the private key to sign our transactions.
+
 
 
 
