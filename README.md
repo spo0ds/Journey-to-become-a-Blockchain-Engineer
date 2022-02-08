@@ -1844,6 +1844,34 @@ The way we can use it is by importing it into our python file.
 
 **Compiled_sol**
 
+We're going to save our compiled code to compiled_sol variable.
+
+![compile_sol](/Images/Day6/f5.png)
+
+We're not gonna go too deep into what's this settings and output selection are actually doing but if you want to learn more you can go to the homepage of [pysolcx documenation](https://solcx.readthedocs.io/en/latest/).
+
+You'll see we get the massive object which has whole bunch of basically unreadable pieces but that are the low level code that actually gets compiled whenever we use the compiler in remix or in python.
+
+Remix actually does the exact same thing.Once we compile our contract, you can actually copy the byte code.You'll see whole bunch of stuff.There's also a `opcode` which are low level code that the contract are actually doing that actually governs how the code works.
+
+You'll also see ABI which we're gonna output in our deploy.py.If you copy and past the ABI in new file, you'll see long json object.It explains all the functions and variables.It's a lowest digestible way to say here's where all the functions are,here's what the parameters types are, return type gonna be and everything like that.
+
+**Saving Compiled Code/writing**
+
+![json_dump](/Images/Day6/f6.png)
+
+This takes our compiled_sol json variable and dump it into the `compiled_code.json` file.It's going to keep it in the json syntax.
+
+**Deploying in Python (Bytecode , ABI)**
+
+We've compiled our solidity and stored our solidity code to compiled_code.json file.Now we probably want to deploy it and test it out.So how do we actually do it?
+
+First we actually get the byte code.We need the bytecode of the file so that we can actually deploy it.
+
+![bytecode](/Images/Day6/f7.png)
+
+Now that we have out byte code we also need ABI.
+
 
 
 
