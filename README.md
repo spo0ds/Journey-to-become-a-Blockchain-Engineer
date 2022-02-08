@@ -1927,6 +1927,137 @@ The next thing that we always gonna need is `chain id` or `network id`.What is t
 Similar to how in remix when we working with the JavaScript VM we're given a bunch of fake addresses.We're doing the same thing but with ganache.Then we also want our private key.We need the private key to sign our transactions.
 
 
+Whenever you add a private key in python, you need to add `0x` to the front.Python is always gonna look for the hexadecimal version of the private key.
+
+Now we've all the parameters we need for interacting with and connecting to our ganache local chain.
+
+**Deploy to Ganache**
+
+It's time to finally deploy our SimpleStorage.sol contract.Let's do it.So the credit contract that we're going to deploy with web3.py.
+
+![deployContract](/Images/Day6/f14.png)
+
+Does this mean we've deployed it ?Well no this just means we've a contract now.We've created a contract object.
+
+How do we actually deploy this?
+
+**Building a Transaction**
+
+we need to actually build our transaction because again whenever we interact with the blockchain, whenever we make a state change and in our case we'd be deploying a contract we're going to make a state change So we need :
+- Build the contract deploy transaction
+- Sign the transaction
+- Send the transaction
+
+To do all that we need to talk about `Nonce` thing.
+
+**Nonce**
+
+Remember way back in our blockchain demo when we used a nonce to solve the answer to that really difficult mining problem.Well defination of nonce is just a word coined or used for just one occasion and in cryptography it's an arbitrary number that can be used just once in a cryptographic communication.The nonce that is used to find the answer is going to be different from another nonce that we're actually gonna need to make our transaction.
+
+If we look at our metamask, look at our activity and look at one of the transactions we've made recently on etherscan, we can see nonce here as well.
+
+![transaction_nonce](/Images/Day6/f15.png)
+
+This nonce is the number of transaction that our account has actually made.Everytime we make another transaction, our transaction is hashed with a new nonce.This is what going on behind the scenes with our transaction and we need this to send our transaction.
+
+**Getting Nonce**
+
+We can actually get our nonce by just grabbing our latest transaction count
+
+ ![getting_nonce](/Images/Day6/f16.png)
+ 
+We'll get our ans as 0 if we print the nonce because on our local blockchain the address we're using hasn't been used before.
+
+**Create a Transaction**
+
+Let's create a transaction object.
+
+![creating_transaction](/Images/Day6/f17.png)
+
+As you might have pointed out our SimpleStorage.sol doesn't actually have a constructor.Every contract technically has a constructor.In our case it's just blank.We're not telling our SimpleStorage.sol to do anything.
+
+**Transaction Parameters**
+
+In web3.py we need to give atleast a  couple of parameters.We always have to give `chainId`, `from` and `nonce`.
+
+If we print the transaction, we could see even more parameters.We have `value` which is the ether that we're going to send, `gas`, `gasPrice` which we can arbitrarily set if we'd like, `chainId`, `from`, `nonce`, `data` and `to` which is just empty because it's sending it to the blockchain.
+
+The giant data object there is encompassing everything that's happening in SimpleStorage.sol.
+
+**Signing Our Transaction(signed_txn)**
+
+This is just a transaction and anybody could actually send the transaction as long as it's signed by them.So we've the transaction but we need to sign it from somebody.Since we're sending it from our address, our private key is going to be the only key that's going to work to sign the transaction.
+
+Remember when we were talking about public private keys, we right now have a message that is defining how to deploy SimpleStorage but it's not signed yet.So we're gonna need to use our private key to sign it to create unique message signature that we're the only ones that can create the private key but anybody else can verify it was us who signed it.
+
+![signing_transaction](/Images/Day6/f18.png)
+
+If you encounter the following error:
+- [Transaction must not include unrecognized fields](https://stackoverflow.com/questions/70458501/typeerror-transaction-must-not-include-unrecognized-value-solidity-python)
+- [ValueError: Method eth_maxPriorityFeePerGas not supported](https://stackoverflow.com/questions/70104101/valueerror-method-eth-maxpriorityfeepergas-not-supported-web3-py-with-ganache)
+
+**Never Hardcode your Private keys**
+
+It's a really bad practice if you push the code to source or github.Somebody else can see your private key and steal all your funds.So we don't wanna hard code our private keys in our code like we're doing here.
+
+Let's take this time to talk about environment variables and how to set them.
+
+**Environment variables**
+
+Environment variables are variables that can set and then we set in our terminal and in our command lines.Following is a way to set an environment variables in MacOS and Linux only.Don't worry we'll show a way to make an environment variable in windows as well.
+
+You can set an environment variable by running something like:
+`export PRIVATE_KEY = 0x63b38f9ed50c65b9e48595d8a4b0e398559d2317d3d20ff05162895e4b6ef547` and then adding whatever variable you want.
+
+Now if you type `echo $PRIVATE_KEY`, it'll display the private key.
+
+Setting environment variables with windows the process that we're going to do is actually a little bit different.You can check this [link](https://www.youtube.com/watch?v=tqWDiu8a4gc&t=40s&ab_channel=Twilio) for setting a environment variable in windows.
+
+**Limitations of Exporting  Environment Variables**
+
+It's important to note that this export method we're doing here for creating a environment variables only works for the duration that our shell is live.If we were to close out of our shell and then reopen it, our environment variable that we set would be gone.We'd have to re-run that export command. 
+
+We're gonna show you a way to set environment variables so that you don't have to keep doing that.
+
+It's also not great to have in a plain text on your computer.However it's alot better than hard coding it into our script.
+
+**Private key PSA**
+
+Remember if you're using an account that has real money in it which I highly recommend you don't do, don't send this environment variable or private key or any of the code anywhere because then people can steal all of your funds.Once we move to brownie we'll show you more effective way for private key management but for now be cautious here.If you've followed along and set up a brand new account that has no real money and only test that money in it then great who cares because it's test and fake money anyways.
+
+**Accessing Environment Variables**
+
+We can actually access the environment variable in Python.To create an evn variable:
+
+`export PRIVATE_KEY="your_private_key_without_double_quote"`
+
+to view the key
+`echo $PRIVATE_KEY`
+
+to retrieve using python:
+
+
+
+**.env file, .gitignore, pip install python-dotenv **
+
+Other thing we can do is create a `.env` file.A .env is typically where people store environment variables.It's important to not push this to source if this is what you're going to do.In this .env file in python, we could do:
+
+`export PRIVATE_KEY="0xyour_private_key_without_double_quote"`
+
+If you're going to do this way always set .gitignore and make sure .env is in there.This will help make it harder for you to accidentally push your .env folder or file to github.
+
+**load_dotenv()**
+
+Python actually has a way of loading directly from a .env file without having to export on our environment variables or run source.env or export or really anything.We can do it with python.env package.
+
+If we close our shell and reopen it, run echo and the saved variable we'll get none.If you run python deploy.py, it's print none as our private key.However we can use `dotenv` to pulled it directly from our .emv.We could do:
+
+`pip install python-dotenv`
+
+
+load_dotenv() looks for .env file and automatically imports it into our scripts.
+
+
 
 
  
