@@ -2007,7 +2007,7 @@ Let's take this time to talk about environment variables and how to set them.
 Environment variables are variables that can set and then we set in our terminal and in our command lines.Following is a way to set an environment variables in MacOS and Linux only.Don't worry we'll show a way to make an environment variable in windows as well.
 
 You can set an environment variable by running something like:
-`export PRIVATE_KEY = 0x63b38f9ed50c65b9e48595d8a4b0e398559d2317d3d20ff05162895e4b6ef547` and then adding whatever variable you want.
+`export PRIVATE_KEY = 0x63b38f9ed50c65b9e48595d8a4b0e398559d2317d3d20ff05162895e4b6ef547`
 
 Now if you type `echo $PRIVATE_KEY`, it'll display the private key.
 
@@ -2036,7 +2036,7 @@ to view the key
 
 to retrieve using python:
 
-
+![gettingPrivateKeyInPython](/Images/Day6/f19.png)
 
 **.env file, .gitignore, pip install python-dotenv **
 
@@ -2053,6 +2053,8 @@ Python actually has a way of loading directly from a .env file without having to
 If we close our shell and reopen it, run echo and the saved variable we'll get none.If you run python deploy.py, it's print none as our private key.However we can use `dotenv` to pulled it directly from our .emv.We could do:
 
 `pip install python-dotenv`
+
+![loadEnv](/Images/Day6/f20.png)
 
 
 load_dotenv() looks for .env file and automatically imports it into our scripts.
