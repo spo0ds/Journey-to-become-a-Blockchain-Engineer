@@ -2191,6 +2191,12 @@ This will install ganache-cli as a global command in our terminal.We can test to
 
 We can test the ganache-cli by running `ganache-cli --version`.
 
+If this didn't work our for you then you can install using npm:
+
+first install npm: `sudo apt-get install npm`
+
+then install ganache-cli: `npm install -g ganache-cli`
+
 
 
 
