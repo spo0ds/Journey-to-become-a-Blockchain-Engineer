@@ -2198,6 +2198,76 @@ first install npm: `sudo apt-get install npm`
 then install ganache-cli: `npm install -g ganache-cli`
 
 
+If you've your ganache UI open, please close it otherwise it'll conflict.So to run a local blockchain from the command line all you need to do is :
+
+`ganache-cli`
+
+and the node will start running directly in the terminal.If you scroll up, you can see lots of familier pieces.
+
+![ganacheCLI](/Images/Day6/f33.png)
+
+We can see the available accounts just like on the UI and whole bunch of different private keys.This ganache spins off with bunch of random addresses and random private keys.If we wanted to always spin up with the exact same private keys so we don't have to update our private key every time, we can do :
+
+`ganache-cli --deterministic`
+
+This way we'll always get the exact same private keys and the exact same addresses.You can check out the documentation to see bunch of other flags that you can use to run this and you can see it's listening on 127.0.0.1:8545.`127.0.0.1` is also known as loopback address or local host.
+
+**update privatekeys,addresses,http provider**
+
+To work with ganache in the command line all we need to do now is update our private keys and our addresses.Let's also update http provider.
+
+**open new terminal & deploy**
+
+Let's open up a new terminal  and run `python deploy.py`
+
+You can see the exact same output as we got when working with the UI.If we flip to the node terminal, you can see different calls to our blockchain.
+
+![cliCall](/Images/Day6/f34.png)
+
+Each one of these calls is a specific json rpc call to our blockchain that we're making to interact with it.We can also see the information of the transaction that we send.
+
+**deploy to testnet/mainnet**
+
+How do we actually deploy this to testnet or mainnet? When we were working with remix, all we had to do was switch to injected web3 and we used our metamask as our blockchain connection.Well in our script we don't have metamask natively with our script.So we need some way to connect to the blockchain.We can see that when we're connecting to our own blockchain we just use a rpc url that connects to our local blockchain.
+
+To connect to the testnet or mainnet, we can exactly do the exact same thing.All we have to do is swap the rpc url with the url that connects us to a mainnet or a testnet.We can also run our own blockchain node similar to how we're running our own local blockchain node.
+
+We can run a node that actually connects to a real blockchain.However it's not always practical or really easy to do this.So sometimes we wanna use an external or third party client that actually run a blockchain for us.
+
+**Infura, Alchemy**
+
+Let's learn a little about [Influra](https://infura.io/).It's an application that'll give you a blockchain url for you to connect with for you to run whatever you want to run and you can get started for free.Let's go ahead and register.
+
+There's other services out there that you can also check out like [alchemy](https://www.alchemy.com/) which is another fantastic blockchain as a service platform.
+
+**Create project**
+
+Click create new project and name it brownie.We'll have a whole bunch of project keys and project secrets.We will also have endpoint section as well.This is how we're going to be deploying to the different networks.
+
+
+**update the rinkeby url, Chain id ,  address &  private key**
+
+![rinkebyUrl](/Images/Day6/f35.png)
+
+We copy the url and back in our script all we have to do is swap rpc provider with a new url we just copied.
+
+We also have to change the chain id, our address and the private key.If you ever are confused as to what is the chain id of the chain that you're working on, you can always check [here](https://chainlist.org/).
+
+The address and the private that we gave it aren't gonna have any testnet.We need to go in our metamask and grab the address and place it in for address.Then account details, export private key, grab the private key and past it in our .env file.
+
+Since I've my private key stored as an environment variable, I need to run `source .env` so that my private key is now updated.
+
+The reason we're using metamask address and private key is since we're making transactions to a testnet, we need some testnet eth.
+
+Now we've everything updated for deploying to rinkeby.Let's go ahead and run the script now.It'll take a lot longer but we can see we got the exact same responses.
+
+If you take the address and go to rinkeby etherscan, you can verify what just happened.
+
+**Summary**
+
+We've learned alot about python, deploying our own local blockchain, deploying to a testnet and mainnet, working more with private keys, creating transactions, signing transactions and then sending transactions.
+
+
 
 
 
