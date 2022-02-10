@@ -239,6 +239,34 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - update the rinkeby url, Chain id ,  address &  private key |
 | - Deploying |
 | - summary/recap |
+| <p align="center"> Day 7 </p> |
+| **Lesson 5 - Brownie Simple Storage** |
+| - Brownie Intro & Features |
+| - create new directory |
+| - install Brownie |
+| - 1st brownie simplestorage project |
+| - Brownie Folders |
+| - copying simplestorage.sol |
+| - brownie compile & store |
+| - brownie deploy |
+| - brownie commands |
+| - brownie runscripts/deploy. py & default brownie network |
+| - brownie Advantages over web3. py in deploying |
+| - getting address & private key using Accounts package |
+| - add default ganache account using index |
+| - add accounts using Commandline |
+| - remove accounts & terminal tips |
+| - add accounts using env variables |
+| - create .env file , brownie-config. yaml |
+| - getting .env |
+| - adding wallets in yaml file and updating in account |
+| - importing contract simplestorage |
+| - importing & deploying in brownie vs web3. py |
+| - running |
+| - recreating web3 .py script in brownie |
+| - running |
+| - tests |
+| - test SS |
 
 
 ## **Blockchain**
