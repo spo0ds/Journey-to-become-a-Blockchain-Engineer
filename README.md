@@ -242,14 +242,11 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | <p align="center"> Day 7 </p> |
 | **Lesson 5 - Brownie Simple Storage** |
 | - Brownie Intro & Features |
-| - create new directory |
 | - install Brownie |
 | - 1st brownie simplestorage project |
 | - Brownie Folders |
-| - copying simplestorage.sol |
 | - brownie compile & store |
 | - brownie deploy |
-| - brownie commands |
 | - brownie runscripts/deploy. py & default brownie network |
 | - brownie Advantages over web3. py in deploying |
 | - getting address & private key using Accounts package |
@@ -2294,6 +2291,100 @@ If you take the address and go to rinkeby etherscan, you can verify what just ha
 **Summary**
 
 We've learned alot about python, deploying our own local blockchain, deploying to a testnet and mainnet, working more with private keys, creating transactions, signing transactions and then sending transactions.
+
+
+**Lesson 5 - Brownie Simple Storage**
+
+There's going to be alot to actually managing all the contracts that we work with having to write our own compile code, storage code is going to take alot of work and what if we wanted to interact with one of the contracts that we deployed in the past.Well we'd have to keep track of all the addresses and manually update our address features with an address.Maybe we didn't want to deploy a new contract every single time, maybe that we want to work with contract that we've already deployed.What if we want to work with a whole bunch of different chains like Rinkeby, mainnet, our own local net?There seems to be alot to manage here and we still haven't talked about writing tests.
+
+**Brownie Intro & Features **
+
+This is where brownie is going to come into play.Brownie is currently the most popular smart contract development platform buit based on python.It's used by defi giants like yearn.finance, curve.fi and badger.finance and each out having billions of dollars currently locked in value.
+
+The reason that we learned a little bit about web3.py first because brownie heavily relies on web3.py.So let's all again but in brownie and we'll see how much easier it is to actually interact with.
+
+**install Brownie**
+
+Brownie is incredibly powerful and makes our lives fantastically easier.So get ready to learn one of the most powerful tools in the smart contract developing ecosystem.Let's go ahead and open up our terminal and let's get started installing brownie.It's recommended to install brownie via `pipx`.Pipx installs brownie into a virtual environment and makes it available directly from the command line.Once installed you never have to activate a virtual environment prior to using brownie.To install with pipx we can go ahead and run:
+
+`python3 -m pip install --user pipx`
+
+Once we run that we can run:
+
+`python3 -m pipx ensurepath`
+
+Then we'll want to close the terminal by hitting little trashcan and then re-open it.And then:
+
+`pipx install eth-brownie`
+
+and one more time we're going to close and re-open the terminal.
+
+You can tell you've brownie installed correctly if you run
+
+`brownie --version`
+
+**1st brownie simplestorage project**
+
+Let's create our first brownie project.We're going to be using exact same SimpleStorage code that we just went through except for we're going to use it in brownie.To create a sample folder with everything we need with brownie, we can just run :
+
+`brownie init`
+
+We'll get a new brownie project initialized in the director that we're currently in.If you type `ls`, you'll be able to see all the folders that are created or you can just seem them on your side panel in vscode.
+
+![vspanel](/Images/Day7/g1.png)
+
+**Brownie Folders**
+
+Let's talk really quickly about what each of these folders is going to do.The `build` folder tracks alot of really important low-level information.It's going to track any interfaces that we're working with or deploying.It's going to keep track of all of our deployments across all of the different chains so we no longer have to manage that ourselves and it's going to store all the compiled code.
+
+Rememer how in our SimpleStorage code we actually saved everything to `compiled_code.json`.Well brownie is actually going to do all of that for us into this build/contracts directory.So we can always reference it later.
+
+The `contracts` directory outside the build folder is where we're going to put all of our contracts.Brownie knows to look inside of this folder when looking for new contracts to compile, deploy or anything else.
+
+`Interfaces` is where we can save and store different interfaces.Remember how when we're working with chainlink, working with interfaces makes it really easy to interact with a blockchain application.
+
+`Reports` are to save any type of report you run.`Scripts` where we can automate tasks like deploying, calling different functions or really anything we want.
+
+Then we've a 'test' folder which is incredibly powerful and we're going to be using alot.We also have `.gitattributes` and `.gitignore` which are helpful when working with version control like git.
+
+So let's go ahead and start working with brownie and really understand what's going on here.Let's add our SimpleStorage contracts to the contracts folder and copy and paste the code from the SimpleStorage that we've been using whole time.
+
+**brownie compile & store**
+
+Now that we've a contract we can already start working with brownie and even compile code without even having to write or work with our own compiler.All we need to do is :
+
+`brownie compile`
+
+Brownie will automatically read the version of the solidity and store all of the compile information in this build folder.If we go to contracts, we've SimpleStorage.json and there's alot of familier pieces here like abi, opcodes section and alot of useful information.
+
+Great we've already compiled our smart contract.So why don't we actually deploy this to blockchain?
+
+**brownie deploy**
+
+To do this we've to write a script which will allow us to do whatever we want.We're going to create a new file and we're just going to call it deploy.py similar to last time inside scripts folder.
+
+Brownie can run scripts by running `brownie run`.
+
+If you want to take a quick minute to familiarize yourself with all the different commands that brownie has just run `brownie`
+
+![brownieCommands](/Images/Day7/g2.png)
+
+We can define that we want to run deploy.All we have to do:
+
+![deployFunction](/Images/Day7/g3.png)
+
+**brownie runscripts/deploy. py & default brownie network**
+
+And we can run:
+
+![brownieRun](/Images/Day7/g4.png)
+
+And as you can see it automatically does this launching thing.Brownie defaults to always working with a local ganache-cli blockchain.It's running the exact same command that we ran earlier and it has a bunch of different flags like accounts 10, certain hardfork, certain gasLimit etc.So at the beginning of all our scripts if we don't give brownie a network to use, it'll spin up a local ganache and at the end of the script it'll tear it back down.
+
+Typically what I like to do is put all of the logic of our deployment in its own function.
+
+![deploySS](/Images/Day7/g5.png)
+
 
 
 
