@@ -252,18 +252,14 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - getting address & private key using Accounts package |
 | - add default ganache account using index |
 | - add accounts using Commandline |
-| - remove accounts & terminal tips |
 | - add accounts using env variables |
-| - create .env file , brownie-config. yaml |
-| - getting .env |
 | - adding wallets in yaml file and updating in account |
 | - importing contract simplestorage |
 | - importing & deploying in brownie vs web3. py |
-| - running |
 | - recreating web3 .py script in brownie |
-| - running |
 | - tests |
-| - test SS |
+| - Deploying to a Testnet |
+| - Brownie console |
 
 
 ## **Blockchain**
