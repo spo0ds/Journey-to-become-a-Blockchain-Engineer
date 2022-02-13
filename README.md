@@ -2604,6 +2604,54 @@ We can run `brownie console`
 Brownie will actually kick us off into a console.It has all of our contracts and everything already imported.Everything that is improted via brownie in our scripts is automatically already imported into the shell.We can go ahead and even deploy our SimpleStorage contract.We can take the deploy line and paste it on the shell and can see the deployed contract.We can do everything that we normally do in Python.
 
 
+**Lesson 6: Brownie Fund Me**
+
+All right let's move on to our next project.We're going to take the fundme contract that we made recently in remix and actually import that one into brownie.With this we're going to go over a lot more advanced features that brownie has to offer us and we're getting into some more sophisticated testing and deployment mechanisms for this.
+
+**Initial Setup**
+
+I'm going to make a new directory `mkdir brownie_fundme`
+
+After you're inside brownie_fundme project, initialize a new project.
+
+`brownie init`
+
+We're going to create a new contract called `FundMe.sol` which is going to be exact what we had before for our FundMe contract.Just copy past the code.
+
+Typically this is where in our last project we just ran brownie compile.
+
+What happens if we run `brownie compile` here? Brownie is going to give us error saying the source wasn't found.Well remix understands that `@chainlink/contracts` is an npm package that it can import from however brownie isn't aware of npm packages and brownie can't actually download directly from npm .However brownie can download directly from `Github`.So we've to tell brownie where it should be downloading external third party packages from so that we can use them in our contracts.
+
+Let's change the global compiler version to 0.6.6  and the compiler version to ^0.6.6 so that our linter is happy.
+
+We need to tell brownie where to import those `@chainlink/contracts...` from.From github instead of npm.Intentionally there's a package out there specifically created for downloading chainlink contracts.
+
+**Dependencies**
+
+The way that we can tell brownie where to get these contracts is in our brownie config.In here we're going to create a dependencies section and this is where we tell brownie:
+
+![dependencies](/Images/Day8/h1.png)
+
+So to get these chainlink contracts, we can look up [here](https://github.com/smartcontractkit/chainlink-brownie-contracts).Instead of downloading from npm, we're just going to download directly from the github repo.We need to tell brownie the organization(smartcontractkit), repo_name(chainlink-brownie-contracts) and the versions.
+
+ It does look like the latest version went backwards but as of a recent release as a 1.2.0 version of the package, all the releases of the chainlink-brownie-contracts are going to match exactly the @chainlink/contracts npm tag.So that's why it looks like an earlier version.
+ 
+ ![githubRepo](/Images/Day8/h2.png)
+ 
+ So now brownie knows to download this repo from Github.Once we do that everything in the contract section will be available for our solidity code to import and use.However that's not the final story here.We also need to tell brownie what @chainlink thing means because we're downloading from smartcontractkit/chainlink-brownie-contracts but what's that chainlink thing.
+ 
+ **Remappings**
+ 
+ So we need to tell brownie whenever we're using @chainlink we're actually referring to `smartcontractkit/chainlink-brownie-contracts@1.1.1` this import.We need to tell the compiler this.Let's add a new section.
+ 
+ ![compiler](/Images/Day8/h3.png)
+ 
+ Let's go ahead and try to compile.We'll see it compile successfully and if we look at our build folder in the contract section we've new folder called dependencies.It downloaded AggregatorV3Interface and SafeMathChainlink because we're using both of those files in our solidity code.  
+ 
+ 
+
+
+
 
 
 
