@@ -2649,6 +2649,48 @@ So to get these chainlink contracts, we can look up [here](https://github.com/sm
  Let's go ahead and try to compile.We'll see it compile successfully and if we look at our build folder in the contract section we've new folder called dependencies.It downloaded AggregatorV3Interface and SafeMathChainlink because we're using both of those files in our solidity code.  
  
  
+ Let's write our first script to deploy to a development ganache chain(brownie's built-in chain).
+
+**Rinkeby Deploy Script**
+
+Let's go ahead and create a new file(deploy.py) inside scripts.We'll build a simple script to work with rinkeby and then we'll actually learn how to deploy this to our own local ganache development chain.
+
+![deployPy](/Images/Day8/h4.png)
+
+Let's build this deploy_fund_me function.So first we're going to need to get an account and same as last time we used a function called get account which would know to switch back and forth between if we're on development or if we're with an actual testnet that we could pull from our config.We can copy that function and use that in our script here.
+
+![get_account](/Images/Day8/h5.png)
+
+What I like to do with this get_account() is add it into it's own file called helpful_scripts inside scripts folder.In that file I'll add that get_account function.
+
+![helpful_scripts](/Images/Day8/h6.png)
+
+And in our config we're going to have to add wallets and from_key.
+
+![config](/Images/Day8/h7.png)
+
+Now that we've added get_account() to it's own scripts.How do we actually use that in our deploy script.
+
+
+**__init__.py**
+
+Depending on the version of python that you're in you might actually have to create a new file first named `__init__.py`.You might not bust just incase let's make it inside scripts folder.With this `__init__.py` python knows that it can import from other scripts and other packages in this project.Now we could do:
+
+![importingHelpfulScripts](/Images/Day8/h8.png)
+
+We're importing get_account function from our helpful_script.We gonna make get_account function a little more robust a little bit later but for now it'll work perfectly for what we're looking to do.
+
+![deploymentReady](/Images/Day8/h9.png)
+
+**Deploying to Rinkeby**
+
+Now we could just run our typical deploy function.
+
+`brownie run scripts/deploy.py --network rinkeby`
+
+
+ 
+ 
 
 
 
