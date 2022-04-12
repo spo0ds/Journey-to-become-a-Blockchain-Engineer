@@ -3087,6 +3087,110 @@ Testing on mainnet fork can be done and should be done whenever all of your cont
 - Self/Local Ganache: Not necessary, but good for tinkering
 
 
+Now let's move to our most challenging example.Once you complete this example you basically will have all the tools to be an incredibly powerful smart contract developer.Then after that we're going to show you the chainlink mix package and how to do what's called a brownie bake to automatically open up this package with all these scripts and all these contracts pre-built in which makes easier and faster for deploying our smart contracts.However let's go through the process of understanding all the pieces that are going to be inside of this brownie mix.
+
+## *Smart Contract Lottery*
+
+Let's get into our most advanced smart contract project that we've made so far.This is going to be the best example of a full scale application. By full scale I mean end-to-end full suite of our brownie.
+
+**Decentralized Lottery**
+
+What we're going to do is create a lottery application where anybody can enter the lottery and a random winner is selected.So let's do it and let's get started.
+
+**Setup**
+
+First of course we're going to make a new directory.
+`mkdir smartcontract-lottery`
+
+and open that folder in visual studio.
+
+Let's go ahead and start a new project.
+
+`brownie init`
+
+and create a quick readme.md file to explain what we're trying to do here.
+
+![Readme](/Images/Day9/i1.png)
+
+**Wait..is this really decentralized?**
+
+Since we've an admin here this means that our application isn't necessarily going to be truly decentralized because we've a single person chooses when the lottery is over.
+
+**Could we make it decentralized?**
+
+We could scale this out to have maybe a dow being the admin or something like that.
+
+**Chainlink Keepers**
+
+Or we could have the lottery automatically open and closed based off some time parameters.
+
+But for the moment this is the setup that we're going to have.
+
+**Lottery.sol**
+
+First thing that we're going to get started with of course is our lottery contract and let's begin with our initial setup.
+
+![initialSetup](/Images/Day9/i2.png)
+
+**Main functions of Lottery.sol**
+
+Think for a second on what some of the functions that are going to be.What our main function going to be.
+
+We'll probably have a function enter.
+function called getEntranceFee.
+function called startLottery.
+function called endLottery.
+
+![functions](/Images/Day9/i3.png)
+
+Let's get started with the enter function just because this is most likely going to be the entry point. As we know since we're going to want them to pay using this entry function in ethereum, we're going to need to make this function payable. In here we're going to need to keep track of all the different players.Everybody who signs up for this lottery.
+
+
+**address payable[]**
+
+To keep track of all the players we're going to make an address payable array.We'll make it public and called players.
+
+![payableArray](/Images/Day9/i4.png)
+
+And anytime somebody enters we'll just do:
+
+![ArrayPush](/Images/Day9/i5.png)
+
+**require minimum payment**
+
+However we're not checking to see how much value that they're actually sending.We want to set the price of this to be atleast $50.Here we're gonna have to do a require statement requiring them to do at least $50.In order to do that we're probably going to need to have some function to get the entrance fee to check whether or not how much they're sending is actually $50.
+
+
+**getEntranceFee**
+
+Since we're just returning a number for getEntranceFee, we can make it a view and have it return uint256.
+
+![returnedGEF](/Images/Day9/i6.png)
+
+To get this entrance fee we're first going to have to have stored somewhere what the entrance fee is.We're going to store the $50 minimum somewhere.This is something we'd probably wanna set right when our contract is deployed.So where we can put stuff like that.Well in our constructor.
+
+![constructor](/Images/Day9/i7.png)
+
+Since we're going to get a conversion rate, we're going to want to use a [chainlink price feed](https://docs.chain.link/docs/ethereum-addresses/).
+
+We're going to need to pull from the price feed to convert fifty dollars to fifty dollars in eth.
+
+![aggregator](/Images/Day9/i8.png)
+
+![config](/Images/Day9/i9.png)
+
+We'll compile it and we can see everything works our properly.
+
+So now we've pricefeed let's go ahead and set up this entrance fee.Of course we're going to need to get a price from the price feed.We can check the [documentation](https://docs.chain.link/docs/get-the-latest-price/) on how to do that.
+We can call this latestRoundData function.
+
+![priceFeed](/Images/Day9/i10.png)
+
+
+
+
+
+
 
 
 
