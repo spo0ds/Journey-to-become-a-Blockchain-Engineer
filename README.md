@@ -260,6 +260,27 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - tests |
 | - Deploying to a Testnet |
 | - Brownie console |
+| <p align="center"> Day 8 </p> |
+| **Lesson 6 -Brownie Fund Me** |
+| - Initial Setup |
+| - Dependencies |
+| - Remappings |
+| - Rinkeby Deploy Script |
+| - init.py |
+| - Deploying to Rinkeby |
+| - Deploying to ganache |
+| - Mock |
+| - Constructor Parameters |
+| - Refactoring |
+| - Deploying to a persistant ganache |
+| - Adding network to brownie |
+| - Withdraw and Fund |
+| - Testing |
+| - Default Network |
+| - Mainnet fork |
+| - Custom mainnet-fork |
+| - Adding to Github |
+| - Where should I run my tests? |
 
 
 ## **Blockchain**
@@ -2803,7 +2824,7 @@ Back in our deploy scripts we now say publish_source is going to be pulled from 
 Now if we run this again we'll spin up our ganache, deploy a mock pricefeed contract, deploy our fund me contract and it completes successfully.We have a way our fund me contract that uses a price feed contract to our own local development environment with a mock aka a fake pricefeed contract.
 
 
-Refactoring
+**Refactoring**
 
 This is great but our deploy script is starting to look a little bit big and a little bit clunky.So actually cleans this up to make it look a lot nicer.
 
