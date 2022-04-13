@@ -3247,6 +3247,95 @@ Great mainnet-fork has been added.Now that we've this here we can go ahead and r
 costToEnter should be divided by adjusted price i.e `uint256 costToEnter = (usdEntryFee * 10**18) / adjustedPrice;`
 
 
+Of course we know that we're gonna change assert statement because this isn't a great way to actually test our contracts but it can be a nice sanity check and we know we're gonna have to refactor the code as well for mocks and for accounts but we'll get to that in a little bit.
+
+We're getting a cost to enter correctly.We can do in our enter function that value must be greater than getEntrancefee function.
+
+![require](/Images/Day9/i16.png)
+
+We've a way for them to enter and we've a way to get the entrance fee.
+
+**Enum**
+
+But we wanna make sure that we're not ending the lottery before the lottery even starts or ending the lottery hasn't even begun.So we're gonna want a way to iterate through the different phases of this lottery and we can do that with what's called an enum.
+
+According to solidity documentation, enums are another way to create user-defined types in solidity.We saw an earlier version of doing this with a struct.Enums are little bit different in that they're explicitly convertible to and from all integer types.So for our lottery contract we're gonna want to create the new type that represents the lottery state.
+
+![enum](/Images/Day9/i17.png)
+
+This means that we've a new type called LOTTERY_STATE with three positions.These different states are actually represented by numbers. So open is actually 0, closed is 1 and calculating winner is 2. Now that we have this new type we can create a variable of type LOTTERY_STATE.
+
+![lottery_state](/Images/Day9/i18.png)
+
+Right when we initialize our contract, we're gonna want to set our lottery_state being Closed.
+
+![closed](/Images/Day9/i19.png)
+
+Since states are represented by numbers as well we could also just do `lottery_state = 1;` however it's much more readable to do LOTTERY_STATE.CLOSED.
+
+Now that we've a lottery state, in our enter function we can require lottery to open.
+
+![lottery_open](/Images/Day9/i20.png)
+
+We can only enter if somebody started this lottery and that's exactly what we're gonna do in our start lottery.
+
+**startLottery**
+
+![startLottery](/Images/Day9/i21.png)
+
+Now when somebody starts the lottery they'll be able to enter.Of course the startLottery bid here need to be called only by our admin.So this is where our onlyOwner modifier is once again going to come into place.
+
+![onlyOwner](/Images/Day9/i22.png)
+
+We could write our own only owner modifier or we can once again use open zeppelin's access control and open zeppelin's ownable function instead which is what I'm going to use here.
+
+![openZeppelin](/Images/Day9/i23.png)
+
+![OZdepend](/Images/Day9/i24.png)
+
+and we'll say our lottery is ownable.
+
+![ownable](/Images/Day9/i25.png)
+
+Now we can finally move into our endLottery function.This is where we're actually going to choose a random winner here.We only want the admin to be the one to end the lottery.so let's add the onlyOwner modifier in endLottery function as well.
+
+
+**Randomness**
+
+We're looking to get a random winner.As you know blockchain is a deterministic system and this is super ambitious because that allows us to do all these smart contracts and have this system that can actually reach consensus very easily.Random numbers are much harder.
+
+If you've a blockchain with a whole bunch of different nodes and each nodes responds and gives their own random value, well each node is never going to be able to sync up and agree on a random number.
+
+What you could do is base the random number on some other attributes in the system but it's not really random.It's actually going to be pseudo random.So getting truly random numbers in a deterministic system is actually impossible and if you know about computer science you actually know that even if you call math.random in your javascript or C++, what your computer is really doing is it's looking at some place in memory, grabbing some value and saying this is probably random enough here go ahead and use this.
+
+Now in smart contracts especially when working with any type of financial application such as a lottery, having an exploitable randomness function means that your lottery is at risk of being hacked or destroyed.
+
+So I'm going to show you this insecure way first and the reason that I'm gonna show you is that it's a quick and dirty way to get a pseud random number but please don't use this in any production use cases.
+
+**pseudorandom numbers**
+
+Im gonna show you a method that's often used to teach people how to get random numbers and then we're gonna explain why it's so vulnerable and not a good method of randomness and what some insecure protocols will do is they'll use globally available variable and hash it.So in your smart contracts there's actually number of globally available variables.One of those we saw above is `msg.value`.It's going to be the value that's sent with the transaction.Another globally available variable is going to be `msg.sender`.You can actually see a whole list of these different globally available variables in the solidity documentation [here](https://docs.soliditylang.org/en/latest/units-and-global-variables.html).
+
+Since there are these globally available variables, alot of times some will see something like block.difficulty which returns the current block difficulty.Now one of these globally available variables is going to be block difficulty.Remember how I said the time between different block generation is called the block time.Well you can always keep that block time as is by changing the block difficulty over time.The harder the problem or harder the POW algorithm, the longer it's gonna take or more nodes you gonna need to solve that problem.There's this constantly recalculating metric called `Ethereum Difficulty` or block difficulty depending on the chain that you're working on that constantly changes.
+
+You might think this would be a great use of randomness because it's a somewhat hard to predict number.So what alot of people do is they think that these sound pretty random  and use them as a unit of randomness and you'll see something like.
+
+![VulnerableRandomness](/Images/Day9/i26.png)
+
+We're converting into uint256.The reason that we're doing this is because we want to pick a random winner based off of an index.Somebody some random winner in our players array or our players list.Whatever number we're going to use that's gonna be the index of the winner that we're gonna randomly pick.Then we'll use Keccack256 which is our hashing algorithm.So they hash a whole bunch of variables together and they do this abi.encodePacked which is another keyword for some low level work and they'll add nonce, message.sender,block.difficulty and block.timestamp.Basically what they tryna do here is take a bunch of seemingly random numbers,mash them all together in a hashing function and say yeah this is pretty random.
+
+But the issue here is that the hashing function itself here isn't random here.The hashing function is always going to be exactly the same Keccack256.It's always gonn hash everything exactly the same way.So we're not actually making it more random by hashing it.All these numbers inside are the pieces that actually determined how random it is.If the block.difficulty is random then this will be a random method.If the block.difficulty isn't random then this won't be a random method and block.difficulty isn't random.Block.difficulty can actually be manipulated by the miners.Timestamp, nonce and msg.sender are predictable.
+
+When using a random number in this way the hashing algorithm is always gonna be the same, uint256 is always gonna be the same.We've predictable number, predictable address, a predictable timestamp and then a manipulatable value.So all the code is really doing is giving the miners the ability to win the lottery.So this isn't going to be an effective way to get a random number.This is an unacceptable way to get a random number in our applications.Yes we do have the onlyOwner modifier here which means that we're the ones who are going to choose when to call this.So it's still a centralized in that regard but let's just jump into best practices for working with random numbers.
+
+**True Randomness with Chainlink VRF**
+
+
+
+
+
+
+
 
 
 
