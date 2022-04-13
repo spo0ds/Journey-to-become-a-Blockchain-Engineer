@@ -3188,6 +3188,70 @@ We can call this latestRoundData function.
 
 
 
+Now we're going to want to do a little bit of quick math.Typically if we're setting the price at $50 and we've a pricefeed of $2000 per eth, we'd just wanna do 50/2000 but ofcourse solidity doesn't work with decimals we can't actually just do this.So we'll have to do 50 * (somebignumber) / 2000.But first convert the price from int256 to uint256.
+
+![conversion](/Images/Day9/i11.png)
+
+Since we know we're going to be using an ethereum / usd pricefeed that has eight decimals.Let's also just convert it to having 18 decimals as well.
+
+`uint256 adjustedPrice = uint256(price) * 10**10;`
+
+Now that we've adjusted price we'll do:
+
+![returnedCost](/Images/Day9/i12.png)
+
+usdEntryFee is also multiplied by some big number.This way usdEntryFee has 18 decimals but it has an additional 18 decimals here that'll be canceled out with our pricefeeds.
+
+Now ofcourse since we're doing some math here,it's recommended to use safe math and use safe math functions.We're going to skip over the safe math functions here again because in the newer version of the solidity you don't really have to use them but I think it's important to note here that sending this code this exact code into production would be a bad idea for atleast the reason of safe math functions.
+
+**Testing**
+
+Let's go ahead and do some testing as we code just to make sure our getEntranceFee function is working properly.
+
+Based off of our last lesson let's talk about how do we want to test this?
+
+Well we could do a mainnet-fork here because we're only working with some on-chain contracts and some maths.We'll at some point have to do our development with mocks and of course our test-net.
+
+Let's try our mainnet fork just for now just to see if this is making any sense.The current price of ethereum is $3000 and we want price of this to be $50 we do 50/3000 =0.016666667.This should be approximately what we get for our eth value.
+
+So if we were to test the function, we'd expect to get 0.016666667 or in wei 0.016666667 * 10**18.
+
+Let's go ahead and create a function that tests this.
+
+ ![testFunction](/Images/Day9/i13.png)
+
+![configFile](/Images/Day9/i14.png)
+
+We need to import Lottery and in order to deplot it we need to get an account.We're going to import our helpful scripts from the last project to this one too so we can get our get_account function but for the time being we can actually just use accounts[0] from brownie accounts.
+
+We've a parameter of _priceFeedAddress in the constructor of the contract.So for now let's hard code that in our config.And we can do our quick test.
+
+![assert](/Images/Day9/i15.png)
+
+These numbers are of course going to be a little bit different for you and if you want you can go ahead and skip the part so that you don't have to do the math but it's kind of nice to do quick sanity check saying based off what things are right now or what would this price end up to be.
+
+In our last section we made a mainnet-fork-dev network.I'm going to go ahead and customize our mainnet fork the way we showed you guys how to do mainnet-fork-dev.
+
+To do this we're first gonna have to delete brownie's internal built in mainnet-fork.
+
+`brownie networks delete mainnet-fork`
+
+and now add our own mainnet-fork using alchemy.
+
+`brownie networks add development mainnet-fork cmd=ganache-cli host=http://127.0.0.1 fork=https://eth-mainnet.alchemyapi.io/v2/YObK6vh1zJzmWL_IP2d_oIDI6tdl3ua5 accounts=10 mnemonic=brownie port=8545`
+
+Great mainnet-fork has been added.Now that we've this here we can go ahead and run our test.
+
+`brownie test --network mainnet-fork`
+
+costToEnter should be divided by adjusted price i.e `uint256 costToEnter = (usdEntryFee * 10**18) / adjustedPrice;
+
+`
+
+
+
+
+
 
 
 
