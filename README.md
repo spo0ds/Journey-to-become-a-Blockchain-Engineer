@@ -281,7 +281,24 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Custom mainnet-fork |
 | - Adding to Github |
 | - Where should I run my tests? |
-
+| <p align="center"> Day 9 </p> |
+| **Lesson 7: SmartContract Lottery** |
+| - Decentralized Lottery |
+| - Setup |
+| - Wait..is this really decentralized? |
+| - Could we make it decentralized? |
+| - Chainlink Keepers |
+| - Lottery.sol |
+| - Main functions of Lottery.sol |
+| - address payable[] |
+| - require minimum payment |
+| - getEntranceFee |
+| - Testing |
+| - Enum |
+| - startLottery |
+| - Randomness |
+| - pseudorandom numbers |
+| - True Randomness with Chainlink VRF |
 
 ## **Blockchain**
 
