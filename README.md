@@ -3244,9 +3244,7 @@ Great mainnet-fork has been added.Now that we've this here we can go ahead and r
 
 `brownie test --network mainnet-fork`
 
-costToEnter should be divided by adjusted price i.e `uint256 costToEnter = (usdEntryFee * 10**18) / adjustedPrice;
-
-`
+costToEnter should be divided by adjusted price i.e `uint256 costToEnter = (usdEntryFee * 10**18) / adjustedPrice;`
 
 
 
