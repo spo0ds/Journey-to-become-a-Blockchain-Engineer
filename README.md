@@ -3347,6 +3347,48 @@ When using a random number in this way the hashing algorithm is always gonna be 
 
 **True Randomness with Chainlink VRF**
 
+In order to get the true random number we're gonna have to look outside the blockchain.Blockchain itself like I said is a deterministic system.So we need a new number outside the blockhain but what we can't do is we can't use just an api that gives a random number.If that API becomes corrupted if they're malicious if they go down if something happens etc etc what we need is a provable way to get a random number  and chainlink vrf is actually that solution.
+
+Chainlink-verf stands for chain-link verifiably randomized function and it's a way to get a provably random number into your smart contract.It has an on chain contract that checks the response of a chainlink node to make sure the number is truly random.Using some cryptography magic it's able to check a number of the parameters that the chainlink vrf started and ended with to make sure that it's truly random.It's already used for protocols like avagochi, ethercards, pool together and a wholebunch of other protocols as well because it'a a secure, reliable and truly provable way to get a random number which is incredibly powerful in a decentralized system.So that's how we're actually gonna get our random number here.Let's work on getting that.
+
+We can head over to [chainlink documentation](https://docs.chain.link/docs/get-a-random-number/v1/).IF you ever get lost or confused you can always come right back to here to work with it.What we're gonna do is deploy their simple version in remix to work with chainlink vrf.
+
+You can see that this is actually using a different chain than what we've been using.We've been mostly working with rinkeby but for this demo It's actually on Kovan.Remember if you do want to stay with rinkeby you can go to contract addresses section of the vrf and grab the addresses.
+
+So what's going on in this contract? How do we actually use it? Well first thing that happens is we're importing some code from the chainlink package and our contract is inheriting the abilities of this vrf consumer base contract.We can see what functions we're actually going to use that are inherited from this contract.And the first thing that we notice is we can see that our constructor in here does some weird stuff.Looks like it almost has two constructors.So what's actually going on here?Let's look at VRF ConsumerBase.sol contract in the [chainlink github](https://github.com/smartcontractkit/chainlink/blob/develop/contracts/src/v0.6/VRFConsumerBase.sol).As we can see the vrf consumer base that we're importing has it
+s own constructor.
+
+![vrfConstructor](/Images/Day9/i27.png)
+
+It takes an address for the vrf coordinator this is the on chain contract that actually checks to make sure our numbers are random and the address of the chainlink token which we'll talk about ERC20s in a little  bit.
+
+![randomConstructor](/Images/Day9/i28.png)
+
+What we're doing is also inheriting the constructor into our contract.So this is our constructor for our random number consumer but we can also use the constructor of the VRFConsumerBase and this is actually how we go ahead and do it.We grab the constructor of the vrf consumer base and pop it in.It's taking two addresses.It's taking vrf cordinator  and the link token like I said vrf cordinator is a contract that's been deployed on chain that's going to verify that the return of the chainlink node is truly random and we're going to use the link token as the payment to the chainlink node fro it's services and then we also have a key hash and a fee defined inside of the constructor.As well as the key hash uniquely identifies the chainlink node that we're going to use and the fee is how much link we're actually going to pay to the chainlink node for delivering us this random number.
+
+**Oracle Gas and Transaction Gas**
+
+In ethereum whenever you make a transaction, you've to pay some eth gas or transaction gas.This is to pay smart contract platform a little bit of eth for performing our transaction with a smart contract.With a smart contract that operates with an oracle we've to pay some link gas or oracle gas.This is to pay the oracles a fee for their services for providing data or doing some type of external computation for a smart contract.
+
+The question that might follow up is "Why didn't we pay oracle gas when working with chainlink price feeds?"
+
+Well for price feeds somebody has actually already paid for the data to be returned and if we go to data.chain.link we can see list of sponsors that're paying to get this data delivered.They're already paying oracle gas to bring this data on chain for us.
+
+Since no other protocol is getting a random number for us we're actually going to have to pay the oracle gas here.
+
+Now in this RandomNumberConsumer.sol, we've a function called getRandomNumber which is gonna return a bytes 32 and what it's gonna do is call this request randomness function which is inherited from this VRFConsumerBase.If we look in here we look for request randomness, we can see there's a function right here called request randomness.This function is gonna send our oracle fee or the link token and it's gonna call this specific to the link token function called transferAndCall which is going to call a chainlink node.I'm not gonna go into exactly how it's doing that now but we'll talk about it in a little bit.So we call this request randomness function and we send the key hash and the fee.Remember the key hash uniquely identifies the chainlink node and the fee is going to be how much oracle gas we're going to pay.
+
+If you ever get lost on how much to pay or what the contract addresses are, you can always head over to this vrf contract section and see where the most recently deployed vefs are, how much the fee is etc etc.
+
+
+**Request and Receive**
+
+Getting a random number is actually follows what's called the request and receive style of working with data.Let's go ahead and try this out and i'll explain what this means once we see it.We're saving the answer to  randomResult variable here and let's just go ahead and try this and see what happens.
+
+**Kovan**
+
+We're gonna switch to injected web3 and since we're now swapping to a new test network this means that we've to get tested eth and test that link again.We can always look for the [link token contracts page](https://docs.chain.link/docs/link-token-contracts/) to find the most upto date faucets. 
+
 
 
 
