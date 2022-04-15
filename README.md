@@ -3390,6 +3390,105 @@ Getting a random number is actually follows what's called the request and receiv
 We're gonna switch to injected web3 and since we're now swapping to a new test network this means that we've to get tested eth and test that link again.We can always look for the [link token contracts page](https://docs.chain.link/docs/link-token-contracts/) to find the most upto date faucets. 
 
 
+Now that we've some testnet ethereum and some testnet link we can proceed.We need to make sure we're on Kovan test network and we're gonna deploy our RandomNumberConsumer -gist.Metamsk pop's up and we're gonna confirm it.I didn't explined fulfillRandomness function intentionally you'll see why in a second.
+
+![afterDeploying](/Images/Day9/i29.png)
+
+randomResult is 0 at the begining because we haven't got a random number.
+
+**Gas Estimation Failed**
+
+I'm going to do something intentionally wrong because there's a good chance that you'll run into this at some point.If I hit getRandomNumber right now, we'll see the error `Gas estimation failed`.We've plenty of eth why would this fail? The reason that it's failing is because the contract doesn't have any oracle gas.So we got that gas estimation failed because we need to fund this contract address with some link to actually get a random number.So let's copy the contract address, come to the metamask and to that address we're gonna send some link.
+
+**After Link transaction completes**
+
+Now that this contract has some testnet link, we can call this getRandomNumber button because we can actually pay the chainlink node to actually return our random number.We're also paying a little bit of transaction gas to make this transaction to make the request and then we're paying a little bit of oracle gas to make the transaction.
+
+**After transaction completes**
+
+After the transaction confirmed but if I hit random result now it's still going to be zero.So why's that?What's going on?
+
+![randomResult](/Images/Day9/i30.png)
+
+**Request and Receive**
+
+Getting a random number like this actually follows request and receive cycle of getting data.You can read more about it [here](https://docs.chain.link/docs/architecture-request-model/).So in one transaction we actually request some data or in our case a random number and then in a second transaction the chainlink node itself will make a function call and return the data back to the smart contract.In this case the function that we're calling is fulfillRandomness.It calls fulfillRandomness with bytes32 requestId which is going to be the request number of when we call requestRandomness and it's going to return with random number called randomness.So after we wait a little bit and hit randomResult, we can see indeed our random number is in here.
+
+![randomNumber](/Images/Day9/i31.png)
+
+**Asynchronous 2 Transactions**
+
+Again the reason that it's in there because we actually had two transaction occur.One paid by us when we called getRandomNumber and one paid by the chainlink node when it called fulfillRandomness.
+
+**Clarification**
+
+Now I lied to you a little bit technically that VRF Cordinator contract calls fulfillRandomness function and then the chainlink node calls VRF Cordinator function but for simplicity's sake you can kind of think of it as the chainlink node itself is calling this fulfillRandomness function.
+
+So now that we know how to do in Remix let's go ahead and add this to our brownie project.
+
+**endLottery**
+
+Before even get a random number let's change the state of our lottery.
+
+![stateEndLottery](/Images/Day9/i32.png)
+
+While this is happening no other functions can be called.This will lock out.Nobody could start a lottery and nobody can enter a lottery while we're calculating the winner.Now that we know a little bit more about random numbers and everything that we're doing here.Let's go head and try implementing this.In our chainlink smartcontract docs, in our get a [Random number section](https://docs.chain.link/docs/get-a-random-number/v1/).First thing we're gonna do is import the VRFConsumerBase code and we'll inherit it into our Lottery contract.
+
+![vrfInherit](/Images/Day9/i33.png)
+
+If we scroll down to the constructor of VRFConsumerBase, we can see it address of the vrfCoordinator and the address of the chainlink token as parameters.We can use a constructor of a contract inherited in our contract inside our constructor.So what we'll want to do is we want to come down to our constructor and right after the public keyword we can add any aditional constructors from inherited smart contracts.
+
+Similar to priceFeedAddress vrfCoordinator and link addresses are gonna change based on the blockchain that we're on.So it'll probably makes sense for us to parameterize them the same way we parameterize the pricefeed address.So in our top level constructor parameters we'll add an address for the vrfCoordinator and pass that to the constructor of the vrfConsumerBase.We'll also grab ab address for the link token and pass it to the vrfConsumerBase constructor as well.
+
+![parameterizedConstructor](/Images/Day9/i34.png)
+
+Great what else we need to make this work?Well back in the [documentation](https://docs.chain.link/docs/get-a-random-number/v1/) we can see:
+
+![FeeKeyHash](/Images/Day9/i35.png)
+
+We need fee and the keyHash.The fee is associated with the link token needed to pay for this request.So we'll make a public variable for fee.
+
+![fee](/Images/Day9/i36.png)
+
+Since fee might change blockchain to blockchain we'll have fee as an input parameter as well.
+
+![feeConst](/Images/Day9/i37.png)
+
+We need a keyHash.The key hash is a way to uniquely identify the chainlink vrf node.
+
+![keyHash](/Images/Day9/i38.png)
+
+Now that we've the main pieces that we need.How do we then request this random number? Well if we scroll down to ou documentation we can see we have this requestRandomness function that we need to call.If we scroll back to our vrfConsumerBase contract, this requestRandomness function is a built-in function from the vrfConsumerBase.So our contract can natively call this requestRandomness function right in our contract.You can see it takes keyHash and a fee as it's parameters.So right in our endLottery function we can add this requestRandomness function and we can also see requestRandomness returns requestId of bytes32.
+
+**returns(type variableName)**
+
+This return syntax is very powerful.You can actually identify the name of the variable you want to return right in your function declaration.So by saying bytes32 requestId we're saying we're going to return a bytes32 variable named requestId.
+
+![reuestRandomness](/Images/Day9/i39.png)
+
+This function call follows again what we've talked about as the request and receive mentality.This means that in this first transaction we're going to request the data from the chainlink oracle.In a second callback transaction the chainlink node is going to return the data to this contract into another function called fulfillRandomness.
+
+**fulfillRandomness**
+
+Again if we look back in our vrfConsumerBase, we can see it has this function rawFulfillRandomness.We can read in comments that says "rawFulfillRandomness calls fulfillRandomness after validating the origin of the call".There's a little bit of contract tag going on but it's gonna eventually call fulfillRandomness function which is gonna be what we define in here and that's how our contract gonna know what to do once it gets the random number back.
+
+So in our first transaction we're gonna end the lottery, request a random number and then a second transaction later on once the chainlink node has created a provably random number it's gonna call a second transaction itself based off of what we  define.We just have to call it.
+
+![fulfillRandomness](/Images/Day9/i40.png)
+
+We don't want anyone else to be able to call this function.We only want our chainlink node to call this function so we can return a truly random number.So we made it an internal function.It's internal because actually the chainlink node is calling the vrfCoordinator and then the vrfCoordinator is calling our fulfillRandomness.So we made it internal so that only the vrfCoordinator can be the one to call and return this function.
+
+**override**
+
+This override keyword means that we're overriding the original declaration of the fulfill randomness function.Our vrfConsumerBase has a function fulfillRandomness defined but it doesn't have any parameters or anything about this function actually laid out.This function is meant to be overriden by us and that's exactly what we're doing here.
+
+So in this fulfillRandomness function let's define what's gonna happen once we get random number back.Before we can process this random number let's just check to make sure we're even in the right state.So we'll do:
+
+![lotteryState](/Images/Day9/i41.png)
+
+
+
+
 
 
 
