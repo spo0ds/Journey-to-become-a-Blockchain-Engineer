@@ -299,6 +299,20 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Randomness |
 | - pseudorandom numbers |
 | - True Randomness with Chainlink VRF |
+| - Oracle Gas and Transaction Gas |
+| - Request and Receive |
+| - Kovan |
+| - Gas Estimation Failed |
+| - After Link transaction completes |
+| - After transaction completes |
+| - Request and Receive |
+| - Asynchronous 2 Transactions |
+| - Clarification |
+| - endLottery |
+| - returns(type variableName) |
+| - fulfillRandomness |
+| - override |
+| - Modulo(Mod Operation %) |
 
 ## **Blockchain**
 
