@@ -3487,6 +3487,37 @@ So in this fulfillRandomness function let's define what's gonna happen once we g
 ![lotteryState](/Images/Day9/i41.png)
 
 
+Then just do another check to make sure we actually get a response.
+
+![randomnessRequire](Images/Day9/i42.png)
+
+Now we need to pick a random winner specifically our of our list of players.List of payable public players.So our players array is just a list of players.
+
+**Modulo(Mod Operation %)**
+
+What we can do to pick a random winner?We can do a modulo function.We can use mod function in our fulfillRandomness with the length of our players.
+
+![indexWinner](/Iamges/Day9/i43.png)
+
+And just to keep track let's make a new variable called recent winner.
+
+![recentWinner](/Images/Day9/i44.png)
+
+Now that we got a winner wallet we want to pay them all of the money gathered from our enters.We'll do is transafer the entire balance of the address.
+
+![transfer](/Images/Day9/i45.png)
+
+We'll transfer them everything we've.Then of course we're gonna want to reset the lottery so that we can start from scratch.We can start blank again.So we'll do:
+
+![reset](/Images/Day9/i46.png)
+
+We're gonna change our lottery state to being closed because the lottery is now complete.And I often also like to keep track of the most recent random number.So at the top we'll declare public randomness.
+
+![randomness](/Images/Day9/i47.png)
+
+
+
+
 
 
 
