@@ -1537,7 +1537,7 @@ Let's define a new function called getVersion and we're going to call the versio
 
 The same way we define variables and structs, we define working with other contracts and interfaces.
 
-![AVinitialization](/Images/DAy5/e18.png)
+![AVinitialization](/Images/Day5/e18.png)
 
 First thing we named is type which is AVI.Since we're inside of a contract, we're going to skip visibility and give the name "rate".Then we initialize a contract.How do we actually choose where to interact with the AVI contract?Well we pass the address of where the contract is located.
 
@@ -1669,7 +1669,7 @@ This is for those of you who are familier with SafeMath and integer overflows an
 We know have a way to get the conversion rate of whatever eth is sent and turn it into USD.Now we can set a threshold in terms of USD but how do we guarantee that whatever amount that the users send when they call fund is going to be atleast 50$.
 
 First set the minimum value by:
-![minUSD](/Images/USD/e30.png)
+![minUSD](/Images/Day5/e30.png)
 
 
 **Require statement**
@@ -1989,7 +1989,7 @@ To connect the contract to blockchain we choose http provider.If we look at gana
 
 **Connecting to Ganache(RPC server,Documentation,Chain ID,address,Privatekey)**
 
-![connectingGanache](/Imges/Day6/f12.png)
+![connectingGanache](/Images/Day6/f12.png)
 
 With everything that we show you, you probably going to want to get really familier with the documentation because even after being a pro, you're going to want to use it more and more and more if you want to learn about other providers.You can go to providers page of the documentation. 
 
@@ -2219,7 +2219,7 @@ Now we've the transaction let's go ahead and sign it.
 
 Then ofcourse we need to send it.
 
-![sendStoreTx](/Images/DAy6/f31.png)
+![sendStoreTx](/Images/Day6/f31.png)
 
 **Deployment**
 
@@ -3511,7 +3511,7 @@ Now we need to pick a random winner specifically our of our list of players.List
 
 What we can do to pick a random winner?We can do a modulo function.We can use mod function in our fulfillRandomness with the length of our players.
 
-![indexWinner](/Iamges/Day9/i43.png)
+![indexWinner](/Images/Day9/i43.png)
 
 And just to keep track let's make a new variable called recent winner.
 
