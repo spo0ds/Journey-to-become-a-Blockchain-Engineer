@@ -3516,6 +3516,19 @@ We're gonna change our lottery state to being closed because the lottery is now 
 ![randomness](/Images/Day9/i47.png)
 
 
+**Some of the changes I need to fix to compile properly is here:**
+
+'import "@chainlink/contracts/src/v0.6/VRFConsumerBase.sol";'
+
+I need to have v0.6 instead of 0.8 in my code.
+
+also need to make recentWinner variable payable.
+
+` address payable public recentWinner;`
+
+and LOTTERY_STATE state to be CALCULATING_WINNER instead of CALCULATING_WINNERS.
+
+
 
 
 
