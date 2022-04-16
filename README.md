@@ -3613,6 +3613,89 @@ We need to give it a _priceFeedAddress, _vrfCoordinator, _link, _fee and a _keyh
 ![Brownie_deploy](/Images/Day9/i60.png)
 
 
+We're gonna wanna do the same thing here but let's make our lives little bit easier.We can wrap all of the mocking and checking into a single function get_contract which we'll add in helpful_scripts and import it to deploy_lottery.
+
+![getContractDocs](/Images/Day9/i61.png)
+
+If this is little confusing to you we'll go over to chainlink mix in a little bit and inside of this has a more robust description of what's going on this get_contract.You can check that out if you want to learn more.
+
+So we obviously want contract name as a parameter.Meaning that this get_contract function will get something like:
+
+`get_contract("eth_usd_price_feed")`
+
+That's gonna be the same as what's defined in our brownie-config.yaml file.From this name we're gonna get the type of contract that it is.To do that we're gonna have to create some mapping that'll map the contract names to their type.
+
+**contract_to_mock**
+
+![contractToMock](/Images/Day9/i62).png
+
+eth_usd_price_feed is gonna be of type MockV3Aggregator and also we need to import MockV3Aggregator.
+
+Now we need to check do we actually need to deploy a mock.Let's check if we're on a local blockchain.And we'll skip the forked local environments because again we don't need to deploy a mock pricefeedAddress on a forked local environment.Also we'll check if one of the contracts in contract_type has been deployed or not.
+
+![checkingMocks](/Images/Day9/i63.png)
+
+`if len(contract_type)<=0 is equivlent to MockV3Aggregator.length`
+
+We're checking how many MockV3Aggregators have actually been deployed.If none of them have been deployed, we'll be deploying them.
+
+We're gonna have to create this deploy_mocks function which is going to be same as what we did in our brownie FundMe.
+
+![deployMocks](/Images/Day9/i64.png)
+
+Now we have a way to actually deploy the mock pricefeed.Let's go back to our get_contract function.So we have a way to deploy the mock if one isn't deployed.Now what we're gonna want to do is we want to get that contract.WE want to get that mock.
+
+![recentContract](/Images/Day9/i65.png)
+
+This is saying let's grab the most recent deployment of the MockV3Aggregator which is exactly what we want.This will work perfectly for our development context.However we're not always going to just want to deploy to a development network.We're also going to want to deploy to testnets.
+
+![contractAddress](/Images/Day9/i66.png)
+
+For example if it's eth_use_price_feed, contract_name will be eth_usd_price_feed and the way we're setting it up it's got to be the same as what's in our contract_to_mock dictionary.Inside If the way we did it was we actually got the contract because we had it's contract type based off of brownie.Here we've to interact with the contract getting those two pieces that we always need:
+
+- Address
+- ABI
+
+We actually have the ABI from our MockV3Aggregator type and we just got the address.So we can create the new contract type.
+
+**Contract.from_abi**
+
+![contract_abi](/Images/Day9/i67.png)
+
+This contract package can be imported from brownie and it has this function from_abi that allows us to get a contract from it's abi and it's address.
+
+![imports](/Images/Day9/i68.png)
+
+We gave it a name(contract_type._name)
+
+MockV3Aggregators and all these contracts have a .abi attribute that returns the abi.
+They also have ._name which returns their name.
+
+This is how we'll get the contract otherwise.And then at the end of all this we'll just return contract.
+
+![finalGetContract](/Images/Day9/i69.png)
+
+This is an incredibly powerful function for us to get a contract based off of if it's already deployed as a mock or it's a real true contract.
+
+Now that we've this function let's go back to our deploy_lottery.
+
+![lotteryDeplotGetAccount](/Images/Day9/i70.png)
+
+Let's go this again.This Lottery.deploy get_contract is gonna get an eth_usd_price_feed.If we don't have a mock deployed, it's gonna deploy a mock pricefeed for us and we're goint to return that mock pricefeed.However if we're on a testnet or a real network, we're gonna grab it's actual address and return a mock contract of it.Our mock contract has all the same functions of a regular contract.So we can just use it as the same.This way we don't have to adjust deploy_lottery function for whether or not we're deploying to a testnet or to an actual address.
+
+The only additional piece we should put in here just for clarity is we should add .address because get_contract is gonna return the actual contract and we really only want the address.
+
+![address](/Images/Day9/i71.png)
+
+This is going to make our coding alot more robust for moving between development environments and testnet environments and working with scripts in a really effective manner. 
+
+Let's go back to lottery and figure out what are the different pieces we need.
+
+![lottery_Constructor](/Images/Day9/i72.png)
+
+We also need a _vrfCoordinator.
+
+
 
 
 
