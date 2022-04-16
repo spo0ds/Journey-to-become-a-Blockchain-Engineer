@@ -3791,6 +3791,68 @@ Typically workaround is you wanna wait for that last transaction to actually go 
 ![txnWait](/Images/Day9/i90.png)
 
 
+**enter_lottery**
+
+Next we wanna do is enter the lottery.We need to pick some value to send when we call the enter function because we need to send the entranceFee with it and just to be safe I usually will tack on a little bit of wei as well because sometimes it might be off by like 1 or 2.
+
+![enter_lottery](/Images/Day9/i91.png)
+
+**end_lottery**
+
+Before we actually end the lottery, we're gonna need some link token in this contract because our endLottery function calls the requestRandomness function.We can only requestRandomness if our contract has some chainlink token associated with it.So we're gonna need to first fund the contract and then end the lottery.
+
+**Funding with LINK**
+
+Since funding our contracts with the link token is gonna be a pretty common function that we use.Let's go ahead and turn this also into a helpful_scripts.
+
+We have a contract address then we wanna who we're gonn fund with link.We'll set default account to be none.We'll do same with the link token as well.If you want to use a specific link token you can otherwise we'll just grab it ourselves and then we'll also do a default amount which will set to 0.1 LINK.
+
+![fund_with_link](Images/Day9/i92.png)
+
+First we get an account.We'll be doing a little clever python stuff.We'll say account = account if somebody sent it otherwise we'll call our get_account function.Then we'll do the same thing with the link token.Now that we've the link_token contract from our get_contract function which again is basically the equivalent of Contract.from_abi on our link token, pulling from our config or from our mock.Now we can just call functions on the link_token.We're gonna transfer token to contract_address with a certain amount and from account. 
+
+![fundingLink](/Images/Day9/i93.png)
+
+**brownie interfaces**
+
+I do however wanna show you another way to work with this.Using the interfaces.Instead of doing the link_token.transfer directly on the contract, we can use the interfaces section to actually interact with some contracts.Right now we've our LinkToken inside contracts/test directory and it has all the definations and all the functionalities defined.Sometimes you're gonna have contracts that you don't have everything.You don't have all the functionality and maybe only have the interface or some functions definitions.So we can still interact with contracts with just an interface because again that interface will compile down to our ABI.
+
+So as a another way of teaching us how to actually work with some of these contracts, what we can do is we can use the link token interface basically the same way as we use the link token contract [here](https://github.com/PatrickAlphaC/smartcontract-lottery/blob/main/interfaces/LinkTokenInterface.sol).This will compile down to a way that our brownie package knows how to interact with these contracts.If you wanted to, you can just grab it, go to our brownie sections and inside interfaces, create a new file "LinkTokenInterface.sol" and paste the code.
+
+What we can do in our helpful_scripts instead is first import interface from brownie and pass contract address. 
+
+![AnotherWay](/Images/Day9/i94.png)
+
+This is an another way we can actually create contracts to actually interact with them.So saw up in the code that Contract.from_abi which is great and interface is another way we can do the exact same thing.
+
+If we've the abi, we can just pop it into Contract.from_abi.If we've the interface we don't even need to compile down to the abi ourselves because brownie is smart enough to know that it can compile down to the abi itself.
+
+For now I'm gonna comment these two lines though and we'll just use the link_token.transfer for now.
+
+Now that we've a funding function we can import fund_with_link from our helpful_scripts.
+
+![FinalEndLottery](/Images/Day9/i95.png)
+
+We're only passing contract_address in a fund_with_link functions because the way we've set the function will just automatically grab a default otherwise.And Once we were funded with link, we called endLottery function because again this is going to call that requestRandomness function from the chainlink vrf.
+
+**waiting for callback**
+
+From our end this is really all that we need to do but remember when we call the endLottery function, we're gonna make a request to a chainlink node and that chainlink node is going to respond by calling the fulfillRandomness function.So we actually have to wait for that chainlink node to finish.Typically it's within a few blocks.So normally what we can do is sleep for some time and we also need to import time.
+
+We can see who that recent winner is if that chainlink node responded with a recent winner.
+
+![winner](/Images/Day9/i96.png)
+
+You might be thinking "There's no chainlink node watching our local ganache" and you're exactly correct.
+
+What happens when we add our end_lottery function to our main function? Do you think that we're actually gonna get a recent winner back?Let's give it a shot.
+
+`brownie run scripts/deploy_lottery.py`
+
+While we're waiting here, this is when a chainlink node would go ahead and stat responding with our randomness.However as you probably astutely telling there's no chainlink node that's going to call this fulfillRandomness function right now.So for our ganache chain this will hypothetically end with nothing because there's no chainlink node actually responding.
+
+
+
 
 
 
