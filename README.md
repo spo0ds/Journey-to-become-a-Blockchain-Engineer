@@ -3695,6 +3695,62 @@ Let's go back to lottery and figure out what are the different pieces we need.
 
 We also need a _vrfCoordinator.
 
+So to do this we're gonna go back to docs.chain.link, then to [contract addresses](https://docs.chain.link/docs/vrf-contracts/) and we could do mainnet here but let's also just set this up to work with rinkeby.We'll copy the address of Rinkeby's vrfCoordinator and add it to a new network in config file and while we're doing this let's also get the rinkeby address for our [pricefeed](https://docs.chain.link/docs/ethereum-addresses/), grab the address for eth/usd and add it in a config file. 
+
+![vrfandPricefeed](/Images/Day9/i73.png)
+
+**Adding vrfCoordinatorMock**
+
+Now we can do to get vrfCoordinator contract address.
+
+![vrfAddress](/Images/Day9/i74.png)
+
+Ofcourse we're gonna have to go back to our helpful scripts because there's currently no mapping between what a vrf_coordinator is and what it's mock needs to be.We need to get a mock vrf_coordinator.First of all we don't even have our MockV3Aggregator.So let's go grab that as well.We can grab both of these at [chainlink-mix](https://github.com/PatrickAlphaC/smartcontract-lottery/tree/main/contracts/test).Let's go to VRFCoordinatorV2Mock and grab whole thing and create new directory "test" inside contracts and inside test create "VRFCoordinatorMock.sol" file and past the code there.Also create file for MockV3Aggregator and past the code.
+
+VRFCoordinatorMock has different functions for actually working with the vrf_coordintor.One of the specific ones in particular is this callback with randomness that we're going to use in our tests.So our vrf_coordinator is also going to get mapped to our VRFCoordinatorMock and we'll also import it from brownie.
+
+![vrf_Coordinator](/Images/Day9/i75.png)
+
+Just to double check everything's working we wanna run quick `brownie compile` to make sure we're importing our mocks correctly and everything is compiling.
+
+We need a link token now.The chainlink token is just another smart contract.So we're gonna do the exact same thing here.
+
+![linkToken](/Images/Day9/i76.png)
+
+This means in our config for rinkeby let's add a link token address.Go to chainlink documentation and to [link token contract](https://docs.chain.link/docs/link-token-contracts/), grab the address and put it in config file.
+
+![link_token](/Images/Day9/i77.png)
+
+Now we've it in our brownie-config.We also need to add it to our helpful_scripts.We need a mock link token for that which we can get from [here](https://github.com/PatrickAlphaC/smartcontract-lottery/blob/main/contracts/test/LinkToken.sol).We can just go ahead and grab everything, create a new file "LinkToken.sol" inside test folder and past it inside the file.In our helpful_scripts we're gonna map link_token to LinkToken and import LinkToken from brownie.
+
+![linkTokenMap](/Images/Day9/i78.png)
+
+We need a _fee and a _keyHash.The _fee and the _keyHash are both just numbers.These aren't actually contracts.We don't need to put this through get_contract bit.What we can do is just in our config, in our development network, we just add a default for the keyHash and fee.I'm just gonna set my development keyhash and fee equal to the rinkeby ones.You can grab these from [here](https://docs.chain.link/docs/vrf-contracts/v1/).
+
+![keyHashFee](/Images/Day9/i79.png)
+
+In our deploy_lottery we can just grab this directly from a brownie config because we're always gonna have the default keyhash and fee.
+
+![depFee](/Images/Day9/i80.png)
+
+Then ofcourse our last bit here.
+
+![account](/Images/Day9/i81.png)
+
+Then additionally as we learned last time if we want to publish this :
+
+![publish](/Images/Day9/i82.png)
+
+What this is saying is get that verify key but if there's no verify key there just default to false.This way if we don't set a verify key in development, that's fine it won't get verified.For rinkeby set verify to true.So we can actually verify this on a rinkeby chain.
+
+Alright let's try this out.We'll do :
+
+`brownie run scripts/deploy_lottery.py` for default development network
+
+We run into this error.
+
+![error](/Images/Day9/i83.png)
+
 
 
 
