@@ -3752,6 +3752,47 @@ We run into this error.
 ![error](/Images/Day9/i83.png)
 
 
+We get an issue with our get_contract function.We forgot to add deploying the mocks in our deploy_mocks function.Right now our deploy_mocks only deploys the MockV3Aggregator.Let's add the rest of the mocks in here.We're gonna need to deploy VRFCoordinatorMock and LinkToken.So let's open up those contracts see what they need.LinkToken doesn't have a constructor.We can just have it to be blank.
+
+![LinkTokenDeploy](/Images/Day9/i84.png)
+
+Let's see what that VRFCoordinatorMock takes.
+
+![VRFConst](/Images/Day9/i85.png)
+
+It takes the link token as an address.
+
+![finalDepMocks](/Images/Day9/i86.png)
+
+Let's try again deploying it again.
+
+![Output](/Images/Day9/i87.png)
+
+We can see that our MockV3Aggregator was deployed then our LinkToken was deployed then our VRFCoordinatorMock was deployed and then our lottery was deployed with those mocks defined.We deployed the lottery.
+
+We could 100% go ahead and then run this script on an actual testnet because our config is set up well.Let's write more functionality for actually interacting with this lottery before we actually do that and then we can actually just run a script which will do all this functionality end to end because again deploying to testnet takes long time and we really only want to do that when we're done and fairly confident that everything's working well.
+
+**Python Lottery Scripts/Functions**
+
+What's the next thing that we'd want to do?Well we probably want to go ahead and start the lottery.Let's write a script that can actually do that.
+
+**Start Lottery**
+
+![start_lottery](/Images/Day9/i88.png)
+
+We said that the lottery is gonna be the most recent deployment of the lottery and we're gonna call startLottery function of Lottery.sol.It is indeed changing state.So we do have to make a transaction.Then in our main function we call the start_lottery function.So if we run this again on our development chain.
+
+We did run into an issue and this is something you'll see something from time to time.
+
+![Error2](/Images/Day9/i89.png)
+
+Typically workaround is you wanna wait for that last transaction to actually go through.So we'll say:
+
+![txnWait](/Images/Day9/i90.png)
+
+
+
+
 
 
 
