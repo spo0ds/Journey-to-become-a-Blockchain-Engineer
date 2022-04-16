@@ -3544,6 +3544,82 @@ and LOTTERY_STATE state to be CALCULATING_WINNER instead of CALCULATING_WINNERS.
 
 
 
+Let's now move into our testing and developing phase.As you're starting to figure out we can ignore these file import callback not supported bugs in vscode for now.I'm sure solidity linter will get better as time progresses.
+
+**Lottery Testing**
+
+Let's go ahead into our scripts and we'll make a deploy script first.
+
+![sameFunction](/Images/Day9/i48.png)
+
+Our default network is not defined.So in our brownie-config.yaml:
+
+![defaultNet](/Images/Day9/i49.png)
+
+If we run this `brownie run scripts/deploy_lottery.py`, ganache will spin up and nothing will happen because our deploy_lottery function doesn't do anything right now.
+
+**deploy_lottery.py**
+
+First thing we need always to deploy a contract is we need an account.
+
+![get_acc](/Images/Day9/i50.png)
+
+Files inside our scripts directory are:
+
+![FilesInScripts](/Images/Day9/i51.png)
+
+And this is what get_account function looks like in our last project.
+
+![FundMeGetAcc](/Images/Day9/i52.png)
+
+Along with the function we also had imports and vriables.
+
+![importsNvariables](/Images/Day9/i53.png)
+
+**get_account refactored**
+
+Let's flush this out just a little bit more so it's even more robust.Right now we've a way to use brownie's ganache accounts and use our environment variables.However there's a third method that we learned that isn't identified here is accounts.load("id").If you still have your account and you still have all your brownies set, up you could do:
+
+`brownie accounts list`
+
+You could see couple accounts or atleast one.We want our get_account to be even more liberal so that if you wanted to use one of the listed account, we could.Let's modify our get_account script.
+
+First get rid of else and that indent.
+
+![ElseRid](/Images/Day9/i54.png)
+
+What this will do is that this getting from config will be our default.IF nothing that we define prior to this, we'll just default to grab from the config.Since we're doing that let's create our .env file.We'll paste our privatekey, infura and etherscan token here.And in our brownie-config ofcourse we'll:
+
+![fromKey](/Images/Day9/i55.png)
+
+Let's add index and id.
+
+![indexId](/Images/Day9/i56.png)
+
+This way if we pass an index to our get_account function, we'll just use index from accounts variable and if we pass an id, we'll have try to do accounts.load.Let's change a little bit.
+
+![ifIndexId](/Images/Day9/i57.png)
+
+Now we've much more liberal get_account function.So now we've a account we can actually deploy our lottery.
+
+![deployLottery](/Images/Day9/i58.png)
+
+We're gonna have to add in all these different variables so if we go back to our lottery we can see :
+
+![lotteryConstructor](/Images/Day9/i59.png)
+
+We need to give it a _priceFeedAddress, _vrfCoordinator, _link, _fee and a _keyhash.Now the way we did that in fund me is that we did it in way where we check to see if we are on a local chain or not.If we weren't on a local chain then we must pull our addresses directly from our config.If we weren't on a local chain though we'd deploy some mocks and use the address of those mocks.
+
+![Brownie_deploy](/Images/Day9/i60.png)
+
+
+
+
+
+
+
+
+
 
 
 
