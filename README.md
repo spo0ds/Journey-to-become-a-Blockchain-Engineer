@@ -3627,7 +3627,7 @@ That's gonna be the same as what's defined in our brownie-config.yaml file.From 
 
 **contract_to_mock**
 
-![contractToMock](/Images/Day9/i62).png
+![contractToMock](/Images/Day9/i62.png)
 
 eth_usd_price_feed is gonna be of type MockV3Aggregator and also we need to import MockV3Aggregator.
 
