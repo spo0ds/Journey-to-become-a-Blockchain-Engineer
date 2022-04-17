@@ -3852,6 +3852,57 @@ What happens when we add our end_lottery function to our main function? Do you t
 While we're waiting here, this is when a chainlink node would go ahead and stat responding with our randomness.However as you probably astutely telling there's no chainlink node that's going to call this fulfillRandomness function right now.So for our ganache chain this will hypothetically end with nothing because there's no chainlink node actually responding.
 
 
+For our testing purposes we're gonna figure it out how to actually get around that end the deal with that.We want to make sure that our tests are really solid on a development chain before we actually test this on an actual testnet.So let's jump into some of these tests.
+
+We've already started with test_lottery.py but we're gonna iterate on this and make this even better.Now before we get into these tests there's a couple of things we wanna talk about.
+
+**Integration Tests Vs Unit Tests**
+
+Unit tests is a way of testing the smallest pieces of code in an isolated instance.We're going to use it loosely define testing independent functions in our lottery contract.
+
+We also want to do integration testing which is gonna be testing across multiple complex pieces.Typically I like to run my unit tests exclusively on a development environment and my integration tests on a testnet.This is really helpful because we can test the majority of our application like we said on a development network and then still be able to see what actually happens on a real testnet and etherscan.
+
+Typically what people do is in their test folder they'll create two different folders.One for unit and another for integration.Since for this demo we're only going to have one file for both.I'll not create those folders but it's pretty common practice.Instead I'm gonna rename the test file "test_lottery.py" to "test_lottery_unit.py" for unit tests and we're gonna create a new file called "test_lottery_integration.py".
+
+**Unit Testing**
+
+Now when writing the unit tests we really wanna test hypothetically every single line of code in our smart contract.This is incredibly important of course because smart contracts are open to everybody to see and interact with.So we really want to test every single line of code we've in Lottery.sol file.
+
+Let's go ahead and finish writing a getEntranceFee test that will work on a local development network.As you can see we're already gonna refactor our test_get_entrance_fee function.So delete everything inside that function.
+
+First we need to deploy our lottery.Since we've a deploy_lottery script already, we can just use the deploy_lottery script as well.If we wanted to we could just copy paste the whole code inside deploy_lottery function into our test but we'll work from the deploy_lottery script.
+
+![deploy_lottery](/Images/Day9/i97.png)
+
+Now we import the deploy_lottery function.
+
+![importing_deploy_lottery](/Images/Day9/i98.png)
+
+And in our unit test we'll say:
+
+`lottery = deploy_lottery()` which will give us our lottery.
+
+Once we've our lottery contract, we can just call getEntranceFee.
+
+`entrance_fee = lottery.getEntranceFee()`
+
+And we wanna make sure the entrance_fee is what we expected it to be.So what we expect it to be? Well again in our helpful_scripts is going to deploy mocks and the initial_value is 2000.So if the price of eth is 2000 eth/usd, and the usd entry fee is 50, we'd say 2000/1 == 50/x  == 0.025.We can go ahead and even do the math in the script.
+
+![get_entrance_fee](/Images/Day9/i99.png)
+
+And to test it we'll do `brownie test -k test_get_entrance_fee`
+
+This is working exactly as we anticipated.
+
+**pytest.skip**
+
+As we mentioned since this is a unit test, we really only want to run this when we're working  on a local blockchain environment or local development network.So we'll go ahead and do this with pytest again.
+
+![pytest](/Images/Day9/i100.png)
+
+
+
+
 
 
 
