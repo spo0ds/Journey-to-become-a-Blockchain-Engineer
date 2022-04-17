@@ -4009,6 +4009,59 @@ So go ahead and do our last bit.Create our integration test which we'll run on a
 This is where we're actually going to test on a real live chain.We're gonna use rinkeby because that's the network that we've been using this whole time.Now I'm being a little bit liberal in the way that we're doing our tests here and we're just gonna do one test for this integration test but keep in mind you're gonna test every piece of your code.So let's just create a test.
 
 
+This is going to be opposite of our unit test.Our unit tests only going to be on our local blockchains.We're gonna skip if it's not on our local blockchains.We're gonna do the opposite of pytest.skip thing.
+
+![pytestSkip](/Images/Day9/i115.png)
+
+Rest will be similar like we did in unit test.
+
+![integrationEndLottery](/Images/Day9/i116.png)
+
+account is twice cause we want two people to enter the lottery.
+
+After endLottery is where this is gonna be a little bit different from our unit tests.In our unit tests we pretended that we're the vrfCoordinator and we called the callback with randomness.We pretended that we're a chainlink node.But here we're not a chainlink node because we're on a actual network.So we're just going to wait for that chainlink node to respond.So for simplicity we'll just do  `time.sleep(60)` for it to respond.And since we're using time, we need to import it.And then since account was the only one to actually be in this.so we'll do assert for it.Also we'll do assert for balance.
+
+![IntegrationAssert](/Images/Day9/i117.png)
+
+
+we've an integration test which is going to run through pretty much vast majority of our functionality here.We can go ahead and test this with `brownie test -k test_can_pick_winner --network rinkeby -s` and before we run this we need to make sure we've test ethereum and link.-s flag will print out whatever brownie is going to print our.
+
+**Test deployment**
+
+Now that we've added our test, we can run our entire test.
+
+for development `brownie test`
+
+for testnet `brownie run scripts/deploy_lottery.py --network rinkeby`
+
+![outputOfIntegrationTests](/Images/Day9/i118.png)
+
+First we go ahead and deployed our lottery.We got our addresses with our get_contract method, got our fee, keyhash, published_source and everything.Then we went ahead and verified it because it has this published_source.So if we grab the address "lottery deployed address", jump over to rinkeby etherscan, past the address in there we'll see the contract is checked mark.If we go to the read contract, we can see all the public variables and all public functions.We can go to write contract and see all the transacting functions that we can interact with.
+
+After we get verified and things get deployed we went ahead and called our startLottery function to actually start the lottery then we entered lottery.We then funded the contract with linkSo we can get our random winner back.Right now our endLottery is confirmed and we're just waiting this 60 seconds because we did time.sleep.We can see on the transaction of that deployed lottery address in rinkeby etherscan, you can see different methods calls.
+
+![txn](/Images/Day9/i119.png)
+
+We can also go to events and we can see some events that we created.
+
+![eventsAfterLottery](/Images/Day9/i120.png)
+
+We can see the first event is RequestedRandomness event.This is the event that we called.We can also see an OwnershipTransferred function that got called when we actually deployed this in the first place.
+
+**Topics**
+
+So topic 0 hash represents entire event.Hash near Hex is our topic 1 which represents that requestId.That is the requestId.
+
+**Conftest.py**
+
+One additional piece that I wanna talk about again in our testing a file that you often gonna see is "conftest.py".Python automatically knows to look for this conftest file and we'll grab different functions from it.We can also add external plugins, fixtures, hooks and test root paths.It adds alot of fantastic features and is a common thing that you'll see.We skipped here for simplicity but in future projects you'll probably see this conftest file which has alot of really nice testing configuration pieces. 
+
+
+
+
+
+
+
 
 
 
