@@ -3901,6 +3901,120 @@ As we mentioned since this is a unit test, we really only want to run this when 
 ![pytest](/Images/Day9/i100.png)
 
 
+If you try to run this `brownie test -k test_get_entrance_fee --network rinkeby`, it should skip the test.
+
+**test_cant_enter_unless_started**
+
+Enter if going to be the first thing that these developers do.We can be more specific than that.We don't want people to enter our lotteries unless the lottery is actually started.So we make sure `require (lottery_state == LOTTERY_STATE.OPEN)` of enter function actually works.
+
+![CantEnterUnlessStarted](/Images/Day9/i101.png)
+
+Now when people try to enter a lottery that hasn't started yet it's gonna revert.
+
+![revert](/Images/Day9/i102.png)
+
+And ofcourse we gonna have to import get_account from scripts.helpful_scripts and exceptions from brownie.
+
+Let's go ahead and test this `brownie test -k cant_enter_unless_started`.That'll pass as well.
+
+**test_can_start_and_enter_lottery**
+
+We've tested whether or not they can't enter.Let's test whether or not they can enter.
+
+![test_can_start_and_enter_lottery](/Images/Day9/i103.png)
+
+We asserted to check that we've correctly added a player to the lottery because we've our players array and we're asserting that pushing them onto our array correctly.Let's try this now `brownie test -k test_get_entrance_fee`.
+
+**test_can_end_lottery**
+
+Let's test to see if we can actually end a lottery.
+
+![endLottery](/Images/Day9/i104.png)
+
+Now we actually end the lottery we do need to send the link because we're calling requestRandomness.We use our fund_with_link function that we've in our helpful_scripts.We'll call fund_with_link on our lottery contract.Once we fund with link we'll then call endLottery.
+
+![fundLink](/Images/Day9/i105.png)
+
+Then how do we actually know that endLottery is being called correctly?Well if we look back in our lottery contract.When we call endLottery, we're not doing a whole lot.All we're doing is changing our state.So let's go ahead and check to see if our calculating_winner state is different.
+
+![checkingEndLottery](/Images/Day9/i106.png)
+
+Calculating_winner is in position 2.
+
+**test_can_pick_winner_correctly**
+
+Now let's test the most interesting piece of this entire lottery contract.We're gonna test whether or not our fullfill function actually works correctly.Does fulfillRandomness function of Lottery correctly choose a winner?Does it correctly pay the winner?Does it correctly reset?
+
+Let's go ahead and build our most complicated and most important test of this whole contract.
+
+![GettingAcc](/Images/Day9/i107.png)
+
+These are going to be different accounts because we want to test for multiple different people.This unit test is getting drastically close to being an integration test but as I said we're being a little bit loose with the definitions.Now we're gonna want to fund it with link and now we're gonna choose a winner here.This is where we actually have to modify one more thing in our lottery contract.
+
+**Events and Logs**
+
+In order to test actually calling this fulfillRandomness function and testing everything in here, we're going to need to call this fulfillRandomness function.If we look in our VRFCoordinatorMock, we've this function called callback with randomness and this is the function that actually calls this rawFulfillRandomness.selector which eventually will call that fulfillRandomness function but this is the entry point that the node actually calls.We've to pretend to be a chainlink node and call callBackWithRandomness function.We're gonna return a random number, choose the contract we want to return to but we also have to pass the original request_id associated with the original call.
+
+Now in our lottery contract, our endLottery function isn't gonna return anything and even if it did, it'd be really difficult for us to get that return type in our Python.So what we wanna do is to keep track of when this contract actually entered the calculating_winner state is we want to do what's called `emitting an event`.
+
+Events are pieces of data executed in the blockchain and stored in the blockchain but are not accessible by any smart contracts.Events are much more gas efficient than using a storage variable.You can kind of think of them as the printlines of blockchain.
+
+You can go to the logs section in etherscan which also includes all the different events.We're actually going to do an event ourself just so that we can see what this really looks like.
+
+![event](/Images/Day9/i108.png)
+
+When we called endLottery function, in the logs if we scroll to the bottom, there's an event here called `RandomnessRequest` which was spit out by the vrfConsumerBase that we inherited and it even has some data that's already been decoded.One of those pieces of data is the request_id.
+
+Now to add an event we first need to create our event type.
+
+![eventType](/Images/Day9/i109.png)
+
+Now we've identified a new type of event called RequestedRandomness.It's really similar to enum in this regard.To omit one of these events, all we've to do in our endLottery bit is we'll emit RequestedRandomness.
+
+![emit](/Images/Day9/i110.png)
+
+Because RequestedRandomness takes a bytes32 as an input parameter and we're gonna pass it that requestID as an input parameter.Now that we've this event being emitted, back in our test when we call endLotter, it'll actually emit one of these events to our transaction.
+
+![requestId]()(/Images/Day9/i111.png)
+
+Txn has a attributes called events which stores all of our events.We can then looked for a certain event name which we know is RequestedRandomness and in there in that RequestedRandomness event find the requestId.
+
+These events are really helpful for writing tests, upgrading our smart contracts or understanding when a mapping is updated.
+
+Now that we've this request_id we can pretend to be the chainlink node and use this callBackwithRandomness function to dummy getting a random number back from the chainlink node.So we're gonna call our get_contract function to get that vrf_coordinator and we're gonna callback with callBackWithRandomness function.
+
+**callBackWithRandomness**
+
+We need to pass the request_id of random number and then the contract to return to.STATIC_RGN is some random number which is the random number that we're gonna return and lottery.address because we're gonna return it to the lottery.From account because it's making a state change.
+
+![callBack](/Images/Day9/i112.png)
+
+This is us dummying getting a response from a chainlink node and this is how we mock responses in our tests to make our lives way way easier.
+
+Now that we've got our callback we can do our asserts.We can figure our who the winner of the lottery actually is.There are 3 entries that means it's 777 % 3 = 0 i.e our account is gonna be the winner.
+
+![assert1](/Images/Day9/i113.png)
+
+We transfer them some money
+
+![assert2](/Images/Day9/i114.png)
+
+
+Test this function out.
+
+So go ahead and do our last bit.Create our integration test which we'll run on an actual chain and then if we wanted to we go ahead and try our deploy_lottery function on a real chain as well.
+
+**Integration Test**
+
+This is where we're actually going to test on a real live chain.We're gonna use rinkeby because that's the network that we've been using this whole time.Now I'm being a little bit liberal in the way that we're doing our tests here and we're just gonna do one test for this integration test but keep in mind you're gonna test every piece of your code.So let's just create a test.
+
+
+
+
+
+
+
+
 
 
 
