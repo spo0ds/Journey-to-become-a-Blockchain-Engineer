@@ -3975,7 +3975,7 @@ Now we've identified a new type of event called RequestedRandomness.It's really 
 
 Because RequestedRandomness takes a bytes32 as an input parameter and we're gonna pass it that requestID as an input parameter.Now that we've this event being emitted, back in our test when we call endLotter, it'll actually emit one of these events to our transaction.
 
-![requestId]()(/Images/Day9/i111.png)
+![requestId](/Images/Day9/i111.png)
 
 Txn has a attributes called events which stores all of our events.We can then looked for a certain event name which we know is RequestedRandomness and in there in that RequestedRandomness event find the requestId.
 
