@@ -338,6 +338,8 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Test deployment |
 | - Topics |
 | - Conftest.py |
+| <p align="center"> Day 10 </p> |
+| **Lesson 8: Chainlink Mix** |
 
 ## **Blockchain**
 
