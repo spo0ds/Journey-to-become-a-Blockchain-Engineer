@@ -340,6 +340,12 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Conftest.py |
 | <p align="center"> Day 10 </p> |
 | **Lesson 8: Chainlink Mix** |
+| <p align="center"> Day 11 </p> |
+| **Lesson 9: ERC20s, EIPs, and Token Standards** |
+| - Why make an ERC20? |
+| - How do we build one of these tokens? |
+| - Solidity 0.8 |
+| - 1_deploy_token.py |
 
 ## **Blockchain**
 
