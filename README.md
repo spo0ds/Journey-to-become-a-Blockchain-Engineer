@@ -4095,6 +4095,50 @@ We'll get new chainlink folder with everything inside of it.In contracts we've a
 If you're looking for a good starter place that has alot of really powerful smart contracts for you to get started, I highly recommend using this mix as a boilerplate starting point for any of your contracts or any of your projects.
 
 
+## Lesson 9: ERC20s, EIPs, and Token Standards
+
+We've learned a ton of fundamentals of working with brownie and smart contracts.Now that we've kind of all the building blocks though we can actually code alot of these much faster and much more efficiently than before.
+
+One of the things that we've seen over and over again is working with tokens and the ERC-20 token standard.We're going to learn how to build our own token.Before we do that let's understand why we'd even want to do this.
+
+![tokens](/Images/Day11/j1.png)
+
+ERC20s are tokens that are deployed on a chain using what's called the ERC20 token standard.You can read more about ERC-20 token standard [here](https://eips.ethereum.org/EIPS/eip-20).Well basically it's a smart contract that actually represents a token.So it's a token with a smart contract.It's both.Tether, chainlink, uni token and dai are all examples of ERC-20s.Technically chainlink is in the ERC677 as there as upgrades to the ERC20 that some tokens take that are still backwards compatible with ERC20s.So basically you can think of them as a ERC20s with a little additional functionality.
+
+**Why make an ERC20?**
+
+- Governance Tokens
+- Secure an underlying network
+- Create a synthetic asset
+
+
+**How do we build one of these tokens?**
+
+All we have to do is build a smart contract that follows the token standard.Build the smart contract that has functions like name, symbol, decimals etc as mentioned in [here](https://eips.ethereum.org/EIPS/eip-20).We need to be able to transfer it, get balance of it etc.Again if you want to check out some of the improvements that are still ERC20 compatible like the ERC677 or the ERC777, you can definitely check those out and build one of those instead.Let's create our new folder and get started.To create new brownie file:
+
+`brownie init`
+
+It's going to startup our repository and everything that we're going to work with here.We can kind of actually just jump in and start with our contracts.Let's create a new file inside contracts directory called "OurToken.sol" and this is where we're gonna add all of our token code.
+
+Since [this](https://eips.ethereum.org/EIPS/eip-20) is an EIP, we could grab all the functions and past them inside our file "OurToken.sol" and then you know code all these up like these does some stuff blah blah.Or we could do it the much easier way.Since we're engineers we don't always want to reinvent the wheel.So once again our friend OpenZeppelin have some amazing [contract packages](https://docs.openzeppelin.com/contracts/4.x/erc20) for building our own ERC20 token.
+
+![ERC20](/Images/Day11/j2.png)
+
+This is the entirety of the code that is needed to make an ERC20.We can copy and paste this.Boom we've our ERC20 token.Let's actually change the name of everything here though.We're gonna be using solidity version 0.8 which I know I've done alot of this in 0.6 but I highly recommend working with 0.8 because it has a lot of really fantastic improvements to solidity.
+
+**Solidity 0.8**
+
+You'll notice this is our first dive into using a different version of solidity.You'll notice that most of the syntax is exactly the same.There are like I said couple of nice improvements with 0.8.The main one being you no longer have to use those safeMath functions that we talked about before.
+
+Then we go ahead and import openzeppelin.Since we're importing openzeppelin, we're gonna add this to our brownie config and before we even get started, you technically have all the tools that you need to code and deploy your own ERC20 token.
+
+Now I'm actually gonna challenge you to go ahead and try to start a brownie project, create your own token using openzeppelin packages and then deploy it on a testnet.I'm going to show you how to do all of it anyways but challenging yourself and trying to do things your own way and exploring is really one of the fastest ways to learn and grow in this space.
+
+
+
+
+
+
 
 
 
