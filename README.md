@@ -4134,6 +4134,56 @@ Then we go ahead and import openzeppelin.Since we're importing openzeppelin, we'
 
 Now I'm actually gonna challenge you to go ahead and try to start a brownie project, create your own token using openzeppelin packages and then deploy it on a testnet.I'm going to show you how to do all of it anyways but challenging yourself and trying to do things your own way and exploring is really one of the fastest ways to learn and grow in this space.
 
+We need to add dependencies in our brownie-config file.
+
+![dependencies](/Images/Day11/j3.png)
+
+If you go to Github of [OpenZeppelin](https://github.com/OpenZeppelin/openzeppelin-contracts), you can see the latest release.4.5.0 is the latest relaease at this time.So I used it.
+
+![openZeppelingVersion](/Images/Day11/j4.png)
+
+Now we can import ERC20.sol contract from OpenZeppelin.Let's change the contract name to OurToken which we're going to inherit from [ERC20 from OpenZeppelin](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC20/ERC20.sol).In our constructor, we're going to add our initial supply which is going to be in a wei and we're going to use the constructor of ERC20.It uses name and a symbol.We'll give a name to our token as "OurToken" and the symbol we'll do "OT".This is literally all we need for our token here.
+
+![OurToken](/Images/Day11/j5.png)
+
+**1_deploy_token.py**
+
+For scripts all we have to do is create a new file "1_deploy_token.py" and "helpful_scripts.py".We'll quickly add get_account function in our helpful_scripts.You can go ahead and just copy paste from the last one.And to make sure add __init__.py inside scripts folder too.
+
+![helpfulScripts](/Images/Day11/j6.png)
+
+Now in our deployment token script,we'll do our imports.
+
+![imports](/Images/Day11/j7.png)
+
+Since we knoe that we need an initial supply in our "OurToken" contract, let's go ahead and go that.
+
+![tokenDeployment](/Images/Day11/j8.png)
+
+If you don't have your environment variable set, add your .env file where you can add private key, web3 infura project id and ether scan api.And then last but not least we'll add .env in our config.If you want to actually deploy this to testnet, you need to make brownie know where to grab private key from.
+
+![privateKey](/Images/Day11/j9.png)
+
+We can run the scripts
+
+`brownie run scripts/1_deploy_token.py` and you will see our token is printed out.
+
+![output](/Images/Day11/j10.png)
+
+We can see we've our token deployed on our local ganache.I can run this again on rinkeby.
+
+![rinkeby](/Images/Day11/j11.png)
+
+Grab the address and go to rinkeby etherscan, pop it in and after quick refresh, You can see contract been added.You can even go to your metamask then to assets, add the address to our metamask, add the token and you'll see you'll be the owners of "OurToken".
+
+**Don't do this now**
+
+Something else you might wanna do is add this to a liquidity pool or add this to a place where you can actually go ahead and sell it and put it on the market.You can do something like that as easily as just popping onto uniswap, going to pool, hitting more, creating a pool and then adding our token.We'd have to manage the token list and be sure to add the token, create our own pool and automatically put it on uniswap.That's how easy it is to actually sell it on one of these pools.
+
+
+
+
+
 
 
 
