@@ -4187,6 +4187,35 @@ Grab the address and go to rinkeby etherscan, pop it in and after quick refresh,
 Something else you might wanna do is add this to a liquidity pool or add this to a place where you can actually go ahead and sell it and put it on the market.You can do something like that as easily as just popping onto uniswap, going to pool, hitting more, creating a pool and then adding our token.We'd have to manage the token list and be sure to add the token, create our own pool and automatically put it on uniswap.That's how easy it is to actually sell it on one of these pools.
 
 
+##  Lesson 10: Defi & Aave
+
+I thought we know a little bit more about Defi and why it's such an amazing technology that only works in the blockchain world.Let's look at this site [defi pulse](https://www.defipulse.com/) or if you want to look at another one called [defilamma](https://defillama.com/) which also shows alot of different protocols.So defipulse is an application that shows some of the top defi projects based on how much total asset is locked into each protocol.Aave which currently is the number one ranked defi application with 9.32 billion in assets under management in terms of USD.We've some fantastic ones like curve, compound, maker, InstaDApp etc.Now we're gonna be looking at two of these protocols in particular.The first one ofcourse being Aave and second one is gonna be what's called a decentralized exchange "paraswap".You start with aava.We're going to go to [testnet.aave.com](https://staging.aave.com/) that looks something like this with please connect your wallet and everything will be pretty empty.
+
+[Paraswap](https://app.paraswap.io/#/?network=ethereum) is what's known as a dex or a decentralized exchange.It allows us to trade tokens incredibly easy on the blockchain.Now there's not a whole lot of testnet indexes that actually work.So we're just going to look at them and simulate as if we're working on them.For example if I wanted to trade 1 eth for some usdt or maybe some wrapped bitcoin or some dai or some aave or really any token that we wanted, all we need to do is connect to our wallet and swap button would show up and we could go ahead and hit swap.Some of these really powerful these dexes and really popular ones are going to be curve finance, uniswap and it's really really easy way to go ahead and swap your tokens for one another depending on what you're looking to do.
+
+Aave is incredibly powerful and it's going to be one that we're going to be working alot with because it has pretty much all the fundamentals of working with the defi protocol that we're looking for and it has a [testnet](https://v3-test.aave.com/#/dashboard) that we can go ahead and test and simulate actually working with some of these protocols.So we're gonna first work with the UI or the user interface and then we're going to do everything here programmatically.
+
+**Get some Kovan ETH**
+
+First things first if you don't already have it make sure you've some testnet ethereum at least.You can get some testnet ethereum from looking at the [link token contracts](https://docs.chain.link/docs/link-token-contracts/) and going to Kovan.Once we see some eth in our Kovan testnet we can go back to aave.So whereas paraswap allows you to simply swap between assets and do a lot of buying and selling of tokens, aave is a lending and borrowing application.So we can actually put down a token as collateral and we can borrow and we can generate some yeild from interacting with this protocol.Borrowing and lending is a critical piece to doing any type of really interesting financial applications or financial instruments such as short selling, being exposed to more assests etc.You can also gain some percentage back.
+
+![apy](/Images/Day12/k1.png)
+
+If you look at apy, it'll tell you how much percentage over a year you'll actually get in returns from staking or depsiting an asset.We're gonna connect the application using metamask and you'll see on a asset to supply, we can see our balance.
+
+**Depositing tokens/ Lending**
+
+What we can now do is click on ethereum, click on max button to deposit some ethereum, hit continue and a little dashboard will pop up asking us "would you like to deposit?".Clicking the deposit button will actually have us deposit right onto the aave contract on the Kovan testnet.Make sure once you hit the deposit that you're actually on a tetnet.
+
+![depositEth](/Images/Day12/k2.png)
+
+I did it on a rinkeby testnet.Idk why my Kovan isn't working while doing this.
+
+![aaveDeposit](/Images/Day12/k3.png)
+
+
+
+
 
 
 
