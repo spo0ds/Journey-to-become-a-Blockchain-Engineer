@@ -4082,6 +4082,17 @@ So topic 0 hash represents entire event.Hash near Hex is our topic 1 which repre
 One additional piece that I wanna talk about again in our testing a file that you often gonna see is "conftest.py".Python automatically knows to look for this conftest file and we'll grab different functions from it.We can also add external plugins, fixtures, hooks and test root paths.It adds alot of fantastic features and is a common thing that you'll see.We skipped here for simplicity but in future projects you'll probably see this conftest file which has alot of really nice testing configuration pieces. 
 
 
+## Lesson 8: Chainlink Mix
+
+That was a lot of stuff to code and quite frankly I don't think any of us want to have to do that every single time have to code everything from scratch.There's actually even easier way first to start with a blank project here and this is with [brownie mixes](https://github.com/brownie-mix).It has ton of boilerplate code for us to go ahead and get started to start start developing.The one we're gonna be working with is chainlink-mix piece.This gives us some wonderful contracts, tests, brownie config and really everything we need to do to get started.If you've brownie installed, you can just bake this mix.
+
+`brownie bake chainlink-mix`
+
+We'll get new chainlink folder with everything inside of it.In contracts we've a whole bunnch of different samples of working with the vrf, pricefeed, keepers to automate our smart contracts and making api calls and delivering any api call that we want to the blockchain.It also has a brownie config which already has a number of wonderful pieces in each networks.So that we don't have to go copy paste and add it in here.It's even got support for testnets like avalanche, polygon, binance and more.It has a number of really powerful tests including testing some pricefeeds.It has whole bunch of deployment scripts, some mocking scripts, some helpful scripts and really everything that we need to get started and get going.For starters we can run  `brownie test` and it's going to compile everything and then on a development chain run all the unit tests and if we want to test on a real testnet, we could do `brownie test --network rinkeby`
+
+If you're looking for a good starter place that has alot of really powerful smart contracts for you to get started, I highly recommend using this mix as a boilerplate starting point for any of your contracts or any of your projects.
+
+
 
 
 
