@@ -4262,6 +4262,31 @@ When we borrow an asset, we actually have to pay some interest.This payment is a
 ![success](/Images/Day12/k8.png)
 
 
+We've successfully borrowed link into our application.We can even hit this liitle add link to your browser wallet button, to add the token to our wallet.We can now see link is indeed in our token assets.If we go back to our dashboard, you'll see we've health factor score.
+
+![healthFactorScored](/Images/Day12/k9.png)
+
+This is a really important score.If you click on the little i thing, it says:
+
+![Ithing](/Images/Day12/k10.png)
+
+We'll see all of our deposits here.We've 0.393 ETH deposited and 16 LINK deposited.You'll see whole lot of stats for working with our application.We can withdraw our ETH, borrow more LINK or we can go ahead and repay.We can either repay from our wallet balance or from our current collateral.Let's go ahead and do from our wallet balance.We'll hit max and continue.We even get this little thing that says you don't have enough funds to repay the full amount.Well why is this the case?We just borrowed the amount.It's because already since depositing, we've accrued a little bit of extra debt.Remember we hit that variable apy and every second it's going to tick up just a little bit.So let's go ahead and pay back what we can with our wallet.
+
+Aave is one of these applications that relies on the chainlink pricefeeds in order to understand the ratio between how much you've deposited as a collateral and then how much you can borrow and take out.
+
+Keep in mind when working with some of this.This is a testnet and we're working is just in a testnet.Sometimes the testnet doesn't work quite as well as mainnet because it's just for testing and doesn't have the exact same support.we were just working on the testnet but if you want to go to aave for real, you can go [here](https://app.aave.com/).Connect your wallet on the ethereum mainnet and interact with it exactly the way we just did.If we're on the mainnet, we can see some additional pieces.
+
+![AaveMain](/Images/Day12/k11.png)
+
+**Reward token / Governance token**
+
+When you deposit something like ETH, you get 0.33% back as interest paid to you for depositing the ETH.You also get a little bit of what's called a governance token.You'll also get a little bit of aave token.I know it's really small but this is an additional incentive that aave has given the users for working with their protocol.Since aave is a decentralized protocol, in order for anything to be improved or anything to be updated on the protocol, it actually has to go through a decentralized vote.So these governance tokens actually dectate and decide how the protocol improves moving forward.
+
+**Programmatic interactions with Aave**
+
+
+
+
 
 
 
