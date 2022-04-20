@@ -4375,7 +4375,7 @@ We can that indeed we've a mainnet fork here.That's going to use the ganache-cli
 
 Now that we've the interface we know that we can actually compile it down to the abi.So back in our get_Weth, first thing we need to do to make any transaction obviously is get an account.This is where we can go back and make our helpful scripts.
 
-![helpful_scripts](/Images/Day12/i20.png)
+![helpful_scripts](/Images/Day12/k20.png)
 
 
 
