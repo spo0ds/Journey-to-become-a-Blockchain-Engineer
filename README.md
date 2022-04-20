@@ -4216,6 +4216,54 @@ I did it on a rinkeby testnet.Idk why my Kovan isn't working while doing this.
 ![aaveDeposit](/Images/Day12/k3.png)
 
 
+**WETHGateway**
+
+Funnily enough you'll see that this is the WETHGateway.
+
+![WETHGateway](/Images/Day12/k4.png)
+
+When we deposit our Rinkeby Eth, it actually gets transferred into an ERC20 version of our Ethereum and then it'll go ahead and deposit in into the aave contract.
+
+**Interest Bearing Token (aToken)**
+
+aETH is what's called an interest-bearing token and it goes up in real time.You'll see if eth amount going up if I looked my wallet for longer period of time.This is the profit given to us from other people borrowing the ETH that we've deposited into aave.If we go to our dashboard now,
+
+![ETHDeposited](/Images/Day12/k5.png)
+
+We can see we've 0.393 ETH deposited and if you roll over it, you'll constantly see amount go up and up.We can go ahead and withdraw our eth which will convert our aETH back into ETH with the additional interest that we got from depositing.So depositing into aave will give us interest back as a payment for other people borrowing the ETH that we've deposited.We can also use this ETH as what's called collateral.
+
+If I go to the borrow tab, I can actually use the ETH to borrow some other asset.Maybe I wanna borrow dai which is a stable coin meant to always equal one dollar.USDC and USDT also are meant to always reflect a dollar.We can borrow what's called wrapped bitcoin(WBTC) which represents the Bitcoin price.
+
+**Why borrow?**
+
+Now borrowing as asset is incredibly incredibly powerful.By borrowing you're allowed to obtain liquidity without selling your assets and borrowing is one of the first pieces in order to actually short sell.Borrowing in defi protocols is absolutely massive because it allows you to:
+- Frictionlessly short sell
+- Obtaining liquidity without closing your positions
+- Gaining yeild on some deposited collateral
+- Massive number of new things only in defi world such as flash loans
+
+`Important Note`:
+                Since we're just borrowing on testnet and this isn't real money.This is 100% okay to experiment with and work with.However if you borrow an asset and you do not pay attention to how much you've for an underlying collatera, you could get liquidated and loose some of your funds.So be very careful and pay alot of attention if you're gonna do this on an actual network.
+                
+Let's say we wanna borrow aave token for example.We click into aave and we choose the amount we want to borrow.Since we've placed down some collateral 0.3ETH, if the amount that we borrow ends up being too high, we'll actually get what's called liquidated.Everytime we borrow an asset, we get some type of health factor.The health factor represents how close to being liquidated you're.Once your health factor reaches 1, the collateral that you've actually deposited will get liquidated and somebody else will get paid to take some of your collateral.This is so that the aave application is always `solvent`.Being solvent means It's never in debt.
+
+When I wanna borrow I want to choose some amount that might be a little bit safe here.So that I'm not going to get liquidated.I'm gonna choose some number where I see a health factor maybe like 5.4.
+
+![healthFactor](/Images/Day12/k6.png)
+
+and hit continue.Now we'll have to choose our interest rate.
+
+![Interest](/Images/Day12/k7.png)
+
+**Stable Vs Variable Interest Rate**
+
+When we borrow an asset, we actually have to pay some interest.This payment is actually going to go to the people who are depositing the asset.The interest rate that we're gonna pay is actually gonna be paid to those who are depositing the asset that we're borrowing.So like how we're getting interest on our deposited collateral, others are getting interest on their deposited collateral based off of how often people are  borrowing it.We choose a stable apy which will always be 9.42% or a variable apy which will change based off of how volatile and how in demand this asset is.For now I'm going to choose variable but you can pick whatever you want.Same interface is gonna show up so hit borrow, metamask is gonna pop up and ask us if you really want to borrow.We're gonna hit confirm.
+
+![success](/Images/Day12/k8.png)
+
+
+
+
 
 
 
