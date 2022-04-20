@@ -4410,6 +4410,30 @@ Now we've ERC20 token "WETH" that we can use to interact with the aave applictio
 
 **aave_borrow.py**
 
+Let's go ahead and start with our account.
+
+![get_Acc](/Images/Day12/k26.png)
+
+We're gonna get WETH address or we can even just do our ERC20 address because the WETH token is in ERC20 and maybe we wanna deposit some other ERC20.
+
+![ercAddress](/Images/Day12/k27.png)
+
+And now we wanna call this get_weth function just in case we don't already have.We'll import get_weth from scripts but we don't actually need to call it right now because we already have some wrapped ethereum in our Kovan address.If you wanna test this though on our local mainnet-fork we probably will want to call this get_weth.So I'm just gonna add a little if statement.
+
+When we call get_account in our scripts, it actually knows that it's a local environment that we're working with and it'll just return accounts[0].Instead of us having to actually load a private key in every single time and we want to actually wait for our transaction to complete in our get_weth function.
+
+![getWeth](/Images/Day12/k28.png)
+
+We can run `brownie run scripts/aave_borrow.py --network mainnet-fork`
+
+![running_getWETH](/Images/Day12/k29.png)
+
+Testing everything on mainnet-fork is going to give us a really accurate view of what doin this on mainnet actually is going to give us.We don't need to do any mocking.We can literally just fork all of mainnet and go from there.We're still gonna test on Kovan though in a little bit just so we can see all the transactions that go through, how long it takes for stuff to happen etc.
+
+So now that we've got some weth, we actually need to go into our second bit.We're going to deposit some ETH in Aave.In our case some WETH.So how do we actually do that?
+
+
+
 
 
 
