@@ -4284,6 +4284,84 @@ When you deposit something like ETH, you get 0.33% back as interest paid to you 
 
 **Programmatic interactions with Aave**
 
+Now that we understand how to work with all of that through UI, let's actually learn how to interact with aave and defi all from our scripts.
+
+**Qunt Defi Engineer**
+
+Learning how to do this way will get us one step closer to being `quantitative defi engineer` or `defi researcher`.This is someone who programmatically does algorithmic trades, algorithmic modelling and just does everything in a programmatic sense making them much more efficient and powerful interacting with defi.
+
+Create a new folder "AAVE_BROWNIE_PY" and open up with VScode to the folder.Let's get into it.
+
+Aave has some fantastic [documentation](https://docs.aave.com/developers/getting-started/readme) that we're gonna be using.
+
+**Aave brownie setup**
+
+Let's go ahead and start with our basic brownie set up.
+
+`brownie init`
+
+**No contract deployments here**
+
+Now for working with brownie we're actually not gonna be deploying any contracts because all the contracts that we're gonna work with are already deployed on chain.All of them are just going to be working with aave.
+
+Create a quick README.md.We can know what we're doing here.
+
+![readMe](/Images/Day12/k12.png)
+
+This will be the full functionality of working with Aave in this deployed contract.But we not do 2.1 for now.
+
+Everything that we're gonna learn here will teach you how to work with other contracts as well such as paraswap or uniswap or any other type of swapping contract that will allow us to buy and sell.
+
+**aave_borrow.py**
+
+So let's just go ahead and create a scripts.We'll call it aave_borrow.py.Let's create a function called main and we'll just do pass for now.
+
+**aave brownie setup**
+
+First thing that we need to figure out how to do is deposit some eth into aave.When we actually deposited our eth via the UI, we could actually see when we call the deposit function, oddly enough if we go to the contract address in rinkeby etherscan, we'll see the address is actually what's called a `WETHGateway`.What aave is doing like I said before is swapping our ethereum for WETH.Again WETH is a ERC20 version of ethereum and this allows to easily work with all the other ERC20s on the aave protocol.
+
+So we actually have to do that as well.
+
+**Converting ETH -> WETH**
+
+So the first thing we're gonna do actually isn't deposit some of our eth, but swap our Eth for WETH.So let's even put this in it's own little script.We'll call it get_weth.py.So we're gonna have a function main and we'll just do pass for now.We actually want to use this get_weth scripts in our aave_borrowed.py.So we actually have a main and we're gonna have get_weth function as well.In our main function you're just gonna call get_weth.
+
+![Setup](/Images/Day12/k13.png)
+
+So how do we actually convert our ethereum to WETH or wrapped ether?
+
+Now to save gas we'd actually interact with the WETHGateway for aave but I'm going to go through how to get WETH in general.We can look up the [WETH kovan contract etherscan](https://kovan.etherscan.io/token/0xd0a1e359811322d97991e03f863a0c30c2cf029c).
+
+![WETHEtherScan](/Images/Day12/k14.png)
+
+We can go to contract and we can see this is indeed verified.
+
+![VerifiedContract](/Images/Day12/k15.png)
+
+The way WETH works is there's withdraw and deposit (on write contract section).We deposit ETH into this contract and it transfers us some WETH.So this is the first contract that we actually want to interact with.So we need our script to be able to call the deposit contract.
+
+So per usual the two things that we need to do this is going to be an:
+- ABI 
+- Address
+
+**Get the WETH interface**
+
+I really like just doing everything directly from the interfaces.You can get WETH interface from [here](https://github.com/PatrickAlphaC/aave_brownie_py_freecode/blob/main/interfaces/IWeth.sol).Copy and paste it inside the interface directory.You can see this has all the exact same functions as our deposit contract, symbol, name, transfer, pretty much you'd expect from ERC20 plus this extra deposit piece.
+
+So we've an interface now and we also have an address.But again above image has an address on a Kovan network.Since we know ahead of time that we're probably gonna be using this on different networks like mainnet, rinkeby etc, we'll add our brownie-config and add our networks here.
+
+![Kovan](/Images/Day12/k16.png)
+
+We're going to add the rest of the pieces.
+
+![wallets](/Images/Day12/k17.png)
+
+and That's all we really need for now.Since we've done some work with testing we know that for testing, we could do our integration test on Kovan because there's an integration test there.But what about our local tests?Well this is something good that we're thinking about right now.We know that aave actually has all these "WETH" same contracts on the mainnet as well and we also know that we're not gonna be working with any oracles because that we don't actually have to deploy any mocks ourselves.We can if we want to but we don't have to.
+
+What we can do is for our unit tests is we can just actually use Mainnet-fork network and just fork everything that's on the mainnet into our own local network.So instead of actually using mocks, we'll basically just mock the entire mainnet and one more time just so that we absolutely have it here.`If you're not woring with oracle's, you don't need to mock responses.We can just go ahead and use a mainnet fork to run our unit tests.If you're using oracles then it makes alot more sense to do to development the network where you can mock oracles and mock oracle responses.`
+
+
+
 
 
 
