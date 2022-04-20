@@ -4378,6 +4378,43 @@ Now that we've the interface we know that we can actually compile it down to the
 ![helpful_scripts](/Images/Day12/k20.png)
 
 
+We've our account where we can make some transactions with.Let's go ahead and get our WETH contract.To do this we can import interfaces fromm brownie.
+
+![gettingContract](/Images/Day12/k21.png)
+
+**Why not get_contract?**
+
+You might be asking "Why aren't we using the get_contract function?"Well you can absolutely 100% go ahead and use that get_contract function but since we're gonna be testing on mainnet fork I know that we're always going to be refer back to the config.So I'm confident that I'm not going to be deploying any mocks.It's better practice to go ahead and use that get_contract function but for this one we'll just make it a little simpler and use the config.
+
+For going to mainnet or for to real production, you could also have a mainnet network and it'll just be an exact copy of mainnet-fork.And remember we want our .env files our environment variables to get pulled from that .env file.
+
+![config](/Images/Day12/k22.png)
+
+Now everything in our .env file will pulled in automatically.Great we've an address and abi which comes from the interface.Now we can just call deposit function where we deposit ethereum and we get WETH.
+
+![getWETH](/Images/Day12/k23.png)
+
+Let's go ahead and run this script then.
+
+`brownie run scripts/get_weth.py --network kovan`
+
+![OutputWETH](/Images/Day12/k24.png)
+
+We can use our transaction hash, pop into Kovan etherscan, you could see transaction going through.In our wallet we'll get -0.1 eth and we'll get +0.1 weth.To add this and see in our metamask, grab the contract address and add a token.
+
+If you wanna switch back your WETH to ETH, you can just hit the withdraw function or you can programmatically add withdraw function.
+
+![withdraw](/Images/Day12/k25.png)
+
+Now we've ERC20 token "WETH" that we can use to interact with the aave appliction.Now that we've get_weth function let's go ahead and start borrowing.
+
+**aave_borrow.py**
+
+
+
+
+
+
 
 
 
