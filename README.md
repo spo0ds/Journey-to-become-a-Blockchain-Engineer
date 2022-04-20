@@ -4361,6 +4361,25 @@ and That's all we really need for now.Since we've done some work with testing we
 What we can do is for our unit tests is we can just actually use Mainnet-fork network and just fork everything that's on the mainnet into our own local network.So instead of actually using mocks, we'll basically just mock the entire mainnet and one more time just so that we absolutely have it here.`If you're not woring with oracle's, you don't need to mock responses.We can just go ahead and use a mainnet fork to run our unit tests.If you're using oracles then it makes alot more sense to do to development the network where you can mock oracles and mock oracle responses.`
 
 
+With this in mind we know that we're going to be doing alot of our tests on mainnet fork.We can go ahead and add a mainnet fork in the network and then we can just add the [mainnet weth token](https://etherscan.io/token/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2) for mainnet fork.
+
+Remember absolutely positively if you want to double check that the contract address that you're working with is correct, I highly recommend you to do so because if you get it wrong, you could accidentally add some money to a contract address that you don't want.
+
+![mainnetFork](/Images/Day12/k18.png)
+
+And in our termianl we can do  `brownie networks list`.
+
+![networkLists](/Images/Day12/k19.png)
+
+We can that indeed we've a mainnet fork here.That's going to use the ganache-cli to fork mainnet for us.
+
+Now that we've the interface we know that we can actually compile it down to the abi.So back in our get_Weth, first thing we need to do to make any transaction obviously is get an account.This is where we can go back and make our helpful scripts.
+
+![helpful_scripts](/Images/Day12/i20.png)
+
+
+
+
 
 
 
