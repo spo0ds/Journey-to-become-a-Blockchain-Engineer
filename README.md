@@ -346,7 +346,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - How do we build one of these tokens? |
 | - Solidity 0.8 |
 | - 1_deploy_token.py |
-| <p align="center"> Day 11 </p> |
+| <p align="center"> Day 12 </p> |
 | **Lesson 10: Defi & Aave** |
 | - Decentralized Exchange(DEX) |
 | - Depositing tokens/ Lending |
