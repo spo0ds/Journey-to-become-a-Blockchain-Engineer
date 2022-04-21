@@ -367,6 +367,12 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - LendingPool Address Provider |
 | - Fixing Importing Dependencies |
 | - deposit function |
+| - getUserAccountData |
+| - liquidation threshold |
+| - Getting DAI conversion rate |
+| - Aave Testnet Token Addresses |
+| - Repaying |
+| - Testing |
 
 ## **Blockchain**
 
