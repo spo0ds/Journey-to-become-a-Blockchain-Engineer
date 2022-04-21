@@ -4678,6 +4678,37 @@ If we've done this right we should have borrowed some DAI programmatically from 
 Let's go ahead and run this in our mainnet-fork again.If we've done this correctly we now see that we've borrowed some DAI.
 
 
+**Repaying**
+
+We've learned how to borrow everything which is fantastic.Let's go ahead and actually repay that back.So we're gonna call their repay function and we'll put it into their own function called repay_all and we'll give the amount that we want to repay, lending_pool address and our account.
+
+So if we're gonna pay back first thing we need to do is actually call the approve function to prove that we're going to pay back.So we need to approve that erc20.
+
+![Approve](/Images/Day12/k63.png)
+
+Our ERC20 already calls wait so we don't have to call it.So once we approve we're gonna be using the DAI that we've borrowed to pay most of what we've borrowed back.Now we're going to call repay function.
+
+![repayTxn](/Images/Day12/k64.png)
+
+First we passed the asset that we're gonna use to repay, amount, the rate mode which we hard coded to 1 and the address on behalf of.
+
+![repayAll](/Images/Day12/k65.png)
+
+Let's see if this works:
+
+`brownie run scripts/aave_borrow.py`
+
+**Kovan Run**
+
+If you want to what we can also do is we can see if this will work with our wallet address.What I can do is copy the address of the metamask, go to Kovan etherscan and test everything you'll run through the script.
+
+You've essentially learned everything that we need to do through to become quantitative defi wizards and build really robust financial applications in the defi world.
+
+**Testing**
+
+Something I wanna point out.Even though this isn't a python course and we're learning more about solidity and smart contracts, it's still in your best interest to test these functions.Yes I know they're python functions but it's still gonna be in your best interest to test them to make sure your application always works as you expect it to.This is actually gonna be even easier than that lottery contract that we did since we're just testing python functions and we can test with `brownie tests`.  
+
+
 
 
 
