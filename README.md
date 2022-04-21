@@ -4592,6 +4592,47 @@ getUserAccountData is a view function so we don't need to spend any gas.All of t
 ![gettingBorrowableData](/Images/Day12/k50.png)
 
 
+Let's go ahead and try this out.
+
+`brownie run scripts/aave_borrow.py`
+
+We've deposited 0.1 worth of ETH, 0 ETH borrowed and we can borrow 0.08 worth of ETH.The maximum amount that you can borrow will always be less than your collateral.This is because of the `liquidation threshold`.
+
+**liquidation threshold**
+
+In the [risk parameters documentation](https://docs.aave.com/risk/asset-risk/risk-parameters), we can see different liquidation thresholds on different assets.We can see Ethereum has 80% loan to value(ltv).With Ethereum we can only borrow upto 80% of the deposit assets that we've.And If we have more than 82.5% borrowed, will actually get liquidated.It also tells about the liquidation bonus, reserve factor and some other helpful pieces.
+
+**Borrowing DAI**
+
+Now that we've this borrowble ETH amount, we can go ahead and actually borrow some DAI.
+
+**Getting DAI conversion rate**
+
+In order for us to borrow some DAI, we also need to get the conversion rate.We need to get DAI in terms of ETH.We're going to have to use some price feed here.Luckily we already know how to work with chainlink and how to get pricefeeds.Aave uses the chainlink pricefeeds as well.So we're using the exact same conversion rate tools that aave's gonna use.Let's create a function to get us the conversion rate.
+
+![dai_rate](/Images/Day12/k51.png)
+
+we passed the dai_eth_price_feed which will be the address of the dai ethereum conversion rate.Let's go ahead and create get_asset_price function.
+
+First thing we're gonna need is this die_eth_price_feed address.Where can we get this?As we know per usual we'll head over to [chainlink documentation](https://docs.chain.link/docs/ethereum-addresses/), grab the address and paste it into our config for mainnet-fork and for Kovan as well.
+
+![dai_ETH](/Images/Day12/k52.png)
+
+and then we can get the address of the same way we got the address of the WETH token.
+
+![gettingAddress](/Images/Day12/k53.png)
+
+Now we've a way to change the price feed address depending on what network we're on.So in our get_asset_price function, we're gonna do the same exact thing that we always do.We're gonna grab an ABI and an address to work with the contract.Again we can get the ABI by just working directly with the [interface](https://github.com/smartcontractkit/chainlink/blob/develop/contracts/src/v0.6/interfaces/AggregatorV3Interface.sol).
+
+![passing_address_inV3](/Images/Day12/k54.png)
+
+Now the dai_eth_price_feed is gonna be a contract that we can call a function on.We can always refer back to [get the latest price documentation](https://docs.chain.link/docs/get-the-latest-price/) to see how to actually wort with it.Even simple python code is there for working with it in Web3.We're gonna go ahead and call latestRoundData function which we can also find in our AggregatorV3Interface which returns roundId, answer, startedAt, updatedAt and answeredInRound.All we're really concerned with is answer.The way we can do this is :
+
+![gettingDaiETHPrice](/Images/Day12/k55.png)
+
+
+
+
 
 
 
