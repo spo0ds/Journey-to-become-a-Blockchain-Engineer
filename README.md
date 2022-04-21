@@ -4460,6 +4460,22 @@ We know that there's only one function called getLendingPool and we're not exact
 
 It's an external view and returns address.Let's make our getLendingPool the same.
 
+![getLendingPool](/Images/Day12/k33.png)
+
+We could run with this and this would work perfectly fine but this leads us to the next point we might just as well grab the whole thing.This way we know for fact we're not getting anything wrong.If we wanted to, our interface could be this only because this is going to compile down to an abi and the abi is gonna say "There's a function here."and that's all the abi is really doing.It's just telling us how we can interact with a contract but let's go ahead and everything so that if we want to interact with more things, we can.
+
+So now we've the abi, we also now need an address which we can definitely find from the [aave documentation](https://docs.aave.com/developers/v/2.0/deployed-contracts/deployed-contracts).We're gonna find LendingPoolAddressProvider, copy that and put it in our brownie-config.
+
+![lendingPoolAddress](/Images/Day12/k34.png)
+
+Now that we've an abi and the address for both Kovan and mainnet-fork, what we can do now is first get the lending pool addresses provider from the interface.
+
+![gettingLP](/Images/Day12/k35.png)
+
+Then we want to return the address of the lendingPool.
+
+![gettingLPaddress](/Images/Day12/k36.png)
+
 
 
 
