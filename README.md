@@ -4444,6 +4444,23 @@ Something about this lending pool is that the lending pool address can actually 
 
 ![Markets](/Images/Day12/k30.png)
 
+There's different types of ways we can interact with aave.We're just gonna work with the basic Aave V2 because it's easily the most used on mainnet.As well as the address provider registry will give us so this address provider will give us the address of the lending pool for our market.If we want to go across different markets, we have to go to [address provider registry](https://docs.aave.com/developers/core-contracts/pooladdressesproviderregistry) to find it but the addresses in here don't change.There's just one function that we need to work with this is getLendingPool which will give us the address of the actual lending pool.
+
+So don't let it confuse you too much.Basically all we're trying to do is we're saying where's aave located right now and aave has a contract that will always tell us where the main aave contracts are and that's this addresses provider.So This is another contract that we've to work with.
+
+Again when we've a contract, we need ABI and address.So we can absolutely once again we could go ahead and use interface because life is great with an interface.If we know we're only gonna work with one or two functions, we can actually just make the interfaces ourself.So an interface, we could do new file and give it a name "ILendingPoolAddressProvider.sol" and we can just add it in here ourselves.
+
+Tips: You don't need the whole interface.Just define the functions that you'll work with. 
+
+![Interface](/Images/Day12/k31.png)
+
+We know that there's only one function called getLendingPool and we're not exactly sure what getLendingPool is defined as but what we can do is we can go to [aave's github](https://github.com/aave/protocol-v2/blob/master/contracts/interfaces/ILendingPoolAddressesProvider.sol) where we can see:
+
+![getLP](/Images/Day12/k32.png)
+
+It's an external view and returns address.Let's make our getLendingPool the same.
+
+
 
 
 
