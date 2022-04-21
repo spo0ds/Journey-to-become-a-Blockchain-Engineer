@@ -4708,6 +4708,10 @@ You've essentially learned everything that we need to do through to become quant
 
 Something I wanna point out.Even though this isn't a python course and we're learning more about solidity and smart contracts, it's still in your best interest to test these functions.Yes I know they're python functions but it's still gonna be in your best interest to test them to make sure your application always works as you expect it to.This is actually gonna be even easier than that lottery contract that we did since we're just testing python functions and we can test with `brownie tests`.  
 
+![test1](/Images/Day12/k66.png)
+
+![test2](/Images/Day12/k67.png)
+
 
 
 
