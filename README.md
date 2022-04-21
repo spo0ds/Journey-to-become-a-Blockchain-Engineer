@@ -4432,6 +4432,18 @@ Testing everything on mainnet-fork is going to give us a really accurate view of
 
 So now that we've got some weth, we actually need to go into our second bit.We're going to deposit some ETH in Aave.In our case some WETH.So how do we actually do that?
 
+Well everything that we need is going to be in [Aave documentation](https://docs.aave.com/developers/getting-started/readme).
+
+**Lending Pool**
+
+Where we deposit and borrow from in Aave is in their contract LendingPool.It have all of the functions that we need.It has deposit where we deposit our asset as a collteral, withdraw where we take it back, borrow, repay and a couple other interesting ones which we'll go into later.But for now we just really need to focus on repaying, borrowing, withdrawing and depositing.So as you probably guessed deposit is the function that we're gonna work on right now.Since this is the contract that we're gonna work with, as always two things you need when working with a contract are gonna be the `ABI` and the address.So we're gonna get this lending pool contract.
+
+**LendingPool Address Provider**
+
+Something about this lending pool is that the lending pool address can actually change little bit depending on alot of different pieces.There's this address provider which gives us the address of a specific or particular market.If we go back to the [Aave UI](https://classic.aave.com/#/markets), there's actually different markets.
+
+![Markets](/Images/Day12/k30.png)
+
 
 
 
