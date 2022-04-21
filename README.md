@@ -4563,6 +4563,36 @@ Now we can run it to see if everything's working fine or not.
 
 If you get the `"SafeMath Substraction Overflow error"` then change the datatype of amount in ILendingPool.sol to int256 run the script.It'll run fine and again keep the datatype as it was before i.e uint256.
 
+Now that we've some collateral deposited, we can go ahead and actually take out a borrow.We can go ahead and borrow some other asset.The question gonna be how much.How much can we actually borrow?How much should be borrow?What would result in positive health factor?
+
+**getUserAccountData**
+
+Maybe we should actually pull off chain some of our stats.How much do we actually have deposited?How much collateral we've?How much debt we've and so on and so forth.That way in the future when we don't start clean, we can take some inventory of where we stand with our collateral in our debts.
+
+At the [aave documentation](https://docs.aave.com/developers/core-contracts/pool), we can go ahead and see the getUserAccountData function.This is going to return the user account data across all reserves.So it's gonna get the totalCollateralETH that we've deposited in terms of ethereum, total debt in terms of ETH, how much we can borrow: the borrowing power we have, liquidation threshold or how close to that liquidation threshold will be, loan to value ratio and again health factor.This health factor is obviously incredibly important because if it drops below 1 or reaches 1, users can call liquidation call.This function all these variables but for now we really only care about how much collateral we've, how much debt we've and how much we're available to borrow.So let's go ahead and write a function that will actually sort that for us.
+
+![accPara](/Images/Day12/k46.png)
+
+We're looking to call get_borrowable_data function on the lending pool from an account.So let's go ahead and call that function.
+
+![lendingPool](/Images/Day12/k47.png)
+
+If we look at the API, all that it needs is a user's address to get started and it return 6 variables.
+
+![returningValues](/Images/Day12/k48.png)
+
+getUserAccountData is a view function so we don't need to spend any gas.All of the variables are gonna be returned in terms of wei.So let's just go ahead and convert these from wei to something that makes a little bit more sense to us.
+
+ ![get_borrowable_data](/Images/Day12/k49.png)
+ 
+ The reason that we'd to add float variable is that without it some of the math that we're gonna try to later won't pan out.
+ 
+ Now we've this function get_borrowable_data and we're gonna pass lending_pool and account.Since we're returning available_borrow_eth and the total_debt_eth, we do:
+ 
+![gettingBorrowableData](/Images/Day12/k50.png)
+
+
+
 
 
 
