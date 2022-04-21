@@ -4506,6 +4506,32 @@ Now that we've the actual address, what we're going to do now is we're gonna tak
 
 ERC20 tokens have an approve function that makes sure that whenever we send a token to somebody or whenever a token calls, a function that uses our tokens, we actually have given them permission to do so.So that's the first thing that we actually have to do is we're gonna have to approve sending our ERC20 tokens and this resembles so.Since I know we're going to have to approve alot, I'm actually just going to go ahead and make an approve ERC20 token function similar to what we did with the getLendingPool.
 
+![approveERC](/Images/Day12/k40.png)
+
+How do we actually call this approve function on a token contract?Well as always we're gonna need the abi and the address of the token contract.Now we could create our interface ourselves, looking at the functionalities of the ERC20 tokens or grab it from [here](https://github.com/PatrickAlphaC/aave_brownie_py_freecode/blob/main/interfaces/IERC20.sol).Copy everything and paste it inside IERC20.sol inside interfaces.So you can see number of different functions.We can check the allowance, balanceOf different addresses, how many decimals a token has, the name, the symbol, do some transfer and then the function that we're gonna be using is approve function.We can see the parameters the approve function takes.We're gonna need to have a spender and how much they can actually spend.So 
+
+if we come back to approve_erc20, we know for input parameters are amount, spender address, erc20 token address and account.
+
+![approve](/Images/Day12/k41.png)
+
+So back up in our main function, we could call approve_erc20 for some amount, the spender is gonna be the lending_pool address, erc20_address and account.The only thing that we haven't defined right now is some amount which we can make it really whatever we wanna be.To keep things standard let's make it 0.1. 
+
+![approveFunction](/Images/Day12/k42.png)
+
+Now we can run `brownie run scripts/aave_borrow.py --network mainnet-fork`
+
+We can see that our approve function is working as intended.It's annoying to do --network mainnet-fork so we'll change our default to mainnet-fork.
+
+![default](/Images/Day12/k43.png)
+
+Now we just need to deposit it into aave.Since we know we're probably gonna use this alot too, let's go ahead and create a deposit function.
+
+**deposit function**
+
+Since we've everything approved we can now go ahead and use the lending pool deposit method and we can check the [documentation](https://docs.aave.com/developers/v/2.0/the-core-protocol/lendingpool) to see what the parameters that it takes are.
+
+![depositParameters](/Images/Day12/k44.png)
+
 
 
 
