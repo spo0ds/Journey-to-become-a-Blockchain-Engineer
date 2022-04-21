@@ -4669,6 +4669,13 @@ It's gonna be the same thing for tokens.And you can get the address of DAI from 
 ![dai_address](/Images/Day12/k61.png)
 
 
+Now let's move on to the next parameter.The amount which we just figured in the code above but we do need to change it back to Wei.Then our interest rate mode which is gonna be either stable or variable.Stable is where the interest rate will always be exactly the same.Variable will change depending on alot of different things going on with aave.For safety we're just gonna go with stable.Then we're gonna do referral code and onBehalf.Referral code no longer exists so we'll pass 0 and it's gonna be on behalf of ourselves.
+
+![borrowingDAI](/Images/Day12/k62.png)
+
+If we've done this right we should have borrowed some DAI programmatically from the Aave protocol.And we can once again call our get_borrowable_data function since this function will print out our new account information for how much we've borrowed.
+
+Let's go ahead and run this in our mainnet-fork again.If we've done this correctly we now see that we've borrowed some DAI.
 
 
 
