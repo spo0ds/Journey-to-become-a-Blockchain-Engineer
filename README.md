@@ -4476,6 +4476,36 @@ Then we want to return the address of the lendingPool.
 
 ![gettingLPaddress](/Images/Day12/k36.png)
 
+Because the address provider has this getLendingPool which returns the address of the lending pool.Now that we've the address, we can actually return the lending pool contract by once again getting the abi and the address of the actual lending pool.So we have the address, we just need the abi which once again we can work with our wonderful interfaces "ILendingPool.sol".
+
+There's only gonna be couple of functions we're going to work with but aave actually gives us the [interface](https://docs.aave.com/developers/v/2.0/the-core-protocol/lendingpool/ilendingpool).
+
+**Fixing Importing Dependencies**
+
+We do need to actually change one thing in ILendingPool.sol.This interface imports locally with `./`.So we actually just need to change these imports to actually import directly from github instead of importing locally.Luckily this is something we already know how to do.So let's go to our brownie-config.
+
+![dependencies](/Images/Day12/k37.png)
+
+This way brownie will download this right from github and now we can just use @aave instead.So back in our ILendingPool.sol, we can change `./` to 
+
+![importingDep](/Images/Day12/k38.png)
+
+Now we've actually imported this interface for us to use,we can go ahead and just compile just to make sure that everything is working correctly.
+
+`brownie compile`
+
+If these interfaces had an issue, they actually wouldn't compile through brownie.
+
+Now that we've the interface, we know that these interfaces compile down to the abi and we already have the address.So to actually interact with the lending pool now.
+
+![ReturningLP](/Images/Day12/k39.png)
+
+Now we've a function that goes through the lending pool addresses provider from the aave documentation and returns the lending pool contract that we can now interact with.
+
+Now that we've the actual address, what we're going to do now is we're gonna take this WETH that we've got this ERC20 version of Eth and we're going to deposit it into this contract just like what we did in the UI.In order to actually first deposit it, we need to approve this ERC20 token.
+
+ERC20 tokens have an approve function that makes sure that whenever we send a token to somebody or whenever a token calls, a function that uses our tokens, we actually have given them permission to do so.So that's the first thing that we actually have to do is we're gonna have to approve sending our ERC20 tokens and this resembles so.Since I know we're going to have to approve alot, I'm actually just going to go ahead and make an approve ERC20 token function similar to what we did with the getLendingPool.
+
 
 
 
