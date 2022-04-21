@@ -4553,6 +4553,18 @@ Since we've everything approved we can now go ahead and use the lending pool dep
 
 ![depositParameters](/Images/Day12/k44.png)
 
+First thing is gonna be the address of the asset which we know is gonna be erc20_address, amount of the token, address onBehalfOf is just gonna be our account.address.We're depositing the collateral for ourselves and then referral code which is actually deprecated and workloads don't actually work anymore so we're always gonna be passing 0.
+
+![deposit](/Images/Day12/k45.png)
+
+Now we can run it to see if everything's working fine or not.
+
+`brownie run scripts/aave_borrow.py`
+
+If you get the `"SafeMath Substraction Overflow error"` then change the datatype of amount in ILendingPool.sol to int256 run the script.It'll run fine and again keep the datatype as it was before i.e uint256.
+
+
+
 
 
 
