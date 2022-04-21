@@ -4630,6 +4630,45 @@ Now the dai_eth_price_feed is gonna be a contract that we can call a function on
 
 ![gettingDaiETHPrice](/Images/Day12/k55.png)
 
+So let's go ahead and run this:
+
+`borwnie run scripts/aave_borrow.py`
+
+We know that DAI/ETH price feed has 18 decimal place.The number that shown of the screen isn't the real price.The real price is divisible by 10**18.But this number is difficult to read.So what we can do is we can use the method of fromWei from Web3.
+
+![ConvertedToEther](/Images/Day12/k56.png)
+
+Now we've DAI/ETH price.We're getting really close to borrow this actual asset.Let's even return the converted_latest_price just so that we're always working in units that we understand.
+
+Now we can calculate the amount of DAI that we want to borrow.
+
+![AmountDai](/Images/Day12/k57.png)
+
+And just to be safe we times it by 0.95 to make sure our health_factor is better.This line we're converting our borrowable eth to borrowable dai and then we're timsing it by 95%.We're timing it by 95% because we don't wanna get liquidated.Remember how we slid that sliding scale around to make it safer and less safe.Well the lower percentage that we actually borrow maybe we even borrow 50% of our collateral the safer that we're gonna be.Keep that in mind when you're deciding how much to actually borrow if you wanna run this in a production environment.
+
+Finally we'll borrow now.Looking at the [aave documentation](https://docs.aave.com/developers/core-contracts/pool), we can look at their borrow function.Let's go ahead and call this function.
+
+**Getting DAI address**
+
+First we should get a DAI address which once again we'll want to put it in our config.We'll add the dai_token which we can find from [etherscan dai token](https://etherscan.io/token/0x6b175474e89094c44da98b954eedeac495271d0f?a=0x2faf487a4414fe77e2327f0bf4ae2a264a776ad2#writeContract).
+
+![mainnetDAI](/Images/Day12/k58.png)
+
+If you want to run this on Kovan you're also gonna need to have a DAI token for Kovan.
+
+**Aave Testnet Token Addresses**
+
+On testnets aave actually changes up where the tokens for it's testnets are actually going to be.So if we go to their documentation, we go to deployed contracts and we go to Kovan.
+
+![KovanFlag](/Images/Day12/k59.png)
+
+It's gonna be the same thing for tokens.And you can get the address of DAI from [here](https://docs.aave.com/developers/deployed-contracts/v3-testnet-addresses).
+
+![configDAI](/Images/Day12/k60.png)
+
+![dai_address](/Images/Day12/k61.png)
+
+
 
 
 
