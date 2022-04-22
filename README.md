@@ -312,7 +312,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Request and Receive |
 | - Asynchronous 2 Transactions |
 | - Clarification |
-| <p align="center"> Day 14 </p> |
+| <p align="center"> [Day 14](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day14/Day14.md) </p> |
 | - endLottery |
 | - returns(type variableName) |
 | - fulfillRandomness |
