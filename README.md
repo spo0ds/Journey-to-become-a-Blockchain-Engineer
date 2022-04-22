@@ -242,7 +242,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - update the rinkeby url, Chain id ,  address &  private key |
 | - Deploying |
 | - summary/recap |
-| <p align="center"> Day 10 </p> |
+| <p align="center"> [Day 10](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day10/Day10.md) </p> |
 | **Lesson 5 - Brownie Simple Storage** |
 | - Brownie Intro & Features |
 | - install Brownie |
