@@ -219,7 +219,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - load_dotenv() |
 | - Sending the signed Transaction |
 | - Deployment |
-| <p align="center"> Day 9 </p> |
+| <p align="center"> [Day 9](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day9/Day9.md) </p> |
 | - Block confirmation(wait_for_transaction_reciept) |
 | - interact/work with thee contract |
 | - Address & ABI |
