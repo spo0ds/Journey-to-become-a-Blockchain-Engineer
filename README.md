@@ -343,7 +343,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Test deployment |
 | - Topics |
 | - Conftest.py |
-| <p align="center"> Day 15 </p> |
+| <p align="center"> [Day 15](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day15/Day15.md) </p> |
 | **Lesson 8: Chainlink Mix** |
 | **Lesson 9: ERC20s, EIPs, and Token Standards** |
 | - Why make an ERC20? |
