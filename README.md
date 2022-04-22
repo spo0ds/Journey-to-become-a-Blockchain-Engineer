@@ -4,7 +4,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 
 ![Blockchain](/Images/main.jpg)
 
-| <p align="center"> [Day 1](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/tree/main/Day1) </p> |
+| <p align="center"> [Day 1](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day1/Day1.md) </p> |
 | ------ |
 |  **Blockchain** |
 | - Bitcoin |
