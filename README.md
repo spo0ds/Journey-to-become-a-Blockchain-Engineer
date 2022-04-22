@@ -167,7 +167,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Summary |
 | - Deploying & Transaction |
 | - Forcing a Trasacttion |
-| <p align="center"> Day 8 </p> |
+| <p align="center"> [Day 8](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day8/Day8.md) </p> |
 | **Lesson 4 - Web3. py SimpleStorage** |
 | - Limitations of Remix |
 | - VScode , Python , Solidity Setup |
