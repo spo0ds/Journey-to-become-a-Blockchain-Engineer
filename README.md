@@ -104,7 +104,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Interacting with deployed contracts |
 | - EVM |
 | - Summary |
-| <p align="center"> Day 4 </p> |
+| <p align="center"> Day 5 </p> |
 | **Lesson 2 - StorageFactory** |
 | - Factory pattern |
 | - New contract StorageFactory |
@@ -121,7 +121,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Additional Note |
 | - Inheritance |
 | - Recap |
-| <p align="center"> Day 5 </p> |
+| <p align="center"> Day 6 </p> |
 | **Lesson 3 - Fund me** |
 | - purpose of this contract |
 | - Payable function , wei , gwei & ether |
@@ -148,6 +148,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Wei/Gwei Standard (Matching Units) |
 | - getting the price using Get conversion rate |
 | - deploying |
+| <p align="center"> Day 7 </p> |
 | - Safemath & Integer Overflow |
 | - Libraries |
 | - Setting Threshold |
@@ -166,7 +167,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Summary |
 | - Deploying & Transaction |
 | - Forcing a Trasacttion |
-| <p align="center"> Day 6 </p> |
+| <p align="center"> Day 8 </p> |
 | **Lesson 4 - Web3. py SimpleStorage** |
 | - Limitations of Remix |
 | - VScode , Python , Solidity Setup |
@@ -218,6 +219,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - load_dotenv() |
 | - Sending the signed Transaction |
 | - Deployment |
+| <p align="center"> Day 9 </p> |
 | - Block confirmation(wait_for_transaction_reciept) |
 | - interact/work with thee contract |
 | - Address & ABI |
@@ -240,7 +242,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - update the rinkeby url, Chain id ,  address &  private key |
 | - Deploying |
 | - summary/recap |
-| <p align="center"> Day 7 </p> |
+| <p align="center"> Day 10 </p> |
 | **Lesson 5 - Brownie Simple Storage** |
 | - Brownie Intro & Features |
 | - install Brownie |
@@ -261,7 +263,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - tests |
 | - Deploying to a Testnet |
 | - Brownie console |
-| <p align="center"> Day 8 </p> |
+| <p align="center"> Day 11 </p> |
 | **Lesson 6 -Brownie Fund Me** |
 | - Initial Setup |
 | - Dependencies |
@@ -272,6 +274,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Deploying to ganache |
 | - Mock |
 | - Constructor Parameters |
+| <p align="center"> Day 12 </p> |
 | - Refactoring |
 | - Deploying to a persistant ganache |
 | - Adding network to brownie |
@@ -282,7 +285,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Custom mainnet-fork |
 | - Adding to Github |
 | - Where should I run my tests? |
-| <p align="center"> Day 9 </p> |
+| <p align="center"> Day 13 </p> |
 | **Lesson 7: SmartContract Lottery** |
 | - Decentralized Lottery |
 | - Setup |
@@ -309,6 +312,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Request and Receive |
 | - Asynchronous 2 Transactions |
 | - Clarification |
+| <p align="center"> Day 14 </p> |
 | - endLottery |
 | - returns(type variableName) |
 | - fulfillRandomness |
@@ -339,15 +343,14 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Test deployment |
 | - Topics |
 | - Conftest.py |
-| <p align="center"> Day 10 </p> |
+| <p align="center"> Day 15 </p> |
 | **Lesson 8: Chainlink Mix** |
-| <p align="center"> Day 11 </p> |
 | **Lesson 9: ERC20s, EIPs, and Token Standards** |
 | - Why make an ERC20? |
 | - How do we build one of these tokens? |
 | - Solidity 0.8 |
 | - 1_deploy_token.py |
-| <p align="center"> Day 12 </p> |
+| <p align="center"> Day 16 </p> |
 | **Lesson 10: Defi & Aave** |
 | - Decentralized Exchange(DEX) |
 | - Depositing tokens/ Lending |
@@ -363,6 +366,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Converting ETH -> WETH |
 | - Get the WETH interface |
 | - Why not get_contract? |
+| <p align="center"> Day 17 </p> |
 | - aave_borrow.py |
 | - Lending Pool |
 | - LendingPool Address Provider |
