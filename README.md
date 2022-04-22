@@ -263,7 +263,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - tests |
 | - Deploying to a Testnet |
 | - Brownie console |
-| <p align="center"> Day 11 </p> |
+| <p align="center"> [Day 11](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day11/Day11.md) </p> |
 | **Lesson 6 -Brownie Fund Me** |
 | - Initial Setup |
 | - Dependencies |
