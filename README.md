@@ -148,7 +148,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Wei/Gwei Standard (Matching Units) |
 | - getting the price using Get conversion rate |
 | - deploying |
-| <p align="center"> Day 7 </p> |
+| <p align="center"> [Day 7](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day7/Day7.md) </p> |
 | - Safemath & Integer Overflow |
 | - Libraries |
 | - Setting Threshold |
