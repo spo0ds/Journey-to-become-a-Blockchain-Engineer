@@ -366,7 +366,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Converting ETH -> WETH |
 | - Get the WETH interface |
 | - Why not get_contract? |
-| <p align="center"> Day 17 </p> |
+| <p align="center"> [Day 17](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day17/Day17.md) </p> |
 | - aave_borrow.py |
 | - Lending Pool |
 | - LendingPool Address Provider |
