@@ -380,8 +380,6 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Testing |
 
 
-Now let's move to our most challenging example.Once you complete this example you basically will have all the tools to be an incredibly powerful smart contract developer.Then after that we're going to show you the chainlink mix package and how to do what's called a brownie bake to automatically open up this package with all these scripts and all these contracts pre-built in which makes easier and faster for deploying our smart contracts.However let's go through the process of understanding all the pieces that are going to be inside of this brownie mix.
-
 ## *Smart Contract Lottery*
 
 Let's get into our most advanced smart contract project that we've made so far.This is going to be the best example of a full scale application. By full scale I mean end-to-end full suite of our brownie.
