@@ -285,7 +285,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Custom mainnet-fork |
 | - Adding to Github |
 | - Where should I run my tests? |
-| <p align="center"> Day 13 </p> |
+| <p align="center"> [Day 13](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day13/Day13.md) </p> |
 | **Lesson 7: SmartContract Lottery** |
 | - Decentralized Lottery |
 | - Setup |
