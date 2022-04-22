@@ -46,7 +46,6 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Decentralized/Distributed Blockchain |
 | - Tokens/Transaction History |
 | - Summary |
-| <p align="center"> Day2 </p> |
 |        |
 | <p align="center"> [Day 3](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day3/Day3.md) </p> |
 | **Signing and Verifying a Transaction** |
