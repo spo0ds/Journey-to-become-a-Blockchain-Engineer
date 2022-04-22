@@ -104,7 +104,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Interacting with deployed contracts |
 | - EVM |
 | - Summary |
-| <p align="center"> Day [5](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day5/Day5.md) </p> |
+| <p align="center"> [Day 5](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day5/Day5.md) </p> |
 | **Lesson 2 - StorageFactory** |
 | - Factory pattern |
 | - New contract StorageFactory |
