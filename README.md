@@ -26,6 +26,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Trust Minimized  Agreements |
 | - Summary |
 |  **DAOs**|
+| <p align="center"> [Day 2](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day2/Day2.md) </p> |
 | **Ethereum Transaction On a Live  Blockchain** |
 | - Wallet Creation |
 | - Etherscan |
