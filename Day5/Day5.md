@@ -14,7 +14,7 @@ Let's go ahead and create a new contract called StorageFactory.sol in the same l
 
 Let's figure out how to get a contract to actually deploy another contract.We're gonna add those basics pieces that we added in that SimpleStorage contract.
 
-![basic_elem](/Images/Day4/d1.png)
+![basic_elem](Images/d1.png)
 
 **Import 1 contract into another**
 
@@ -22,7 +22,7 @@ So how can this contract deploy a SimpleStorage contract?
 
 well first thing we're gonna do is actually import SimpleStorage into our StorageFactory contract.We need to import it so that our StorageFactory contract knows what a SimpleStorage contract even looks like.The way we can import it is:
 
-![importing](/Images/Day4/d2.png)
+![importing](Images/d2.png)
 
 Importing with that line is equivalent to copying everything in SimpleStorage.sol file and pasting it above in StorageFactory file.
 
@@ -32,12 +32,12 @@ It's interesting about having two contracts in the same file is that when you go
 
 If we want this contract to be able to deploy a SimpleStorage contract we're of course have to create a function that can do that.
 
-![genSS](/Images/Day4/d3.png)
+![genSS](Images/d3.png)
 
 We're going to create an object of type SimpleStorage contract, name it "genSS" which is going to be a new SimpleStorage contract.SimpleStorage contract takes no input parameters.
 
 If we deploy this contract as is by going to our deploy tab, choosing the StorageFactory and deploying.
-![deployedSS](/Images/Day4/d4.png)
+![deployedSS](Images/d4.png)
 
 We've the function that doesn't return anything.We're creating new contracts but can't really read where those contracts are being created.We'd have to look on a block explorer like Etherscan.
 
@@ -45,13 +45,13 @@ We've the function that doesn't return anything.We're creating new contracts but
 
 Let's make a way for us to keep track of all the different SimpleStorage contracts that we deploy.We put then in a list or an array.
 
-![SSArray](/Images/Day4/d5.png)
+![SSArray](Images/d5.png)
 
 We create a SimpleStorage contract array of visibility public and named it "SSArray".And Everytime we create SimpleStorage contracts, we'll add to our SSArray.
 
 Let's see what happens when we deploy.
 
-![deployedSSArray](/Images/Day4/d6.png)
+![deployedSSArray](Images/d6.png)
 
 We've blue button which stands for our SimpleStorage contract array.If I click createSSContract, I've created a transaction that's going to create a new SimpleStorage contract and push it onto our SSArray.If I try to access 0th index, I'll get the address as shown in above picture.This is the address that the SimpleStorage contract was deployed to.
 
@@ -63,7 +63,7 @@ We can do more than just deploying the contracts.We can deploy contracts from an
 
 Let's create a function where we call store function and retrieve function of SimpleStorage contract from StorageFactory contract.
 
-![sfStore](/Images/Day4/d7.png)
+![sfStore](Images/d7.png)
 
 The reason I'm chosing a index is because we're going to choose which SimpleStorage contract in our list that we want to interact with.Then we're also gonna pass a age to call on the store function(it takes age as a parameter) of SimpleStorage contract.
 
@@ -77,13 +77,13 @@ for us we figured that out that we're going to push and get the address from the
 
 In order for us to interact with SimpleStorage contract, we can just do:
 
-![interactingSS](/Images/Day4/d8.png)
+![interactingSS](Images/d8.png)
 
 We created a SimpleStorage object (addSS) which stores the address of the contract that we wanna interact with.Then we pass the age by calling the method for that contract (same like in OOP) to store the age.
 
 Let's see what happens when we deploy.
 
-![deploysfStore](/Images/Day4/d9.png)
+![deploysfStore](Images/d9.png)
 
 CreateSS contracts creates the contract and adds into our array "SSArray".
 sfStore which stores an age to one of the contract present in SSArray.
@@ -93,7 +93,7 @@ SSArray shows the address of the contract.
 
 We can't see the age because we didn't add retrieve functionality.So let's add that.
 
-![sfretrieve](/Images/Day4/d10.png)
+![sfretrieve](Images/d10.png)
 
 index as a parameter is used to choose a contract on the SSArray and return it's age.Since we're only reading state so it's a view function.And we can return that object("addSS") retrieve method(like in OOP).
 
@@ -105,7 +105,7 @@ If we compile above code and deploy SimpleFactory contract.We'll have sfRetrieve
 
 We can actually even refactor the code to be a little bit simpler.We don't need to save SimpleStorage contract address into it's object.We can directly call retrieve method and return that.Same goes for our sfStore too.
 
-![simplercode](/Images/Day4/d11.png)
+![simplercode](Images/d11.png)
 
 This is a way for us to actually deploy contracts and interact with contracts from another contract.
 
@@ -121,13 +121,13 @@ Well my StorageFactory can actually inherit all the functions of SimpleStorage w
 
 I could do solidity's version of Inheritance.
 
-![inheritance](/Images/Day4/d12.png)
+![inheritance](Images/d12.png)
 
 Just by doing that line of code, my StorageFactory contract now will have all of the functions and variables of SimpleStorage.
 
 Let's deploy the inherited contract.
 
-![deploy_inheritance](/Images/Day4/d13.png)
+![deploy_inheritance](Images/d13.png)
 
 Not only do we have all the functions originally defined in our StorageFactory but we aditionally have all the functions from the SimpleStorage.
 
