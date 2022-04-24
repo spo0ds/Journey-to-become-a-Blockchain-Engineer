@@ -246,6 +246,8 @@ This will have our SimpleCollectible deployed.Now we need to actually call creat
   
   This was all fun and dandy but there's couple of things that we didn't go over and that we didn't do.So let's create a quick README.md for a couple of notes.
   
+  ![readme](Images/l31.png)
+  
   We want to build an NFT project that has all these pieces.We're gonna talk a little bit more about why IPFS is decentralized and it's the perferred solution for storing NFT metadata and we're gonna make our NFT more verifiably random and verifiably scarce like for things like ethercards and avagochi.
 
 
