@@ -378,6 +378,11 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Aave Testnet Token Addresses |
 | - Repaying |
 | - Testing |
+| <p align="center"> [Day 18](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day18/Day18.md) </p> |
+| **Lesson 11: NFTs** |
+| - ERC-721 |
+| - Metadata |
+| - Token URI |
 
 
 
