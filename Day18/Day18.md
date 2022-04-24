@@ -80,6 +80,44 @@ Let's even try to just compile this right now.
 
 `brownie compile`
 
+Similarly to our ERC20 that we did with open zeppelin, we're gonna do the same startup here.
+
+![Inheriting](Images/l7.png)
+
+This is how we're going to inherit all of those functions in the ERC721 token standard here and we can start coding our simple ERC721.Now for our ERC721, we're gonna make it be a couple of cute adorable cats.You can use any image that you want for this course however if you wanna follow along with me, you can download the image, create folder inside your NTF directory called img and add that image to that folder.The image is going to be the NFT that we're gonna deploy.We're gonna deploy very simple cat for our smart contract.Let's go ahead and create the rest of the contract for the image.
+
+First thing we're gonna make is our constructor, it's going to take no input parameters which is going to be a public constructor and then we're gonna go ahead and use the ERC721 constructor which if we look at the documentation we give it a name and then a symbol.We're gonna use the ERC721 constructor parameters which is gonna to name which we're gonna say is Chase and symbol is CHA.
+
+![constructor](Images/l8.png)
+
+That's all we really need to do for the first part.
+
+**Factory Contract**
+
+This NFT contract is actually what's known as a `factory contract`.There's a main contract and in it, it has a list of all the NFTs and the owners that are of this type of NFT.So in this example all the type of NFT is just gonna be this cat and we actually need a function to mint new NFTs based off of this cat.Now we can absolutely have an NFT factory contract that only creates one single NFT but we're gonna use this factory implementation to create multiple NFTs.
+
+This is different "factory" pattern than what we did with SimpleStorage.We make many NFTs, but they are all contained in this one contract.We're gonna do it with a function called "createCollectible".This will create a new NFT and assign it to whoever called this function.So anybody can come here and create a new cat for themselves or in other words adopt a cat.
+
+![createCollectibleDefinition](Images/l9.png)
+
+When we create this collectible all we're going is we're assigning a new token id to a new owner and if we look at the [open zeppelin ERC721 github](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/ERC721.sol), we can see they've _safeMint function.
+
+![SafeMint](Images/l10.png)
+
+**_safeMint**
+
+This is the function that they use to mint or create a new NFT.This function takes a new address to which is going to be the new owner of the NFT and a token id.Every NFT in this factory contract has a unique token id.We're gonna have our token ids start from 0 and just increment every time we have a new token minted.
+
+![AnotherSafeMint](Images/l11.png)
+
+This _safeMint function called another _safeMint function which calls _mint function.So if you're looking at the code, the _mint function is really the function that calls and creates the NFT.You'll see actually they just have two mappings that they update.
+
+![Mint](Images/l12.png)
+
+They update this owner's mapping which is just the mapping of token ids to the owners of the token ids and then they update the balances which is a mapping of owner address to the token count.So the number of tokens that an owner actually has and that's all that's happening when we call this _mint or in our case _safeMint function.
+
+The difference between _safeMint and _mint is _safeMint checks to see if a token id has already been used or not and this way we don't actually override who owns tokens and who owns token ids.So we're going to be using the _safeMint function.
+
 
 
 
