@@ -200,6 +200,54 @@ So we'll import get_accounts function and also SimpleCollectible.
 
 This will have our SimpleCollectible deployed.Now we need to actually call createCollectible function and we're gonna pass it a string which is going to be a token URI.
 
+ ![tokenURI](Images/l23.png)
+ 
+ **IPFS companion**
+ 
+ When you paste your token URI in your browser, if you can't see it you might have to add something like [IPFS companion](https://addons.mozilla.org/en-US/firefox/addon/ipfs-companion/?utm_source=addons.mozilla.org&utm_medium=referral&utm_content=search)(For Firefox) to your browser.Some browser don't natively have it.
+ 
+ Now that we've a token URI, we can call createCollectible function.
+ 
+ ![CallingCreateCollectible](Images/l24.png)
+ 
+ If we've done this correctly we'll actually be able to see this NFT on an NFT marketplace like opensea.
+ 
+ **Testing**
+ 
+ No project is complete without some tests.So let's create some tests.Since we're also gonna be doing an advanced collectible I'm going to skip the integration test and I'm just gonna write a really simple unit test.So we'll create a folder we'll call unit and in there we'll create a new file called "test_simple_collectible.py".
+ 
+ ![testing](Images/l25.png)
+ 
+ Something that we can do here is in our test we can go ahead and even test our scripts by importing deploy_and_create and testing main function.This we do by first returning simple_Collectible.
+ 
+ ![returning](Images/l26.png)
+ 
+ And in our test that we could do :
+ 
+ ![importingDeploynCreate](Images/l27.png)
+ 
+ and back in our deploy_and_create script we can modify this a little bit.Instead of main we'll call deploy_and_create and then we'll have our main function and call deploy_and_create.
+ 
+  ![modifyingDeploynCreate](Images/l28.png)
+  
+  Let's run real quick on the development network to check it's working fine.
+  
+  `brownie run scripts/deploy_and_create.py`
+  
+  Obviously we won't actually be able to see our NFT on opensea because this is deployed to the brownie temporary ganache chain as opposed to a persistent rinkeby chain.
+  
+  In our test here we could then just do.
+  
+  ![firstAssert](Images/l29.png)
+  
+  ![firstAssertOutput](Images/l30.png)
+  
+  **What else with NFTs?**
+  
+  This was all fun and dandy but there's couple of things that we didn't go over and that we didn't do.So let's create a quick README.md for a couple of notes.
+  
+  We want to build an NFT project that has all these pieces.We're gonna talk a little bit more about why IPFS is decentralized and it's the perferred solution for storing NFT metadata and we're gonna make our NFT more verifiably random and verifiably scarce like for things like ethercards and avagochi.
+
 
 
 
