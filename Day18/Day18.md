@@ -48,3 +48,38 @@ IF you're looking to render an image of an NfT
 - then grab that token URI and put it and set it as your NFT
 
 The [chainlink dnd article](https://blog.chain.link/build-deploy-and-sell-your-own-dynamic-nft/) does a great job of walking you through this and showing you how to do this.Be sure to read that if you're looking to learn how to do that.
+
+
+**Let's start coding**
+
+There are two different types of contracts that we're going to be working with.We're gonna be first working with a simple collectible and then we're gonna work with an advanced collectible.The simple collectible is going to be a very simple ERC721 standard.We're not gonna really add any bells and whistles other than give it like a name.Then our advanced collectible is going to take advantage of some of those more advanced true scarcity features that we're talking about.So protocols like avagochi and ethercards use chainlink vrf to get verifiably random numbers to create verifiably scarce nfts.Something that's important to keep in mind is that `in the real world when companies create trading cards there's no way to prove how scarce or how valuable these trading cards actually are.If we use a verifiable random number then whoever is deploying these NFTs can't even control how rare there NFTs really are`.So we get this scarcity and rarity which adds some value to the tokens.
+
+If you want to just go ahead and work right from the brownie-mix you can absolutely just run `brownie bake nft-mix`.We're gonna go through and deploy and develop everything from scratch because we're gonna actually take some previous concepts that we've learned, improve on them and we're gonna learn alot of nitty gritty interesting pieces about making this hybrid smart contract because these NFTs really are a perfect example of a hybrid smart contract.They've some off-chain component interaction with a random number and restoring their metadata with IPFS and I'll explain IPFS a little bit more in depth as we go on.
+
+**Initial Setup**
+
+So let's go ahead and get to it.I'm gonna go ahead and make a new directory called NFT and open the folder in VS code.First step we're gonna do is `brownie init` to create our blank brownie repository.
+
+**SimpleCollectible.sol**
+
+Let's go ahead and create our first contract.We'll call this SimpleCollectible.sol.Since this is going to be a simple collectible a simple NFT that we're gonna get started with.Now similar to ERC20, this [ERC721 standard](https://eips.ethereum.org/EIPS/eip-721) has a nummber of functions that we can actually work with.
+
+![ERC721](Images/l5.png)
+
+Once again instead of us kind of recoding copy pasting all this from scratch we're gonna be using open zeppelin's ERC721 [documentation](https://docs.openzeppelin.com/contracts/3.x/erc721) for this.We're gonna be working with version 3.x.There's a version 4.x that has come out.Using version 3.x of their open zeppelin contracts is also a little bit easier to explain but again those who want to challenge yourself definitely try their 4.x version.So let's go ahead and jump right into it.
+
+First we'll SPDX license identifier then we'll choose our solidity version.Then we're gonna go ahead and look at the open zeppelin ERC721 documentation and we're gonna go ahead and grab importing ERC21 line.
+
+`import "@openzeppelin/contracts/token/ERC721/ERC721.sol";`
+
+You're can even see a sample ERC721 that they give you and it's going to be similar to the ERC721 that we're gonna make.We go ahead and paste that line in our code and ofcourse since we're doing @openzeppelin/contracts, we're gonna need to create our brownie config and same as always we'll add dependencies.
+
+![AddingDependencies](Images/l6.png)
+
+Let's even try to just compile this right now.
+
+`brownie compile`
+
+
+
+
