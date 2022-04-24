@@ -168,6 +168,38 @@ We can modify the setup to be more decentralized later.
 
 Now something else I wanna touch on too.When it comes to metadata, right now all these NFT marketplaces only know how to pull attributes from the token URI.If we wanna build really cool NFTs that can interact with eachother, having some attributes or maybe some like attack stats or attack moves like in Pokemon for example or trading cards, we can't just store these in the token URI because the blockchain doesn't know anything about the token URI.So we actually need to store attributes on-chain.I'm really hoping in the future alot of the NFT marketplaces are gonna get better at pulling metadata from on-chain but right now any attribute that we give our NFTs. we actually have to reproduce in the token metadata and the token URI as well.
 
+So we've just learned alot about metadata, IPFS, token URIS and everything like that.Let's update the simple NFT to be able to render on opensea and render on these NFT platforms because right now if we deploy the code nobody would know what this cat looks like.Let's give it a token URI.
+
+![tokenURI](Images/l18.png)
+
+We set the token URI for the tokenID and give it a token URI.This will allow our NFT to actually have an image associated with it that we can actually see.
+
+**deploy_and_create.py**
+
+So let's go ahead and create a script that's going to deploy NFT factory contract and then create us a collectible.We're gonna do a new file in scripts and name it "deploy_and_create.py".
+
+First we need to start with an account.
+
+![account](Images/l19.png)
+
+Once again we can go ahead and create helpful_Scripts.py.
+
+![helpful_scripts](Images/l20.png)
+
+But ofcourse since we've this config["wallets"]["from_key"], we're gonna go to our brownie-config and add wallet.
+
+![wallet](Images/l21.png)
+
+Since we're using a private key again we're gonna create a .env and export our private key and infura project ID.
+
+And we'll add new file "__init__.py" so that older versions of python know that this is indeed a package.
+
+So we'll import get_accounts function and also SimpleCollectible.
+
+![deployingSC](Images/l22.png)
+
+This will have our SimpleCollectible deployed.Now we need to actually call createCollectible function and we're gonna pass it a string which is going to be a token URI.
+
 
 
 
