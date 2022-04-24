@@ -388,6 +388,14 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - SimpleCollectible.sol |
 | - Factory Contract |
 | - _safeMint | 
+| - How do I "see" the NFT? |
+| - Is this decentralized? |
+| - Ethereum Size and dStorage |
+| - IPFS |
+| - deploy_and_create.py |
+| - IPFS companion |
+| - Testing |
+| - What else with NFTs? |
 
 
 
