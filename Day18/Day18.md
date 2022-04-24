@@ -136,6 +136,38 @@ Whenever we mint one we're gonna want to increment the tokenCounter and return t
 
 We'll return the token ID of the token that we just created.If you're looking for incredibly minimalistic contract to deploy NFTs this is all that you need.We can run `brownie compile` to make sure we did everything right.
 
+Obviously this might be a little dissatisfying to you after the breakdown that we just gave.
+
+**How do I "see" the NFT?**
+
+How do we view this token? What does this token looks like? I though we wanted this to be a cat.How do we know that this looks like a cat? How do we get the image on the blockchain? This is where `metadata` is going to come into play.If we look at the original [ERC721](https://eips.ethereum.org/EIPS/eip-721) there's this part called `"The metadata extension is optional for ERC721 smart contracts."`As we've talked about anytime you make a transaction on chain, it costs some gas.Even very tiny amounts of data can cost more and more gas.Images are much bigger then the data(the code we just wrote) and they can cost lot more gas.So when this standard was being created, the developers kept this in mind and knew that storing entire images and entire gifs and entire videos on chain was gonna be incredibly costly.So they added the piece about metedatas and token URIs.
+
+A token URI is a distinct uniform resource identifier for a given asset.URI is just a unique resource identifier.So this can be something like https or ipfs or any url string that uniquely points to some metadata.Your metadata file is gonna look like this.
+
+![metadata](Images/l17.png)
+
+It's gonna have a title for the title of the NFT, can have a type and it can have all the different properties or stats or attributes.For example we're gonna have our cat NFT which is defined like name as chase, description can be adorable cutie cat and it's gonna have the image uri which defines what the token actually looks like and if we copy past the uri into another browser, we get our image.It's the token uri with the metadata json object that's going to enable different NFT platforms to actually render our NFT.Platform like opensea undestands that they need to show the image, use the name, description and have the traits.
+
+**Is this decentralized?**
+
+This ofcourse leads us to a really interesting point.If we're storing the image off chain then how is the image decentralized?If we're storing the image off-chain how can we guarantee the NFT is gonna stay forever?
+
+**Ethereum Size and dStorage**
+
+Now this leads us into a little bit about storing data on blockchain.As of current time storing a lot of data on-chain can get incredibly expensive.The more data that you store,the more transactions that you have to make to store that data on-chain and the more gas that you're going to spend.At this time [Ethereum](https://ycharts.com/indicators/ethereum_chain_full_sync_data_size) is about little less than 670 GB in size.If a ton of people were to put full videos or movies or massive images Ethereum will grow exponentially out of proportion and this would become unsustainable for blockchain network as a whole.So Ethereum isn't great for actually storing a ton of data.It can store alot of data but it's lot better for doing the logic and smart contracts.
+
+So there're alot of different platforms that are actually working on this `problem of storage`.These platforms allow people to store data in a decentralized way that isn't going to exponentially explode the size of ethereum or different smart contract platforms.
+
+**IPFS**
+
+The decentralized storage methodology that we're gonna work with is going to be IPFs or Interplanatery File System.This is where we're actually going to store our image so that NFT marketplaces know what our NFT looks like.Now here's what some protocols do.Some protocols just set up a server and set the token uri to instead be from a decentralized service like IPFS and use maybe their own centralized sever.This is obviously a massive issue because if their server goes down or if they wanna change the image or they want to change the stats, all they have to do is change in their server.This is why a protocol like IPFS is going to be alot easier, quicker and more decentralized version of doing this.
+
+The full solution is going to be using something with IPFS and `Filecoin` but easy solutions to do that are still being built out so for now we're just going to use IPFS because it's free, quick, easy and can be expanded to combine with Filecoin to be even easier to work with.
+
+We can modify the setup to be more decentralized later.
+
+Now something else I wanna touch on too.When it comes to metadata, right now all these NFT marketplaces only know how to pull attributes from the token URI.If we wanna build really cool NFTs that can interact with eachother, having some attributes or maybe some like attack stats or attack moves like in Pokemon for example or trading cards, we can't just store these in the token URI because the blockchain doesn't know anything about the token URI.So we actually need to store attributes on-chain.I'm really hoping in the future alot of the NFT marketplaces are gonna get better at pulling metadata from on-chain but right now any attribute that we give our NFTs. we actually have to reproduce in the token metadata and the token URI as well.
+
 
 
 
