@@ -2,7 +2,7 @@
 
 Welcome to the [remix ide](https://remix.ethereum.org).
 
-![remix_ide](/Images/Day3/c1.png)
+![remix_ide](Images/c1.png)
 
 This is where we start to work with solidity, smart contracts and deploy it to blockchains.
 
@@ -19,7 +19,7 @@ Testing locally and understanding how to test locally will make your coding expe
 
 The first thing that you gonna need in any solidity program is the solidity version.That's always going to be at the top of your solidity code.It is defined by:
 
-![pragma_version1](/Images/Day3/c2.png)
+![pragma_version1](Images/c2.png)
 
 Ctrl + s will save and "compile".
 
@@ -27,7 +27,7 @@ If we want a specific version of solidity, we could also do:
 
 But for this if we just hit ctrl + s it'll try to compile on previous compiler version.This might give error.You need to click the "Compile" button for compiler automatically switch to the specific compiler version.
 
-![pragma_verision2](/Images/Day3/c3.png)
+![pragma_verision2](Images/c3.png)
 
 We can also do:
 
@@ -41,7 +41,7 @@ We'll be working with compiler version 0.6.0.However in future contracts that we
 **Defining a  Contract**
 
 To define our contract:
-![solidity_contracts](/Images/Day3/c4.png)
+![solidity_contracts](Images/c4.png)
 
 `contract` is a keyword in solidity.You can think of contract similar to a class in Java or any other OOP language.Here "SimpleStorage" is the name of the contract.
 
@@ -51,7 +51,7 @@ You could hypothetically deploy this right now and this would be a valid contrac
 
 In solidity there're many different types that we can work with.Let's go into some of the types of solidity we can have.
 
-![variable_types](/Images/Day3/c5.png)
+![variable_types](Images/c5.png)
 
 You can also do:
 
@@ -72,7 +72,7 @@ Even if I didn't manually inilialize to 5, it'll get initialize to a null value.
 **Functions or methods**
 
 Functions or methods are self contained modules that will execute some task for us and in solidity it's the exact same thing they're defined by:
-![functions](/Images/Day3/c6.png)
+![functions](Images/c6.png)
 
 This is in simplest form of how you can define a function.This functions set's whatever value(whole number) we pass to the age. 
 
@@ -83,13 +83,13 @@ So let's go ahead and actually deploy this contract to actually interact with it
 
 If we hit eth looking button, which will bring us to the deploy tab and will allow us to deploy our smart contract.
 
-![deploy_contract1](/Images/Day3/c7.png)
+![deploy_contract1](Images/c7.png)
 
 Using our JavaScript VM it's given us fake accout with some ethereum in it.It has a 100 ethereum in it to start and same as before anytime we want to interact with the blockchain we have to pay a little bit of gas even in our fake virtual machine here.We want to simulate that so you'll see it has some of the same parameters here as making a transaction like gas limit for example.
 
 When we deploy a contract, it's going to cost a little bit of ethereum or a little bit of gas to do so.Let's go ahead and click deploy button.
 
-![deploy_contract2](/Images/Day3/c8.png)
+![deploy_contract2](Images/c8.png)
 
 We can look at all the transactions we've recorded.We can see it says "Deployed Contracts" and we've our contract.
 
@@ -103,8 +103,8 @@ This is great however it looks like we can't actually see what out age is.We can
 
 If we add public to our age, we recompile, delete our previous contract and redeploy and we can see button's pop up.
 
-![redeploy1](/Images/Day3/c9.png)
-![redeploy2](/Images/Day3/c10.png)
+![redeploy1](Images/c9.png)
+![redeploy2](Images/c10.png)
 
 Let's talk about why this public variable allowed us to see this new button this age button?
 
@@ -137,9 +137,9 @@ The reason we can access this age variable inside store function is because age 
 
 You can also make a function called retrieve and make it a public function that is of type view and returns uint256.All this is going to do is return favorite number.
 
-![retrieve_function](/Images/Day3/c11.png)
+![retrieve_function](Images/c11.png)
 
-![deployed_retrieve](/Images/Day3/c12.png)
+![deployed_retrieve](Images/c12.png)
 
 Question: "Why store function has orange color and other two has blue? "
 
@@ -153,7 +153,7 @@ A view function means that we want to read some state off the blockchain.We're j
 
 A pure functions are functions that purely do some type of math.
 
-![pure_function](/Images/Day3/c13.png)
+![pure_function](Images/c13.png)
 
 We're doing some type of math above but we're not actually saving state anywhere.It's also going to have blue color button.
 
@@ -167,15 +167,15 @@ We've a whole number of different choices but the one we're going to talk about 
 
 Struct are ways to define new types in solidity.They're almost like creating new objects.
 
-![struct](/Images/Day3/c14.png)
+![struct](Images/c14.png)
 
 We've a new type of people that has a favorite number and a name inside of it.Now what we could do with struct is :
 
-![struct_init](/Images/Day3/c15.png)
+![struct_init](Images/c15.png)
 
 Let's deploy this contract and see what it looks like:
 
-![struct_deployed](/Images/Day3/c16.png)
+![struct_deployed](Images/c16.png)
 
 We've Humans struct which at 0th index is the age and 1st index is the name.
 
@@ -189,7 +189,7 @@ Instead of just creating one person, we actually want to create a whole list of 
 
 Array is a way of storing list or a group of some object.
 
-![dynamic_array](/Images/Day3/c17.png)
+![dynamic_array](Images/c17.png)
 
 **Dynamic Array**
 
@@ -197,7 +197,7 @@ The array we created above is a dynamic array.It's a dynamic array cause it chan
 
 **Fixed Array**
 
-![fixed_array](/Images/Day3/c18.png)
+![fixed_array](Images/c18.png)
 
 This array could only have a maximum of one boy inside of it.
 
@@ -207,7 +207,7 @@ We're going to work with dynamic array because we want to add an arbitrary numbe
 
 Let's go and create a new function called add boy.
 
-![struct_array](/Images/Day3/c19.png)
+![struct_array](Images/c19.png)
 
 We can see our new function addBoys where we pass a string memory name and a uint256 age.Then we create a Humans object and we push it onto our boys array.
 
@@ -227,7 +227,7 @@ Memory means after execution delete this variable and storage means keep it fore
 
 Let's deploy and see what happens now:
 
-![deployed_struct_array](/Images/Day3/c20.png)
+![deployed_struct_array](Images/c20.png)
 
 We've this addBoys function and since we're making a state change, here we can see that this indeed is a orange button instead of being a blue button.
 
@@ -238,11 +238,11 @@ What if I'm looking for a boy's age from his name in the array?
 Mapping takes some type of key and spits out whatever variable it's mapped to.
 In our case we want to find the age of the boy using his name.
 
-![mapp_function](/Images/Day3/c21.png)
+![mapp_function](Images/c21.png)
 
 Let's deploy and see:
 
-![map_function_deployed](/Images/Day3/c22.png)
+![map_function_deployed](Images/c22.png)
 
 **SPDX License**
 
