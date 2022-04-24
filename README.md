@@ -383,6 +383,9 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - ERC-721 |
 | - Metadata |
 | - Token URI |
+| - Let's start Coding |
+| - Initial Setup |
+| - SimpleCollectible.sol |
 
 
 
