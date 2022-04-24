@@ -3,7 +3,7 @@
 
 Same as before we're going to create a .sol file.We're gonna name it FundMe.sol and same as last time we add SPDX license identifier.For this lesson we'll choose solidity version >=0.6.6 <0.9.0.Create contract called "FundMe" and gonna start working.
 
-![fundme](/Images/Day5/e1.png)
+![fundme](Images/e1.png)
 
 **purpose of this contract**
 
@@ -13,36 +13,36 @@ We want this contract to be able to accept some type of payment.
 
 So let's create a new function that can accept payment.
 
-![fundfunction](/Images/Day5/e2.png)
+![fundfunction](Images/e2.png)
 
 When we define function as `payable` which means that function is used to pay for things.Every single function call has an associated value with it.Whenever you make a transaction, you can always append a value.That value is how much `wei` or `gwei` or `finney` or `ether` you're gonna send with your function call or your transaction.
 
 As we mentioned before `wei`, `gwei` and `ether` are just different ways to talk about how much ether you're gonna send.If we look at ethereum converter, it shows how much gwei equals to 1 eth.
 
-![ethgwei](/Images/Day5/e3.png)
+![ethgwei](Images/e3.png)
 
 1 Wei is the smallest denomination of Ethereum.You can't break Ethereum into anything smaller than 1 wei.This is why when you're talking about how much something costs everything always defaults to wei.
 
 Let's deploy the contract and see what it got.
 
-![deployFundme](/Images/Day5/e4.png)
+![deployFundme](Images/e4.png)
 
 The button is red because it's a payable function.If I click fund button, I can add value associated with it.
 
-![fundedValue](/Images/Day5/e5.png)
+![fundedValue](Images/e5.png)
 
 So what we want to do with this funding?What do we do when people send something?
 
 Well Let's keep track of who sent us funding.We can create a new mapping between addresses and value.
 
-![addressAmountFunded](/Images/Day5/e6.png)
+![addressAmountFunded](Images/e6.png)
 
 
 **Mapping , msg. sender , msg.value**
 
 In this fund function let's keep track of all the people who sent us money or all the addresses that sent us some value.To do this we can use some keywords that go along every transaction.
 
-![msgSender](/Images/Day5/e7.png)
+![msgSender](Images/e7.png)
 
 `msg.sender` and `msg.value` are keywords in every contract call and every transaction."msg.sender" is the sender of the function call and "msg.value" is how much they sent.
 
@@ -50,7 +50,7 @@ So whenever we call fund function, somebody can send some value cause it's a pay
 
 Let's deploy the contract:
 
-![deploy](/Images/Day5/e8.png)
+![deploy](Images/e8.png)
 
 We've a new view function "addressFundedAmount".
 
@@ -80,7 +80,7 @@ If you look at a blockchain, it can easily say 1 + 1 = 2 and every other node ca
 
 The other reason that blockchains are intentionally can't make an API calls because then they would be making assumptions about real world and layer1's typically don't want to have an opinion on any political or geopolitical issue.Whereas `oracle network` on the other hand can make those assumptions.
 
-![DvsnD](/Images/Day5/e9.png)
+![DvsnD](Images/e9.png)
 
 **Centralized Oracles**
 
@@ -88,13 +88,13 @@ The other main thing we need to talk about here is centralized oracles being mai
 
 With a centralized oracle a single entity can flip a switch and restrict our freedom to interact with eachother.
 
-![centralizedOracle](/Images/Day5/e10.png)
+![centralizedOracle](Images/e10.png)
 
 **Decentralized Oracle Networks**
 
 We also need to get data from many different decentralized sources or do any type of computation in a decentralized manner.This is where chainlink really shines.
 
-![decentralizedOracle](/Images/Day5/e11.png)
+![decentralizedOracle](Images/e11.png)
 
 `Chainlink` is a modular decentralized oracle infrastructure and oracle network that allows us to get data and do external computation in a highly sybil resistant decentralized manner.
 
@@ -105,9 +105,9 @@ It can be as customizable as you want.As you can run with one node or many nodes
 
 Currently one of the most popular features of chainlink is their data feeds or their price feeds.We can even go check them out over [here](data.chain.link).
 
-![chainlinkDatafeeds](/Images/Day5/e12.png)
+![chainlinkDatafeeds](Images/e12.png)
 
-![chainlinkDatafeeds2](/Images/Day5/e13.png)
+![chainlinkDatafeeds2](Images/e13.png)
 
 We can see number of different price feeds and the networks that are providing the prices for these specific pricing powers.We can see above there's a whole number of decentralized different oracles returning data for different price feeds.This above one is ETH/USD and it's exactly the price view we're looking for.
 
@@ -136,7 +136,7 @@ Next question you might wanna ask is why did we work with this on a testnet? Why
 
 Another contract called in this case called priceFeed has a function called latestRoundData which returns alot of data.
 
-![latestRoundData](/Images/Day5/e14.png)
+![latestRoundData](Images/e14.png)
 
 It returns a roundID which defines how many times this priceFeed has been updated, returns the price which is the actual conversion between two assets, returns a startedAt which defines when this was last updated, returns a timestamp and returns a answeredInRound.Don't worry about answerInRound for now.If you want to dive deeper into what these rounds mean and what answeredInRound means you can definately check out the [chainlink documentation](https://docs.chain.link/). 
 
@@ -147,7 +147,7 @@ How do we implement this data feed into our fundMe application?
 
 First thing we actually need to do is import the chainlink code.
 
-![chainlinkPriceFeed](/Images/Day5/e15.png)
+![chainlinkPriceFeed](Images/e15.png)
 
 As we know an import take whatever code you're importing and stick it at the top of your project.When we import from the "@chainlink/contracts", we're actually importing from the "@chainlink/contracts" npm package.We can see and read more about this repository [here]("https://www.npmjs.com/package").
 
@@ -156,7 +156,7 @@ As we know an import take whatever code you're importing and stick it at the top
 
 If you follow that import path that we got from documentation, we'll end up on the file below.
 
-![importedfile](/Images/Day5/e16.png)
+![importedfile](Images/e16.png)
 
 It's what we call an interface.These contracts don't start with the contract keyword but start with interface keyword.The main difference is that you can see their functions aren't completed.They just have the function name and it's return type.
 
@@ -178,11 +178,11 @@ To interact with an interface contract it's going to work the exact same way is 
 
 Let's define a new function called getVersion and we're going to call the version function of interface on our contract.
 
-![getVersion](/Images/Day5/e17.png)
+![getVersion](Images/e17.png)
 
 The same way we define variables and structs, we define working with other contracts and interfaces.
 
-![AVinitialization](/Images/Day5/e18.png)
+![AVinitialization](Images/e18.png)
 
 First thing we named is type which is AVI.Since we're inside of a contract, we're going to skip visibility and give the name "rate".Then we initialize a contract.How do we actually choose where to interact with the AVI contract?Well we pass the address of where the contract is located.
 
@@ -194,13 +194,13 @@ Copy that address and pass it to AVI initialization.
 
 `It's saying that we've a contract that has "AggregatorV3Interface" contract's function defined in the interface located at that address.`If that's true, we should be able to call "rate.version".
 
-![callingRate](/Images/Day5/e19.png)
+![callingRate](Images/e19.png)
 
 **Deploying**
 
 Let's compile it and deploy it to testnet(Injected Web3 as Environment).`Remember that address is located on a actual testnet.On an actual network.`We'll learn later on how we can actually work with a simulated chain and work with these price feeds but that's much later in the journey.
 
-![versionCall](/Images/Day5/e20.png)
+![versionCall](Images/e20.png)
 
 We can see that the version of our aggregatorV3Interface is version 4.So we just made a contract call to another contract from our contract using an interface.This is why interfaces are so powerful because they're a minimalistic view into another contract.
 
@@ -210,13 +210,13 @@ This is great we've a getVersion function but this still isn't the function that
 
 Let's go ahead and make a function that calls getprice instead.
 
-![getPrice](/Images/Day5/e21.png)
+![getPrice](Images/e21.png)
 
 **Tuples**
 
 This latestRoundData function returns five variables.So how do we actually work with that? 
 
-![tuples](/Images/Day5/e22.png)
+![tuples](Images/e22.png)
 
 A tuple is a list of objects of potentially different types whose number is a constant at compile-time.We can define several variables inside tuples.
 
@@ -231,7 +231,7 @@ But compiling the code gives an error.It says return type argument int256 is not
 
 We can fix the error by typecasting.Integers in solidity are really easy to cast into eachother.We could just do:
 
-![typecast](/Images/Day5/e23.png)
+![typecast](Images/e23.png)
 
 Now our compiler is happy.This getPrice function should return the latest price of Ethereum in terms of USD.
 
@@ -239,7 +239,7 @@ Now our compiler is happy.This getPrice function should return the latest price 
 
 Let's go ahead and deploy this contract.
 
-![deployedGetPrice](/Images/Day5/e24.png)
+![deployedGetPrice](Images/e24.png)
 
 We can know the rate of Ethereum in terms of USD is 2746.19432590 $.
 
@@ -250,7 +250,7 @@ Let's clean up the function before we go up.As you can see one thing the compile
 
 We can actually return blanks for each one of the unused sections with commas in between eachother like:
 
-![cleanedTuple](/Images/Day5/e25.png)
+![cleanedTuple](Images/e25.png)
 
 
 **Wei/Gwei Standard (Matching Units)**
@@ -265,7 +265,7 @@ We've the price of Ethereum in USD.We could set the price of our funding functio
 
 Let's make a new function that converts that value that they send to its USD equivalent.
 
-![convertfunction](/Images/Day5/e26.png)
+![convertfunction](Images/e26.png)
 
 Let's test this out and see why we have to do one more thing?
 
@@ -273,4 +273,4 @@ Let's test this out and see why we have to do one more thing?
 
 This seems like a really big number i.e 2746194325900.00000000.This says that 1gwei is equal to 2746194325900 in USD.The price of 1ETH is not even that much.The reason that's off is we've to divide by 100000000.Both ethPrice and fundedAmount has 10<sup>19</sup> tacked on to them.
 
-![fixedconversion](/Images/Day5/e28.png)
+![fixedconversion](Images/e28.png)
