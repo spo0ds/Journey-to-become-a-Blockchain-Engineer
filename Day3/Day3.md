@@ -2,13 +2,13 @@
 
 We're going to talk about signing the transactions, private keys and some other cryptography bacause in the blockchain below we see fantastc transactions but how do we know that it was Darcy who was the one to send 25 dollars to Bingley.How do we know that actually happened?This is where all those pieces that we just learned about in our test net in our metamask account are really going to come to life .
 
-![Transaction](/Images/Day2/b1.png)
+![Transaction](Images/b1.png)
 
 **Public & Private Keys**
 
 Here we've an example of public and private keys.
 
-![Public_Private_Key](/Images/Day2/b2.png)
+![Public_Private_Key](Images/b2.png)
 
 Private key: Only Known to the Key holder, it's used to "sign" transactions.
     
@@ -28,13 +28,13 @@ If we go to signatures tab and let's say we have this message that we want let's
 
 What's going to happen is the private key that we created, we can use to sign this data(hi world).We're using digital signature algorithm to create this message signature.
 
-![Message_Signature](/Images/Day2/b3.png)
+![Message_Signature](Images/b3.png)
 
 What's really powerful about how this algorithm works is that you can create this message signature with your private key but somebody else can't derive your private key from the message signature.This is what makes this really really powerful.
 
 However if we go to verify using our public key, anybody can verify that the signature is yours.
 
-![Message_Verification](/Images/Day2/b4.png)
+![Message_Verification](Images/b4.png)
 
 
 **Transactions**
@@ -43,7 +43,7 @@ If somebody try to fake a transaction, they need to verify their's signature aga
 
 We can take that into transactions into exact same way.
 
-![Transaction_verification](/Images/Day2/b5.png)
+![Transaction_verification](Images/b5.png)
 
 If I wanna send 20 dollars from my account to another account using my private key, I can sign that transactions and anybody else in the world could verify the transactions.This is why people say to protect your keys.
 
