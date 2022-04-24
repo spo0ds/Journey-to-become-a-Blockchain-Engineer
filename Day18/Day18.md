@@ -44,7 +44,7 @@ Obviously if you do off-chain metadata, you can't do anything really cool or int
 
 IF you're looking to render an image of an NfT
 - add your image to IPFS
-- add a metadata file pointing(token URI json) to that image file on IPFS
+- add a metadata file(token URI json) pointing to that image file on IPFS
 - then grab that token URI and put it and set it as your NFT
 
 The [chainlink dnd article](https://blog.chain.link/build-deploy-and-sell-your-own-dynamic-nft/) does a great job of walking you through this and showing you how to do this.Be sure to read that if you're looking to learn how to do that.
