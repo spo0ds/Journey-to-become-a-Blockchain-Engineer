@@ -386,6 +386,8 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Let's start Coding |
 | - Initial Setup |
 | - SimpleCollectible.sol |
+| - Factory Contract |
+| - _safeMint | 
 
 
 
