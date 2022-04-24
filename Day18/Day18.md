@@ -118,6 +118,26 @@ They update this owner's mapping which is just the mapping of token ids to the o
 
 The difference between _safeMint and _mint is _safeMint checks to see if a token id has already been used or not and this way we don't actually override who owns tokens and who owns token ids.So we're going to be using the _safeMint function.
 
+So first we're gonna need a way to count these token ids.So that every single person has a unique token id.Let's create a global variable tokenCounter and we initialize it to zero.
+
+![tokenCounter](Images/l13.png)
+
+When we create a new collectible, we're gonna say it's id to be tokenCounter and iterate tokenCounter every time we mint a new token.
+
+![newTokenID](Images/l14.png)
+
+We're gonna call the _safeMint function since we're inheriting it from open zeppelin's ERC721.We need to give this _safeMint function a new NFT and owner.
+
+![CallingSafeMint](Images/l15.png)
+
+Whenever we mint one we're gonna want to increment the tokenCounter and return the token ID.
+
+![completeFunction](Images/l16.png)
+
+We'll return the token ID of the token that we just created.If you're looking for incredibly minimalistic contract to deploy NFTs this is all that you need.We can run `brownie compile` to make sure we did everything right.
+
+
+
 
 
 
