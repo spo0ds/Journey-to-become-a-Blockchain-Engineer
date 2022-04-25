@@ -400,6 +400,11 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | **Advanced NFT** |
 | - Double Inherited Constructor |
 | - tokenIDToBreed |
+| - setTokenURI |
+| - _isApprovedOrOwner |
+| - Best Practice |
+| - Advanced deploy_and_create.py |
+| - Refactoring |
 
 
 
