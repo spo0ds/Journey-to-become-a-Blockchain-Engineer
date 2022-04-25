@@ -94,5 +94,13 @@ We're going to create this new mapping at the top.
 
 ![requestIDMApping](Images/l51.png)
 
+Now in our fulfillRandomness function, the same requestID that requested the random breed is returned.So what we can do is we can say :
+
+![owner](Images/l52.png)
+
+And then the address of the owner is who we're gonna _safeMint the NFT to and we don't wanna forget to always do tokenCounter + 1 at the end.
+
+![safeMint](Images/l53.png)
+
 
 
