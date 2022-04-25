@@ -44,7 +44,7 @@ This time in our python script we're actually gonna define where we're getting t
 
 ![RR](Images/l42.png)
 
-![RR](emit/l43.png)
+![emit](Images/l43.png)
 
 we're gonna do a similar thing here where we're going to make an event for whenever we request one of these new cats and that is also what we're gonna return.We're gonna return that requestID here.
 
