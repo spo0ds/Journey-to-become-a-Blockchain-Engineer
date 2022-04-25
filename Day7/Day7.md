@@ -129,7 +129,7 @@ What a modifier is going to do is before we run the function do the require stat
 
 Now what we can do is make the withDraw function as admin.What's gonna happen is before we do the transfer, we're actually gonna check the modifier which runs the msg.sender == owner. 
 
-![withdrawadmin][Images/Day7/e39.png]
+![withdrawadmin][/Images/Day7/e39.png]
 
 
 **Deploying**
