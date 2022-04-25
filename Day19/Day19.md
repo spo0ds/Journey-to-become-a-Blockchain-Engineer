@@ -102,5 +102,52 @@ And then the address of the owner is who we're gonna _safeMint the NFT to and we
 
 ![safeMint](Images/l53.png)
 
+We still need to set the token URI.So back in our AdvancedCollectible, we're gonna have to do _setTokenURI at some point.Let's actually think about it for a second.We're only gonna know breed of our cat once the random number is returned and we know the breed of the cat is gonna be one in the img folder.
+
+We're only going to know what the breed is once the random number is returned and the breed is actually gonna govern if it's a persian, bengal or manix.  
+
+
+**setTokenURI**
+
+So we technically could get rid of the input parameters for createCollectible.Since there's gonna be no token URI initially created.What we could do is we could create a new _setTokenURI function that sets the token URI based on the breed of the dog.For the simplicity of this project we're actually just going to create our own setTokenURI function that we're going to update based off the breed of the cat.A challenge for you after we finish this project is to make this even more decentralized and have the fulfill randomness function actually be the one to decide what the token URI is.Bur for now in our fulfillRandomness function we're going to skip setting the token URI and we're actually gonna call it in a seperate function.
+
+![setTokenURI](Images/l53.png)
+
+Once the fulfillRandomness function is responded, the breed of the cat is going to set.This `tokenIDToBreed` is gonna say newTokenID is now associated with this cat_breed which is going to be persian or bengal or minx.All we want to do then is now that we've the on-chain metedata, we're just going to reciprocate that with the off-chain metadata.So we're gonna need three token URIs for those three cats.We're gonna need one for persian, bengal and minx.However we wanna make it so that only the owner of the tokenID can actually be the one to update the tokenURI.So we can use require function for this.
+
+**_isApprovedOrOwner**
+
+We're gonna use an imported open zeppelin function.
+
+![require](Images/l54.png)
+
+This _isApprovedOrOwner function if we go into ERC721 Github for open zeppelin which checks the owner of the ERC721 of that tokenID and makes it so that only the owner or somebody approved to work with the tokenID can actually change the tokenURI.
+
+![isApprovedOrOwner](Images/l55.png)
+
+then we're just going to call that function called _setTokenURI of the tokenID.
+
+![setTokenURI](Images/l56.png)
+
+Now we're actually manually going to be the ones to call _setTokenURI once the breed has been decided.We could have ofcourse like I said use a mapping at the top that automatically routes it there but so that we can experiment a little bit more and learn a little bit more about IPFS we're gonna leave it a little bit more general like this.
+
+This is pretty much the majority of what we're going to need for our ERC721 contract.Obviously we still need to work with IPFS and getting our token URI but for the most part this is everything that we need.
+
+**Best Practice**
+
+Now I'm going to introduce a new best practice here.Whenever we update our mapping, typically a good best practice is going to actually be to emit an event.So let's create an event for each one of these mapping updates.
+
+![requestedCollectable](Images/l57.png)
+
+The "indexed" keyword just makes it easier to search for this event.The requestedCollectable event is going to be emitted when we requestIDToSender because we're updating the mapping here.This is also going to be really helpful when we run tests so we can get the requestID similar to what we did with the lottery.
+
+![emit1](Images/l58.png)
+
+We also update a mapping with tokenIDToBreed.
+
+![event2](Images/l59.png)
+
+![emit2](Images/l60.png)
+
 
 
