@@ -406,6 +406,11 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | <p align="center"> [Day 20](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day20/Day20.md) </p> |
 | - Advanced deploy_and_create.py |
 | - Refactoring |
+| - Deploying AdvancedCollectible |
+| - Continuing our deploy script |
+| - create_collectible.py |
+| - Back to testing |
+| - Unit Testing |
 
 
 
