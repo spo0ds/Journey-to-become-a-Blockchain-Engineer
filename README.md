@@ -403,6 +403,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - setTokenURI |
 | - _isApprovedOrOwner |
 | - Best Practice |
+| <p align="center"> [Day 20](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day20/Day20.md) </p> |
 | - Advanced deploy_and_create.py |
 | - Refactoring |
 
