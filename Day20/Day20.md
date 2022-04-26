@@ -72,3 +72,45 @@ It should be fine now :)
 
 ![output](Images/l72.png)
 
+We can see we did couple of things here.First we deployed the Mock LinkToken, then we deployed our Mock VRFCoordintor and then we deployed our AdvancedCollectible all on a local network.
+
+Once we deploy this code we're gonna want to fund this contract with some LINK because we can call the random number.I like to have my funding with link also in a function and we'll give it the address of the advanced_collectible.Let's go ahead and create fund_with_link function.Feel free to copy this function from past projects.
+
+![fund_with_link](Images/l73.png)
+
+and call that function in deploy_mocks.
+
+![callingFundWithLink](Images/l74.png)
+
+All we have to do now is call our createCollectible function .
+
+![callingCreateCollectible](Images/l75.png)
+
+We definitely want to test this because we've number of custom scripts.So let's go ahead and do a manual test.
+
+`brownie run scripts/deploy_and_create.py`
+
+If you get this error:
+
+`createCollectible Sequence has incorrect length, expected 1 but got 0`
+
+![AdvancedCollectibleParameter](Images/l76.png)
+
+Now ideally we would have ofcourse write some tests but I want to show some things that are easier to demonstrate on an actual testnet.So we're gonna go ahead and deploy this to an actual testnet before we write our tests. 
+
+`brownie run scripts/deploy_and_create.py --network rinkeby`
+
+If you get error like:
+
+`ValueError: Gas estimation failed: 'execution reverted'. This transaction will likely revert. If you wish to broadcast, you must set the gas limit manually.`
+
+I was following the VRF v2 guide but my code was using the vrf v1 and thus I was using the wrong contract address and keyhash. In order to fix it, I need to retrieved the contract address and keyhash of [VRFV1](https://docs.chain.link/docs/vrf-contracts/v1/).
+
+`
+ vrf_coordinator: '0xb3dCcb4Cf7a26f6cf6B120Cf5A73875B7BBc655B'
+ link_token: '0x01BE23585060835E02B77ef475b0Cc51aA1e0709'
+ keyhash: '0x2ed0feb3e7fd2022120aa84fab1945545a9f2ffc9076fd6156fa96eaff4c1311'
+ `
+ 
+ 
+
