@@ -110,5 +110,71 @@ Then we can pass this to upload to IPFS.So this filepath is going to be the loca
 ![imageBinary](Images/l111.png)
 
 What we're doing is we're taking the "filepath", opening the file, "rb" means we're gonna open it in binary.Since these are images that's how we open it and upload the binary actually to IPFS.As "fp" So we're saying is opened file is gonna be named fp.And fp.read is how we read the whole binary.Now the whole image is stored as binary.
+
+Now we're going to do the upload stuff.
+
+**Download IPFS Command Line**
+
+To get started here we actually going to have to download the [command line](https://docs.ipfs.io/install/command-line/#official-distributions) for IPFS and in there there's a instruction to download it for system that you're working on.
+
+You'll know you've done it right if you can type:
+
+![ipfs](Images/l112.png)
+
+Important to note we could also do the IPFS download desktop and we could download the desktop version of this and we could see user interface, upload our file manually and then manually go ahead and grab those files and place it into our scripts but we're engineers we want to do this programmatically.
+
+**HTTP IPFS DOCS**
+
+In any case once we have this API downloaded, we can actually follow the documentation of http api reference for actually uploading our code.We're going to be mainly working with [`/api/v0/add`](https://docs.ipfs.io/reference/http/api/#origin-based-security).As this is the endpoint that's actually going to add our file or directory to IPFS.
+
+Now what we're going to want to do is we're going to actually upload our images to our own IPFS node.we can run our own IPFS node by doing:
+
+`ipfs init` and then `ipfs daemon`
+
+We can even see a webUI using.Congratulations you're running your own IPFS node.As you can see it's currently running on our own localhost at ` http://127.0.0.1:5001`.So to actually upload this we first need to get that IPFS url which is going to be the webUI.
+
+![ipfsURL](Images/l113.png)
+
+Now we want to make an API call or a post request to this endpoint using `/api/v0/add`.What we're going to do to keep working with our scripts is you should have a little plus button somewhere on your vscode, hit that button and we're actually going to have two different shells.One which is running our IPFS node and one which is running our bash.
+
+Now that we've the ipfs_url, we're going to grab the endpoint.
+
+![endpoint](Images/l114.png)
+
+and we can make a post request to it.
+
+![resquests](Images/l115.png)
+
+Now if you go back to the ipfs documenatation, we can scroll down to see what the response looks like.
+
+![response](Images/l116.png)
+
+It's going to return bytes, hash, name and size.Now if you look at the sample_token_uri in SimpleCollectible.sol, we can see the api call there.
+
+![sampleTokenURI](Images/l117.png)
+
+IPFS stores all its data using a hash and if we're looking at this simple collectible the hash there is the hash that represents cat.png.Everything in IPFS gets hashed and every single piece of data has a unique hash which is why it's so fantastic.If we're to change anything with this image this hash would be drastically different.All we need to do is get the hash that IPFS gives the image that we upload and we go ahead and plug it into a template url like in simpleCollectible.sol.
+
+So what we're gonna do then is:
+
+![ipfsHash](Images/l118.png)
+
+Since we're going to jsonify the response we used response.json() and we're grabbing that hash.Then we're giving it a filename.
+
+![filename](Images/l119.png)
+
+![imgURI](Images/l120.png)
+
+It's this format which will give us uri like in SimpleCollectible.sol.This is what exactly we need.We'll do quick print of the img_uri and return that img_uri.
+
+![uploadToIPFS](Images/l121.png)
+
+![uploding](Images/l122.png)
+
+Now since we're actually going to be testing this with IPFS we can add a new integration test called "test_ipfs_upload.py"(As a challenge).For now we're just going to manually test it.
+
+`brownie run scripts/create_metadata.py --network rinkeby`
+
+
    
  
