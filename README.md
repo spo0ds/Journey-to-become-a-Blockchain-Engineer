@@ -411,6 +411,9 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - create_collectible.py |
 | - Back to testing |
 | - Unit Testing |
+| <p align="center"> [Day 21](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day21/Day21.md) </p> |
+| - Integration Testing |
+| - create_metadata.py |
 
 
 
