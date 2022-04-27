@@ -175,6 +175,48 @@ Now since we're actually going to be testing this with IPFS we can add a new int
 
 `brownie run scripts/create_metadata.py --network rinkeby`
 
+If we go ahead and copy the url and paste it in our browser, we should be able to see the image.
+
+**Alternative: Pinata**
+
+Now I wanna show you guys actually another service and another way we can actually upload these to IPFS.Some people don't want to run their own IPFS node because they're not actually going to be keeping it running the whole time.Anytime their node goes down this means that nobody will be able to see your image.Unless somebody else pins your image or uses your image.
+
+So what I also like to do is upload it to some other third-party service as well as uploading it to my own IPFS node.So I like to create another script called "upload_to_pinata.py".
+
+So [pinata](https://www.pinata.cloud/) is an IPFS file management service and they actually will pin whatever files that we're working with as well.So we'll have it pinned in our node and they will have it pinned as well.So we can go ahead and register.
+
+**Upload to Pinata**
+
+So let's go ahead and upload our image to Pinata so that when our node goes down our images don't go down.We're going to be using [pin file to IPFS documentation](https://docs.pinata.cloud/api-pinning/pin-file).We can see there's a endpoint.
+
+![endpoint](Images/l123.png)
+
+We're going to choose some filepath.
+
+![filepath](Images/l124.png)
+
+Ofcourse if you wanna upload some other image you can change the filepath or you could even do some type of for loop to pin everything in the img section.Again for filename, we're going to do the same syntax.
+
+![filename](Images/l125.png)
+
+and we also need to use some headers in the post request.
+
+![apiKey](Images/l126.png)
+
+Copy API key and in our .env file and export the key.
+
+Now that we've them in our .env file, it's going to be environment variables that we can use and brownie's going to automatically put them into our environment.So in our upload_to_pinata script:
+
+![keys](Images/l127.png)
+
+![uploadToPinata](Images/l128.png)
+
+We can run this inside of our brownie.
+
+`brownie run scripts/upload_to_pinata.py`
+
+
+
 
    
  
