@@ -414,6 +414,16 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | <p align="center"> [Day 21](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day21/Day21.md) </p> |
 | - Integration Testing |
 | - create_metadata.py |
+| - get_breed |
+| - sample_metadata.py |
+| - Uploading Image to IPFS |
+| - Download IPFS Command Line |
+| - HTTP IPFS DOCS |
+| - Alternative: Pinata |
+| - Upload to Pinata |
+| - Refactor to not re-upload to IPFS |
+| - Setting the TokenURI |
+| - End to End Mannual Test |
 
 
 
