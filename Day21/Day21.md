@@ -254,7 +254,65 @@ We're also going to add for metadata file.
 
 ![metadataChecking](Images/l134.png)
 
-This is to go and show you how exactly we could upload all this stuff to IPFS.Another thing that you might do is you might actually save all the urls to their own file, to their own json object maybe inside of the metadata folder under rinkeby and then you can pull directly from those files.Same thing with the metadata once we upload to IPFS we're not actually gonna save these urls anywhere.You can absolutely 100% after you run this upload_to_ipfs script.We go ahead and save it to a file and pull directly from there moving forward.  
+This is to go and show you how exactly we could upload all this stuff to IPFS.Another thing that you might do is you might actually save all the urls to their own file, to their own json object maybe inside of the metadata folder under rinkeby and then you can pull directly from those files.Same thing with the metadata once we upload to IPFS we're not actually gonna save these urls anywhere.You can absolutely 100% after you run this upload_to_ipfs script.We go ahead and save it to a file and pull directly from there moving forward.
+
+We've uploaded to IPFS our metadata and our image uris.So we've enerything that we need to actually just set the tokenURI finally for our advanced collectible.We finally can call setTokenURI function.So let's go ahead and do this last bit here.
+
+**Setting the TokenURI**
+
+Let's create a new file inside scripts called "set_tokenuri.py" and this is where we're gonna set the tokenURI.
+
+![setTokenURI](Images/l135.png)
+
+Now let's first before we set the token uri let's check to see if it already has a token uri set.
+
+![ifCondition](Images/l136.png)
+
+We're grabbing advanced_collectible.tokenURI of the tokenID and we're saying if it doesn't start with https:// that means we know that it hasn't been set. 
+
+then we can set the tokenURI.
+
+![callingSetTokenURI](Images/l137.png)
+
+![setTokenURIfunction](Images/l138.png)
+
+`setTokenURI` is the function that we added in AdvancedCollectible.sol which takes tokenID and _tokenURI.
+
+![setTokenURI](Images/l139.png)
+
+Now we've our set_tokenURI function we can add the token_id, advanced_collectible contract and tokenURI.Since we've already uploaded, what you could do is have a dictionary so we don't always have to be pulling from something.
+
+![dict](Images/l140.png)
+
+So in any case though we're going to do:
+
+ ![callingFinalTokenURI](Images/l141.png)
+ 
+ What we also might wanna do is write some tests around our set_tokenURI function but I'm just gonna move on.So we should be just about ready for everything.
+ 
+ `brownie test`
+ 
+ **End to End Mannual Test**
+ 
+ we're ready to do full end-to-end manual test here.We're just gonna run these scripts in order and look to see if our stuff shows up on the opensea NFT marketplace.Let's do this make sure your environment varibales are set.Make sure your metamask for rinkeby has some ETh and has some LINK and then we can start running the scripts.
+ 
+ `brownie run scripts/deploy_and_create.py --network rinkeby`
+ 
+ then run create_collectible:
+ 
+ `brownie run scripts/create_collectible.py --network rinkeby`
+ 
+ then run create metadata script:
+ 
+ `brownie run scripts/create_metadata.py --network rinkeby`
+ 
+ Now we all have to do is set the token uri.
+ 
+ `brownie run scripts/set_tokenuri.py --network rinkeby`
+ 
+ If we've done this correctly if we go to opensea and paste the contract address and then should be able to see our cat breed. 
+ 
+ 
 
 
 
