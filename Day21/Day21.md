@@ -215,6 +215,47 @@ We can run this inside of our brownie.
 
 `brownie run scripts/upload_to_pinata.py`
 
+Now if we go back to pinata, pin manager, we see our persian has actually been uploaded to pinata.
+
+We're keep going using the IPFS daemon to actually upload things but if you want you could totally swap out the upload_to_ipfs to use the script that we just created to upload it via pinata instead of our own IPFS node.Anyways the upload_to_ipfs is going to return the image uri.We can go ahead and the image_uri is set on the collectible metadata image 
+
+![image](Images/l129.png)
+
+Then all we have to do is dump the collectible metadata into its own file and then upload that as well to ipfs.
+
+![json](Images/l130.png)
+
+Then we can upload to IPFS also the metadata.
+
+![uploadingMetadata](Images/l131.png)
+
+Let's go ahead and try this out:
+
+`brownie run scripts/create_metadata.py --network rinkeby`
+
+Now we've both metadata file and an image uri.We've uploaded both of these to our IPFS.
+
+To make our lives little bit easier and since I've already actually uploaded these to IPFS myself a couple times and since the hashes of these are going to be the exact same for all of us when we upload this, we're going to go ahead and quickly refactor to make it a little bit easier so that we don't always have to have IPFS running. 
+
+**Refactor to not re-upload to IPFS**
+
+In our .env I'm going to add a new environment variable called UPLOAD_IPFS and set it to False.
+
+![notReupload](Images/l132.png)
+
+`image_uri = image_uri if image_uri else breed_to_image_uri[breed]`
+We're setting image_uri to whatever image_uri is if image uri isn't none else we'are creating a mapping
+
+![mapping](Images/l133.png)
+
+You can skip this you don't have to refactor here and you can just always have your daemon running and always upload to IPFS.It's a little bit quicker to not always have to do that.
+
+We're also going to add for metadata file.
+
+![metadataChecking](Images/l134.png)
+
+This is to go and show you how exactly we could upload all this stuff to IPFS.Another thing that you might do is you might actually save all the urls to their own file, to their own json object maybe inside of the metadata folder under rinkeby and then you can pull directly from those files.Same thing with the metadata once we upload to IPFS we're not actually gonna save these urls anywhere.You can absolutely 100% after you run this upload_to_ipfs script.We go ahead and save it to a file and pull directly from there moving forward.  
+
 
 
 
