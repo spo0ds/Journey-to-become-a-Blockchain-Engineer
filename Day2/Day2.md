@@ -72,7 +72,7 @@ Later on we're actually going to show you how to work with other evm compatible 
 
 Infact we're going to make our first transaction on the Rinkeby Testnet and this will simulate exactly what it's like to make the transaction on the ethereum mainnet.
 
-We're going to go to this application called the `Rinkeby Faucet`.This is where we're going to make our first transaction.Rinkeby is going to be one of the two testnets that we're actually gonna work with.The other test net that we're gonna work with is going to be `Coven`.It's important to know how to switch between testnets and evm compatible chains which is why we're going to be working with both.For now we're just be working with Rinkeby.
+We're going to go to this application called the `Rinkeby Faucet`.This is where we're going to make our first transaction.Rinkeby is going to be one of the two testnets that we're actually gonna work with.The other test net that we're gonna work with is going to be `Kovan`.It's important to know how to switch between testnets and evm compatible chains which is why we're going to be working with both.For now we're just be working with Rinkeby.
 
 `Faucet` is a testnet application that gives us free test ethereum.Hence why it has no value because anybody can get it for free from one of these faucets.So to get testnet ethereum with faucet.rinkeby.io, we actually have to post a tweet or a facebook post with the tweet.
 
