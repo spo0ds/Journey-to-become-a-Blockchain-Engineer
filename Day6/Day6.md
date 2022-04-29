@@ -149,7 +149,7 @@ First thing we actually need to do is import the chainlink code.
 
 ![chainlinkPriceFeed](Images/e15.png)
 
-As we know an import take whatever code you're importing and stick it at the top of your project.When we import from the "@chainlink/contracts", we're actually importing from the "@chainlink/contracts" npm package.We can see and read more about this repository [here]("https://www.npmjs.com/package").
+As we know an import take whatever code you're importing and stick it at the top of your project.When we import from the "@chainlink/contracts", we're actually importing from the "@chainlink/contracts" npm package.We can see and read more about this repository [here](https://www.npmjs.com/package).
 
 
 **Interfaces**
