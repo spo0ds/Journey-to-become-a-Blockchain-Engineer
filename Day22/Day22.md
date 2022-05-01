@@ -85,3 +85,43 @@ I can just call an admin only function on my proxy contract.
 I make all the contract calls go to this new contract.
 
 When talking about proxies, there're four pieces of terminology that we want to keep in our mind.
+
+1. The Implementation Contract
+    - Which has all our code protocol.When we upgrade, we lunch a new brand new implementation code.
+2. The proxy contract
+    - Which points to which implementation is the "correct" one, and routes everyone's function calls to that contract.
+    - You can think it sits on top of implementation contract.
+3. The user
+    - They make calls to the proxy.
+4. The admin
+    - This is the user (or group of users/voters) who upgrade to new implementation contracts.
+    
+In this scenario the other cool thing about the proxy and delegate call is that all my storage variables are going to be stored in the proxy contract and not in the implementation contract.This way when I upgrade to a new logic contract, all of my data will stay on the proxy contract.So whenever I wanna update my logic just point to a new implementation contract.If I want to add new storage variable or a new type of storage, I just add it in my logic contract and the proxy contract will pick it up.
+
+![proxyPointing](Images/m9.png)
+
+Now using proxies has couple of `gotchas` and we're going to talk about the gotchas and then we're going to talk about different proxy methodologies because there're many proxy contract methodologies as well and this is why `trail a bits` doesn't really recommend using upgradable proxies for your smart contracts because they're fraught with alot of these potential issues.Not to mention again you do still have some type of admin who's going to be upgrading your smart contracts.Now if this is a governance protocol then great you're decentralized but if this is a single group or entity then we've a problem.
+
+**Biggest Gotchas**
+- Storage Clashes
+- Function Selector Clashes
+
+When we use delegate call, remember we do the logic of contract B inside contract A.So if contract B says we need to set value to 2.We go ahead and set value to 2.
+
+![delegateCall](Images/m10.png)
+
+but these smart contracts are actually kind of dumb.we actually set the value of whatever is in the same storage location on contract A as contract B.So if our contract looks like above and we have to variables in contract A we're still gonna set the first storage spot on contract A to the new value.
+
+![setFirstStorage](Images/m11.png)
+
+This is really important to know because this means we can only append new storage variables in new implementation contracts and we can't reorder or change old ones.This is called `storage clashing` and in the implementation we're going to talk about they all address this issue.
+
+The next one is called function selector clashes.When we tell our proxies to delegate call to one of these implementations, it uses what's called a `function selector` to find a function.The function selector is a `four byte hash` of the `function name` and the `function signature`.Don't worry about the function signature for now.Now it's possible that a function in the implementation contract has the same function selector as an admin function in the proxy contract which may cause you to do accidentally a whole bunch of weird stuff.
+
+For example:
+
+![example](Images/m12.png)
+
+Even though these functions are totally different, they actually have the same function selector.So yes we can run into an issue where some harmless function like get price has the same function selector as upgrade proxy or destroy proxy.
+
+This leads to our first out of the three implementations of the proxy contract.
