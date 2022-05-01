@@ -125,3 +125,35 @@ For example:
 Even though these functions are totally different, they actually have the same function selector.So yes we can run into an issue where some harmless function like get price has the same function selector as upgrade proxy or destroy proxy.
 
 This leads to our first out of the three implementations of the proxy contract.
+
+**Transparent Proxy Pattern**
+
+This is called the `Transparent Proxy Pattern` and this is actually going to be the pattern that we're going to be demoing to you.In this methodology admins are only allowed to call admin functions and they can't call any functions in the implementation contract.Users can only call functions in the implementation contract and not any admin contracts.This way you can't ever accidentally have one of the two swapping and having a function selector clash and you run into a big issue where you call a function, you shouldn't have.
+
+If you're admin, you're calling admin functions.If you're user, you're calling implementation functions.So if you're an admin and you build some crazy defi protocol, you better come up with a new wallet address because you can't perticipate.
+
+**Universal Upgradeable Proxies**
+
+Second type of proxy we're going to talk about is the Universal Upgradeable Proxy or the UUPS.This version of upgradable contracts actually puts all the logic of upgrading in the implementation itself.This way the solidity compiler will actually kick out and say "Hey we got two functions in here that have the same function selector".
+
+![sameFunctionSelector](Images/m13.png)
+
+**Gas Saver!!**
+
+This is also advantageous because we've one less read that we've to do.We no longer have to check in the proxy contract if someone is an admin or not.This saves on gas of course.
+
+And the proxy is also a little-bit smaller because if this.The issue is that if you deploy an implementation contract without any upgradeable functionality, you're stuck and it's back to the yeet method with you.
+
+**Diamond Pattern**
+
+One of the biggest things that it does is it actually allows for multiple implementation contracts.This addresses a couple different issues.For example if your contract is so big and it doesn't fit into the one contract maximum size, you can just have multiple contracts through the multi-implementation method.
+
+![diamondPattern](Images/m14.png)
+
+It also allows you to make more granular upgrades like you don't have to always deploy and upgrade your entire smart contract, you can just upgrade little pieces of it if you've chucked them out.
+
+The disadvantages here really only seem like you have alot more complicated code.
+
+All the proxies mentioned here have some type of ethereum improvement prosopal and most of them are in the draft phase.There isn't really standard here for the proxy that the whole community has landed on and says "Yes this is great.Let's do it".So for all these be sure to jump on the discussion and give your thoughts.
+
+
