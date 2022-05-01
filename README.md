@@ -432,6 +432,10 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Social YEET / Migration |
 | - Proxies |
 | - Biggest Gotchas |
+| - Transparent Proxy Pattern |
+| - Universal Upgradeable Proxies |
+| - Gas Saver!! |
+| - Diamond Pattern |
 
 
 
