@@ -51,3 +51,37 @@ Cons:
 - Different addresses
 
 So there's a ton of social convention work here to do.[Trail of bits](https://blog.trailofbits.com/2018/10/29/how-contract-migration-works/) has actually written a fantastic blog on upgrading from V1 to V2 or etc with this YEET methodology and they give lots of steps for moving your storage and your state variables over to the new contract.
+
+So ir order to have a really robust upgrading mentality or philosophy, we need to have some type of methodology or framework that can update our state keep our contract address and allows us to update any type of logic in our smart contracts in an easy way which leads to our big ticked item ` the proxies`.
+
+**Proxies**
+
+Proxies are the truest from of programtic upgrades since a user can keep interacting with the protocols through these proxies and not even notice that anything changed or even got updated.Now these are also the places where you can screw up the easiest.
+
+![proxy](Images/m3.png)
+
+Proxies use a lot of low-level functionality and the main one being the `delegate call functionality`.Delegate call is a low level function where the code in the target contract is executed in the context of the calling contract and msg.sender and msg.value also don't change.
+
+In English this means if I delegate call a function in contract B from contract A, I'll do contracts B's logic in contract A.
+
+![delegateCall](Images/m4.png)
+
+So if contract B has a function that says "Hey store this value in a variable up top", I'm going to store that variable in contract A.This is the powerhouse and this combined with the fallback function allows us to delegate all calls through a proxy contract address to some other contract.
+
+![proxyWithFallBack](Images/m5.png)
+
+This means that I can have one proxy contract that will have the same address forever and I can just point and route people to the correct implementation contract that has the logic.
+
+![pointing](Images/m6.png)
+
+Whenever I want to upgrade I just deploy a new implementation contract and point my proxy to that new implementation.Now whenever a user calls a function on the the proxy contract I'm going to delegate call it to the new contract.
+
+![delegateCall](Images/m7.png)
+
+I can just call an admin only function on my proxy contract.
+
+![adminOnly](Images/m8.png)
+
+I make all the contract calls go to this new contract.
+
+When talking about proxies, there're four pieces of terminology that we want to keep in our mind.
