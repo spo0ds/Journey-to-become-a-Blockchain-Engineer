@@ -430,6 +430,8 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Who the admins? |
 | - Are upgradeable smart contracts decentralized? |
 | - Social YEET / Migration |
+| - Proxies |
+| - Biggest Gotchas |
 
 
 
