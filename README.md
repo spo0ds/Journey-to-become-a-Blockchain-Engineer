@@ -424,6 +424,12 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Refactor to not re-upload to IPFS |
 | - Setting the TokenURI |
 | - End to End Mannual Test |
+| <p align="center"> [Day 22](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day22/Day22.md) </p> |
+| **Lesson 12: Upgrades** |
+| - Not Really / Parameterize |
+| - Who the admins? |
+| - Are upgradeable smart contracts decentralized? |
+| - Social YEET / Migration |
 
 
 
