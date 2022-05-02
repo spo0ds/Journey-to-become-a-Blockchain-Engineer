@@ -444,6 +444,8 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Initializer |
 | - encoding the initializer function |
 | - get_encode_function |
+| - Assigning V2 to proxy |
+| - Upgrade Python Function |
 
 
 
