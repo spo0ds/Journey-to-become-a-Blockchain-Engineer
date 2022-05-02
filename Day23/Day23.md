@@ -132,6 +132,57 @@ Since we want these to be proxies, you can see in the contract that we don't hav
 
 So now we've the proxy_admin and implementation contract, let's hook them up to the actual proxy.First thing that we need to do is encode the initializer function.
 
+**encoding the initializer function**
+
+If we wanted to store to be our initializer function like I said, we could do something like:
+
+![initializer](Images/m36.png)
+
+What we then have to do is we'd have to encode this for our proxy.If we look at our "TransparentUpgradeableProxy.sol", look at the constructor:
+
+![constructor](Images/m37.png)
+
+We've address _logic, address admin and _data.The logic is that implementation.This is going to be the address of our box.The admin is going to be ourselves or in our case it's going to be that proxy admin contract.Then data is gonna be that initializer function.If we go into the [ERC1967Proxy](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/proxy/ERC1967/ERC1967Proxy.sol) and look at this one's constructor:
+
+![ERC1976](Images/m38.png)
+
+You can see the _data bit there.Once this is built with the constructor, it's immediately going to call the _upgradeToAndCall.So it's going to call _upgradeToAndCall initializer.IF we go to [_upgradeToAndCall](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/proxy/ERC1967/ERC1967Upgrade.sol)
+
+![_upgradeToAndCall](Images/m39.png)
+
+It's going to call Address.functionDelegateCall.This is how it actually calls that initailizer function.We have to actually encode the `box.store, 1` into bytes.So we've to say box.store is the function a call and then 1 is going to be the first parameter.
+
+![boxEncoded](Images/m40.png)
+
+This is where it gets a little bit tricky but I usually have this encode_function_data once again in our helpful_scripts.
+
+**get_encode_function**
+
+It's going to take initializer which we're going to start off as none and then any number of arguments after that.Like : `initializer = box.store, 1, 2 , 3`.For us we only have one variable that can be put into store but this is how you'd do it.
+
+ ![EFD](Images/m41.png)
+
+To do this brownie actually has a built-in function that can actually do this.We just return  initializer.encode_input.
+
+![returnInitializer](Images/m42.png)
+
+However there's a bit of an issue here when we do length of the args to zero.
+
+![ethUtils](Images/m43.png)
+
+We do have to import eth_utils and of course we'd have to `pip install eth_utils`
+
+Basically what we're doing like I said is we're encoding it into bytes so that our smart contracts actually know what function to call and if it's blank or there's no initializer we're going to return an empty hex string and our smart contract will understand arguments are blank here.
+
+![01Deploy](Images/m44.png)
+
+Now that we've this, we could go ahead and run box_encoded_initializer_function equals to encode_function_data which we'd import from our helpful_scripts.This is what we use when we call the constructor for our transparent upgradeable proxy.
+
+I'm just going to have it be blank for now but feel free to fiddle around and try to actually use an initializer after we run through the code.
+
+
+
+
 
 
 
