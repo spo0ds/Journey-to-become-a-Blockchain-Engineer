@@ -58,5 +58,33 @@ You got to change the contract of BoxV2.sol to BoxV2.
 
 ![changingContractName](Images/m22.png)
 
+So we've our Box, BoxV2 and proxy contracts that we can use to upgrade the Box to a new version.we can even look at the ProxyAdmin.sol in open zeppelin's github, we can see it has the function "upgradeAndCall".
+
+![upgradeAndCall](Images/m23.png)
+
+It calls the upgradeToAndCall on the proxy contract.If we look in the transparent proxy's upgradeToAndCall
+
+![upgradeToAndCall](Images/m24.png)
+
+which is been imported actually.IF we go back to ERC1967Upgrade.sol
+
+![_upgradeToAndCall](Images/m25.png)
+
+This is the function that it's actually going to call.It calls the _upgradeTo function which calls _setImplementation function and all we're doing is 
+
+![_setImplementation](Images/m26.png)
+
+setting the implementation slot to being the new address that we wanted to use and we can see if we look in the [proxy contract](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/proxy/Proxy.sol) the way that it actually works is it has the _Fallback function.
+
+![_fallback](Images/m27.png)
+
+Where it's always going to delegate our calls to whatever the implementation contract is.The _delegate function if we look at it, is a little bit of low level assembly here:
+
+![_delegate](Images/m28.png)
+
+It uses the low level delegate call to send any function call or any call to the implementation contract.So this is exactly the function doing all that delegation.
+
+
+
 
  
