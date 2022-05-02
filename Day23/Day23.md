@@ -84,6 +84,54 @@ Where it's always going to delegate our calls to whatever the implementation con
 
 It uses the low level delegate call to send any function call or any call to the implementation contract.So this is exactly the function doing all that delegation.
 
+So now that we've dug deep into the code, let's actually script this out and turn this into script.So let's create a new file inside scripts directory "01_deploy_box.py".This is gonna be how we're actually gonna deploy the box.So since this is a brownie script:
+
+![gettingAcc](Images/m29.png)
+
+Let's go ahead and create a new file "helpful_scripts.py".Again we're just going to paste in that get_account function from our past helpful_Scripts.
+
+![helpful_scripts](Images/m30.png)
+
+![BoxDeploying](Images/m31.png)
+
+This alone should just deploy the box contract.This means we could call retrieve function and get 0 value.
+
+`brownie run scripts/01_deploy_box.py`
+
+If you get this error:
+
+![error2](Images/m32.png)
+
+You need to add .env file.You don't have to put anything yet because we're not actually deploying to a real network.
+
+However though if we run box.increment(), this should error out.
+
+![error3](Images/m33.png)
+
+This is what's known as our implementation contract.This box is implemented.
+
+![box](Images/m34.png)
+
+Now we've to hook it up to a proxy.
+
+**Hooking up a proxy to our implementation contract**
+
+Let's first give it a proxy admin and proxy admins are optional.It's also recommended that if you do have a proxy admin, you're going to use some type of defi protocol.Sometimes it's great to have your proxy admin be something like [multi-sig gnosis safe](https://help.gnosis-safe.io/en/articles/3876461-create-a-safe).
+
+Let's go ahead and do a proxy admin because they're really helpful.We could optionally just set ourselves to be the proxy admin but let's set it to be the Box contract.
+
+![proxyAdmin](Images/m35.png)
+
+If we look at the ProxyAdmin.sol, we can see a couple functions like `getProxyImplementation` which is just going to return the address of the implementation, `getProxyAdmin` which going to be us, `changeProxyAdmin`, `upgrade` which is just going to call that upgrade function on the proxy and then we've `upgradeAndCall` which changes the implementation to the new implementation and then calls that initializer function.
+
+`Proxies don't have constructors.`
+
+**Initializer**
+
+Since we want these to be proxies, you can see in the contract that we don't have a constructor.This is intentional.Instead we could have some type of initializer function.For example maybe we want to have Box store function via constructor.Instead of having constructor what we do is we call what's called our initializer function the instant we deploy the contract.For the demo here we're just not going to have an initializer.
+
+So now we've the proxy_admin and implementation contract, let's hook them up to the actual proxy.First thing that we need to do is encode the initializer function.
+
 
 
 
