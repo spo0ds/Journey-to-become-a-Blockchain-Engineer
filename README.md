@@ -436,6 +436,14 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Universal Upgradeable Proxies |
 | - Gas Saver!! |
 | - Diamond Pattern |
+| <p align="center"> [Day 22](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day22/Day22.md) </p> |
+| - Coding Upgradeable Smart Contracts |
+| - Box.sol |
+| - Getting Proxy Contracts |
+| - Hooking up a proxy to our implementation contract |
+| - Initializer |
+| - encoding the initializer function |
+| - get_encode_function |
 
 
 
