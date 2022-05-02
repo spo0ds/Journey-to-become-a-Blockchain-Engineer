@@ -180,6 +180,80 @@ Now that we've this, we could go ahead and run box_encoded_initializer_function 
 
 I'm just going to have it be blank for now but feel free to fiddle around and try to actually use an initializer after we run through the code.
 
+So the box_encoded_initializer_function is going to be blank.We're saying don't use an initializer and it's fine.If we were to add some stuff, we'd say use an initializer.
+
+So now we can actually deploy the transparent upgradeable proxy.What are those variables we need?We need the address of the logic which is gonna be our implementation contract (box.address), then we're gonna need our admin which we could just say is us but we're going to use the proxy_admin (proxy_admin.address) and we need the function selector(box_encoded_initializer_function).For us it's just blank but we still need it.we have to add from account and I also noticed that sometimes it's helpful to add some gas limit.
+
+![proxy](Images/m45.png)
+
+**Assigning V2 to proxy**
+
+On the proxy's address we can call functions.Typically if you want to call function on the box contract, we do box.retrieve or box.store(1), however we want to actually call on the proxies because box contracts address is always going to be the same address and can't change.The proxy code can change.We want to always call these functions to the proxy and not to the box.The way we do that is:
+
+![proxyBox](Images/m46.png)
+
+We're assigning the proxy address, the abi of the box contract and this is gonna work because the proxy is gonna delegate all of it's calls to the box contract.Typically if you put an ABI on top of an address that doesn't have those functions that the ABI defines it would just error but the proxy is actually going to delegate all those calls to the box.So we could actually go ahead and try something like:
+
+![callingProxyRetrieve](Images/m47.png)
+
+Even though we're using the proxy_address here, we're going to delegate the call to box.
+
+So let's go ahead and run this:
+
+`brownie run scripts/01_deploy_box.py`
+
+It's going to deploy the box, deploy the admin, going to encode that initializer function which we've set to nothing then it's going to deploy our transparent upgradeable proxy and it's going to call retrieve on the transparent upgradeable proxy instead of our box.
+
+If you get this error:
+
+![ethError](Images/m48.png)
+
+solve it by:
+
+![ethFix](Images/m49.png)
+
+The output you should get is:
+
+![output](Images/m50.png)
+
+Now that we've deployed it let's learn how to upgrade it.Change script name from "01_deploy_box.py" to "deploy_and_upgrade.py".Let's go ahead and now upgrade this.We can always point to the proxy_box address and it's going to be the most recent upgrade.It's always going to have the code that we want it to have.Let's go ahead and upgrade from box that doesn't have that increment to BoxV2 that does indeed have increment function.
+
+**Upgrade Python Function**
+
+First we need to do is we actually need to deploy that BoxV2.Then all we need to do is call an upgrade function.Basically all we have to do is call `upgradeTo function` but depending on if we've added a proxy admin contract, if we're using initializer function, there might be couple of different ways to go about this.So I like to just wrap everything up into it's own upgrade function.We're going to pop into our helpful scripts and create a new one called upgrade.For parameters in there is we're gonna take some type of account so that we've something to account to deploy from, use the proxy which is again gonna be that proxy contract, need a new implementation address, proxy admin  which could be None.For us we're gonna have one.Then we're gonna have an initializer which also could be none and args for the initializer which also could be none.
+
+![parameterUpgrade](Images/m51.png)
+
+This start is special thing in python which says any number of arguments will just get stored into the list called args.
+
+First let's check to see if there's a proxy_admin_contract, then we check to see if there's an initializer, then first we wanna encode that function data then all we have to do 
+
+![ProxyAdminContract](Images/m52.png)
+
+This upgradeAndCall if we look in that ProxyAdmin.sol which just call upgradeToAndCall of the proxy contract. 
+
+If it doesn't have initializer then:
+
+![noInitializer](Images/m53.png)
+
+It also just has regular upgrade.
+
+Now if it doesn't have proxy admin contract, this means that the admin is just going to be a regular old wallet.
+
+![finalFunction](Images/m54.png)
+
+Now that we've our upgrade function, we can use it in our "deploy_and_upgrade.py".
+
+![upgrading](Images/m55.png)
+
+So let's go ahead and run this:
+
+`brownie run scripts/deploy_and_upgrade.py`
+
+![output](Images/m56.png)
+
+
+
 
 
 
