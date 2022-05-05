@@ -454,6 +454,10 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Staking and Depositing |
 | - DappToken.sol |
 | - TokenFarm.sol |
+| - tokenIsAllowed |
+| - Valued Staked Tokens |
+| - issueTokens |
+| - getUserTotalValue |
 
 
 
