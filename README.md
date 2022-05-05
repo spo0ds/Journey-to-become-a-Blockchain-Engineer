@@ -449,6 +449,11 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Testing our upgrades |
 | - Testing our proxy |
 | - Upgrades on a testnet |
+| <p align="center"> [Day 24](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day24/Day24.md) </p> |
+| **Lesson 13: Full Stack Defi** |
+| - Staking and Depositing |
+| - DappToken.sol |
+| - TokenFarm.sol |
 
 
 
