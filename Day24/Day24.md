@@ -43,3 +43,57 @@ Now we only want specific tokens to be stacked on our platform, we could say :
 ![forToken](Images/n4.png)
 
 So we might have to actually create a token is allowed function.Let's go ahead and create that.
+
+**tokenIsAllowed**
+
+It'll take some token address and return true if that token is allowed or false if it's not allowed.
+
+![tokenIsAllowed](Images/n5.png)
+
+So how do we know if a token is actually allowed?We probably want some list or some mapping of these tokens and whether or not they're allowed.After all we've probably learned that there are definitely some trade offs between lists and mappings.For simplicity's sake we're just going to stick with a list for now.So we're going to create an address array.For our tokenIsAllowed function we'll just loop through the list and see if that token is in there.
+
+![loop](Images/n6.png)
+
+Now we've a way to check to see if allowed tokens are there.Let's actually write a function to add allowed tokens.
+
+![addingAllowedTokens](Images/n7.png)
+
+Adding allowed tokens is probably something we only want the admin wallet or the owner of the contract to do.So we'll add onlyOwner as a modifier to the function and we'll make TokenFarm Ownable.
+
+![ownable](Images/n8.png)
+
+and we'll import from open zeppelin here too.
+
+`import "@openzeppelin/contracts/access/Ownable.sol";`
+
+Let's do quick compile : `brownie compile`
+
+Now that we've a little bit of functionality, it might be a good time to actually go ahead and start writing some tests if you want to.Since I know that we're going to change the constructor a little bit and we're going to change a little bit of how this is actually formatted, I'm just going to keep going but now might be a great time for writing tests.
+
+In any case now that we've these two functions, we can go ahead and actually start checking to see if the tokens that these stakers are going to stake is actually allowed.So what we can do now is we're going to add this require statement in.
+
+![tokenAllowed](Images/n9.png)
+
+Now we have two required statements that answer the questions.Now we just have to call transferFrom on the ERC20.
+
+![transfer](Images/n10.png)
+
+ERC20s have two transfer type functions.They have transfer and transferFrom.Transfer only works if it's being called from the wallet who owns the tokens.If we don't own the token, we've to do transferFrom and they have to call approve first.
+
+So we're going to call the transferFrom function on the ERC20 since our TokenFarm contract isn't the one that owns the ERC20.We also have to have the ABI to actually call the transferFrom function.We're going to need `IERC20 interface`We'll grab it from open zeppelin.
+
+![IERC20](Images/n11.png)
+
+We're using the interface here because we don't need the whole contract.
+
+Let's wrap the token address as an ERC20(IERC20(_token)) token so that we've the ABI via interface and the address and we'll call transferFrom from the msg.sender, send it to the TokenFarm contract and the amount.
+
+![transferFrom](Images/n12.png)
+
+Now we just need to keep track of how much of these tokens they've actually sent us.So we're going to create some type of mapping.The mapping is going to map token address to staker address to the amount.This way we can keep track of how much of  each token each staker has staked.So it's a mapping per token per staker per amount.
+
+![mappingDec](Images/n13.png)
+
+
+
+
