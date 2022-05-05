@@ -237,3 +237,16 @@ Now we can go ahead and start scrolling back up and adding all the stuff in getT
 We're taking the amount of token that the user has staked.For example 10 ETH and we're taking the price of that ETH.Maybe we've all of our contracts, all of these tokens get converted back to the USD price.So we've ETH/USD.Let's say the price is $100 per USD.First bit is going to do that 10 ETH * $100 = 1000 value.The only thing is we also have to divide by the decimals.So our stakingBalance is going to be in 18 decimals so ETH gonna be 1_000_000_000_000_000_000 and let's say our ETH/USD only has 8 so 10_000_000_000.So we need to multiply these first and then divide by the decimals that way we can arrive at a price that can actually makes sense.This is going to be a function that we definitely going to need to test to make sure that we're doing everything right so that we're doing all the math correctly.
 
 
+Now that we the getUserSingleTokenValue, we go ahead and come back up to our getUserTotalValue and we can literally finish this function by returning totalValue.
+
+![getUserTotalValue](Images/n44.png)
+
+then we call pull up to our issueTokens.Now that we've the total value that the user has actually logged, we can just transfer the amount of tokens that they've in total value.
+
+![transferringTotalValue](Images/n45.png)
+
+We'll say however much they have in total valued staked on our platform, we'll issue them as a reward and this is our issueTokens function.
+
+![issueTokens](Images/n46.png)
+
+So we've a way to stake.Done :) We've a way to issue Done :) We've a way to get getValue :D We've added a way to addAllowedTokens :D
