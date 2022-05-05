@@ -182,4 +182,58 @@ We'll add the total value and we'll say totalValue will be equal to totalValue +
 
 ![functionDef](Images/n30.png)
 
+We want to get the value of how much the person staked of the single token.For example: If they staked 1 ETH and the price of 1 ETH is $2000, we wanna make sure that it returns 2000 or if they have 200 DAI stakes and the price of 200 DAI is $200, we wanna make sure this returns 200.So we're getting that conversion rate exactly how much value the person has staked in our application.
+
+![stakedZero](Images/n31.png)
+
+We don't want to do a require here because we want this to actually keep going.If `totalValue` is zero, we don't want the transaction to actually revert.So how do we actually get the value of a single token?Well we're going to need to get the staking balance but we also need the price of that token.`So we're going to need to get the price of the token and then multiply that by the staking balance of the token of the user.`So once again we need to create another function called "getTokenValue".
+
+![getTokenValue](Images/n32.png)
+
+This is ofcourse where we need pricing information.This is where we're going to actually work with the chainlink pricefeeds once again.We're going to need a pricefeed address that's the first thing we're going to need.So we're going to actually have to map each token to their associated pricefeed addresses.We're going to need some mapping that does that.
+
+![TokenPriceFeed](Images/n33.png)
+
+It's going to map token to their associated price feeds and with that means we're going to have a function called "setPriceFeedContract" where we actually set the pricefeed associated with a token.
+
+![setPriceFeedContract](Images/n34.png)
+
+Now that we've a way to set the pricefeed contracts.We've a way to map the tokens to their price feeds.Again go to [docs.chain.link](https://docs.chain.link/docs/ethereum-addresses/), we can find the different price feeds there and this where we're going to set those pricefeeds.Now back down in our `getTokenValue`, we can grab that pricefeed address now by:
+
+![priceFeedAddress](Images/n35.png)
+
+Now that we've the address, we can use it on AggregatorV3Interface.Again we can always go back to docs [here](https://docs.chain.link/docs/get-the-latest-price/), grab the import and past it on our contract.
+
+![importingAggregatorV3](Images/n36.png)
+
+Since we're doing the import, we're gonna go to our brownie config :
+
+![dependencies](Images/n37.png)
+
+Now that we've imported that we can now grab that AggregatorV3Interface for the price feed.
+
+![gettingPriceFeed](Images/n38.png)
+
+Then once we've the pricefeed contract, we can call .latestRoundData().we can check the documentation to see what that function actually looks like.
+
+![getLatestRoundData](Images/n39.png)
+
+It's going to return whole bunch of stuff but we only care about the price.
+
+![gettingPrice](Images/n40.png)
+
+We also care about the decimals.We need to know how many decimals the price feed contract has that way we can match everything up to be using the same units.So we'll do:
+
+![decimals](Images/n41.png)
+
+Now we can return both of these.So we'll add another uint256 in return.
+
+![returns](Images/n42.png)
+
+Now we can go ahead and start scrolling back up and adding all the stuff in getTokenValue function call.
+
+![returningSingleTokenValue](Images/n43.png)
+
+We're taking the amount of token that the user has staked.For example 10 ETH and we're taking the price of that ETH.Maybe we've all of our contracts, all of these tokens get converted back to the USD price.So we've ETH/USD.Let's say the price is $100 per USD.First bit is going to do that 10 ETH * $100 = 1000 value.The only thing is we also have to divide by the decimals.So our stakingBalance is going to be in 18 decimals so ETH gonna be 1_000_000_000_000_000_000 and let's say our ETH/USD only has 8 so 10_000_000_000.So we need to multiply these first and then divide by the decimals that way we can arrive at a price that can actually makes sense.This is going to be a function that we definitely going to need to test to make sure that we're doing everything right so that we're doing all the math correctly.
+
 
