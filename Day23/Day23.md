@@ -252,6 +252,40 @@ So let's go ahead and run this:
 
 ![output](Images/m56.png)
 
+**Testing our upgrades**
+
+We want to make sure our project always stays in sync and upto data.So let's write couple of tests.Create a new file called "test_box_proxy.py" and for this we're really going to test to see that our contracts work.We're going to see that the box actually is going to work correctly.
+
+![ProxyDelegateCall](Images/m57.png)
+
+We're using the proxy contract ("proxy") and gave the abi on top of it.We're just testing to see that our proxy is working correctly.So we can go ahead and test this then.
+
+`brownie test`
+
+**Testing our proxy**
+
+Now let's go ahead and create a new script for testing the upgrades.Create a new file called "test_box_v2_upgrades.py".
+
+![test_box_v2_upgrades](Images/m58.png)
+
+What we're trying to do is slapping the BoxV2 abi onto the proxy address.We're going to try to call a function only boxV2 could call.However we know that like we tested before it actually should revert.So we can actually check for reverts by importing pytest. 
+
+![testingUpgrade](Images/m59.png)
+
+So let's go ahead and run this test:
+
+`brownie test -k test_proxy_upgrades`
+
+With these there comes alot of risk at least in the form of centralization risk.If you're the only wallet that controls the proxy that means your application is centralized.So if you're gonna deploy anything with proxies to mainnet absolutely be sure to get it audited beforehand.
+
+**Upgrades on a testnet**
+
+Before we close this project up, let's actually deploy this to an actual testnet.So that we can see everything that goes on when we call the deploy_and_upgrade.py.
+
+`brownie run scripts/deploy_and_upgrade.py --network rinkeby`
+
+
+
 
 
 
