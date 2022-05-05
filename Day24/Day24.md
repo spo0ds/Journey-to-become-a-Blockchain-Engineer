@@ -94,6 +94,50 @@ Now we just need to keep track of how much of these tokens they've actually sent
 
 ![mappingDec](Images/n13.png)
 
+Now that we've the mapping, in our stakeTokens function:
 
+![mapping](Images/n14.png)
+
+Now we've a way for users to stake different tokens that we've actually allowed them to stake on our platform.
+
+So what do we want them to be able to do?We want them to unstake tokens, issue some reward and get the ETHValue based on the reward.Typically you might want to do this unstake tokens bit first however I know that we're actually going to need some additional functionality in our stakeTokens function for us to actually issue tokens properly.So let's just go ahead and do the issueTokens bit.
+
+Remember the issueTokens is a reward we're giving to the users who use our platform so we want to issue some tokens based off the value of the underlying tokens that they've given us.
+
+**Valued Staked Tokens**
+
+For example maybe they've deposited 100 ETH and we want to do a ratio of 1:1 for every 1 ETH, we give one DAPP token.That's pretty for us to figure out.However they've 50 ETH and 50 DAI staked, and we want to give a reward of 1 DAPP / 1 DAI.Well then we've to convert our ETH into DAI so we know that conversion ratio for the DAPP token.So that's the problem that we're going to work on now.
+
+**issueTokens**
+
+This is going to be a function only callable by the owner.
+
+![issueTokens](Images/n15.png)
+
+So how do we actually go ahead and issue tokens?Well first though would be to loop through a list of all the stakers that we've but right now we don't have a list of stakers.We've a mapping of stakers and a list of allowed tokens.We'll we probably going to need to have a list of stakers because we can't loop through a mapping.
+
+![stakers](Images/n16.png)
+
+This is just a list of all the different stakers on our platform.Now when somebody stakes a token, we're going to have to update the list.We want to make sure thay're only added if they're not already on the list.So in order for us to do this we should get an idea of how many unique tokens a user actually has.So I'm going to create a function called "updateUniqueTokensStaked".
+
+![updateUniqueTokensStaked](Images/n17.png)
+
+It's going to get a good idea of how many unique tokens a user has and if a user has 1 unique token, we can add them to the list.If they've more than one, we know that they're alredy been added to the list.So we don't need to add them there.
+
+So let's create the updateUniqueTokensStaked function.
+
+![updateUniqueTokensStaked](Images/n18.png)
+
+Since we've the new mapping called "uniqueTokensStaked", we'll make that as well.
+
+![uniqueTokensStacked](Images/n19.png)
+
+So this way we know how many different tokens each one of these addresses actually has staked.
+
+Now that we've a better idea of the unique tokens each one of the users has staked.What we can do is we can figure out whether or not we want to push them onto the stackers list.If they're already on there, we don't want to push them.IF they're not on there then we do wanna push them.
+
+![FinalStakeTokens](Images/n20.png)
+
+This is going to be our completed stakeTokens function.We had to add the little extra functionality between the unique tokens to figure out how to actually issue some reward for them.
 
 
