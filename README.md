@@ -446,6 +446,9 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - get_encode_function |
 | - Assigning V2 to proxy |
 | - Upgrade Python Function |
+| - Testing our upgrades |
+| - Testing our proxy |
+| - Upgrades on a testnet |
 
 
 
