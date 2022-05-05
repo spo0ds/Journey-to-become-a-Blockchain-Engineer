@@ -140,4 +140,46 @@ Now that we've a better idea of the unique tokens each one of the users has stak
 
 This is going to be our completed stakeTokens function.We had to add the little extra functionality between the unique tokens to figure out how to actually issue some reward for them.
 
+But now that we've the list and it's going to get updated and also get updated when we unstake.What we can do now is just loop through the list of stakers.
+
+![issueTokens](Images/n21.png)
+
+So we've to send them a token reward.We've to figure out how to actually send them the token and then we also have to get their total value locked.To send them a token reward which is going to be a Dapp token that we created in the beginning.Right when we deploy the contract, we need to know what a reward token is actually going to be.So we need to create a constructor.Right when we deploy the contract, we need to know what is the address of the dapp token.
+
+![constructor](Images/n22.png)
+
+Now we've the dapp token with it's associated address, what we can do now is call functions on `issueTokens`.For example: we can call `dappToken.transfer`.We can call transfer here because our TokenFarm contract is going to be the contract that actually holds all the dapp tokens and we're going to send the token to recipient with certain amount.
+
+![howmuchAmount](Images/n23.png)
+
+Well we need some function to get the total value.
+
+**getUserTotalValue**
+
+![callingFunction](Images/n24.png)
+
+![functionDec](Images/n25.png)
+
+This is where we do a lot of looping.We gotta find out how much each of these tokens actually has.Now what alot of protocols do instead of them actually sending and them issuing the tokens, they actually just have some internal method that allows people to go and clain their tokens.You've probably seen that before people claiming airdrops that's because it's alot more gas efficient to have users claim the airdropped instead of the application actually issuing the tokens.It's going to be very gas expensive to do looping through all the addresses and checking all the addresses right.
+
+We're going to do it though because we're a wonderful amazing protocol and we want to give our users the best experience.
+
+This is going to be a public view function that will return uint256.
+
+![returns](Images/n26.png)
+
+because we want to return the total value to our issue tokens function.So how do we actually get started?
+
+![require](Images/n27.png)
+
+If the require statement is true(has some token staked), we'll go ahead and find it.We're going to loop through those `allowedTokens`  and we're going to find how much the user has for each one of the allowedTokens.
+
+![forLoop](Images/n28.png)
+
+We'll add the total value and we'll say totalValue will be equal to totalValue + however much value the person has in the tokens.getUserTotalValue is the total value across all the different tokens.We need a way to get the total value across one token.So we're going to create a new function called "getUserSingleTokenValue" where we'll pass it user and single token that we're right on.
+
+![getUserSingleTokenValue](Images/n29.png)
+
+![functionDef](Images/n30.png)
+
 
