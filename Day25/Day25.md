@@ -76,6 +76,61 @@ We could grab the address from config and always get from our config.Or we could
 
 What we put in `get_contract("weth_token")` here, our string that we put there, needs to match our string in our config.Now in order for get_contract to work for weth_token and fau_token, we're actually going to have to modify our helpful_scripts here.So if we copied and pasted it directly from our chainlink-mix, we're going to have : We're importing all of our mocks which we can go ahead and copy paste these as well from chainlink-mix; test for our mock contracts, forking implementation, contract_to_mock which tells us based off of the key what token or what contract we use to mock, get_account which we use all the time.
 
+In order for us to do contract_to_mock correctly, we're going to have to mock weth and fau and actually we only need eth_usd_price_feed among all others there.We do need eth_usd_price_feed later on so I'm leaving it there.
+
+We definitely need fau_token mock to something and weth_token which is also mock to something else.So what are these tokens going to be mocked to?well they're each an ERC20 mock but we want to give them kind of their own identity.So we're actually going to make a mock ERC20 for both fau and weth.So inside our contracts/test we're going to create a new file "MockDAI.sol" and this is going to mock that fau token.We're just going to make it a basic ERC20. 
+
+![mockDAI](Images/n58.png)
+
+We'll copy the code and do the same thing for MockWETH.sol.
+
+![mockWETH](Images/n59.png)
+
+So now that we've these mocks, we can change fau_token to MockDAI and weth_token to MockWETH.
+
+![mockContract](Images/n60.png)
+
+we can import those from brownie and also get rid of oracle and VRFCoordinator.
+
+![imports](Images/n61.png)
+
+Since we've dai_usd_price_feed and eth_usd_price_feed, we're going to make sure we have these in our mocks and then we're also gonna have to deploy these in our deploy mocks script.So if we go to deploy_mocks function in helpful_scripts, it's currently pulling directly from the chainlink-mix.We go ahead and delete the VRFCoordinator and the mock Oracle and instead, we'll deploy those mockWETH and mockDAI.
+
+![mocksDeploying](Images/n62.png)
+
+Now additionally we've our eth_usd_price_feed in contract_to_mock left over from the chainlink-mix, we also need the dai_usd_price_feed.
+
+![dai_usd_price_feed](Images/n63.png)
+
+We could parameterize the MockV3Aggregator up so that the mockV3Aggregator takes maybe some different decimals or different initial value so that they could be different but for the sake of testing, we're just going to leave them being the same.
+
+So we've the address of the weth_token and fau_token.If those don't exist on the network that we're working on, we're going to deploy a mock.So now that we've all these addresses, we could do a dictionary of allowed tokens:
+
+We're just going to route each one of the contract like dapp_token to it's equivlent price_feed.For the dapp_token and fau_token which are going to be equal to dai and our weth_token is going to be eth.So we're going to get a dai_usd_price_feed, another dai_usd_price_feed and an eth_usd_price_feed.
+
+![priceFeed](Images/n64.png)
+
+So in our config:
+
+![priceFeedInConfig](Images/n65.png)
+
+So to complete the deck, we can do get_contract again and we'll deploy mock price feeds if they don't exist.
+
+![completingDeck](Images/n66.png)
+
+Now we've dictionary of allowed tokens that we can pass to our add_allowed_tokens which will map the tokens and their addresses with their associated price feeds so we can get them all to equal the same value in our contracts.We can go ahead and create a function called "add_allowed_tokens".We'll pass the token_farm, dictionary of allowed tokens and the account.In our add_allowed_tokens function, we're going to loop through all different tokens and call the add allowed function on it.
+
+![addAllowed](Images/n67.png)
+
+then we're going to call setPriceFeedContract function.So we're actually going to set the price_feed associated with that token.
+
+![tokenFarm](Images/n68.png)
+
+Great the deploy script look pretty good and infact we're going to end our deploy_token_farm_and_dapp_token with returning token_farm and dapp_token.This way we can actually use deploy script in our tests.Let's give this an initial test on a local ganache chain:
+
+`brownie run scripts/deploy.py`
+
+
 
 
 
