@@ -90,7 +90,13 @@ If we've done all our math correctly and if we've done our issueTokens and our g
 
 `brownie test -k test_issue_tokens`
 
+Now I'm actually going to stop writing tests because I'm literally just keep going down that solidity file and grabbing functions and adding test to them.We're going to move to the next section to keep things moving forward but I highly highly recommend you trying to write all these tests yourself.
 
+**Get everything setup for testnets**
+
+Export your private key and Infura ID in your .env file and add .env file in your config.
+
+`brownie scripts/deploy.py --network kovan`
 
 
 
