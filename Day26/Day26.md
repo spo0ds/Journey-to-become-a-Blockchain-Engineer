@@ -50,6 +50,23 @@ and we're going to define it in our conftest.py file.In our conftest.py, we're g
 
 ![conftest](Images/n76.png)
 
+Now we can use the amount_staked fixture as basically a static variable.Pytest and brownie will automcatically grab all the fixture from conftest and pass it onto our testing.We can just use amount_staked as a parameter in our test.
+
+![approve](Images/n77.png)
+
+Once we approve, we can do:
+
+![stakedToken](Images/n78.png)
+
+![assert1](Images/n79.png)
+
+If we go to our TokenFarm, we've the mapping called stakingBalance which is a mapping of a mapping.we need to pass actually two variables.First address and second address to get the amount.That is how we do syntatically in above code with brownie.You just pass it as additional parameters.
+
+We can even run this by `brownie test -k test_stake_tokens`
+
+
+
+
 
 
 
