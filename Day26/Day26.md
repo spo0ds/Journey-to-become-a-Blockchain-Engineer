@@ -64,6 +64,32 @@ If we go to our TokenFarm, we've the mapping called stakingBalance which is a ma
 
 We can even run this by `brownie test -k test_stake_tokens`
 
+We still have other assertions to make because if we look at our stakeTokens function it does lot of things.So let's check all of it to make sure that they all are working correctly.
+
+This is going to be the first token so unique token staked should be 1 and stakers at 0th index should be the account that we're using.we update our unique token stacked, update our staking balance, then we push the msg.sender in our staked.So we're going to be the first address in the array.We'll be returning token_farm and dapp_token because we can use it in some of the other tests.
+
+![assert](Images/n80.png)
+
+Now we're moving into test_issue_tokens phase here and we're going to use test_stake_tokens.We're going to grab the amount_staked and place it as a argument in test_issue_tokens and we're going to set this test almost exactly the same way.
+
+![arrange](Images/n81.png)
+
+So to test issuing tokens to issue the reward, we want to first take some inventory of current starting blanaces of our address.
+
+![startingBalance](Images/n82.png)
+
+![Act](Images/n83.png)
+
+In our assert, dapp_token account address balance should be equal to starting balance + some new amount.What that some new amount going to be?Well of we look at our issueTokens function, if we're staking in our conftest, we're staing 1 ether or 1 DAI because we're staking the dapp_token, we're just staking 1.Our mocks is going to be the eth_usd_price_feed or MockV3Aggregator when we deploy it, the initial value is going to be 2000.We're saying in our mock, in our test sample, we're staking 1 dapp_token which is equal in price to 1 ETH.So we should get 2000 dapp_tokens in reward.Since the price of eth is $2000.
+
+Little bit of math here.The initial value is 2000 and our application pays us reward based off of the total USD value that we've locked.So we actually can know that `???` is going to be 2000 price.In our test we could import INITIAL_PRICE_FEED_VALUE from our helpful_scripts and we can just assume that our starting value is going to be starting balance + that initial price feed value.
+
+![issueTokens](Images/n84.png)
+
+If we've done all our math correctly and if we've done our issueTokens and our getValue correctly this should work.
+
+`brownie test -k test_issue_tokens`
+
 
 
 
