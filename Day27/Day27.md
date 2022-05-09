@@ -66,3 +66,45 @@ If you wanna know where this's coming from, if you go in your package.json and y
 These are the four different scripts that we actually run.Running yarn start runs this npx react-script start which will actually start our front end.After a little bit of time, we'll get something that look like:
 
 ![web](Images/n87.png)
+
+This is a super simpler front end.Obviously this isn't at all what we're looking for but we've now started a front end.
+
+We're going to stop the front for now by hitting `ctrl` + `c`.
+
+We've a really basic setup for working with a front end.
+
+**connecting your wallets**
+
+If we look at an application like [aave](https://app.aave.com/), you'll see they've connect button that pops up and they've got some nice user interface tools for actually working with the blockchain.We don't have to reinvent the wheel and build all these custom tools for doing this.So we're going to use the application called `useDapp`.To get started installing all we have to do is run:
+
+`npm install @usedapp/core`
+
+This will install all the usedDapp pieces into our frontend so we can actually work with useDapp and not reinvent the wheel with working with wallets and working with ethereum and other smart contract applications.Now that we've that installed, we can actually go ahead and start building our front end now. 
+
+We're going to go to App.tsx file and start adjusting some bits in there.We can do yarn start.We can go ahead and do something like change anything in there.Like the line `Edit src/App.tsx and save to reload.` to `Hello` then save it and recompile and display hello.
+
+This is how we upload and update our front end.This is also our starting point for allowing our application to be web3 compatible.
+
+So if we go to the useDapp [documentation](https://usedapp-docs.netlify.app/docs), we've a little example here that shows what something should look like.It's not exactly clear where we put all this code.So they've wonderful step-by-step bit.This is probably the most helpful bit here it says "The first thing you need to do is setup DAppProvider with optional config and wrap your whole app in it".So we're going to use DAppProvide tags to wrap around our app.
+
+We can see the whole return thing in our App.tsx:
+
+![div](Images/n88.png)
+
+is our app.If we delete whole thing and save it, our front end is going to have nothing.The function App is getting exported to default App and it's getting rendered in `index.tsx`.But in any case we wanna wrap the whole thing with DAppProvider tag.
+
+![dappProvider](Images/n89.png)
+
+If we hit save we get the error like:
+
+![error](Images/n90.png)
+
+That's because the DAppProvider needs a config asscociated with it.We need to add the config bit into the DAppProvider.
+
+![config](Images/n91.png)
+
+First bracket says we're going to type in typescript and the second bracket is saying we're an object here.So in this config we're going to tell our application a couple of different things.We're going to tell it what suported chains there are, what are the networks that our application can actually work with.The default value for supported chains is going to be mainnet, goerli, kovan, rinkeby, ropsten and xDai.Since we're going to be testing only on Kovan and Rinkeby, we could just do:
+
+![chainID](Images/n92.png)
+
+If we wanted other chain ID, we could just go ahead and put in in there.If we wanted to work with our ganache we could just do 1337 or if we wanna work with random chain we can put other numbers there.And this is all we need to get started working with in a web3 blockchain compatible application.
