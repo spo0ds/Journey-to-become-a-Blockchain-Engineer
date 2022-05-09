@@ -210,3 +210,62 @@ If we look at the [docs](https://mui.com/material-ui/api/container/) again on ma
 ![maxWidthInDocs](Images/n111.png)
 
 these are the different sizes.
+
+It's time to add our main pieces.We're going to need that top piece for staking and the bottom piece for unstaking.So we're actually going to create a new component called "main".This is going to be our main component.So we're going to create a new file in components called "Main.tsx".So let's just start by showing some information about our wallet.Showing what we have in our wallet associated with what we've in the smart contracts.
+
+![main](Images/n112.png)
+
+In order for us to show what amounts that we've in our current wallet, we're going to need to know what chain that we're even on because the network that we're on is going to determine where the addresses are because it's going to be on Kovan or Mainnet etc.Now this is where it get's a little bit interesting.Obviously with brownie we know where the address are and brownie keeps track of this.It does it in our build/deployments folder.If we look there now, if you actually deploy to Kovan, you'll see the 42.
+
+![deployment](Images/n113.png)
+
+You can see the map.json which has the most recent deployments of our tokens and our tokenfarm.If you haven't deployed it to Kovan, I highly recommend you doing that.This way we can test our front ends against a real testnet.
+
+So in order to get these addresses, we're going to have to ask brownie about the addresses, where these coming from.So we're going to need to grab some information from the brownie config.
+
+**Sending brownie config to the UI**
+
+We're basically going to need to get all the information that's in the brownie config because it has the addresses already.However it's really hard for node.js to work outside of source folder.So what we're going to do is we're going to send that brownie config to our front end.We're going to modify by adding a new function in deploy.py.
+
+Now the only reason this works because we've both our contracts and our frontend in the same repository.In the real world once you deploy your contracts those addresses are pretty much set.So you can just copy paste them over to your front end repository but for us we don't have set contracts yet.So we need a way to update our front end.
+
+We're going to send that brownie config over to the front end that way our main can know where those addresses are.We're also going to need to send build folder because this will have access to the dapp_token address or any other mock address that we're using.We're going to open up our brownie config and we're going to paste and we're going to dump the config into that source folder.Now typescript doesn't work with yaml, but it works with json really well.So we're actually going to convert it from yaml to json and dump it to the front end.
+
+![yaml](Images/n114.png)
+
+Yaml is going to allow us to load our yaml into a dictionary.To install yaml, we need to run:
+
+`pip install pyyaml`
+
+Now that we've got this in a dictionary, we're going to want to send this to the front end.We're going to write this dictionary as a json object to our front end. 
+
+![frontEndUpdated](Images/n115.png)
+
+Now we could do when we run our deploy token and dapp token  we can just add update front end function.
+
+![callingUpdateFrontEnd](Images/n116.png)
+
+Now we don't want always update the front end.we only want to do when we're working with the front end.So in our deploy_token_farm_and_dapp token:
+
+![updatingFrontEnd](Images/n117.png)
+
+![mainFunction](Images/n118.png)
+
+Now if we deploy this to Kovan or Rinkeby we'll automatically update and send the brownie config.But we're not always going to redeploy so let's also create an update_front_end.py script and this will call that function that we just made.
+
+![updateFrontEndNewScript](Images/n119.png)
+
+Let's open up a new shell by hitting a little plus button and we could do `brownie run scripts/update_front_end.py`.
+
+If you get the error like:
+
+RPCProcessError: Unable to launch local RPC client
+
+You just need to downgrade your node into 16.13.2
+
+`curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | bas`
+
+`source ~/.nvm/nvm.sh`
+
+`nvm install 16.13.2`
+
