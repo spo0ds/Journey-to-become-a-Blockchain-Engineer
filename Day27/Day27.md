@@ -153,4 +153,60 @@ Now we can take the header bit and place it inside our header tags.
 
 ![header](Images/n100.png)
 
+Now we can see a little connect button in the browser.
 
+![connectButton](Images/n101.png)
+
+Obviously it doesn't look great but we've the functionality here which is what we want.If we hit the connect button, our metamask will actually pop up and say "Would you like to connect?"If I go to supported networks like Kovan, we could see Disconnect and if I click it I get disconnected.
+
+This how we can take our metamask and actually inject it into our front end so we can actually use the front ends.
+
+Now you might be saying "This is cool but it doesn't look very good.Can we style this up?Can we make this look alot nicer?" and the answer is absolutely yes.
+
+**Material-UI**
+
+There's alot of different styling packages out there.You can also 100% write your custom ones.We're going to to using one called "Material-UI"It's a popular react framework for creating components and just doing alot of styling.So we're going to be adding this to our project as well.
+
+`yarn add @material-ui/core`
+
+This will give us access to some really nice libraries for styling all these buttons and installing alot of things that we're going to be working.So back in our header we can add the styling.
+
+![importingButtons](Images/n102.png)
+
+We're gonna use it's button and make styles.If we look in the [documentation](https://v4.mui.com/components/buttons/), it shows what their default buttons look like.We're also going to be taking advantage of their make styles.So make styles is a way to actually do styles for based off of different themes that you can actually use with materials UI.We're not going to be wroking with css files because we're going to be working with make styles instead.If you prefer css, you can absolutely easily translate it to css files.So we're going to add some used styles first of all using make styles.
+
+![makeStyles](Images/n103.png)
+
+This is relly just some typical css stuff.Now we're going to take the useStyles constant that we just made and down there we do:
+
+![constClasses](Images/n104.png)
+
+We're going to take the classes object in our isConnected thing.
+
+![wrappingDiv](Images/n105.png)
+
+We're wrapping whole thing inside the div.This is going to style whole button div.Now if we go and do `yarn start`, we can see it's going to look a little bit different.
+
+![changedUI](Images/n106.png)
+
+It's been moved over to the corner where there's padding and look little bit nicer.We're going to change all of our buttons to being built-in button from the materials UI.
+
+Let's create a component that will contain the meat of our application.From materials UI, we're going to use containers.It allows us to style and make different sections.We can import container bit from material UI in App.tsx.
+
+![container](Images/n107.png)
+
+In our header we'll make a little container.
+
+![headerContainer](Images/n108.png)
+
+![containerOutput](Images/n109.png)
+
+We can see that it's been formatted little bit.It's been pushed over from the side.we're going to give it a max width.
+
+![maxWidth](Images/n110.png)
+
+If we look at the [docs](https://mui.com/material-ui/api/container/) again on materials UI,
+
+![maxWidthInDocs](Images/n111.png)
+
+these are the different sizes.
