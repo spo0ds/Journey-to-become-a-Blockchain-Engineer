@@ -33,4 +33,36 @@ Now typically what different applications will actually do is they'll have one r
 
 However what you'll see across different projects is they'll have a totally seperate repo for their front end.So let's take some inventory on what's actually going to inside the folder.
 
+**Create React App Layout**
 
+![layout](Images/n85.png)
+
+So the first folder you'll see is `node_modules`.These are basically the pip installs.These are the different packages pulled in from javascript and typescript.We can pretty much ignore this folder for the majority of what we're working with.
+
+Next we've our `public` folder.We're also not really going to go in here but it's got some nice little images, basic index.html which has the html that we're going to be running with and has a `manifest.json`.The manifest is something that we want to change.It tells our browsers a little bit about what our app is and what our app actually does.So this is something that we'd change but everything in there is pretty self-explanatory and then roberts.txt which helps web searchers and indexers learn a little bit more about your site.
+
+Most part we're not going to do anything in the public folder or the node_modules folder.
+
+`Src` folder is however we're going to be spending alot of time in it.It has our App.css which includes whole bunch of formatting for html, App.test.tsx which is going to be testing our front end, App.tsx is one of our main places to write some code, index.css again a formatting and styling file.Anything that ends in css is some type of formatting and styling.All the tsx are going to be typescripts.
+
+`package.json` tells our project what dependencies it needs and node.js packages.
+
+`tsconfig.json` which gives us some options on how to work with typescript.
+
+If you're unfamiliar with alot of stuff don't worry too much about it.
+
+Now that we've created the basic create react app, we can actually go ahead and right now we can see what  front end will look like.
+
+`cd front_end/`
+
+`yarn` : just to make sure we've everything installed.It installs all of our dependencies.Anything in package.json, yarn is going to to go out and download these dependencies and store them into node_modeules and then yarn.lock is going to tell us exactly what it downloaded.
+
+`yarn start`
+
+If you wanna know where this's coming from, if you go in your package.json and you look under scripts:
+
+![scripts](Images/n86.png)
+
+These are the four different scripts that we actually run.Running yarn start runs this npx react-script start which will actually start our front end.After a little bit of time, we'll get something that look like:
+
+![web](Images/n87.png)
