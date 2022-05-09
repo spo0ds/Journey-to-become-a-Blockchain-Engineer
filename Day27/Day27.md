@@ -108,3 +108,49 @@ First bracket says we're going to type in typescript and the second bracket is s
 ![chainID](Images/n92.png)
 
 If we wanted other chain ID, we could just go ahead and put in in there.If we wanted to work with our ganache we could just do 1337 or if we wanna work with random chain we can put other numbers there.And this is all we need to get started working with in a web3 blockchain compatible application.
+
+We're going to spend lots of time in source folder and since we're going to be here lot, let's do some clean ups just to cut down on the amount of fat we've with that create react app.So App.css, App.test.tsx, logo.svg we're going to toss them.
+
+**Header Component**
+
+We're going to create a component.In react components are basically where you put modular parts of your front end and we're going to create one of these components is going to be our header component.To do this create a new folder inside scr called "components" and inside it create a new file called Header.tsx.This is where we're going to put our header stuff and we're looking to put a little botton up on corner.
+
+![useEther](Images/n93.png)
+
+Again if we look at the documentation real quick ,
+
+![returnOfUseEthers](Images/n94.png)
+
+This useEthers thing has got activate browser wallet thing and account thing.We're going to start by exporting constant variable.
+
+![exporting](Images/n95.png)
+
+This is some fancy typescript syntax which means Header is a function and what's the function gonna do.We're going to use this useEthers thing to get a couple variables.
+
+![const](Images/n96.png)
+
+In order for us to actually use these though, we need to figure out first if the user is connected.
+
+![accountConnected](Images/n97.png)
+
+So we're saying is the account is undefined, we're not connected.If it's not undefined then we're connected.We're literally just looking to see if there's an account here and whether or not we're connected we'll decide if we show a connect button or not.So to do that we're going to return some html stuff.
+
+![returnHtml](Images/n98.png)
+
+We're using the `?` which is knows as a tertiary operator which means if the account is connected we're going to do something and if it's false we're going to do something else.If we're connected we're going to create a button and we'll put deactivate function pulled from useEthers when we click the button and we're calling the button disconnect.This is what if account is connected does.
+
+After colon(:) represents what we're going to do if it's not connected.We're going to show a different button and when click we're going to do a function of activateBrowserWallet and call the button as Connect.
+
+So if we're connected, we're going to show a disconnect button and then if we're not connected, we're going to show a connect button.Save this and if we look at our UI nothing is changed.
+
+Well why isn't anything changed? Well this component that we just made it's living inside of components folder and we've exported the header variable however it's actually not in our App function.If we look at our index.tsx, App is only getting rendered which we pulled in from ./App.So index.tsx is really our true ground zero.This is where everything really comes from.This is kind of our entry point.This is our main function you can kind of think that way that pulls from App file that we've.You can see we don't have any reference to header.We've our DAppProvider, div tag sying "hi" but we don't have the header in here.
+
+So we need to import  the component we just made into our App.tsx.
+
+![importingHeader](Images/n99.png)
+
+Now we can take the header bit and place it inside our header tags.
+
+![header](Images/n100.png)
+
+
