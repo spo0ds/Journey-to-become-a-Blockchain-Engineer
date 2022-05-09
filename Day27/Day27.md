@@ -269,3 +269,54 @@ You just need to downgrade your node into 16.13.2
 
 `nvm install 16.13.2`
 
+If we did this right, we should now have a brownie-config.json in our front_end/src directory.It's going to give us some of the addresses but it's not going to give us everything.What about dapp token?Dapp token isn't going to be something in our brownie-config.It is going to be deployed by us.So we need to send that to the front end too.we need to send basically our whole build folder.So we need to update update_front_end function.
+
+I know that we're actually going to be copying a number of different folders so I'm just going to go ahead and make a new function called copy_folders_to_front_end.We're going to do couple of clever python.It's going to take source and the destination.Copy build folder and move it to some folder in front end.First we're going to check that destination exists and if exists we're gonna kill.
+
+![kill](Images/n120.png)
+
+We're just going to copy everything over from our build folder.
+
+![copyTree](Images/n121.png)
+
+First thing is going to be with builf folder.
+
+![copying](Images/n122.png)
+
+So now we can run that `brownie run scripts/update_front_end.py`
+
+Now we can actually start working with the pieces in our front end.Let's figure out how to get the dapp token address.Well to get the dapp token address, we're going to need that map that we just from chain-info in our deployments and we're also going to need to know what chain that we're currently on.Like what we saw before:
+
+![chainID](Images/n123.png)
+
+We've the chain id from @usedapp/core which will tell us what chain id of the current network that we're on.We can import that in our Main.tsx as well.
+
+![gettingChainID](Images/n124.png)
+
+Now that we've the chain id we're going to map it to the name of the network because our brownie-config has the network section but it's mapped by the name of the network not by the ID.We're going to create a helper config in our src.
+
+**Helper Config**
+
+It's literally just going to be a json object that maps numbers to their associated chain names.
+
+![helpfulConfig](Images/n125.png)
+
+Now that we've this helper config we can do import helper config.
+
+![importingHelperConfig](Images/n126.png)
+
+Before we even get the dapp token address, we can do :
+
+![chainname](Images/n127.png)
+
+Now typescript is actually going to get a little bit mad at us here.So we need to add little bit more to the line.We need to say "Only grab from this helperConfig if chain id exists" because there might be chance that chain id is nothing.
+
+![chainName](Images/n128.png)
+
+Whenever we want to return one of these components or try to use one of these components, we're always going to have to return some type of html or div tag like this:
+
+![returnHtml](Images/n129.png)
+
+We head over to our App.tsx, we add our main bit here.
+
+![mainBit](Images/n130.png)
