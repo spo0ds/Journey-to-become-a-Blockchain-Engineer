@@ -320,3 +320,48 @@ Whenever we want to return one of these components or try to use one of these co
 We head over to our App.tsx, we add our main bit here.
 
 ![mainBit](Images/n130.png)
+
+Now depending on your setup, you might actually run into this error:
+
+"Element implicitly has an 'any' type"
+
+To make our lives easier,we're going to tone down typescripts strictness here.In our tsconfig.json, we are going to add:
+
+![suppress](Images/n131.png)
+
+We're basically supressing when we get this type of error because it's not ever actually going to affect anything.We can also console.log the chainId and networkName.We can see in our console exactly what these are gonna look like.
+
+![consoleLog](Images/n132.png)
+
+We can go hit inspect in our browser, go to the console and we'll see 42 and Kovan gets printed out in the console.
+
+So we've our network name and chain id, we've got a way for us to update our front end with a new script.Let's finally get those different addresses that we need.Dapp token address is going to be something from chain-info folder that we created.We've map.json and since I've already deploy to Kovan, we've dapp token and token farm on the Kovan Network.So we can then use that :
+
+![mapJson](Images/n133.png)
+
+If we're connected to chainId then look into that mapping else we're just going to use 0 address.So how do we actually get the mapping?
+
+![networkMapping](Images/n134.png)
+
+We're going to take this network mapping object and we're going to say if the chain id exists then inside the network mapping json object we're going to cast that chain id as a string then grab the name of the dapp token and we're going to grab whatever address is at the top.Otherwise if we're not on a chain id we're just going to use 0 address.
+
+![dappTokenAddress](Images/n135.png)
+
+If you don't already have ethers installed here, you can do:
+
+`cd front_end/`
+
+`yarn add ethers`
+
+We're not going to do the same thing for the weth token or the fau token because those tokens are defined in the brownie config as opposed to being defined in our map.json.So to get those ones:
+
+![gettingWeth](Images/n136.png)
+
+then we're going to do the exact same thing for the fau/dai token.
+
+ ![gettingFau](Images/n137.png)
+ 
+ We've gotten what network we're on, what chainId we're on and gotten different addresses for different tokens.So as you can probably see the place that we're actually going to put stuff in the front end is in the return statement.
+ 
+
+ 
