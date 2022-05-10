@@ -344,5 +344,41 @@ Now that we've a contract we can actually call some functions which we totally c
 
 We've the tokenfarm contract, erc20 contract.Now we should be able to go ahead and call some functions.
 
+**useContractFunction**
+
+To actually send one of these we're going to use useContractFunction.It's a hook in useDapp that returns an object with two variables: `state` and `send`.The state bit is used to represent the status of the transaction and that's how we're actually going to automatically kick off the stake after we approve.To send a transaction we have to actually have to use this send function.So we're going to use useContractFunction to get a state and a send.So that's what we're going to first need to do.
+
+![sendState](Images/n209.png)
+
+We passed the token contract, the name of the function and little object call it as transactionName in useContractFunction.Now we've two pieces here.This send function(approveErc20Send) and this state function(approveErc20State).State is going to be the status of our transaction and Send is going to be the actual function that we use.If we wanna call approve function, we can return calling the approve function.
+
+![approve](Images/n210.png)
+
+then we'll just have useStakeTokens return the approve function and then also state.We also want to return state, so we're going to turn state into hool as well.
+
+![return](Images/n211.png)
+
+So in our StakeForm,we're going to grab those two variables.
+
+![variables](Images/n212.png)
+
+Now that we've these two functions : approve and the state of the function, we can add a handle submit functionality for our button.
+
+![onClickfunction](Images/n213.png)
+
+We're going to create the function called handleStakeSubmit.
+
+![grabbingAmount](Images/n214.png)
+
+So we're going to grab the stake hook's amount and turn it into a string.Then we can return approve function with the amount.
+
+![approving](Images/n215.png)
+
+Now if we hit stake, we should call the approve function.Metamask pops up, we do get allow localhost to spend your dapp.We're doing it.We're actually sending a transaction.
+
+The approve function is working perfectly.Now we gotta go one step further.we need to have to call stake after it's been approved.
+
+
+
 
 
