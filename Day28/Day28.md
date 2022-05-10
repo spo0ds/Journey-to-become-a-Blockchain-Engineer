@@ -454,6 +454,106 @@ If the transaction succeeded and the name is Approve ERC20 transfer then we're g
 
 Now that we've a way to actually track some of these notifications and track what actually happens on the blockchain.Console.logging stuff is great but we want to actually see it in our UI.We're going to want to do is show a little waiting thing on UI while we're waiting for it to be approved and then it'll pop up when it actually gets approved.
 
+We can add a little constant called "isMining" which will be based off of whether or not the transactions are approved. 
+
+![isMining](Images/n231.png)
+
+then back in our useStakeTokens.ts instead of approveErc20State, we'll change approveAndStakeErc20State.
+
+Now with this isMining, we can add this to our button.It's going to be based off of whether or not approveAndStake are done.
+
+![disabled](Images/n232.png)
+
+Instead of just saying Stake all the time, we'll do:
+
+![loading](Images/n233.png)
+
+We could import CircularProgress from material ui.
+
+If we did this right, it'll show a little loading thing while the transaction is going through.This a good way to indicate to the user that we've actually approved.But for staking, we'll not see the loading thing.This probably means that we didn't actually reload isMining correctly.The reason that we didn't see the spinny thing is because the approveAndStakeErc20State is really only tracking the approve.Our stakeState we've never used and we need to pass this back to our StakeForm so it can actually know what's going on.So we can add a new state hook.
+
+![state](Images/n234.png)
+
+This will represent kind of the overall state.we're going to have to track those both of those states.We're going to track both the approving and the staking.
+
+![tracking](Images/n235.png)
+
+If either one of these change now, we're going to want to change the overall state function and that is going to get pushed back to our StakeForm.
+
+![checking](Images/n236.png)
+
+Now we're going to pass overall state variable(declared above in const) to our front end.
+
+![returning](Images/n237.png)
+
+and in our StakeForm we're going to map the state variable to approveAndStakeErc20State.
+
+![mapping](Images/n238.png)
+
+We do indeed get loading thing even after approved.
+
+we now have basically all the functionality for our staking.we've approved, have some waiting and staking.Let's clean this up a little bit.
+
+**Make it pretty**
+
+First we're gonna go to index.css, we're gonna add some bits in here.
+
+![bgColor](Images/n239.png)
+
+and we'll go to our main section and we'll do that useStyles bits again.
+
+![styles](Images/n240.png)
+
+and in our return section:
+
+![return](Images/n241.png)
+
+the output of the code is:
+
+![output](Images/n242.png)
+
+we'll go to YourWallet component and add some styles in there too.
+
+![styles](Images/n243.png)
+
+We're going to grab tabContent inside the TabPanel.  
+
+![addingStyles](Images/n244.png)
+
+Save it and let's take a look at our UI.
+
+![UI](Images/n245.png)
+
+As you guys kind of see the functionality is really the important part behind the application and doing alot of useStyles stuff is really going to make it look alot prettier.Now it looks like for the most part we've everything that we need to stake.I know we've the spinning wheel which is great but let's also add a little bit if an alert at the bottom to say "Transaction has gone successfully".
+
+We over to our StakeForm.ts and wrap our input and button into their own little div.The reason that we're doing this is so that we can add some alerts.To do that we're going to use `"Snackbar"` from material UI.
+
+**Alerts**
+
+We're going to import Snackbar from material UI.We're also going to import alerting like a little alert box.
+
+`import { Alert } from "@material-ui/lab/Alert"`
+
+![open](Images/n246.png)
+
+This is going to open when we want to show that the ERC20 is done.
+
+![snackBar](Images/n247.png)
+
+and we're going to have to do same of stake too.
+ 
+Now we need to define when these open and also when they close and what to do when they close.So this ERC20 thing should pop up when ERC20 has been approved.So we're going to create some variable that's going to track whether or not it's been actually approved.So we'll create another state hook here.
+
+![state](Images/n248.png)
+
+We started with false because we don't want to show this right away and then we're going to do the same thing for staking tokens.
+
+![const](Images/n249.png)
+
+Right now we're doing console.log in our useEffect.We want to actually turn this into changing showErc20ApprovalSuccess.When notification says it's been approved, we want to say show that approval status.
+
+![setting](Images/n250.png)
+
 
 
 
