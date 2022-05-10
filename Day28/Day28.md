@@ -210,5 +210,41 @@ formatUnits is a nice little import that we're going to grab from ethers project
 
 ![importingFormatUnits](Images/n180.png)
 
+and we need to install ethersproject.
 
+`yarn add @ethersproject/units`
+
+Now the formattedTokenBalance is going to be the tokenBalance that we just got but formatted much nicer and in our div we could just add that formattedTokenBalance.
+
+![return](Images/n181.png)
+
+We can the balance when we slide through the tabs.Let's make it look a little bit nicer.Instead of just returning a div like above, let's actually make a new component called "BalanceMsg" and use this instead.It'll format up the way we actually show the formatted tokens.Here we'll pass it couple of variables.We'll pass the component an amount, label and tokenImgSrc.
+
+![passingVariables](Images/n182.png)
+
+BalanceMsg component is going to make us have the balance look a little bit nicer.So in yourWallet folder, we're going to create a new file called "BalanceMsg.tsx".Pretty usual we're going to export BalanceMsg.
+
+![balanceMsgFunction](Images/n183.png)
+
+Of course we need to tell typescript what this looks like. 
+
+![interface](Images/n184.png)
+
+In here we're once again do that useStyles bit from materials UI because we want to style this up a little bit.
+
+![useStyles](Images/n185.png)
+
+So now that we've our useStyles, we can go to our export below :
+
+ ![usingStyles](Images/n186.png)
+ 
+In our WalletBalance the BalanceMsg that we just created, we'll import that.Before that actually I know that we're going to use BalanceMsg a little bit later so I'm actually going to grab it and drag it into components folder.
+
+![import](Images/n187.png)
+
+and in our return we need to fix it:
+
+![fixingReturn](Images/n188.png)
+
+Let's try out the front and we can see we're looking a little bit nicer.Let's add the stake button.So when they see in a tab, they can actually stake and interact with our contract.So to do this, we need to create another component called "StakeForm.tsx" inside yourWallet folder.This is where we're going to add a little button and an amount for the users to actually stake on our contract. 
 
