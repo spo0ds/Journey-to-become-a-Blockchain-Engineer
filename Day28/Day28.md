@@ -294,3 +294,55 @@ Whenever we changed that value in that field if it's equal to nothing then we're
 
 Now that I've a way to actually get that amount with the input, we're going to need to weigh to send that amount as a part of our stake.First we're going to call that approve function with the amount and then we're going to have to call from our TokenFarm.sol stake method.How do we get it to call this approve function?
 
+**Calling Approve**
+
+Well to do these we're actually going to make some new stake hooks that we're going to use in our staking form.we're going to make stake hooks for approving and fro staking and even for unstaking.So back in our front_end, we're going to create a new folder called "hooks" and we're going to add different hooks.First hook that we're going to make is going to be called "useStakeTokens.ts" and this is something that we're going to import into our stake form so we can actually stake some tokens.The way we want to do it too is that once we hit stake, it kicks off the approve and then actually right afterwards it kicks off send.We want to run these two functions sequentially and we're going to make stake token hook clever enough to do in that order.
+
+Hooks are basically just like components except for they're more functionality wise.So since we know we're just like components, we're going to do:
+
+![stakeTokensHook](Images/n200.png)
+
+and as input we're going to take token address which is string.
+
+![tokenAddress](Images/n201.png)
+
+Inside of this we're going to have some intelligent scripts to know if it's already been approved.If not already been approved and what we need to do.We know we're going to need some approve thing and some stake tokens thing.So let's atleast try to approach this approve thing first before we get too creative.How do we approve the transaction?
+
+To get an approve we're going to need a couple of things.We're going to need the address, we probably going to need ABI and chain id.So let's go and grab those.
+
+![chainID](Images/n202.png)
+
+We're also going to want the ABI of the token farm.Where do we get the ABI from?We've imported it in our `chain-info`.So we should be able to do:
+
+![importingTokenFarmJson](Images/n203.png)
+
+and now we can say:
+
+![abi](Images/n204.png)
+
+We're going to need the token address ofcourse.We're also going to need our token farm address and we can find that exact same way we found it before.Once again we're going to use that networkMapping.we can even go to Main.tsx and see how we did there for the dapp token address.
+
+We'll say if the chainId exists, we'll pull from that networkMapping.So we got to import networkMapping.
+
+![networkMapping](Images/n205.png)
+
+`Hooks folder should be in src`.
+
+Now we're going to interact with token farm address contract.We're going to want to run that approve function.We want to create like an interface so we can do:
+
+![interface](Images/n206.png)
+
+and we could import utils from ethers.Now that we've an interface, we'll create a contract.
+
+![contract](Images/n207.png)
+
+`yarn add @ethersproject/contract`
+
+Now that we've a contract we can actually call some functions which we totally can but right we need to call the approve first.So let's get the token contract before we even work with the stakeToken.So to work with the token, we're going to do the same thing.
+
+![erc20](Images/n208.png)
+
+We've the tokenfarm contract, erc20 contract.Now we should be able to go ahead and call some functions.
+
+
+
