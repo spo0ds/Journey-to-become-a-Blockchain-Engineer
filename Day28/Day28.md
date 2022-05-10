@@ -378,6 +378,48 @@ Now if we hit stake, we should call the approve function.Metamask pops up, we do
 
 The approve function is working perfectly.Now we gotta go one step further.we need to have to call stake after it's been approved.
 
+**useEffect**
+
+This is where we're going to do a little something called useEffect.we can import it from react.
+
+![import](Images/n216.png)
+
+It allows us to do something if some variable has changed.It takes function as an input and then we'll do comma and similar to stake hooks, we'll do an array of different things we wanna track.If anything in the array changes, we'll kick off the useEffect and do something.So one of the things that we definitely want to track is approvedErc20State.If approvedErc20State comes back successful then we want to do some stuff.
+
+![useEffect](Images/n217.png)
+
+To do a stake function, we're going to follow the exact same methodology that we did for the approve.
+
+![sendState](Images/n218.png)
+
+now the stakeSend, we can just call it in this approveErc20State.status bit.If we look back in our TokenFarm.sol, stakeTokens take amount and token address as an argument.So we've to put some amount and token address.
+
+![stakeSend](Images/n219.png)
+
+Where do we actually get the amount from?Well when we originally called approve function, this is when we actually do it.You might be asking "How come we wrapped this approveErc20Send into a stakeSend function?" but we're not going to do that here.I'll tell you in just a second.We're going to have a stake hook for how much we want to actually stake.
+
+![const](Images/n220.png)
+
+We're just going to get this defaulted to 0 and what we're going to do actually is once we call the approve function the first time, we're going to setAmountToStake to be the amount.
+
+![setAmount](Images/n221.png)
+
+and what we should do is instead of calling it approve, we'll call it approveAndStake.Since it's this function that's going to kick off our approveErc20Send but it's also going to change the amount that we're going to stake and later on once the transaction succeeds, it'll also then kick off our stakeSend.
+
+![approveAndStake](Images/n222.png)
+
+and below we've to return approveAndStake not approve and for stakeSend, the amount is going to be amountToStake which we got from our original approveAndStake.
+
+![amountToSet](Images/n223.png)
+
+and also we need to change to approveAndStake in StakeFarm.ts as well.
+
+![change](Images/n224.png)
+
+Realistically that's all we really need to do here.So if we save and go back to our front end, if you hit stake button approve will come up and once it actually confirms then another transaction should pop up telling us to actually stake.
+
+However there's a couple issues here.
+
 
 
 
