@@ -160,5 +160,55 @@ We're mapping that token and index again and in here we're going to return a dif
 
 We're gonna need to put two pieces in here.We're gonna need to be putting our wallet balance and then also a big stake button.How do we actually get our wallet balance and one of these big stake buttons?Well we're probably going to need some type of component to get our actual wallet balance that we're going to stick in here.So yup you already know we're going to go into yourWallet folder, create a new file and this is where we're going to define wallet balance component "WalletBalance.tsx".
 
- 
+ and we're going to import our WalletBalance into our wallet in YourWallet.tsx so that we can actually see the balance of our wallet right in the front end.This is where we're actually be reading `off-chain` finally after alot of typescript and react setup.Since we're going to be importing WalletBalance into YourWallet component, we're going to start with export.
+
+![exportWalletBalance](Images/n168.png)
+
+We're probably going to pass this the token, the token that we want to get the balance of.So we're even set it up like this:
+
+![settingToken](Images/n169.png)
+
+and we'll define what it looks like with the interface called "WalletBalanceProps".
+
+![typeToken](Images/n170.png)
+
+![definingInterface](Images/n171.png)
+
+It's the same token type that we defined before in our Main.This is our initail set up here.We'll grab from the token that we've passed, we'll get the image, address and the name from that token.
+
+![grabbingTokenAddressNameImage](Images/n172.png)
+
+We'll grab the account because we're going to need the account with along the token.
+
+![account](Images/n173.png)
+
+usedapp/core has a nice little hook called `usedTokenBalance` that we're going to use.It provides a way to fetch the balance of ERC20 tokens specified by tokenAddress.It makes our lives alot easier. 
+
+![importingUseTokenBalance](Images/n174.png)
+
+All we have to do really is:
+
+![gettingBalance](Images/n175.png)
+
+We can even do quick console.log to see if we're doing correctly and we take the WalletBalance and import it into YourWallet.we should be able to see something.
+
+![importingWalletBalance](Images/n176.png)
+
+and down inside our very large return function, we'll add new component :
+
+![gettingBalanceOfIndex](Images/n177.png)
+
+We do need to do a return in our WalletBalance function in WalletBalance.tsx so that it's actually a jsx component.
+
+![returning](Images/n178.png)
+
+We want to show the token balance obviously in our UI.We don't want to have people to have to go to the console.log to actually see it.First we should probably format it because balance is in units of wei.
+
+![formattedBalance](Images/n179.png)
+
+formatUnits is a nice little import that we're going to grab from ethers project.
+
+![importingFormatUnits](Images/n180.png)
+
+
 
