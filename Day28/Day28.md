@@ -248,3 +248,49 @@ and in our return we need to fix it:
 
 Let's try out the front and we can see we're looking a little bit nicer.Let's add the stake button.So when they see in a tab, they can actually stake and interact with our contract.So to do this, we need to create another component called "StakeForm.tsx" inside yourWallet folder.This is where we're going to add a little button and an amount for the users to actually stake on our contract. 
 
+![StakeForm](Images/n189.png)
+
+This is our starting point for this.We're going to create a stake form with a big button that says "Stake" and the user can actually choose how much they wanna stake on our smart contract.So we're going to do similar stuff as we did before.
+
+![boilerPlate](Images/n190.png)
+
+Importing here we've gotten some starter boilerplate.Let's just go ahead and grab those buttons because those are really the things that we're going to care about here.Let's just return some stuff here so something can show up on our front end.Whenever we return something, it's all gonna be in one tag.
+
+![return](Images/n191.png)
+
+We're going to pull Button from material UI and back in YourWallet.tsx, let's add the button in there inside of our tab panel right below our WalletBalance and we need to pass the token object.
+
+![stakeForm](Images/n192.png)
+
+We'll give some stuff to the button in StakeForm.tsx.
+
+![AddingProperty](Images/n193.png)
+
+Now we can start adding some implementation.We can have it do some stuff now.When we hit the stake button, what we want it to do?we want to do two things.We want to approve whatever token that we've and then we want it to stake that amount.we also need to have some type of form here.we need to know how much we want to stake.So we're going to need some little input box that we can add a certain amount in.
+
+well we can do that too with a little input box from material UI and then we're going to use this little input box before button.
+
+![input](Images/n194.png)
+
+Now if we save and refresh the front end we could see:
+
+![output](Images/n195.png)
+
+To do this though we need to keep track of how much amount is in here.We're going to inspect on the front end, go to console and see if we can follow along with how much is in the wallet.To do this we're going to make another one of those stake hooks to track that amount in there.
+
+![stakeHook](Images/n196.png)
+
+Now that we've stake hook that we can use to track the amount that's gonna be put in there.With our input tag here, we're going to do:
+
+![onChange](Images/n197.png)
+
+This is going to handle the input change and we're going to create this function.This is going to take an event of html input element.
+
+![handleFunction](Images/n198.png)
+
+Whenever we changed that value in that field if it's equal to nothing then we're going to do nothing otherwise we're going to caste whatever in there as a number.Then we're going to setAmount to the newAmount.
+
+![setAmount](Images/n199.png)
+
+Now that I've a way to actually get that amount with the input, we're going to need to weigh to send that amount as a part of our stake.First we're going to call that approve function with the amount and then we're going to have to call from our TokenFarm.sol stake method.How do we get it to call this approve function?
+
