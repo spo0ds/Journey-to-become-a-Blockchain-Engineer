@@ -554,7 +554,25 @@ Right now we're doing console.log in our useEffect.We want to actually turn this
 
 ![setting](Images/n250.png)
 
+and we're going to do the same thing but the opposite for staking
 
+![forStake](Images/n251.png)
+
+Now we can have notifications thing track:
+
+![forTracking](Images/n252.png)
+
+we'll say show Erc20ApprovalStatus and showStakeTokenSuccess.
+
+and for both of these, we'll add a new function called "handleCloseSnack" which will just close it out.
+
+![addingMissing](Images/n253.png)
+
+![handleCloseSnack](Images/n254.png)
+
+Now we could see pop up when approved or staking is success.
+
+You have a way to stake tokens into smart contract and build a front end.
 
 
 
