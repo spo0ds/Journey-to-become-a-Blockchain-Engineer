@@ -108,7 +108,57 @@ We're going to use some `tabs` from the material UI to swap between the tokens.W
 
 Let's get into the box and make our first TabContext.The first tab that we're going to have to use is going to be whatever token we've selected.To select token, we're going to use what's called `State Hook`.
 
+**State Hook**
 
+We're going to create a state hook inside YourWallet.
+
+![stateHook](Images/n158.png)
+
+It's going to create one variable selectedTokenIndex: this is going to do be whatever token that we're on and then setSelectedTokenIndex is going to update the selectedTokenIndex.The useState component thing is a way of saving state between renders of components.
+
+So in our little box, we're going to start with our own tab.
+
+![tabContext](Images/n159.png)
+
+Value is whatever token we currently have selected.We're going to have to make a list of tokens in our tab context.we're gonna have to add some way to change between the tabs.When we change between the tabs, we want different token to be selected and we're going to make a tab list that's going to change whenever we click different tabs.We're going to add some functionality to this but for now we're just going to give it an "aria".
+
+![tabList](Images/n160.png)
+
+Based off the suported tokens in a mapping of token to index, we're going to call a function where we return a tab.
+
+![supportedTokens](Images/n161.png)
+
+Now if we look at our UI, we can now see we got a couple different buttons.
+
+![tabsButton](Images/n162.png)
+
+Now ofcourse if we click the different buttons, nothing actually happens.So we do need to handle a change.We do need to code some functionality to handle a change whenever we do something different.So in our Tab List we're going to add:
+
+![handleChange](Images/n163.png)
+
+I'm going to code a little functionality at the top to actually handle a change.
+
+![handleChnageFunction](Images/n164.png)
+
+We're going to use our little state hook here.
+
+![setHookInHandle](Images/n165.png)
+
+So what's happening here?We've added this new functionality where whenever we change on of those tabs, we're going to change the selectedToken.The selectedToken number is going to be different and what we do is map the indexes to a token.In our front end we can see we do indeed swap between tabs.
+
+But we need a big stake button.The reason that we need to swap between the tokens is because we need a way to stake between them.So when we're on one of these tabs, we're going to add a stake form here.
+
+**Stake Form**
+
+We're going to add a big button that allows us to stake.
+
+![supportedMap](Images/n166.png)
+
+We're mapping that token and index again and in here we're going to return a different tab panel.
+
+![return](Images/n167.png)
+
+We're gonna need to put two pieces in here.We're gonna need to be putting our wallet balance and then also a big stake button.How do we actually get our wallet balance and one of these big stake buttons?Well we're probably going to need some type of component to get our actual wallet balance that we're going to stick in here.So yup you already know we're going to go into yourWallet folder, create a new file and this is where we're going to define wallet balance component "WalletBalance.tsx".
 
  
 
