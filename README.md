@@ -466,6 +466,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Testing |
 | <p align="center"> [Day 27](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day27/Day27.md) </p> |
 | **Front End / Full Stack**|
+| <p align="center"> [Day 28](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day28/Day28.md) </p> |
 
 
 
