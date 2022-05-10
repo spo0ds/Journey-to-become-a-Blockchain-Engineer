@@ -38,3 +38,77 @@ Now we can import this :
 
 we can take the dapp image and under image I'll put it.
  
+![dappImage](Images/n146.png)
+
+Now let's do the other tokens.
+
+![otherTokens](Images/n147.png)
+
+If you vs code is yelling at you about can't find module while importing image, we're going to do at the top of our code.
+
+`/* eslint-disable spaced-comment */`
+
+`/// <reference types="react-scripts"/>`
+
+Save and that issue will go away.
+
+Well now that we've our supported tokens token array, we can actually pass this to yourWallet bit.
+
+![sendingToWallet](Images/n148.png)
+
+Of course we need to import YourWallet.
+
+![importingYourWallet](Images/n149.png)
+
+We're actually going to make a new file in our yourWallet folder called "index.ts" and we're just going to export YourWallet.
+
+![IndexTs](Images/n150.png)
+
+Now we've some supported tokens, we have a wallet, exporting our wallet with our index.ts in our yourWallet folder.Now finish our YourWallet implementation.
+
+We're getting this error:
+
+![error](Images/n151.png)
+
+because we don't have return in our YourWallet bit.
+
+![fixedReturn](Images/n152.png)
+
+If you getting error like this:
+
+![yarnError](Images/n153.png)
+
+It's because you're not inside front_end directory so it could found the dependency packages to start.
+
+`cd front_end/`
+
+`yarn start`
+
+Let's keep diving into YourWallet here because this is gonna be where we're doing all of the stuff about what's in your wallet.We're going to use couple of components from the material UI to get started.To start we're just going to use the [box](https://mui.com/material-ui/react-box/).Box component serves just as a wrapper component for most of the css utility needs.It's a box that we can put on our front end.We're going to put everything in return statement inside the box.
+
+![box](Images/n154.png)
+
+We need to import the box.
+
+![importingBox](Images/n155.png)
+
+We'll give box a little header.
+
+![header](Images/n156.png)
+
+We'll get rid of div tag and create another box and in there we're going to add all of our functionality for what is in our wallet.
+
+We're going to use some `tabs` from the material UI to swap between the tokens.We're going to have one tab for fau token, another tab for dapp token and for wrapped ether we're going to use tab.So to work with tabs, we need to import some tab stuffs.
+
+![importingTabStuff](Images/n157.png)
+
+`@material-ui/lab` are some componenets that they're not quite ready to move to the core.So we do have to add these as well.
+
+`yarn add @material-ui/lab`
+
+Let's get into the box and make our first TabContext.The first tab that we're going to have to use is going to be whatever token we've selected.To select token, we're going to use what's called `State Hook`.
+
+
+
+ 
+
