@@ -420,6 +420,40 @@ Realistically that's all we really need to do here.So if we save and go back to 
 
 However there's a couple issues here.
 
+**Notifications**
+
+There's no indication for us of what was really going on.Got no notifications.We're totally left in the dark.Additionally the front end still looks disgusting.So we want to clean this up.we want to make it look alot nicer.
+
+For switching between these, we want to actually just change our useEffect.So we do wanna check let's approveErc20Stake but we also want to see if we switch the tokenAddress and if amountToStake also change.
+
+![trackingMoreChanges](Images/n225.png)
+
+This is great but we're going to want to get some notifications that these transactions are going through, these transactions are pending and these transactions finished.So we actually add those pieces.
+
+Well useDapp has `useNotifications`.This notifications bit will help us actually get notified on whether or not our transactions are completing.So to use these notifications we're going to do couple of different things here.
+
+First all the way back in our App.tsx, we're actually going to change our config here.
+
+![notifications](Images/n226.png)
+
+So basically we're saying "Every second check the blockchain on our transactions that we send".Now that we've the notifications bit identified, in our StakeForm, we can add this bit.
+
+![import](Images/n227.png)
+
+Now we can start using some of these notifications here.Right at the top do:
+
+![declaringNotifications](Images/n228.png)
+
+We can actually start working with some of these notifications now.We're going to want to see if anything in any of these notifications actually change and if these notifications change, we're going to want to do something.Since we're going to want to check to see if notification changes, we're going to use a useEffect.
+
+![condition](Images/n229.png)
+
+If the transaction succeeded and the name is Approve ERC20 transfer then we're going to do something.For now we'll do console.log("Approved"!) and we can also do the same thing for Stake. 
+
+![stake](Images/n230.png)
+
+Now that we've a way to actually track some of these notifications and track what actually happens on the blockchain.Console.logging stuff is great but we want to actually see it in our UI.We're going to want to do is show a little waiting thing on UI while we're waiting for it to be approved and then it'll pop up when it actually gets approved.
+
 
 
 
