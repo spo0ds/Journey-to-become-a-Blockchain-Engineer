@@ -1,5 +1,5 @@
 
-## **Lesson 3 - Fund me**
+## **Fund me**
 
 Same as before we're going to create a .sol file.We're gonna name it FundMe.sol and same as last time we add SPDX license identifier.For this lesson we'll choose solidity version >=0.6.6 <0.9.0.Create contract called "FundMe" and gonna start working.
 
