@@ -1,4 +1,4 @@
-## Lesson 13: Full Stack Defi
+## Full Stack Defi
 
 This is going to be the most advanced project and combine all the knowledge that we've learned so far into one project.Then we're additionally going to put a `frontend` or a `User Interface` onto this project.When we build our own applications, we're going to need a way for non-devs to actually interact with it in a meaningful way.
 
