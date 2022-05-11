@@ -76,7 +76,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Summary |
 | <p align="center"> [Day 4](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day4/Day4.md) </p> |
 | **Solidity** |
-| **Lesson 1 - Remix IDE & its features** |
+| **Remix IDE & its features** |
 | - Solidity version |
 | - Defining a  Contract |
 | - Variable types & Declaration |
@@ -105,7 +105,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - EVM |
 | - Summary |
 | <p align="center"> [Day 5](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day5/Day5.md) </p> |
-| **Lesson 2 - StorageFactory** |
+| **StorageFactory** |
 | - Factory pattern |
 | - New contract StorageFactory |
 | - Import 1 contract into another |
@@ -122,7 +122,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Inheritance |
 | - Recap |
 | <p align="center"> [Day 6](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day6/Day6.md) </p> |
-| **Lesson 3 - Fund me** |
+| **Fund me** |
 | - purpose of this contract |
 | - Payable function , wei , gwei & ether |
 | - Mapping , msg. sender , msg.value |
@@ -168,7 +168,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Deploying & Transaction |
 | - Forcing a Trasacttion |
 | <p align="center"> [Day 8](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day8/Day8.md) </p> |
-| **Lesson 4 - Web3. py SimpleStorage** |
+| **Web3. py SimpleStorage** |
 | - Limitations of Remix |
 | - VScode , Python , Solidity Setup |
 | - VScode features |
@@ -243,7 +243,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Deploying |
 | - summary/recap |
 | <p align="center"> [Day 10](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day10/Day10.md) </p> |
-| **Lesson 5 - Brownie Simple Storage** |
+| **Brownie Simple Storage** |
 | - Brownie Intro & Features |
 | - install Brownie |
 | - 1st brownie simplestorage project |
@@ -264,7 +264,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Deploying to a Testnet |
 | - Brownie console |
 | <p align="center"> [Day 11](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day11/Day11.md) </p> |
-| **Lesson 6 -Brownie Fund Me** |
+| **Brownie Fund Me** |
 | - Initial Setup |
 | - Dependencies |
 | - Remappings |
@@ -286,7 +286,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Adding to Github |
 | - Where should I run my tests? |
 | <p align="center"> [Day 13](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day13/Day13.md) </p> |
-| **Lesson 7: SmartContract Lottery** |
+| **SmartContract Lottery** |
 | - Decentralized Lottery |
 | - Setup |
 | - Wait..is this really decentralized? |
@@ -344,14 +344,14 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Topics |
 | - Conftest.py |
 | <p align="center"> [Day 15](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day15/Day15.md) </p> |
-| **Lesson 8: Chainlink Mix** |
-| **Lesson 9: ERC20s, EIPs, and Token Standards** |
+| **Chainlink Mix** |
+| **ERC20s, EIPs, and Token Standards** |
 | - Why make an ERC20? |
 | - How do we build one of these tokens? |
 | - Solidity 0.8 |
 | - 1_deploy_token.py |
 | <p align="center"> [Day 16](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day16/Day16.md) </p> |
-| **Lesson 10: Defi & Aave** |
+| **Defi & Aave** |
 | - Decentralized Exchange(DEX) |
 | - Depositing tokens/ Lending |
 | - WETHGateway |
@@ -379,7 +379,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Repaying |
 | - Testing |
 | <p align="center"> [Day 18](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day18/Day18.md) </p> |
-| **Lesson 11: NFTs** |
+| **NFTs** |
 | - ERC-721 |
 | - Metadata |
 | - Token URI |
@@ -425,7 +425,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Setting the TokenURI |
 | - End to End Mannual Test |
 | <p align="center"> [Day 22](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day22/Day22.md) </p> |
-| **Lesson 12: Upgrades** |
+| **Upgrades** |
 | - Not Really / Parameterize |
 | - Who the admins? |
 | - Are upgradeable smart contracts decentralized? |
@@ -450,7 +450,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Testing our proxy |
 | - Upgrades on a testnet |
 | <p align="center"> [Day 24](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day24/Day24.md) </p> |
-| **Lesson 13: Full Stack Defi** |
+| **Full Stack Defi** |
 | - Staking and Depositing |
 | - DappToken.sol |
 | - TokenFarm.sol |
