@@ -466,6 +466,15 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Testing |
 | <p align="center"> [Day 27](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day27/Day27.md) </p> |
 | **Front End / Full Stack**|
+| - React and Typescript |
+| - create react app |
+| - install packages |
+| - Create React App Layout |
+| - connecting your wallets |
+| - Header Component |
+| - Material-UI |
+| - Sending brownie config to the UI |
+| - Helper Config |
 | <p align="center"> [Day 28](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day28/Day28.md) </p> |
 | - YourWallet |
 | - State Hook |
