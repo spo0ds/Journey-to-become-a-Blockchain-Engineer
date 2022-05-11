@@ -1,4 +1,4 @@
-## Lesson 8: Chainlink Mix
+## Chainlink Mix
 
 That was a lot of stuff to code and quite frankly I don't think any of us want to have to do that every single time have to code everything from scratch.There's actually even easier way first to start with a blank project here and this is with [brownie mixes](https://github.com/brownie-mix).It has ton of boilerplate code for us to go ahead and get started to start start developing.The one we're gonna be working with is chainlink-mix piece.This gives us some wonderful contracts, tests, brownie config and really everything we need to do to get started.If you've brownie installed, you can just bake this mix.
 
@@ -9,7 +9,7 @@ We'll get new chainlink folder with everything inside of it.In contracts we've a
 If you're looking for a good starter place that has alot of really powerful smart contracts for you to get started, I highly recommend using this mix as a boilerplate starting point for any of your contracts or any of your projects.
 
 
-## Lesson 9: ERC20s, EIPs, and Token Standards
+## ERC20s, EIPs, and Token Standards
 
 We've learned a ton of fundamentals of working with brownie and smart contracts.Now that we've kind of all the building blocks though we can actually code alot of these much faster and much more efficiently than before.
 
