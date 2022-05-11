@@ -1,4 +1,4 @@
-## **Lesson 2 - Storage Factory**
+## **Storage Factory**
 
 We've got our first contract out of the way.We're understanding some of the basics of solidity.Now let's move onward into a little bit more advanced with our smart contract and let's build "Factory Pattern" of smart contracts.
 
