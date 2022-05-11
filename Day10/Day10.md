@@ -1,4 +1,4 @@
-**Lesson 5 - Brownie Simple Storage**
+**Brownie Simple Storage**
 
 There's going to be alot to actually managing all the contracts that we work with having to write our own compile code, storage code is going to take alot of work and what if we wanted to interact with one of the contracts that we deployed in the past.Well we'd have to keep track of all the addresses and manually update our address features with an address.Maybe we didn't want to deploy a new contract every single time, maybe that we want to work with contract that we've already deployed.What if we want to work with a whole bunch of different chains like Rinkeby, mainnet, our own local net?There seems to be alot to manage here and we still haven't talked about writing tests.
 
