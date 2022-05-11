@@ -1,4 +1,4 @@
-**Lesson 6: Brownie Fund Me**
+**Brownie Fund Me**
 
 All right let's move on to our next project.We're going to take the fundme contract that we made recently in remix and actually import that one into brownie.With this we're going to go over a lot more advanced features that brownie has to offer us and we're getting into some more sophisticated testing and deployment mechanisms for this.
 
