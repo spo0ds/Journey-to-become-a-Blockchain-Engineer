@@ -1,4 +1,4 @@
-##  Lesson 10: Defi & Aave
+##  Defi & Aave
 
 I thought we know a little bit more about Defi and why it's such an amazing technology that only works in the blockchain world.Let's look at this site [defi pulse](https://www.defipulse.com/) or if you want to look at another one called [defilamma](https://defillama.com/) which also shows alot of different protocols.So defipulse is an application that shows some of the top defi projects based on how much total asset is locked into each protocol.Aave which currently is the number one ranked defi application with 9.32 billion in assets under management in terms of USD.We've some fantastic ones like curve, compound, maker, InstaDApp etc.Now we're gonna be looking at two of these protocols in particular.The first one ofcourse being Aave and second one is gonna be what's called a decentralized exchange "paraswap".You start with aava.We're going to go to [testnet.aave.com](https://staging.aave.com/) that looks something like this with please connect your wallet and everything will be pretty empty.
 
