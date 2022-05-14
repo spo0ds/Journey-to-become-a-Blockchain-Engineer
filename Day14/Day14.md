@@ -365,7 +365,7 @@ Since funding our contracts with the link token is gonna be a pretty common func
 
 We have a contract address then we wanna who we're gonn fund with link.We'll set default account to be none.We'll do same with the link token as well.If you want to use a specific link token you can otherwise we'll just grab it ourselves and then we'll also do a default amount which will set to 0.1 LINK.
 
-![fund_with_link](Images/Day9/i92.png)
+![fund_with_link](/Images/Day9/i92.png)
 
 First we get an account.We'll be doing a little clever python stuff.We'll say account = account if somebody sent it otherwise we'll call our get_account function.Then we'll do the same thing with the link token.Now that we've the link_token contract from our get_contract function which again is basically the equivalent of Contract.from_abi on our link token, pulling from our config or from our mock.Now we can just call functions on the link_token.We're gonna transfer token to contract_address with a certain amount and from account. 
 
