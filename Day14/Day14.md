@@ -61,7 +61,7 @@ So in this fulfillRandomness function let's define what's gonna happen once we g
 
 Then just do another check to make sure we actually get a response.
 
-![randomnessRequire](Images/Day9/i42.png)
+![randomnessRequire](/Images/Day9/i42.png)
 
 Now we need to pick a random winner specifically our of our list of players.List of payable public players.So our players array is just a list of players.
 
