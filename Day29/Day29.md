@@ -94,9 +94,6 @@ Let's verify the contract.
 
 Put the etherscan API key in your .env file.
 
-
-
-
 `brownie run scripts/deploy.py --network kovan`
 
 If you get an error like:
@@ -114,6 +111,33 @@ So we've deployed and verified this.Let's go take a look at this on-chain.In our
 The topic 0 is always going to be the whole signature of the event.
 
 
+## Multicall?
+
+So to do anything on a blockchain, you've got to send a request to the blockchain node or an external third party like alchemy or infura. Whether you're deploying a contract, calling a function, or apping into the new avalanche pool on the aave protocol, you've got to make some type of API call to some type of blockchain node. Now if you're running your own node, you can sort of have at it right.You can make as many API calls as you like, but if you're using a third-party external blockchain node, then you might get rate limited, bump up your subscription, or wait way too long for all your calls to return.
+
+For example, if I wanted to call 50 different view functions, I'd have to make 50 API calls. In this course, we're going to learn how to use multicall to combine all of our read calls into a single API call to one of our nodes.
+
+Now, if we want to read data off the blockchain, the simplest way we can do that is just with single requests for every piece of data we want to read. For example, if I wanted to read the latest price of a chainlink pricefeed, I could make an API call to a blockchain saying, "Hey, get me that latest pricefeed." And if I wanted to do that across many pricefeeds, I would just make several API calls across several pricefeeds.
+
+The actual request that's being made behind the scenes looks something like this:
+
+![request](Images/m17.png)
+
+**Batch Requests**
+
+Now one step better is doing what's called "batching your requests." So you can actually batch your API call requests into a single API call.
+
+![batchRequest](Images/m18.png)
+
+This means it's the blockchain node that has to kind of parse and go through all these requests, queue them, and figure all that stuff out.
+
+Now you think, "Let's just do everything like this." Well, in practice, we found out that these batching requests can be a little bit tricky for the nodes to actually work with, and some services don't even offer functionality for this. So maybe your external provider doesn't even offer batching requests, and if you make too many batch requests, your call could infinitely hang. So the most effective way to read a ton of data off the blockchain is by using what's called `multi-call`.
+
+Multi-call goes back to making a single read request on-chain but calling a very specific on-chain.It makes a single request to a specific contract that has multi-call functionality. For the demo, we're going to be using the uniswap multi-call contract and the function that we're going to be calling is the function called "tryAggregate."
+
+![tryAggregate](Images/m19.png)
+
+As input parameters, it actually takes a call array. This is an array of contract calls for us to make.So we input an address and the function that we want to call, and this single function call will loop through our list and return it to us. We're actually making one function call to this function with just all of our calls as input parameters to this function call, and it's more efficient and saves us API calls.
 
 
 
