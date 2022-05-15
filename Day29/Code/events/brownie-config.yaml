@@ -1,0 +1,16 @@
+dotenv: .env
+networks:
+  development: 
+    verify: False
+  ganache:
+    verify: False
+  kovan:
+    verify: True
+wallets:
+  from_key: ${PRIVATE_KEY} 
+
+
+
+
+
+
