@@ -36,4 +36,68 @@ We're going to create a new directory called "events" and open it in vscode.We'r
 
 Let's grab the SimpleStorage.sol contract and put in our contracts directory.
 
+![SimpleStorage](Images/m3.png)
+
+Let's add event to our contract.
+
+![event](m4.png)
+
+We want to emit an event to tell people "Hey something has happened.Something has changed.".In our store function, we're going to emit an event.
+
+![emit](m5.png)
+
+Typically you want to change them first and emit an event but whatever.
+
+To check evenything is done correct hit the `brownie compile`
+
+Let's go ahead now and we'll create a script.We're going to create our deploy.py script.This is going to deploy the contract and then we're going to call that store function so we can see how this works.First thing we're going to do is get an account.
+So we're going to create our helpful_scripts.
+
+![helpful_scripts](Images/m6.png)
+
+and also our brownie-config.yaml
+
+![config](Images/m7.png)
+
+and we can import get_account function in our deploy scripts.We need to deploy our contract.
+
+![deploy](Images/m8.png)
+
+After we deploy our contract, we can do:
+
+![callingStore](Images/m9.png)
+
+So we've the transaction.This transaction has a whole bunch of stuff.So let's print the it and run the script on a development chain.
+
+`brownie run scripts/deploy.py`
+
+![output](Images/m10.png)
+
+We get the transaction object.This transaction has all the events in it.So we could print the events.
+
+![printingEvents](Images/m11.png) 
+
+![output](Images/m12.png)
+
+oldAge and newAge are the indexed parameters or the topics and the totalAge and the sender are going to be non-indexed.We can read them here because we've the ABI.We've the contract code and we know what totalAge and sender are called.If we didn't have the contract code, non-indexed will show up as mumble garbage.Since there's only one event, we could even do:
+
+`print(txn.events[0]["newAge"]`
+
+Let's deploy this to etherscan and see what it looks like on etherscan because working with the etherscan events and understanding how those events work and what they look like on etherscan is really important too.So in our config:
+
+![config](Images/m13.png)
+
+Let's verify the contract.
+
+![verify](Images/m14.png)
+
+Put the etherscan API key in your .env file.
+
+
+
+`brownie run scripts/deploy.py --network kovan`
+
+
+
+
 
