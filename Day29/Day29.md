@@ -40,11 +40,11 @@ Let's grab the SimpleStorage.sol contract and put in our contracts directory.
 
 Let's add event to our contract.
 
-![event](m4.png)
+![event](Images/m4.png)
 
 We want to emit an event to tell people "Hey something has happened.Something has changed.".In our store function, we're going to emit an event.
 
-![emit](m5.png)
+![emit](Images/m5.png)
 
 Typically you want to change them first and emit an event but whatever.
 
