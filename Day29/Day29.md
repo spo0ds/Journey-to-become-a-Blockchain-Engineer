@@ -140,4 +140,75 @@ Multi-call goes back to making a single read request on-chain but calling a very
 As input parameters, it actually takes a call array. This is an array of contract calls for us to make.So we input an address and the function that we want to call, and this single function call will loop through our list and return it to us. We're actually making one function call to this function with just all of our calls as input parameters to this function call, and it's more efficient and saves us API calls.
 
 
+So let's look into actually using this though, where we'll call the last 50 rounds of a chainlink pricefeed update, which normally would be a little bit tricky to get in a single API call.
+
+Create a directory called "multicall" and open it in VSCode. After that, do `brownie init`.We're going to be creating a script called "multicall.py" and this is going to be our ground zero.
+
+What do we want to do?
+
+Well, we want to call the last 50 rounds in a chainlink pricefeed in 1 call.
+
+So let's go ahead and get this started.The first thing we want to do is get the price feed contract.
+
+![contract](Images/m20.png)
+
+This is how we define a new contract and the from_abi. We need to give it a name, an address of the price feed([mainnet](https://docs.chain.link/docs/ethereum-addresses/) and the abi([AggregatorV3Interface](https://github.com/smartcontractkit/chainlink/blob/develop/contracts/src/v0.8/interfaces/AggregatorV3Interface.sol))).We did ABIs by using the interface instead of getting the ABI from json. 
+
+![priceFeed](Images/m21.png)
+
+Since we want the last 50 updates, let's go ahead and get the latest round first.
+
+![roundId](Images/m22.png)
+
+Now here's where the magic really happens.So this is where we're going to do the multi-calling and in our multi-call we've got to pass that [multi-call contract address](https://docs.uniswap.org/protocol/reference/deployments).
+
+![multicall](Images/m23.png)
+
+Now that we've defined the address that we want to work with, we can do it with multicall. We can loop through all these rounds and, on one call, we can get the last 50 round updates.
+
+![loop](Images/m24.png)
+
+So we're looping through round_Id, going back one round at a time (that's why -1 is used in the loop) and all the way to 50 rounds ago, and we're just adding round_data to our round_updates array.
+
+So in order to do this, you, of course, need your Infura key for this. So in your .env file, export your private key and your infura project id, and in your config add .env then run:
+
+`brownie run scripts/multicall.py --network mainnet`
+
+If you get an error like this:
+
+`Unable to expand environment variables in the host setting:`
+
+Add your Infura project id and private key in .env and add .env in config.
+
+It gives us a massive response from a single API call.
+
+![output](Images/m25.png)
+
+This by itself isn't that cool.Let's make this a little cooler.We're going to create a new file inside scripts called "multicall_plot.py".In this script we're going to do the same thing.We're going to call the last 50 rounds of chainlink pricefeed in one call and then plot it. Copy and paste the entire code into the multicall_plot file.We're going to make a couple of modifications to this code. We're going to turn the output of rounds into a graph so we can actually basically visualize it for our own UI purposes or pythonic purposes.
+
+So all we're going to do is in our multicall, we're going to do more stuff.
+
+![arrays](Images/m26.png)
+
+So we're going to plot the answers on the y-axis and the timestamps on the x-axis.
+
+![pushingIntoArray](Images/m27.png)
+
+We're going to use "matplotlib".Since I've installed brownie with pipx, I can't just do pip install matplotlib.Since I installed it with pipx, this means brownie's running in its own virtual environment. So I need to inject matplotlib into the eth-brownie virtual environment.
+
+`pipx inject eth-brownie matplotlib`
+
+You might have to restart your terminal after that.Once we've injected it, we can import it:
+
+`import matplotlib.pyplot as plt`
+
+![plotting](Images/m28.png)
+
+Now we can do:
+
+`brownie run scripts/multicall_plot.py --network mainnet`
+
+![graph](Images/m29.png)
+
+
 
