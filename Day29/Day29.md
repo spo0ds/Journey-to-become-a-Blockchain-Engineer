@@ -97,7 +97,19 @@ Put the etherscan API key in your .env file.
 
 `brownie run scripts/deploy.py --network kovan`
 
+If you get error like:
 
+`"Non-hexadecimal digit found"`
+
+then in your config make this change:
+
+![config](Images/m15.png)
+
+So we've deployed and verified this.Let's go take a look at this on-chain.In our Kovan etherscan of that contract that we just deployed and verified.If we go to the transaction and it's log, there we can see it's event.
+
+![logs](Images/m16.png)
+
+The topic 0 is always going to be the whole signature of the event.
 
 
 
