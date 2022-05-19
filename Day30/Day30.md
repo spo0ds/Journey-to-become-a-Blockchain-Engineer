@@ -78,6 +78,10 @@ Now interestingly enough whenever you call one of these functions, you actually 
 
 ![priceFeed](Images/m40.png)
 
+So we're going to create "chainlink.py" script inside scripts folder which is going to be:
+
+![getPriceFeed](Images/m54.png)
+
 We actually have to put in like amount out min and this is actually really important.Somebody could actually front run our swap and buy a whole bunch of WETH.Somebody could see one of our big transactions come in, buy up all the WETH and sell it back to us and they make a profit.So what we wanna do is we want to have amount out minimum that we say, "Hey if the transaction has less than this, we don't wanna do it" and to be safe we're doing 90%.Worst case scenario, this means we're having 10% slippage that means we're going to get a 10% worse price than we should.So ideally you want to do like 98% or something like that.
 
 ![amountOutMin](Images/m41.png)
