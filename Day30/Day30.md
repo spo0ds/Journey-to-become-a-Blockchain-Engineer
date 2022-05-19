@@ -1,3 +1,5 @@
+We're going to continue from Defi & AAVE of [Day16](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day16/Day16.md) and add more functionality to it.It's best suggested to look at day16 and then come over here.
+
 ## Leveraged Trading in DeFi 
 
 When we're talking about leveraged trading or leveraged investing, it really just means we're borrowing some asset or borrowing some money so we can invest or trade more.It's "leverage" because we're using more than we initially start with and this is great because when you pick correctly you'll profit more but when you pick wrong, you'll loose more as well.
