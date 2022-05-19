@@ -42,8 +42,11 @@ We could see that I've got some interest bearing Ethereum and our DAI.
 
 I could take the DAI and go to sushi swap and swap it.That's how you short it.You'll see you still have to repay at some point.
 
+**Doing Programmatically**
+ 
+In Day16, we forked mainnet, converted ETH to WETH(ERC20 version of ETH), approved our WETH to send it into AAVE smart contract, deposited it into AAVE smart contract and grabbed the DAI/ETH exchnage rate to figure out how much we can borrow, borrow it.
 
-
+Now we're going to swap the DAI for more ETH on the sushiswap.This is essentially going to be short selling or buying on margin.So we going to approve selling it, grab the price because you need an oracle whenever you call one of the swapping functions.
 
 
 
