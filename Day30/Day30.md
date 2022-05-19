@@ -142,7 +142,29 @@ Then we're going to call the swap function and at the end also print the DAI bal
 
 ![callingSwap](Images/m53.png)
 
+Also to reverse the feed we could do in our swap function:
 
+![reverseFeed](Images/m55.png)
+
+Now that we know exactly how to swap, we can go ahead and just call this swap function.Well we approve and then we call the swap function.
+
+We're going to approve the amount of dai that we borrowed, use sushiswapv2 router02 to spend our tokens, send the DAI address with our account.
+
+![approve](Images/m56.png)
+
+Then we're going to swap it.We're going to swap DAI for WETH and we're going to swap pretty much everything that we've.You'll run into some errors if you actually just swap everything, so normally it's good to reduce 1 DAI from the total amount.We're going to swap all of our DAI with our account, pass the price feed address and then sushi swap to sushi swap swapper.
+
+![swap](Images/m57.png)
+
+"ether" is just converting to the Units of ether which is just one DAI.
+
+Then let's just do the quick print of our end balance.
+
+![print](Images/m58.png)
+
+Let's see if this works:
+
+`brownie run scripts/short_sell.py --network mainnet-fork`
  
 
 
