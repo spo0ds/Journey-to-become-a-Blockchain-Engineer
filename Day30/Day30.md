@@ -92,6 +92,52 @@ then we grab the routerV2 from it's interface and can interact with it because i
 
 ![routerInterface](Images/m43.png)
 
+We can grab the the 'IUniswapV2Router02' from the [contract code](https://etherscan.io/address/0xd9e1cE17f2641f24aE83637ab66a2cca9C378B9F#code).
+
+then we call `swapExactTokensForTokens` function.
+
+![swapExactTokensForTokens](Images/m44.png)
+
+Which we're passing the amount that we wanna swap(amount), the minimum amount that we want back(amountOutMin), the pool jumping path(path), which account we're going to swap for(account.address), timestamp and then from account.Then we're going to wait for that transaction and return that transaction.
+
+![gettingSwap](Images/m45.png)
+
+So we'll create a main function that's going to swap the tokens.First always we're going to need an account which we can get it using helpful_scripts get_account function.
+
+![getAccount](Images/m46.png)
+
+Then we need to get the weth address, DAI address and sushi swap router address.
+
+![gettingAddress](Images/m47.png)
+
+We'll print the DAI amount that we've in out account.
+
+![printingDAI](Images/m48.png)
+
+If the network is in mainnet-fork we're going to recieve 1 WETH in our account.
+
+![gettingWETH](Images/m49.png)
+
+then we send the transaction for approval.
+
+![approval](Images/m50.png)
+
+Approve ERC20 is going to approve the weth amount to the "to" address i.e sushiswap02_router02.
+
+Now we're going to need the price_feed mapping for DAI address and WETH address.
+
+![priceFeedAddress](Images/m51.png)
+
+also we need to make mapping in new file called "chainlink_mapping.py" same place where config lies.
+
+![chainlink_mapping](Images/m52.png)
+
+You can get the mapping address from [here](https://data.chain.link/ethereum/mainnet/stablecoins/dai-eth).
+
+Then we're going to call the swap function and at the end also print the DAI balance.
+
+![callingSwap](Images/m53.png)
+
 
  
 
