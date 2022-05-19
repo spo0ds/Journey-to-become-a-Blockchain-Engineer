@@ -490,7 +490,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | **Multicall** |
 | - Batch Requests |
 | <p align="center"> [Day 30](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day30/Day30.md) </p> |
-| **Leveraged Trading in DeFi ** |
+| **Leveraged Trading in DeFi** |
 | - AAVE UI |
 | - Doing Programmatically |
 
