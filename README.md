@@ -484,6 +484,11 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - useEffect |
 | - Notifications |
 | - Make it pretty |
+| <p align="center"> [Day 29](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day29/Day29.md) </p> |
+| **Events and Logging in Solidity** |
+| - Events |
+| **Multicall** |
+| - Batch Requests |
 
 
 
