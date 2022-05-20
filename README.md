@@ -493,7 +493,8 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | **Leveraged Trading in DeFi** |
 | - AAVE UI |
 | - Doing Programmatically |
-
+| <p align="center"> [Day 30](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day31/Day31.md) </p> |
+| **Flash Loans** |
 
 
 
