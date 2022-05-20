@@ -77,4 +77,10 @@ Now once it's done, done all your logic, you need to approve LendingPool to get 
 
 You do need to set Infura project ID and Private key set up in your .env file.Once you've done all that, we're actually going to work with Kovan testnet so that we can really see what a transaction looks like on Kovan.
 
+First thing we're going to do is run the scripts to get some WETH.
 
+![getWETH](Images/m69.png)
+
+It's going to grab your key from config which you've set up from your private key.We're going to grab the weth address based on network.We're going to deposit 1 ETH to get 1 WETH.
+
+`brownie run scripts/get_weth.py --network kovan`
