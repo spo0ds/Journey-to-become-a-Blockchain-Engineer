@@ -84,3 +84,15 @@ First thing we're going to do is run the scripts to get some WETH.
 It's going to grab your key from config which you've set up from your private key.We're going to grab the weth address based on network.We're going to deposit 1 ETH to get 1 WETH.
 
 `brownie run scripts/get_weth.py --network kovan`
+
+![output](Images/m70.png)
+
+Let's actually deploy development_v2.py.
+
+`brownie run scripts/deployment_v2.py --network kovan`
+
+This deploys our flashloan contract using the aave lending pool address, which we can find in our config.
+
+And the last thing we're going to do is run the flash loan scripts.
+
+`brownie run scripts/run_flash_loan_v2.py --network kovan`
