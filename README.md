@@ -4,7 +4,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 
 ![Blockchain](/Images/main.jpg)
 
-| <p align="center"> [Day 1](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day1/Day1.md) </p> |
+| <p align="center"> [Day 1](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day01/Day01.md) </p> |
 | ------ |
 |  **Blockchain** |
 | - Bitcoin |
@@ -26,7 +26,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Trust Minimized  Agreements |
 | - Summary |
 |  **DAOs**|
-| <p align="center"> [Day 2](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day2/Day2.md) </p> |
+| <p align="center"> [Day 2](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day02/Day02.md) </p> |
 | **Ethereum Transaction On a Live  Blockchain** |
 | - Wallet Creation |
 | - Etherscan |
@@ -47,7 +47,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Tokens/Transaction History |
 | - Summary |
 |        |
-| <p align="center"> [Day 3](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day3/Day3.md) </p> |
+| <p align="center"> [Day 3](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day03/Day03.md) </p> |
 | **Signing and Verifying a Transaction** |
 | - Public & Private Keys |
 | - Signatures |
@@ -74,7 +74,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Layer 1 & Layer 2 |
 | - Rollups |
 | - Summary |
-| <p align="center"> [Day 4](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day4/Day4.md) </p> |
+| <p align="center"> [Day 4](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day04/Day04.md) </p> |
 | **Solidity** |
 | **Remix IDE & its features** |
 | - Solidity version |
@@ -104,7 +104,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Interacting with deployed contracts |
 | - EVM |
 | - Summary |
-| <p align="center"> [Day 5](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day5/Day5.md) </p> |
+| <p align="center"> [Day 5](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day05/Day05.md) </p> |
 | **StorageFactory** |
 | - Factory pattern |
 | - New contract StorageFactory |
@@ -121,7 +121,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Additional Note |
 | - Inheritance |
 | - Recap |
-| <p align="center"> [Day 6](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day6/Day6.md) </p> |
+| <p align="center"> [Day 6](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day06/Day06.md) </p> |
 | **Fund me** |
 | - purpose of this contract |
 | - Payable function , wei , gwei & ether |
@@ -148,7 +148,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Wei/Gwei Standard (Matching Units) |
 | - getting the price using Get conversion rate |
 | - deploying |
-| <p align="center"> [Day 7](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day7/Day7.md) </p> |
+| <p align="center"> [Day 7](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day07/Day07.md) </p> |
 | - Safemath & Integer Overflow |
 | - Libraries |
 | - Setting Threshold |
@@ -167,7 +167,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Summary |
 | - Deploying & Transaction |
 | - Forcing a Trasacttion |
-| <p align="center"> [Day 8](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day8/Day8.md) </p> |
+| <p align="center"> [Day 8](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day08/Day08.md) </p> |
 | **Web3. py SimpleStorage** |
 | - Limitations of Remix |
 | - VScode , Python , Solidity Setup |
@@ -219,7 +219,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - load_dotenv() |
 | - Sending the signed Transaction |
 | - Deployment |
-| <p align="center"> [Day 9](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day9/Day9.md) </p> |
+| <p align="center"> [Day 9](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day09/Day09.md) </p> |
 | - Block confirmation(wait_for_transaction_reciept) |
 | - interact/work with thee contract |
 | - Address & ABI |
