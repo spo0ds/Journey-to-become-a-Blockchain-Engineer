@@ -82,7 +82,7 @@ We get the transaction object.This transaction has all the events in it.So we co
 
 oldAge and newAge are the indexed parameters or the topics, and the totalAge and the sender are going to be non-indexed. We can read them here because we've got the ABI. We've got the contract code and we know what totalAge and sender are called. If we didn't have the contract code, non-indexed would show up as mumbled garbage. Since there's only one event, we could even do:
 
-`print(txn.events[0]["newAge"]`
+`print(txn.events[0]["newAge"])`
 
 Let's deploy this to etherscan and see what it looks like on etherscan because working with the etherscan events and understanding how those events work and what they look like on etherscan is really important too.So in our config:
 
