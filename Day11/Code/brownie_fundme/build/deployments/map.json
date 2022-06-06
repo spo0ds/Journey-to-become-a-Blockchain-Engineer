@@ -1,0 +1,11 @@
+{
+  "5777": {
+    "FundMe": [
+      "0xA26Ba07002A947a4b6CA37CFef1d6b57cE8514C2",
+      "0xDb8dC2A063729c4f816D289774eCD06EcFF8105f"
+    ],
+    "MockV3Aggregator": [
+      "0x116ec3ABfbCE8DC978B94ee2ab185bb47AcaBeed"
+    ]
+  }
+}
