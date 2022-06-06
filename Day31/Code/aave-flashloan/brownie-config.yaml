@@ -1,0 +1,32 @@
+# use Ganache's forked mainnet mode as the default network
+networks:
+  default: mainnet-fork
+
+# automatically fetch contract sources from Etherscan
+autofetch_sources: True
+
+# require OpenZepplin Contracts v3.0.0
+dependencies:
+  - OpenZeppelin/openzeppelin-contracts@3.0.0
+
+# path remapping to support OpenZepplin imports with NPM-style path
+compiler:
+  solc:
+    remappings:
+      - "@openzeppelin=OpenZeppelin/openzeppelin-contracts@3.0.0"
+dotenv : .env
+
+networks:
+  default: mainnet-fork
+  mainnet-fork:
+    aave_lending_pool_v2: "0xB53C1a33016B2DC2fF3653530bfF1848a515c8c5"
+    weth: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+  kovan:
+    aave_lending_pool_v2: "0x88757f2f99175387ab4c6a4b3067c77a695b0349"
+    weth: "0xd0a1e359811322d97991e03f863a0c30c2cf029c"
+  mainnet:
+    aave_lending_pool_v2: "0xB53C1a33016B2DC2fF3653530bfF1848a515c8c5"
+    weth: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"
+wallets:
+  from_key: ${PRIVATE_KEY}
+  from_mnemonic: ${MNEMONIC}
