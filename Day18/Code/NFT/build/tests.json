@@ -1,0 +1,21 @@
+{
+  "contracts": {
+    "OpenZeppelin/openzeppelin-contracts@3.4.0/Address": "3b4158955f564edb18bd7a8ffdb49859c904f0b7",
+    "OpenZeppelin/openzeppelin-contracts@3.4.0/ERC721": "d6117a4cc46c62cbdf7be73318130c81771fa9a4",
+    "OpenZeppelin/openzeppelin-contracts@3.4.0/EnumerableMap": "3b4158955f564edb18bd7a8ffdb49859c904f0b7",
+    "OpenZeppelin/openzeppelin-contracts@3.4.0/EnumerableSet": "3b4158955f564edb18bd7a8ffdb49859c904f0b7",
+    "OpenZeppelin/openzeppelin-contracts@3.4.0/SafeMath": "3b4158955f564edb18bd7a8ffdb49859c904f0b7",
+    "OpenZeppelin/openzeppelin-contracts@3.4.0/Strings": "3b4158955f564edb18bd7a8ffdb49859c904f0b7",
+    "SimpleCollectible": "44138fd40cabe789f16cf81c4e5bb303dd6265f0"
+  },
+  "tests": {
+    "tests/unit/test_simple_collectible.py": {
+      "coverage": false,
+      "isolated": false,
+      "results": ".",
+      "sha1": "cb7b5c358730047f7133f7590edcc923a6e5ee52",
+      "txhash": []
+    }
+  },
+  "tx": {}
+}
