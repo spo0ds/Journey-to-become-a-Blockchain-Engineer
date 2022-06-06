@@ -1,0 +1,11 @@
+{
+    "name": "chase",
+    "description": "An adorable cutie cat!",
+    "image": "https://ipfs.io/ipfs/QmV88W51WyDqwWb9QzyroT6TiHH7iVcrvfj8vWAkciKMsU/cat.png",
+    "attributes": [
+        {
+            "trait_type": "cuteness",
+            "value": 100
+        }
+    ]
+}
