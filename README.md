@@ -27,26 +27,25 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Summary |
 |  **DAOs**|
 | <p align="center"> [Day 2](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day02/Day02.md) </p> |
-| **Ethereum Transaction On a Live  Blockchain** |
+| **A Live Ethereum Transaction** |
 | - Wallet Creation |
 | - Etherscan |
 | - Multiple Accounts |
-| - Mnemonic ,  Public & Private keys |
+| - Public and private keys, as well as mnemonics |
 | - Mnemonic vs Private vs Public keys |
 | - Mainnet & Testnets |
-| - Initiating our first Transaction |
+| - Initiating our first transaction |
 | - Transaction details |
 | - Gas fees, Transaction fees, Gas limit, Gas price |
 | - Gas vs Gas price vs Gas Limit vs Transaction fee |
 | - Gas estimator |
-| **How Blockchain works/whats going on Inside the Blockchain** |
+| **How Blockchain Works/What Happens Inside Blockchain** |
 | - Hash or Hashing or SHA256 |
 | - Block |
 | - Blockchain |
 | - Decentralized/Distributed Blockchain |
 | - Tokens/Transaction History |
 | - Summary |
-|        |
 | <p align="center"> [Day 3](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day03/Day03.md) </p> |
 | **Signing and Verifying a Transaction** |
 | - Public & Private Keys |
@@ -120,6 +119,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Making the Code lil bit Simpler |
 | - Additional Note |
 | - Inheritance |
+| - Overrides|
 | - Recap |
 | <p align="center"> [Day 6](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day06/Day06.md) </p> |
 | **Fund me** |
@@ -167,6 +167,10 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Summary |
 | - Deploying & Transaction |
 | - Forcing a Trasacttion |
+| - **Libraries** |
+| - **Advanced Solidity Immutable & Constant** |
+| - Custom Errors |
+| - Receive & Fallback |
 | <p align="center"> [Day 8](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day08/Day08.md) </p> |
 | **Web3. py SimpleStorage** |
 | - Limitations of Remix |
@@ -495,7 +499,24 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Doing Programmatically |
 | <p align="center"> [Day 31](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day31/Day31.md) </p> |
 | **Flash Loans** |
-
+| <p align="center"> [Day 32](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day32/Day32.md) </p> |
+| **Ethers.js Simple Storage** |
+| - Installation | 
+| - Tiny JavaScript Refresher |
+| - Asynchronous programming in JavaScript |
+| - Compiling our Solidity |
+| - Ganache & Networks |
+| - Introduction to Ethers.js |
+| <p align="center"> [Day 33](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day33/Day33.md) </p> |
+| - A note on Await Keyword |
+| - Adding Transaction Overrides |
+| - Transaction Receipts |
+| - Sending a "raw" transaction in etherjs |
+| - Interacting with Contracts in Ethersjs |
+| - Environment variables |
+| - Better Private Key Management |
+| - Optional Prettier Fromatting |
+| - Deploying to a Testnet or a Mainnet |
 
 
 
@@ -573,6 +594,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 
 
  
+
 
 
 
