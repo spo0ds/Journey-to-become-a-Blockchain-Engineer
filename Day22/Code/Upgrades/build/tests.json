@@ -1,0 +1,75 @@
+{
+  "contracts": {
+    "Box": "31cfbd39eb7995ed86f6e102080ac58eb168bf31",
+    "BoxV2": "3a4d119b5d464335e6eafa39ac77d5d902ba7021",
+    "OpenZeppelin/openzeppelin-contracts@4.1.0/Address": "1ce946f6a4eaa185320328620ccf999b9e86db7c",
+    "OpenZeppelin/openzeppelin-contracts@4.1.0/ERC1967Proxy": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+    "OpenZeppelin/openzeppelin-contracts@4.1.0/StorageSlot": "1ce946f6a4eaa185320328620ccf999b9e86db7c",
+    "ProxyAdmin": "08b625fbdc5fe9e031bdf38f4c9ed9e37ce50d59",
+    "TransparentUpgradeableProxy": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+  },
+  "tests": {
+    "tests/test_box_proxy.py": {
+      "coverage": false,
+      "isolated": false,
+      "results": ".",
+      "sha1": "23c652c3719e77b51028b8b5a4326e02363f0dee",
+      "txhash": []
+    },
+    "tests/test_box_v2_upgrades.py": {
+      "coverage": false,
+      "isolated": false,
+      "results": ".",
+      "sha1": "eed193feae9787534f64d50226d521cc6f2cc80b",
+      "txhash": [
+        "f4d1dbb3d6b3018d13b50975a10cbb73abd15dac"
+      ]
+    }
+  },
+  "tx": {
+    "f4d1dbb3d6b3018d13b50975a10cbb73abd15dac": {
+      "Box": {
+        "8": [
+          [],
+          [],
+          []
+        ]
+      },
+      "TransparentUpgradeableProxy": {
+        "1": [
+          [
+            10
+          ],
+          [],
+          []
+        ],
+        "11": [
+          [
+            9
+          ],
+          [],
+          [
+            23
+          ]
+        ],
+        "2": [
+          [
+            11,
+            17
+          ],
+          [],
+          []
+        ],
+        "3": [
+          [
+            1,
+            2,
+            3
+          ],
+          [],
+          []
+        ]
+      }
+    }
+  }
+}

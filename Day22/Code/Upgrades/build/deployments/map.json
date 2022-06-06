@@ -1,0 +1,16 @@
+{
+  "4": {
+    "Box": [
+      "0x37668C69BFa2C40b68aA359dA25153CA6f3C5cFb"
+    ],
+    "BoxV2": [
+      "0xb00209Ef78d148Ea03688C147C6C4525e386abbb"
+    ],
+    "ProxyAdmin": [
+      "0xE3440d537d345f8E826489573ff567e358ec2305"
+    ],
+    "TransparentUpgradeableProxy": [
+      "0x508107623dCb4e0449d4C35e3cd063c2ae57722F"
+    ]
+  }
+}
