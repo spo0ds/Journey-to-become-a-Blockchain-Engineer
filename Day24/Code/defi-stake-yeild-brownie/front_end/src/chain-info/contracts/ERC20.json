@@ -1,0 +1,745 @@
+{
+  "abi": [
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "spender",
+          "type": "address"
+        },
+        {
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "approve",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "totalSupply",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "transferFrom",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "who",
+          "type": "address"
+        }
+      ],
+      "name": "balanceOf",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "transfer",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "name": "spender",
+          "type": "address"
+        }
+      ],
+      "name": "allowance",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "owner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "spender",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "Approval",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "from",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "value",
+          "type": "uint256"
+        }
+      ],
+      "name": "Transfer",
+      "type": "event"
+    }
+  ],
+  "allSourcePaths": {
+    "1": "/home/spooderman/.brownie/packages/smartcontractkit/chainlink-brownie-contracts@0.2.1/contracts/src/v0.4/interfaces/ERC20.sol",
+    "2": "/home/spooderman/.brownie/packages/smartcontractkit/chainlink-brownie-contracts@0.2.1/contracts/src/v0.4/interfaces/ERC20Basic.sol"
+  },
+  "ast": {
+    "absolutePath": "/home/spooderman/.brownie/packages/smartcontractkit/chainlink-brownie-contracts@0.2.1/contracts/src/v0.4/interfaces/ERC20.sol",
+    "exportedSymbols": {
+      "ERC20": [
+        532
+      ]
+    },
+    "id": 533,
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 490,
+        "literals": [
+          "solidity",
+          "^",
+          "0.4",
+          ".11"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "0:24:1"
+      },
+      {
+        "absolutePath": "/home/spooderman/.brownie/packages/smartcontractkit/chainlink-brownie-contracts@0.2.1/contracts/src/v0.4/interfaces/ERC20Basic.sol",
+        "file": "./ERC20Basic.sol",
+        "id": 492,
+        "nodeType": "ImportDirective",
+        "scope": 533,
+        "sourceUnit": 633,
+        "src": "27:64:1",
+        "symbolAliases": [
+          {
+            "foreign": 491,
+            "local": "linkERC20Basic"
+          }
+        ],
+        "unitAlias": ""
+      },
+      {
+        "baseContracts": [
+          {
+            "arguments": null,
+            "baseName": {
+              "contractScope": null,
+              "id": 493,
+              "name": "linkERC20Basic",
+              "nodeType": "UserDefinedTypeName",
+              "referencedDeclaration": 632,
+              "src": "201:14:1",
+              "typeDescriptions": {
+                "typeIdentifier": "t_contract$_ERC20Basic_$632",
+                "typeString": "contract ERC20Basic"
+              }
+            },
+            "id": 494,
+            "nodeType": "InheritanceSpecifier",
+            "src": "201:14:1"
+          }
+        ],
+        "contractDependencies": [
+          632
+        ],
+        "contractKind": "contract",
+        "documentation": "@title ERC20 interface\n@dev see https://github.com/ethereum/EIPs/issues/20",
+        "fullyImplemented": false,
+        "id": 532,
+        "linearizedBaseContracts": [
+          532,
+          632
+        ],
+        "name": "ERC20",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": null,
+            "documentation": null,
+            "id": 503,
+            "implemented": false,
+            "isConstructor": false,
+            "isDeclaredConst": true,
+            "modifiers": [],
+            "name": "allowance",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 499,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 496,
+                  "name": "owner",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 503,
+                  "src": "239:13:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 495,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "239:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 498,
+                  "name": "spender",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 503,
+                  "src": "254:15:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 497,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "254:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "238:32:1"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 502,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 501,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 503,
+                  "src": "289:7:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 500,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "289:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "288:9:1"
+            },
+            "scope": 532,
+            "src": "220:78:1",
+            "stateMutability": "view",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": null,
+            "documentation": null,
+            "id": 514,
+            "implemented": false,
+            "isConstructor": false,
+            "isDeclaredConst": false,
+            "modifiers": [],
+            "name": "transferFrom",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 510,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 505,
+                  "name": "from",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 514,
+                  "src": "323:12:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 504,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "323:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 507,
+                  "name": "to",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 514,
+                  "src": "337:10:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 506,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "337:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 509,
+                  "name": "value",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 514,
+                  "src": "349:13:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 508,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "349:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "322:41:1"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 513,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 512,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 514,
+                  "src": "373:4:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 511,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "373:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "372:6:1"
+            },
+            "scope": 532,
+            "src": "301:78:1",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "body": null,
+            "documentation": null,
+            "id": 523,
+            "implemented": false,
+            "isConstructor": false,
+            "isDeclaredConst": false,
+            "modifiers": [],
+            "name": "approve",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 519,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 516,
+                  "name": "spender",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 523,
+                  "src": "399:15:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 515,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "399:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 518,
+                  "name": "value",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 523,
+                  "src": "416:13:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 517,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "416:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "398:32:1"
+            },
+            "payable": false,
+            "returnParameters": {
+              "id": 522,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 521,
+                  "name": "",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 523,
+                  "src": "440:4:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_bool",
+                    "typeString": "bool"
+                  },
+                  "typeName": {
+                    "id": 520,
+                    "name": "bool",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "440:4:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_bool",
+                      "typeString": "bool"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "439:6:1"
+            },
+            "scope": 532,
+            "src": "382:64:1",
+            "stateMutability": "nonpayable",
+            "superFunction": null,
+            "visibility": "public"
+          },
+          {
+            "anonymous": false,
+            "documentation": null,
+            "id": 531,
+            "name": "Approval",
+            "nodeType": "EventDefinition",
+            "parameters": {
+              "id": 530,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 525,
+                  "indexed": true,
+                  "name": "owner",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 531,
+                  "src": "464:21:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 524,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "464:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 527,
+                  "indexed": true,
+                  "name": "spender",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 531,
+                  "src": "487:23:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 526,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "487:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 529,
+                  "indexed": false,
+                  "name": "value",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 531,
+                  "src": "512:13:1",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_uint256",
+                    "typeString": "uint256"
+                  },
+                  "typeName": {
+                    "id": 528,
+                    "name": "uint256",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "512:7:1",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_uint256",
+                      "typeString": "uint256"
+                    }
+                  },
+                  "value": null,
+                  "visibility": "internal"
+                }
+              ],
+              "src": "463:63:1"
+            },
+            "src": "449:78:1"
+          }
+        ],
+        "scope": 533,
+        "src": "183:346:1"
+      }
+    ],
+    "src": "0:530:1"
+  },
+  "bytecode": "",
+  "bytecodeSha1": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+  "compiler": {
+    "evm_version": "byzantium",
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "version": "0.4.26+commit.4563c3fc"
+  },
+  "contractName": "ERC20",
+  "coverageMap": {
+    "branches": {},
+    "statements": {}
+  },
+  "dependencies": [
+    "smartcontractkit/chainlink-brownie-contracts@0.2.1/ERC20Basic"
+  ],
+  "deployedBytecode": "",
+  "deployedSourceMap": "",
+  "language": "Solidity",
+  "natspec": {
+    "methods": {},
+    "title": "ERC20 interface"
+  },
+  "offset": [
+    183,
+    529
+  ],
+  "opcodes": "",
+  "pcMap": {},
+  "sha1": "d874eb6cc102a22c47f7e7dffaf2e26a53f95d98",
+  "source": "pragma solidity ^0.4.11;\n\n\nimport { ERC20Basic as linkERC20Basic } from \"./ERC20Basic.sol\";\n\n\n/**\n * @title ERC20 interface\n * @dev see https://github.com/ethereum/EIPs/issues/20\n */\ncontract ERC20 is linkERC20Basic {\n  function allowance(address owner, address spender) constant returns (uint256);\n  function transferFrom(address from, address to, uint256 value) returns (bool);\n  function approve(address spender, uint256 value) returns (bool);\n  event Approval(address indexed owner, address indexed spender, uint256 value);\n}\n",
+  "sourceMap": "",
+  "sourcePath": "/home/spooderman/.brownie/packages/smartcontractkit/chainlink-brownie-contracts@0.2.1/contracts/src/v0.4/interfaces/ERC20.sol",
+  "type": "contract"
+}
