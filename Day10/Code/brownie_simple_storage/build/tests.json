@@ -1,0 +1,15 @@
+{
+  "contracts": {
+    "SimpleStorage": "dfc75184a4d846f39885941c5ff624d3c5c726f8"
+  },
+  "tests": {
+    "tests/test_SS.py": {
+      "coverage": false,
+      "isolated": false,
+      "results": "..",
+      "sha1": "6ffb32bde968a786179be595303683175cb06f9d",
+      "txhash": []
+    }
+  },
+  "tx": {}
+}
