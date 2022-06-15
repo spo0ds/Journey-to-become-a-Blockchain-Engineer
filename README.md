@@ -2,7 +2,7 @@
 
 I'm sharing everything I'm learning to become a Blockchain Engineer
 
-![Blockchain](/Images/main.jpg)
+![Blockchain](/main.jpg)
 
 | <p align="center"> [Day 1](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day01/Day01.md) </p> |
 | ------ |
@@ -517,11 +517,45 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Better Private Key Management |
 | - Optional Prettier Fromatting |
 | - Deploying to a Testnet or a Mainnet |
-
-
-
-
-
+| <p align="center"> [Day 34](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day34/Day34.md) </p> |
+| **Hardhat Simple Storage** |
+| - Hardhat |
+| - Hardhat Setup |
+| - Deploying SimpleStorage from Hardhat |
+| - Networks in Hardhat |
+| <p align="center"> [Day 35](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day35/Day35.md) </p> |
+| - Programatic Verification |
+| - Interacting with Contracts in Hardhat |
+| - Custome Hardhat Tasks |
+| - Hardhat Localhost Node |
+| - The Hardhat Console |
+| - Running Tests |
+| - Hardhat Gas Reporter |
+| - Solidity Coverage |
+| - Hardhat Waffle |
+| <p align="center"> [Day 36](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day36/Day36.md) </p> |
+| **Hardhat Fund Me** |
+| - Hardhat Setup |
+| - Linting |
+| - Importing from NPM |
+| - Hardhat Deploy |
+| - Mocking & helper-hardhat-config |
+| - Utils Folder |
+| - Testnet Demo |
+| <p align="center"> [Day 37](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day37/Day37.md) </p> |
+| - Solidity Style Guide |
+| - Testing FundMe |
+| - Breakpoints & Debugging |
+| - Gas |
+| - Console.log & Debugging |
+| - Testing FundMe II |
+| <p align="center"> [Day 38](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day38/Day38.md) </p> |
+| - Storage in Solidity |
+| - Gas Optimizations using storage keyword |
+| - Solidity Chainlink Style Guide |
+| - Staging Tests |
+| - Running Scripts on a Local Node |
+| - Adding scripts to your package.json |
 
 
 
