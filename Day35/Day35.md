@@ -405,3 +405,230 @@ So in order to tests our smart contracts, before we actually run our tests we're
 })
 ```
 and in here we want to deploy our SimpleStorage contract.so to do that we're going to need to get the ethers framework and do exactly what we did in our deploy script.
+
+```javascript
+const { ethers } = require("hardhat")
+```
+
+then in our beforeEach function, we'll say:
+
+```javascript
+ beforeEach(async function () {
+        const ssFactory = await ethers.getContractFactory("SimpleStorage")
+        const simpleStorage = await ssFactory.deploy()
+    })
+```
+
+Since right now our "simpleStorage" and "ssFactory" are scoped just inside the beforeEach, we actually need to stick these variables outside of the beforeEach, so all of our "it's" can interact with them.So instead of having "simpleStorage" & "ssFactory" be constant variables, we're going to define them outside of "beforeEach" with a "let" keyword.  
+
+```javascript
+describe("SimpleStorage", function () {
+    let ssFactory, simpleStorage
+    beforeEach(async function () {
+        ssFactory = await ethers.getContractFactory("SimpleStorage")
+        simpleStorage = await ssFactory.deploy()
+    })
+
+    it()
+})
+```
+
+Now we've "ssFactory" and "simpleStorage" that we can use inside of "it" function.Now we've a beforeEach section.So before each one of our tests, we're going to deploy our SimpleStorage contract.So we've a brand new contract to interact with for each one of our tests.
+
+Now inside of "it" this is where we're going to say what we want this specific test to do and then describe the code.
+
+```javascript
+it("Should start with age of 0", async function () {
+    })
+```
+
+and inside the anonymous function, we'll actually write the code to make sure that our contract does exactly what we intend to do. 
+
+```javascript
+  it("Should start with age of 0", async function () {
+        const currentAge = await simpleStorage.retrieve()
+        const expectedAge = "0"
+    })
+```
+
+We can either the `assert` keyword or the `expect` keyword which we're going to import both of these from a package called `Chai`.we actually installed chai automatically when we downloaded the basic packages for hardhat.So at the top we're going to say:
+
+```javascript
+const { expect, assert } = require("chai")
+```
+
+Assert has a tons of built in function that helps us make sure this is what we expected it to be.So I can do:
+
+```javascript
+ it("Should start with age of 0", async function () {
+        const currentAge = await simpleStorage.retrieve()
+        const expectedAge = "0"
+        assert.equal(currentAge.toString(), expectedAge)
+    })
+```
+
+We changed the currentValue to sting because it's a bigNumber and to actually run this:
+
+`yarn hardhat test`
+
+Let's write one more test just to make sure that things are good.
+
+```javascript
+it("Should update when we call store", async function () {
+        const expectedAge = "7"
+        const txnResponse = await simpleStorage.store("7")
+        await txnResponse.wait(1)
+
+        const updatedAge = await simpleStorage.retrieve()
+        assert.equal(expectedAge, updatedAge.toString())
+    })
+```
+
+To only run one test, we can do:
+
+```javascript
+it.only("Should update when we call store", async function () {})
+```
+
+and this will only run this test.
+
+Now the other way, you'll see the test written is with instead of assert, it'll use the expect keyword.
+
+```javascript
+// assert.equal(currentAge.toString(), expectedAge)
+expect(expectedAge.toString()).to.equal(currentAge)
+```
+
+These two lines do exactly the same thing and it's sort of up to you on which one you want to use.
+
+**Hardhat Gas Reporter**
+
+Now that we've some tests, we can actually start testing to see how much gas each one of our functions actually costs.One of the most popular extensions for hardhat is the `[hardhat-gas-reporter](https://www.npmjs.com/package/hardhat-gas-reporter)`.This is an extension that gets attached to all of your tests, and automatically gives us an output like this:
+
+![gasReport](Images/m43.png)
+
+This tells how much gas each one of our functions cost.To install it:
+
+`yarn add hardhat-gas-reporter --dev`
+
+Now that package is installed, we can go over to our config and add some parameters in there so that we can work with gas bit.Underneath our etherscan section, we're going to add a new section called gasReporter.To have it run whenever we run tests, we're going to enable it.
+
+```javascript
+ gasReporter: {
+        enabled: true,
+    },
+```
+
+and up at the top, we can add it by:
+
+```javascript
+require("hardhat-gas-reporter")
+```
+
+Now that we've it in our config, we can do:
+
+`yarn hardhat test`
+
+and after we run our test, it will automatically run the gas reporter.
+
+![gasReport](Images/m44.png)
+
+So our store function looks like cost approximately 43724 gas and our simpleStorage costs approximately 453283 gas.This is incredibly helpful for figuring out how to optimize our gas as best as possible.
+
+Having a gas outputted like that is nice but we can make it even better.I'd like to output it to a file.
+
+```javascript
+gasReporter: {
+        enabled: true,
+        outputFile: "gas-report.txt",
+    },
+```
+
+and then in .gitignore, add the "gas-report.txt".
+
+```javascript
+ gasReporter: {
+        enabled: true,
+        outputFile: "gas-report.txt",
+        noColors: true,
+    },
+```
+
+The reason that we add noColors is when we output to a file, the colors can get messed up basically.And the biggest addidtion we could do is we can add a currency in there.
+
+```javascript
+gasReporter: {
+        enabled: true,
+        outputFile: "gas-report.txt",
+        noColors: true,
+        currency: "USD",
+    },
+```
+
+So that we can get the cost of each function in USD for a blockchain like Ethereum.Now in order to get a currency in here, we actually need to get an API key from `coinmarketcap`.Just like we did with etherscan, we can create our account in [coinmarketcap](https://pro.coinmarketcap.com/signup/) to get the API key.
+
+Now in our coinmarketcap dashboard, we can copy our key and drop it into our .env file.After we've our API key in .env file, in our config we can:
+
+```javascript
+const COINMARKETCAP_API_KEY = process.env.COINMARKETCAP_API_KEY
+
+gasReporter: {
+        enabled: true,
+        outputFile: "gas-report.txt",
+        noColors: true,
+        currency: "USD",
+        coinmarketcap: COINMARKETCAP_API_KEY,
+    },
+```
+
+This is going to make an API call to coinmarketcap whenever we run our gas reporter.We can run the test now.
+
+`yarn hardhat test`
+
+Now it has the USD price of each one of the transactions.
+
+Hardhat gas reporter actually comes with different options though, if you're going to be deploying to different network.For example let's say we wanted to deploy the polygon, let's see how much deploying to polygon would cost.Well in our config, we'll add:
+
+```javascript
+coinmarketcap: COINMARKETCAP_API_KEY,
+token: "MATIC",
+```
+
+and re-run the test.
+
+Sometimes when we're working with our code, if we don't have environment variables specified, hardhat might get a little bit upset with us.So oftentimes I'll code so that environment variables are always populated because we didn't specify our "RINKEBY_RPC_URL", RINKEBY_RPC_URL is going to be undefined and that might throw some errors below.So often times, I'll add "||"(Or) parameter.
+
+```javascript
+const RINKEBY_RPC_URL =
+    process.env.RINKEBY_RPC_URL || "https://eth-rinkeby/example"
+```
+
+Just so that I don't make hardhat mad if I don't use rinkeby.
+
+**Solidity Coverage**
+
+As we progressed, we're going to learn more and more tools that we can use to make sure that our SimpleStorage contract is safe and secure and we take all the steps we can to prevent any hacks happening if we deploy in real life.One of those tools is called "solidity coverage".This is also a hardhat plugin that we can use for our code.Solidity coverage is a project that goes through all of our tests and sees exactly how many lines of code in our SimpleStorage.sol are actually covered in test.And this could be a good tip off, if we don't cover some line of code solidity coverage will say "Hey you don't have ant tests for this line.Maybe you should write tests for it."
+
+We can add solidity coverage the same way we've been adding all of our packages.
+
+`yarn add --dev solidity-coverage`
+
+and we can add this to our config, same way we've been adding everything to our config.
+
+```javascript
+require("solidity-coverage")
+```
+
+Now we can run :
+
+`yarn hardhat coverage`
+
+I'll get "coverage.json"file which is basically the chart broken down little bit more.I'll often put coverage.json in .gitignore.
+
+![coverage](Images/m45.png)
+
+We can see about 50% of our statements in SimpleStorage.sol are covered.About 2/3 of our functions and 50% of our lines are covered.It'll even give us what lines are tested right now i.e 23,24.Also add coverage folder in .gitignore.
+
+**Hardhat Waffle**
+
+Last thing we didn't talk about here is what is `[@nomiclabs/hardhat-waffle](https://www.npmjs.com/package/@nomiclabs/hardhat-waffle)` in config.Hardhat waffle is actually a plugin to work with the waffle testing framework.Waffle is one of the frameworks that allow us to do some really advanced testing.
