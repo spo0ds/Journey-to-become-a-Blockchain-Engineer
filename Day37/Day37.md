@@ -678,6 +678,7 @@ await expect(
             ).to.be.revertedWith("FundMe__NotOwner")
 ```
 
+<<<<<<< HEAD
 **Storage in Solidity**
 
 We've some basic unit tests here and we're going to write some staging tests pretty soon but before we actually do that,let's go ahead and add the gas estimator and we'll see how much gas these contracts and these functions are taking.We'll turn teh gasReposter to true but we won't do coinmarketcap.
@@ -994,4 +995,6 @@ In our package.json, we can add scripts section to make our lives lot easier and
   }
 ```
 
+=======
+>>>>>>> upstream/main
 

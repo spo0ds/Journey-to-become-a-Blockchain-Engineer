@@ -154,7 +154,7 @@ We can also update our website accordingly so that we can let users know that we
 
 After metamask is connected, our button will look like this:
 
-![button](Images/m54.png)
+![button](Images/m59.png)
 
 ***JavaScript in it's own files***
 
