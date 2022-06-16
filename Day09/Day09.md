@@ -2,7 +2,7 @@
 
 One other thing that's really good practice whenever sending a transaction is we wait for some block confirmations to happen.
 
-![block_confirmation](/Images/Day6/f23.png)
+![block_confirmation](Imagesf23.png)
 
 This will have our code stop and wait for this transaction hash to go through.
 
@@ -16,7 +16,7 @@ We've deployed the contract but how do we actually interact and work with the co
 
 We need to make new contract object to work with contract.Let's go ahead and create that SimpleStorage contract so we can actually interact with it.
 
-![addressABI](/Images/Day6/f24.png)
+![addressABI](Images/f24.png)
 
 We've address and the abi we can start interacting with the contract exactly as we did in remix.
 
@@ -24,9 +24,9 @@ We've address and the abi we can start interacting with the contract exactly as 
 
 Let's do a print statement to get that initial value that is returned from our retrieve function.It should be initialized to zero.
 
-![retrieveFunction](/Images/Day6/f25.png)
+![retrieveFunction](Images/f25.png)
 
-![retrieveOutput](/Images/Day6/f26.png)
+![retrieveOutput](Images/f26.png)
 
 We get this function retrieve bound to in these parentheses.What's going on?
 
@@ -38,7 +38,7 @@ A transact call is when we actually make a state change and this is when we actu
 
 Something like retrieve even if we transact on it, it won't make a state change.
 
-![call_function](/Images/Day6/f27.png)
+![call_function](Images/f27.png)
 
 If we run this, you'll see we do get the zero because now we're actually calling the transaction.
 
@@ -48,7 +48,7 @@ We've our initial value for our retrieve function.Let's try to update the age us
 
 We know that the store function is orange and we'll make a transaction but if we wanted to we can even just use call on it.
 
-![store_function](/Images/Day6/f28.png)
+![store_function](Images/f28.png)
 
 When we send this,it'll return a blank because the store function has no return typr.If we give it a return(uint256) and return an age, you'll see the age returned back.
 
@@ -58,25 +58,25 @@ If we go to the ganache you'll see that we keep making whole bunch of different 
 
 Let's build a new transaction to actually store some value into this contract.Since we want to make a transaction, we gotta go through the same process as we deployed the contract.
 
-![store_transaction](/Images/Day6/f29.png)
+![store_transaction](Images/f29.png)
 
 **Signing Transaction(signed_store_txn)**
 
 Now we've the transaction let's go ahead and sign it.
 
-![signedStoreTxn](/Images/Day6/f30.png)
+![signedStoreTxn](Images/f30.png)
 
 **Sending Transaction(send_store_tx,tx_receipt)**
 
 Then ofcourse we need to send it.
 
-![sendStoreTx](/Images/Day6/f31.png)
+![sendStoreTx](Images/f31.png)
 
 **Deployment**
 
 Let's run this.Alright we still have the print function printing out the current value of retrieve.Let's go over to ganache and see if there's anything different here.
 
-![contractCall](/Images/Day6/f32.png)
+![contractCall](Images/f32.png)
 
 There is instead of all the contract creations, we now have a contract call.If we call our retrieve function again, it'll print out new updated value.
 
@@ -128,7 +128,7 @@ If you've your ganache UI open, please close it otherwise it'll conflict.So to r
 
 and the node will start running directly in the terminal.If you scroll up, you can see lots of familier pieces.
 
-![ganacheCLI](/Images/Day6/f33.png)
+![ganacheCLI](Images/f33.png)
 
 We can see the available accounts just like on the UI and whole bunch of different private keys.This ganache spins off with bunch of random addresses and random private keys.If we wanted to always spin up with the exact same private keys so we don't have to update our private key every time, we can do :
 
@@ -146,7 +146,7 @@ Let's open up a new terminal  and run `python deploy.py`
 
 You can see the exact same output as we got when working with the UI.If we flip to the node terminal, you can see different calls to our blockchain.
 
-![cliCall](/Images/Day6/f34.png)
+![cliCall](Images/f34.png)
 
 Each one of these calls is a specific json rpc call to our blockchain that we're making to interact with it.We can also see the information of the transaction that we send.
 
@@ -171,7 +171,7 @@ Click create new project and name it brownie.We'll have a whole bunch of project
 
 **update the rinkeby url, Chain id ,  address &  private key**
 
-![rinkebyUrl](/Images/Day6/f35.png)
+![rinkebyUrl](Images/f35.png)
 
 We copy the url and back in our script all we have to do is swap rpc provider with a new url we just copied.
 
