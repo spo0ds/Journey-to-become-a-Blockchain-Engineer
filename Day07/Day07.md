@@ -18,7 +18,7 @@ We could write whole bunch of code to check all of our math or we could just imp
 
 OpenZeppelin is a open source tool that allows us to use a lot of already pre-built contracts.
 
-![SafeMath](/Images/Day5/e29.png)
+![SafeMath](Images/e29.png)
 
 **Libraries**
 
@@ -37,7 +37,7 @@ This is for those of you who are familier with SafeMath and integer overflows an
 We know have a way to get the conversion rate of whatever eth is sent and turn it into USD.Now we can set a threshold in terms of USD but how do we guarantee that whatever amount that the users send when they call fund is going to be atleast 50$.
 
 First set the minimum value by:
-![minUSD](/Images/Day5/e30.png)
+![minUSD](Images/e30.png)
 
 
 **Require statement**
@@ -46,21 +46,21 @@ Now that we have a minimum amount how do we actually make sure that this minimum
 
 We could do that by:
 
-![require](/Images/Day5/e31.png)
+![require](Images/e31.png)
 
 When a function call reaches a require statement, it'll check the truthiness of whatever require you've asked.In our case the converted rate of msg.value needs to be greater than or equal to our minUSD.If they didn't send us enough ether then we're going to stop executing.    
 
 **Revert**
 If the converted rate of msg.value is less than 50$, we're going to stop executing.We're going to kick it out and revert the transactions.This means user gonna get their money back as well as any unspent gas and this is highly recommended.We can also add a revert error message.   
 
-![revert](/Images/Day5/e32.png)
+![revert](Images/e32.png)
 
 
 **Deplying & Transaction**
 
 Let's go and deploy the contract.If I try to fund less than 50$, below error message will be displayed.
 
-![revertdeployed](/Images/Day5/e33.png)
+![revertdeployed](Images/e33.png)
 
 The contract isn't even letting us to make the transaction.Whenever you see gas estimation failed errors usually that means something reverted or you didn't do something that was required.
 
@@ -69,13 +69,13 @@ The contract isn't even letting us to make the transaction.Whenever you see gas 
 
 Now we can fund this contract with a certain minimum USD value.You'll notice though that right now we don't do anything with this money.We're going to fund this contract however that's it and we don't have a function in here to actually withdraw the money.There's no way even though we just sent this contract some money.There's no way for us to get it back.How do we fix this?We could add a withDraw function.
 
-![withDraw](/Images/Day5/e34.png)
+![withDraw](Images/e34.png)
 
 This is also going to be a payable function because we're going to be transferring eth.
 
 **Transfer , Balance , This**
 
-![transfer](/Images/Day5/e35.png)
+![transfer](Images/e35.png)
 
 Transfer is a function that we can call on any address to send eth from one address to another.In this case we're transferring ethereum to msg.sender.We're going to send all the money that's been funded.So to get all the money that's been funded, we did `address(this).balance`
 
@@ -102,7 +102,7 @@ We could have a function called createOwner but what happens if somebody calls t
 
 So we need a function to get called the instant we deploy this smart contract and that's exactly what the constructer does.So typically at the top of your smart contracts, you'll see a constructor and this is a function that gets called the instant your contact gets deployed.
 
-![constructor](/Images/Day5/e36.png)
+![constructor](Images/e36.png)
 
 **Deploying**
 
@@ -110,7 +110,7 @@ Let's deploy the contract now.We can see our address as the owner of the contrac
 
 After we've owner, we can go to withDraw function and set the require statement.
 
-![requireOwner](/Images/Day5/e37.png)
+![requireOwner](Images/e37.png)
 
 After we deploy again, if the contract has same address that deploy to withdraw, only then it'll successfully withdraw.
 
@@ -123,13 +123,13 @@ This is where modifiers come in.We can use modifiers to write in the definition 
 
 Modifiers are used to change the behaviour of a function in a declarative way.Let's create our first modifier:
 
-![modifiers](/Images/Day5/e38.png)
+![modifiers](Images/e38.png)
 
 What a modifier is going to do is before we run the function do the require statement first and then wherever your underscore is in the modifier run the rest of the code.
 
 Now what we can do is make the withDraw function as admin.What's gonna happen is before we do the transfer, we're actually gonna check the modifier which runs the msg.sender == owner. 
 
-![withdrawadmin](/Images/Day5/e39.png)
+![withdrawadmin](Images/e39.png)
 
 
 **Deploying**
