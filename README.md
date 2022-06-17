@@ -556,6 +556,20 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Staging Tests |
 | - Running Scripts on a Local Node |
 | - Adding scripts to your package.json |
+| <p align="center"> [Day 39](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day39/Day39.md) </p> |
+| **HTML / JavaScript Fund Me** |
+| - Intro to front end / full stack |
+| - How websites work with web3 wallet? |
+| - HTML Setup |
+| - Connecting HTML to MetaMask |
+| - JavaScript in it’s own files |
+| - ES6 (FrontEnd JS) VS NodeJS |
+| - Sending a Transaction from a Website |
+| - Resetting an Account in MetaMask |
+| - Listening for Events and Completed Transactions |
+| - Input Forms |
+| - Reading from the blockchain |
+| - Withdraw Function |
 
 
 
