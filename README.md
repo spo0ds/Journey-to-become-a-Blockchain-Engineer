@@ -570,6 +570,17 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Input Forms |
 | - Reading from the blockchain |
 | - Withdraw Function |
+| <p align="center"> [Day 40](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day40/Day40.md) </p> |
+| **Hardhat Smart Contract Lottery / Raffle** |
+| - Hardhat Setup |
+| - Raffle.sol Setup |
+| - Events |
+| - Chainlink VRF (Randomess in Web3) |
+| - Implementing Chainlink VRF |
+| - Hardhat Shorthand |
+| - Implementing chainlink VRF (The Request) |
+| - Implementing Chainlink VRF (The Fulfill) |
+ 
 
 
 
