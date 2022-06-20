@@ -580,7 +580,14 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Hardhat Shorthand |
 | - Implementing chainlink VRF (The Request) |
 | - Implementing Chainlink VRF (The Fulfill) |
- 
+| <p align="center"> [Day 41](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day41/Day41.md) </p> |
+| - Introduction to Chainlink Keepers |
+| - Implementing Chainlink Keepers (checkUpkeep) |
+| - Enums |
+| - Implementing Chainlink Keepers (checkUpkeep continued) |
+| - Implementing Chainlink Keepers (performUpkeep) |
+| - Code Cleanup |
+
 
 
 
