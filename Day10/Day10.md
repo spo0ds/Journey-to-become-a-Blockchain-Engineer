@@ -36,7 +36,7 @@ Let's create our first brownie project.We're going to be using exact same Simple
 
 We'll get a new brownie project initialized in the director that we're currently in.If you type `ls`, you'll be able to see all the folders that are created or you can just seem them on your side panel in vscode.
 
-![vspanel](/Images/Day7/g1.png)
+![vspanel](Images/g1.png)
 
 **Brownie Folders**
 
@@ -72,23 +72,23 @@ Brownie can run scripts by running `brownie run`.
 
 If you want to take a quick minute to familiarize yourself with all the different commands that brownie has just run `brownie`
 
-![brownieCommands](/Images/Day7/g2.png)
+![brownieCommands](Images/g2.png)
 
 We can define that we want to run deploy.All we have to do:
 
-![deployFunction](/Images/Day7/g3.png)
+![deployFunction](Images/g3.png)
 
 **brownie runscripts/deploy. py & default brownie network**
 
 And we can run:
 
-![brownieRun](/Images/Day7/g4.png)
+![brownieRun](Images/g4.png)
 
 And as you can see it automatically does this launching thing.Brownie defaults to always working with a local ganache-cli blockchain.It's running the exact same command that we ran earlier and it has a bunch of different flags like accounts 10, certain hardfork, certain gasLimit etc.So at the beginning of all our scripts if we don't give brownie a network to use, it'll spin up a local ganache and at the end of the script it'll tear it back down.
 
 Typically what I like to do is put all of the logic of our deployment in its own function.
 
-![deploySS](/Images/Day7/g5.png)
+![deploySS](Images/g5.png)
 
 
 **brownie Advantages over web3. py in deploying**
@@ -99,7 +99,7 @@ In order to deploy our contract let's look back at our web3.py version of deploy
 
 How do we actually get our private key and our account into brownie.Brownie has an account package that actually natively understands how to work with accounts and we can import it into our scripts.
 
-![accounts](/Images/Day7/g6.png)
+![accounts](Images/g6.png)
 
 with this account keyword we can add an account a number of different ways.If we're going to work with local chain as you saw earlier 'ganache-cli' will spin up 10 fake accounts for us and brownie automatically knows that we can work with that account.
 
@@ -107,7 +107,7 @@ with this account keyword we can add an account a number of different ways.If we
 
 We can do something like:
 
-![ganacheAccount](/Images/Day7/g7.png)
+![ganacheAccount](Images/g7.png)
 
 We're going to take the account that spun up at the 0th index because the accounts object is just an array.So if we run this now: It's going to spin up us an address and a private key that we can just work with without having to define a private or do anything.It does all of that for us.
 
@@ -127,7 +127,7 @@ We can get rid of testing by: `brownie accounts delete SS_account`
 
 If we want to work with SS_account that we've added to brownie via the command line, we can get it with:
 
-![getAccount](/Images/Day7/g8.png)
+![getAccount](Images/g8.png)
 
 This time when we run the script, it's going to ask us the password.We need to enter the password to decrypt the account.
 
@@ -149,7 +149,7 @@ In the yaml file all we need to do is:
 
 This is telling brownie to grab the environment variables from the .env file and what we can do is.
 
-![gettingEnv](/Images/Day7/g9.png)
+![gettingEnv](Images/g9.png)
 
 **adding wallets in yaml file and updating in account**
 
@@ -157,11 +157,11 @@ This seems to work perfectly but I like to make this method even more explicit.W
 
 In our brownie-config we can actually add more information about what wallets we want to use and when we wanna use them.
 
-![wallets](/Images/Day7/g10.png)
+![wallets](Images/g10.png)
 
 In your yaml file if you surround a string with $ sign and some curly brackets, it'll automatically get transformed into the environment variable.So if we go back to deploy, we can actually change the code:
 
-![improviseWallet](/Images/Day7/g11.png)
+![improviseWallet](Images/g11.png)
 
 The reason that this is better because now we've one canonical place where we're always going to pull our private key from.Instead of having to go through all of our scripts and update it based on whatever we can change an environment variable.
 
@@ -173,13 +173,13 @@ Brownie is really intelligent and we can actually go ahead and import contract d
 
 In brownie what we can do is:
 
-![importingContract](/Images/Day7/g12.png)
+![importingContract](Images/g12.png)
 
 SimpleStorage is just the name of the contract.
 
 **importing & deploying in brownie vs web3. py**
 
-![deployingContract](/Images/Day7/g13.png)
+![deployingContract](Images/g13.png)
 
 This is how we deploy to the chain.Anytime you deploy to chain or you make a transaction, you always need to do a from and say who you're going to deploying from; what's the account that's going to deploying this.
 
@@ -187,9 +187,9 @@ As you can see this code of just deploying is much quicker than what we did in w
 
 Remeber how I said before you could either make a transaction or a call.Brownie is smart enough to know whether or not what you're doing is going to be a transaction or a call.In our case since we're deploying a smart contract brownie's smart enough to know that we want to make a state change so let's make a state change.
 
-![deployingSSContract](/Images/Day7/g14.png)
+![deployingSSContract](Images/g14.png)
 
-![OutputSS](/Images/Day7/g15.png)
+![OutputSS](Images/g15.png)
 
 What happened was brownie again per usual launched a local ganache chain and then sent a transaction to deploy SimpleStorage.It says SimpleStorage deployed at and the address it was deployed at.We can see how much quicker this is to actually deploy.
 
@@ -197,13 +197,13 @@ What happened was brownie again per usual launched a local ganache chain and the
 
 Let's go ahead and do exactly what we did with web3.py.Let's call initial retrieve function and we'll update the age with a new value of 15.
 
-![retrieveFunction](/Images/Day7/g16.png)
+![retrieveFunction](Images/g16.png)
 
 Since this is a view function, we don't have to add from account in here.We know that retrieve is a view function so we don't actually have to make a transaction.
 
 Now let's try updating it:
 
-![transaction](/Images/Day7/g17.png)
+![transaction](Images/g17.png)
 
 Since we're doing a transaction in brownie, we always have to add who we're going to transact from.In our case it's from: account.Similar to web3.py transaction.wait for how many blocks we wanna wait.
 
@@ -230,7 +230,7 @@ We're going to bounce around and be a little bit loose with the definition.Howev
 
 In our arrange state we're going to set up all the pieces that we need to get setup.
 
-![test](/Images/Day7/g18.png)
+![test](Images/g18.png)
 
 - In our arrange state, we're just getting our account so that we can actually make contracts.
 - In out act stage w're going to deploy SimpleStorage contract, call the retrieve function to see what it's starting value is.
@@ -242,7 +242,7 @@ We can test this with:
 
 Let's go ahead and test updating it with 15 and see if it works as we want it to.
 
-![updatingTest](/Images/Day7/g19.png)
+![updatingTest](Images/g19.png)
 
 If you wanna test just one function use -k  function_name: `brownie test -k test_deploy`
 
@@ -268,7 +268,7 @@ In our web3.py we used an rpc url or an http provider from an infura to connect 
 
 Well one of the easiest ways is with an environment variable.Brownie actually already knows that infura is a thing and can look natively right away for infura.
 
-![infuraID](/Images/Day7/g20.png)
+![infuraID](Images/g20.png)
 
 We used our project id from Infura.If we do `brownie networks list`, we can see any network that infura has access to.You can see infura in brackets.These are networks brownie will actomatically know about if we're working with infura.
 
@@ -276,15 +276,15 @@ If we wanted to deploy to Rinkeby, we could just run:
 
 `brownie run scripts/deploy.py --network rinkeby`
 
-![issue](/Images/Day7/g21.png)
+![issue](Images/g21.png)
 
 We got an issue here because accounts[0] only works when brownie works with ganache-cli.We've to use our actual private key here and that's where some of the other versions of working with private keys is gonna come into play.
 
 Sometimes I'll even add a get account function.
 
-![AccountFunction](/Images/Day7/g22.png)
+![AccountFunction](Images/g22.png)
 
-![AccountFunction2](/Images/Day7/g23.png)
+![AccountFunction2](Images/g23.png)
 
 Once we've deployed to a blockchain, you'll see our build contract will actually change.Our deployment folder will have a new deployment.Everytime you deploy to a blockchain brownie will save that deployment so you can always go back see what happened with that deployment.You'll notice it's seperated by chain id.Anything that's in the development section isn't going to be saved to the deployments area.We can actually interact with contracts that we've already deployed onto a chain.
 
@@ -292,13 +292,13 @@ So go ahead and add new file inside scripts called read_value.py.This code will 
 
 How do we actually interact with the SimpleStorage contract that we've already deployed?Well SimpleStorage object is actually just an array.If we were to print SimpleStorage, we'd get:
 
-![contractObject](/Images/Day7/g24.png)
+![contractObject](Images/g24.png)
 
 We can access the different indices inside of it.What if we do print SimpleStorage[0]? we'll get the address and if we check on etherscan, we can see that address is indeed the contract that we just deployed.Brownie knows that we just deployed it because again in our build section in the deployments on the rinkeby chain which has the chain id of 4, we have the contract that we've deployed.
 
 Now we can directly interact with the contract. 
 
-![readRetrieve](/Images/Day7/g25.png)
+![readRetrieve](Images/g25.png)
 
 Remember how I said whenever we work with a smart contract we need to know it's abi and it's address.Brownie already knows the address and the abi which it got saved into deployments folder and json file respectively.
 

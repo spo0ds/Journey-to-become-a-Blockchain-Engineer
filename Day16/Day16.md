@@ -12,7 +12,7 @@ Aave is incredibly powerful and it's going to be one that we're going to be work
 
 First things first if you don't already have it make sure you've some testnet ethereum at least.You can get some testnet ethereum from looking at the [link token contracts](https://docs.chain.link/docs/link-token-contracts/) and going to Kovan.Once we see some eth in our Kovan testnet we can go back to aave.So whereas paraswap allows you to simply swap between assets and do a lot of buying and selling of tokens, aave is a lending and borrowing application.So we can actually put down a token as collateral and we can borrow and we can generate some yeild from interacting with this protocol.Borrowing and lending is a critical piece to doing any type of really interesting financial applications or financial instruments such as short selling, being exposed to more assests etc.You can also gain some percentage back.
 
-![apy](/Images/Day12/k1.png)
+![apy](Images/k1.png)
 
 If you look at apy, it'll tell you how much percentage over a year you'll actually get in returns from staking or depsiting an asset.We're gonna connect the application using metamask and you'll see on a asset to supply, we can see our balance.
 
@@ -20,18 +20,18 @@ If you look at apy, it'll tell you how much percentage over a year you'll actual
 
 What we can now do is click on ethereum, click on max button to deposit some ethereum, hit continue and a little dashboard will pop up asking us "would you like to deposit?".Clicking the deposit button will actually have us deposit right onto the aave contract on the Kovan testnet.Make sure once you hit the deposit that you're actually on a tetnet.
 
-![depositEth](/Images/Day12/k2.png)
+![depositEth](Images/k2.png)
 
 I did it on a rinkeby testnet.Idk why my Kovan isn't working while doing this.
 
-![aaveDeposit](/Images/Day12/k3.png)
+![aaveDeposit](Images/k3.png)
 
 
 **WETHGateway**
 
 Funnily enough you'll see that this is the WETHGateway.
 
-![WETHGateway](/Images/Day12/k4.png)
+![WETHGateway](Images/k4.png)
 
 When we deposit our Rinkeby Eth, it actually gets transferred into an ERC20 version of our Ethereum and then it'll go ahead and deposit in into the aave contract.
 
@@ -39,7 +39,7 @@ When we deposit our Rinkeby Eth, it actually gets transferred into an ERC20 vers
 
 aETH is what's called an interest-bearing token and it goes up in real time.You'll see if eth amount going up if I looked my wallet for longer period of time.This is the profit given to us from other people borrowing the ETH that we've deposited into aave.If we go to our dashboard now,
 
-![ETHDeposited](/Images/Day12/k5.png)
+![ETHDeposited](Images/k5.png)
 
 We can see we've 0.393 ETH deposited and if you roll over it, you'll constantly see amount go up and up.We can go ahead and withdraw our eth which will convert our aETH back into ETH with the additional interest that we got from depositing.So depositing into aave will give us interest back as a payment for other people borrowing the ETH that we've deposited.We can also use this ETH as what's called collateral.
 
@@ -60,26 +60,26 @@ Let's say we wanna borrow aave token for example.We click into aave and we choos
 
 When I wanna borrow I want to choose some amount that might be a little bit safe here.So that I'm not going to get liquidated.I'm gonna choose some number where I see a health factor maybe like 5.4.
 
-![healthFactor](/Images/Day12/k6.png)
+![healthFactor](Images/k6.png)
 
 and hit continue.Now we'll have to choose our interest rate.
 
-![Interest](/Images/Day12/k7.png)
+![Interest](Images/k7.png)
 
 **Stable Vs Variable Interest Rate**
 
 When we borrow an asset, we actually have to pay some interest.This payment is actually going to go to the people who are depositing the asset.The interest rate that we're gonna pay is actually gonna be paid to those who are depositing the asset that we're borrowing.So like how we're getting interest on our deposited collateral, others are getting interest on their deposited collateral based off of how often people are  borrowing it.We choose a stable apy which will always be 9.42% or a variable apy which will change based off of how volatile and how in demand this asset is.For now I'm going to choose variable but you can pick whatever you want.Same interface is gonna show up so hit borrow, metamask is gonna pop up and ask us if you really want to borrow.We're gonna hit confirm.
 
-![success](/Images/Day12/k8.png)
+![success](Images/k8.png)
 
 
 We've successfully borrowed link into our application.We can even hit this liitle add link to your browser wallet button, to add the token to our wallet.We can now see link is indeed in our token assets.If we go back to our dashboard, you'll see we've health factor score.
 
-![healthFactorScored](/Images/Day12/k9.png)
+![healthFactorScored](Images/k9.png)
 
 This is a really important score.If you click on the little i thing, it says:
 
-![Ithing](/Images/Day12/k10.png)
+![Ithing](Images/k10.png)
 
 We'll see all of our deposits here.We've 0.393 ETH deposited and 16 LINK deposited.You'll see whole lot of stats for working with our application.We can withdraw our ETH, borrow more LINK or we can go ahead and repay.We can either repay from our wallet balance or from our current collateral.Let's go ahead and do from our wallet balance.We'll hit max and continue.We even get this little thing that says you don't have enough funds to repay the full amount.Well why is this the case?We just borrowed the amount.It's because already since depositing, we've accrued a little bit of extra debt.Remember we hit that variable apy and every second it's going to tick up just a little bit.So let's go ahead and pay back what we can with our wallet.
 
@@ -87,7 +87,7 @@ Aave is one of these applications that relies on the chainlink pricefeeds in ord
 
 Keep in mind when working with some of this.This is a testnet and we're working is just in a testnet.Sometimes the testnet doesn't work quite as well as mainnet because it's just for testing and doesn't have the exact same support.we were just working on the testnet but if you want to go to aave for real, you can go [here](https://app.aave.com/).Connect your wallet on the ethereum mainnet and interact with it exactly the way we just did.If we're on the mainnet, we can see some additional pieces.
 
-![AaveMain](/Images/Day12/k11.png)
+![AaveMain](Images/k11.png)
 
 **Reward token / Governance token**
 
@@ -117,7 +117,7 @@ Now for working with brownie we're actually not gonna be deploying any contracts
 
 Create a quick README.md.We can know what we're doing here.
 
-![readMe](/Images/Day12/k12.png)
+![readMe](Images/k12.png)
 
 This will be the full functionality of working with Aave in this deployed contract.But we not do 2.1 for now.
 
@@ -137,17 +137,17 @@ So we actually have to do that as well.
 
 So the first thing we're gonna do actually isn't deposit some of our eth, but swap our Eth for WETH.So let's even put this in it's own little script.We'll call it get_weth.py.So we're gonna have a function main and we'll just do pass for now.We actually want to use this get_weth scripts in our aave_borrowed.py.So we actually have a main and we're gonna have get_weth function as well.In our main function you're just gonna call get_weth.
 
-![Setup](/Images/Day12/k13.png)
+![Setup](Images/k13.png)
 
 So how do we actually convert our ethereum to WETH or wrapped ether?
 
 Now to save gas we'd actually interact with the WETHGateway for aave but I'm going to go through how to get WETH in general.We can look up the [WETH kovan contract etherscan](https://kovan.etherscan.io/token/0xd0a1e359811322d97991e03f863a0c30c2cf029c).
 
-![WETHEtherScan](/Images/Day12/k14.png)
+![WETHEtherScan](Images/k14.png)
 
 We can go to contract and we can see this is indeed verified.
 
-![VerifiedContract](/Images/Day12/k15.png)
+![VerifiedContract](Images/k15.png)
 
 The way WETH works is there's withdraw and deposit (on write contract section).We deposit ETH into this contract and it transfers us some WETH.So this is the first contract that we actually want to interact with.So we need our script to be able to call the deposit contract.
 
@@ -161,11 +161,11 @@ I really like just doing everything directly from the interfaces.You can get WET
 
 So we've an interface now and we also have an address.But again above image has an address on a Kovan network.Since we know ahead of time that we're probably gonna be using this on different networks like mainnet, rinkeby etc, we'll add our brownie-config and add our networks here.
 
-![Kovan](/Images/Day12/k16.png)
+![Kovan](Images/k16.png)
 
 We're going to add the rest of the pieces.
 
-![wallets](/Images/Day12/k17.png)
+![wallets](Images/k17.png)
 
 and That's all we really need for now.Since we've done some work with testing we know that for testing, we could do our integration test on Kovan because there's an integration test there.But what about our local tests?Well this is something good that we're thinking about right now.We know that aave actually has all these "WETH" same contracts on the mainnet as well and we also know that we're not gonna be working with any oracles because that we don't actually have to deploy any mocks ourselves.We can if we want to but we don't have to.
 
@@ -176,22 +176,22 @@ With this in mind we know that we're going to be doing alot of our tests on main
 
 Remember absolutely positively if you want to double check that the contract address that you're working with is correct, I highly recommend you to do so because if you get it wrong, you could accidentally add some money to a contract address that you don't want.
 
-![mainnetFork](/Images/Day12/k18.png)
+![mainnetFork](Images/k18.png)
 
 And in our termianl we can do  `brownie networks list`.
 
-![networkLists](/Images/Day12/k19.png)
+![networkLists](Images/k19.png)
 
 We can that indeed we've a mainnet fork here.That's going to use the ganache-cli to fork mainnet for us.
 
 Now that we've the interface we know that we can actually compile it down to the abi.So back in our get_Weth, first thing we need to do to make any transaction obviously is get an account.This is where we can go back and make our helpful scripts.
 
-![helpful_scripts](/Images/Day12/k20.png)
+![helpful_scripts](Images/k20.png)
 
 
 We've our account where we can make some transactions with.Let's go ahead and get our WETH contract.To do this we can import interfaces fromm brownie.
 
-![gettingContract](/Images/Day12/k21.png)
+![gettingContract](Images/k21.png)
 
 **Why not get_contract?**
 
@@ -199,22 +199,22 @@ You might be asking "Why aren't we using the get_contract function?"Well you can
 
 For going to mainnet or for to real production, you could also have a mainnet network and it'll just be an exact copy of mainnet-fork.And remember we want our .env files our environment variables to get pulled from that .env file.
 
-![config](/Images/Day12/k22.png)
+![config](Images/k22.png)
 
 Now everything in our .env file will pulled in automatically.Great we've an address and abi which comes from the interface.Now we can just call deposit function where we deposit ethereum and we get WETH.
 
-![getWETH](/Images/Day12/k23.png)
+![getWETH](Images/k23.png)
 
 Let's go ahead and run this script then.
 
 `brownie run scripts/get_weth.py --network kovan`
 
-![OutputWETH](/Images/Day12/k24.png)
+![OutputWETH](Images/k24.png)
 
 We can use our transaction hash, pop into Kovan etherscan, you could see transaction going through.In our wallet we'll get -0.1 eth and we'll get +0.1 weth.To add this and see in our metamask, grab the contract address and add a token.
 
 If you wanna switch back your WETH to ETH, you can just hit the withdraw function or you can programmatically add withdraw function.
 
-![withdraw](/Images/Day12/k25.png)
+![withdraw](Images/k25.png)
 
 Now we've ERC20 token "WETH" that we can use to interact with the aave appliction.Now that we've get_weth function let's go ahead and start borrowing.

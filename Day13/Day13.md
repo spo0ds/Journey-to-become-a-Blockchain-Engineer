@@ -19,7 +19,7 @@ Let's go ahead and start a new project.
 
 and create a quick readme.md file to explain what we're trying to do here.
 
-![Readme](/Images/Day9/i1.png)
+![Readme](Images/i1.png)
 
 **Wait..is this really decentralized?**
 
@@ -39,7 +39,7 @@ But for the moment this is the setup that we're going to have.
 
 First thing that we're going to get started with of course is our lottery contract and let's begin with our initial setup.
 
-![initialSetup](/Images/Day9/i2.png)
+![initialSetup](Images/i2.png)
 
 **Main functions of Lottery.sol**
 
@@ -50,7 +50,7 @@ function called getEntranceFee.
 function called startLottery.
 function called endLottery.
 
-![functions](/Images/Day9/i3.png)
+![functions](Images/i3.png)
 
 Let's get started with the enter function just because this is most likely going to be the entry point. As we know since we're going to want them to pay using this entry function in ethereum, we're going to need to make this function payable. In here we're going to need to keep track of all the different players.Everybody who signs up for this lottery.
 
@@ -59,11 +59,11 @@ Let's get started with the enter function just because this is most likely going
 
 To keep track of all the players we're going to make an address payable array.We'll make it public and called players.
 
-![payableArray](/Images/Day9/i4.png)
+![payableArray](Images/i4.png)
 
 And anytime somebody enters we'll just do:
 
-![ArrayPush](/Images/Day9/i5.png)
+![ArrayPush](Images/i5.png)
 
 **require minimum payment**
 
@@ -74,32 +74,32 @@ However we're not checking to see how much value that they're actually sending.W
 
 Since we're just returning a number for getEntranceFee, we can make it a view and have it return uint256.
 
-![returnedGEF](/Images/Day9/i6.png)
+![returnedGEF](Images/i6.png)
 
 To get this entrance fee we're first going to have to have stored somewhere what the entrance fee is.We're going to store the $50 minimum somewhere.This is something we'd probably wanna set right when our contract is deployed.So where we can put stuff like that.Well in our constructor.
 
-![constructor](/Images/Day9/i7.png)
+![constructor](Images/i7.png)
 
 Since we're going to get a conversion rate, we're going to want to use a [chainlink price feed](https://docs.chain.link/docs/ethereum-addresses/).
 
 We're going to need to pull from the price feed to convert fifty dollars to fifty dollars in eth.
 
-![aggregator](/Images/Day9/i8.png)
+![aggregator](Images/i8.png)
 
-![config](/Images/Day9/i9.png)
+![config](Images/i9.png)
 
 We'll compile it and we can see everything works our properly.
 
 So now we've pricefeed let's go ahead and set up this entrance fee.Of course we're going to need to get a price from the price feed.We can check the [documentation](https://docs.chain.link/docs/get-the-latest-price/) on how to do that.
 We can call this latestRoundData function.
 
-![priceFeed](/Images/Day9/i10.png)
+![priceFeed](Images/i10.png)
 
 
 
 Now we're going to want to do a little bit of quick math.Typically if we're setting the price at $50 and we've a pricefeed of $2000 per eth, we'd just wanna do 50/2000 but ofcourse solidity doesn't work with decimals we can't actually just do this.So we'll have to do 50 * (somebignumber) / 2000.But first convert the price from int256 to uint256.
 
-![conversion](/Images/Day9/i11.png)
+![conversion](Images/i11.png)
 
 Since we know we're going to be using an ethereum / usd pricefeed that has eight decimals.Let's also just convert it to having 18 decimals as well.
 
@@ -107,7 +107,7 @@ Since we know we're going to be using an ethereum / usd pricefeed that has eight
 
 Now that we've adjusted price we'll do:
 
-![returnedCost](/Images/Day9/i12.png)
+![returnedCost](Images/i12.png)
 
 usdEntryFee is also multiplied by some big number.This way usdEntryFee has 18 decimals but it has an additional 18 decimals here that'll be canceled out with our pricefeeds.
 
@@ -127,15 +127,15 @@ So if we were to test the function, we'd expect to get 0.016666667 or in wei 0.0
 
 Let's go ahead and create a function that tests this.
 
- ![testFunction](/Images/Day9/i13.png)
+ ![testFunction](Images/i13.png)
 
-![configFile](/Images/Day9/i14.png)
+![configFile](Images/i14.png)
 
 We need to import Lottery and in order to deplot it we need to get an account.We're going to import our helpful scripts from the last project to this one too so we can get our get_account function but for the time being we can actually just use accounts[0] from brownie accounts.
 
 We've a parameter of _priceFeedAddress in the constructor of the contract.So for now let's hard code that in our config.And we can do our quick test.
 
-![assert](/Images/Day9/i15.png)
+![assert](Images/i15.png)
 
 These numbers are of course going to be a little bit different for you and if you want you can go ahead and skip the part so that you don't have to do the math but it's kind of nice to do quick sanity check saying based off what things are right now or what would this price end up to be.
 
@@ -160,7 +160,7 @@ Of course we know that we're gonna change assert statement because this isn't a 
 
 We're getting a cost to enter correctly.We can do in our enter function that value must be greater than getEntrancefee function.
 
-![require](/Images/Day9/i16.png)
+![require](Images/i16.png)
 
 We've a way for them to enter and we've a way to get the entrance fee.
 
@@ -170,41 +170,41 @@ But we wanna make sure that we're not ending the lottery before the lottery even
 
 According to solidity documentation, enums are another way to create user-defined types in solidity.We saw an earlier version of doing this with a struct.Enums are little bit different in that they're explicitly convertible to and from all integer types.So for our lottery contract we're gonna want to create the new type that represents the lottery state.
 
-![enum](/Images/Day9/i17.png)
+![enum](Images/i17.png)
 
 This means that we've a new type called LOTTERY_STATE with three positions.These different states are actually represented by numbers. So open is actually 0, closed is 1 and calculating winner is 2. Now that we have this new type we can create a variable of type LOTTERY_STATE.
 
-![lottery_state](/Images/Day9/i18.png)
+![lottery_state](Images/i18.png)
 
 Right when we initialize our contract, we're gonna want to set our lottery_state being Closed.
 
-![closed](/Images/Day9/i19.png)
+![closed](Images/i19.png)
 
 Since states are represented by numbers as well we could also just do `lottery_state = 1;` however it's much more readable to do LOTTERY_STATE.CLOSED.
 
 Now that we've a lottery state, in our enter function we can require lottery to open.
 
-![lottery_open](/Images/Day9/i20.png)
+![lottery_open](Images/i20.png)
 
 We can only enter if somebody started this lottery and that's exactly what we're gonna do in our start lottery.
 
 **startLottery**
 
-![startLottery](/Images/Day9/i21.png)
+![startLottery](Images/i21.png)
 
 Now when somebody starts the lottery they'll be able to enter.Of course the startLottery bid here need to be called only by our admin.So this is where our onlyOwner modifier is once again going to come into place.
 
-![onlyOwner](/Images/Day9/i22.png)
+![onlyOwner](Images/i22.png)
 
 We could write our own only owner modifier or we can once again use open zeppelin's access control and open zeppelin's ownable function instead which is what I'm going to use here.
 
-![openZeppelin](/Images/Day9/i23.png)
+![openZeppelin](Images/i23.png)
 
-![OZdepend](/Images/Day9/i24.png)
+![OZdepend](Images/i24.png)
 
 and we'll say our lottery is ownable.
 
-![ownable](/Images/Day9/i25.png)
+![ownable](Images/i25.png)
 
 Now we can finally move into our endLottery function.This is where we're actually going to choose a random winner here.We only want the admin to be the one to end the lottery.so let's add the onlyOwner modifier in endLottery function as well.
 
@@ -229,7 +229,7 @@ Since there are these globally available variables, alot of times some will see 
 
 You might think this would be a great use of randomness because it's a somewhat hard to predict number.So what alot of people do is they think that these sound pretty random  and use them as a unit of randomness and you'll see something like.
 
-![VulnerableRandomness](/Images/Day9/i26.png)
+![VulnerableRandomness](Images/i26.png)
 
 We're converting into uint256.The reason that we're doing this is because we want to pick a random winner based off of an index.Somebody some random winner in our players array or our players list.Whatever number we're going to use that's gonna be the index of the winner that we're gonna randomly pick.Then we'll use Keccack256 which is our hashing algorithm.So they hash a whole bunch of variables together and they do this abi.encodePacked which is another keyword for some low level work and they'll add nonce, message.sender,block.difficulty and block.timestamp.Basically what they tryna do here is take a bunch of seemingly random numbers,mash them all together in a hashing function and say yeah this is pretty random.
 
@@ -250,11 +250,11 @@ You can see that this is actually using a different chain than what we've been u
 So what's going on in this contract? How do we actually use it? Well first thing that happens is we're importing some code from the chainlink package and our contract is inheriting the abilities of this vrf consumer base contract.We can see what functions we're actually going to use that are inherited from this contract.And the first thing that we notice is we can see that our constructor in here does some weird stuff.Looks like it almost has two constructors.So what's actually going on here?Let's look at VRF ConsumerBase.sol contract in the [chainlink github](https://github.com/smartcontractkit/chainlink/blob/develop/contracts/src/v0.6/VRFConsumerBase.sol).As we can see the vrf consumer base that we're importing has it
 s own constructor.
 
-![vrfConstructor](/Images/Day9/i27.png)
+![vrfConstructor](Images/i27.png)
 
 It takes an address for the vrf coordinator this is the on chain contract that actually checks to make sure our numbers are random and the address of the chainlink token which we'll talk about ERC20s in a little  bit.
 
-![randomConstructor](/Images/Day9/i28.png)
+![randomConstructor](Images/i28.png)
 
 What we're doing is also inheriting the constructor into our contract.So this is our constructor for our random number consumer but we can also use the constructor of the VRFConsumerBase and this is actually how we go ahead and do it.We grab the constructor of the vrf consumer base and pop it in.It's taking two addresses.It's taking vrf cordinator  and the link token like I said vrf cordinator is a contract that's been deployed on chain that's going to verify that the return of the chainlink node is truly random and we're going to use the link token as the payment to the chainlink node fro it's services and then we also have a key hash and a fee defined inside of the constructor.As well as the key hash uniquely identifies the chainlink node that we're going to use and the fee is how much link we're actually going to pay to the chainlink node for delivering us this random number.
 
@@ -284,7 +284,7 @@ We're gonna switch to injected web3 and since we're now swapping to a new test n
 
 Now that we've some testnet ethereum and some testnet link we can proceed.We need to make sure we're on Kovan test network and we're gonna deploy our RandomNumberConsumer -gist.Metamsk pop's up and we're gonna confirm it.I didn't explined fulfillRandomness function intentionally you'll see why in a second.
 
-![afterDeploying](/Images/Day9/i29.png)
+![afterDeploying](Images/i29.png)
 
 randomResult is 0 at the begining because we haven't got a random number.
 
@@ -300,13 +300,13 @@ Now that this contract has some testnet link, we can call this getRandomNumber b
 
 After the transaction confirmed but if I hit random result now it's still going to be zero.So why's that?What's going on?
 
-![randomResult](/Images/Day9/i30.png)
+![randomResult](Images/i30.png)
 
 **Request and Receive**
 
 Getting a random number like this actually follows request and receive cycle of getting data.You can read more about it [here](https://docs.chain.link/docs/architecture-request-model/).So in one transaction we actually request some data or in our case a random number and then in a second transaction the chainlink node itself will make a function call and return the data back to the smart contract.In this case the function that we're calling is fulfillRandomness.It calls fulfillRandomness with bytes32 requestId which is going to be the request number of when we call requestRandomness and it's going to return with random number called randomness.So after we wait a little bit and hit randomResult, we can see indeed our random number is in here.
 
-![randomNumber](/Images/Day9/i31.png)
+![randomNumber](Images/i31.png)
 
 **Asynchronous 2 Transactions**
 

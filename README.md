@@ -556,6 +556,49 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Staging Tests |
 | - Running Scripts on a Local Node |
 | - Adding scripts to your package.json |
+| <p align="center"> [Day 39](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day39/Day39.md) </p> |
+| **HTML / JavaScript Fund Me** |
+| - Intro to front end / full stack |
+| - How websites work with web3 wallet? |
+| - HTML Setup |
+| - Connecting HTML to MetaMask |
+| - JavaScript in it’s own files |
+| - ES6 (FrontEnd JS) VS NodeJS |
+| - Sending a Transaction from a Website |
+| - Resetting an Account in MetaMask |
+| - Listening for Events and Completed Transactions |
+| - Input Forms |
+| - Reading from the blockchain |
+| - Withdraw Function |
+| <p align="center"> [Day 40](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day40/Day40.md) </p> |
+| **Hardhat Smart Contract Lottery / Raffle** |
+| - Hardhat Setup |
+| - Raffle.sol Setup |
+| - Events |
+| - Chainlink VRF (Randomess in Web3) |
+| - Implementing Chainlink VRF |
+| - Hardhat Shorthand |
+| - Implementing chainlink VRF (The Request) |
+| - Implementing Chainlink VRF (The Fulfill) |
+| <p align="center"> [Day 41](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day41/Day41.md) </p> |
+| - Introduction to Chainlink Keepers |
+| - Implementing Chainlink Keepers (checkUpkeep) |
+| - Enums |
+| - Implementing Chainlink Keepers (checkUpkeep continued) |
+| - Implementing Chainlink Keepers (performUpkeep) |
+| - Code Cleanup |
+| <p align="center"> [Day 42](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day42/Day42.md) </p> |
+| - Mock Chainlink VRFCoordinator |
+| - Raffle.sol Unit Tests |
+| - Testing Events & Chai Matchers |
+| - Raffle.sol Unit Tests Continued |
+| - Hardhat Methods & “Time Travel” |
+| - Callstatic |
+| - Massive Promise Test |
+| - Raffle.sol Staging Tests |
+| - Testing on a Testnet |
+
+
 
 
 

@@ -34,7 +34,7 @@ You can actually hit `ctrl` + `(backtick)` to toggle back and forth between havi
 
 We can test in terminal to see if python is installed correctly.If we type `python --version`, you should get something like:
 
-![python_version](/Images/Day6/f1.png)
+![python_version](Images/f1.png)
 
 If it doesn't work you can look for troubleshoot in google.Whatever the error you've, you'll get a link which will lead you to the answer.
 
@@ -60,7 +60,7 @@ We want our visual studio to know that we're in the folder where we wanna work.W
 
 Now the file is in VScode, we can see we've little dot here.
 
-![vs_dot](/Images/Day6/f2.png)
+![vs_dot](Images/f2.png)
 
 Whenever you see that dot, it means that your VScode file isn't saved.We wanna always save it otherwise when we compile, things might not work correctly.
 
@@ -91,7 +91,7 @@ Let's go ahead and create a new file and we'll call it deploy.py.
 
 First thing we wanna do is read SimpleStorage solidity file.We need to get the solidity file into deploy scripts so that our python file knows what it's going to deploy.
 
-![reading_file](/Images/Day6/f3.png)
+![reading_file](Images/f3.png)
 
 **Keyboard Shortcuts**
 
@@ -107,13 +107,13 @@ Now that we can actually read from our SimpleStorage.sol file we actually have t
 
 The way we can use it is by importing it into our python file.
 
-![importing_solcx](/Images/Day6/f4.png)
+![importing_solcx](Images/f4.png)
 
 **Compiled_sol**
 
 We're going to save our compiled code to compiled_sol variable.
 
-![compile_sol](/Images/Day6/f5.png)
+![compile_sol](Images/f5.png)
 
 We're not gonna go too deep into what's this settings and output selection are actually doing but if you want to learn more you can go to the homepage of [pysolcx documenation](https://solcx.readthedocs.io/en/latest/).
 
@@ -125,7 +125,7 @@ You'll also see ABI which we're gonna output in our deploy.py.If you copy and pa
 
 **Saving Compiled Code/writing**
 
-![json_dump](/Images/Day6/f6.png)
+![json_dump](Images/f6.png)
 
 This takes our compiled_sol json variable and dump it into the `compiled_code.json` file.It's going to keep it in the json syntax.
 
@@ -135,11 +135,11 @@ We've compiled our solidity and stored our solidity code to compiled_code.json f
 
 First we actually get the byte code.We need the bytecode of the file so that we can actually deploy it.
 
-![bytecode](/Images/Day6/f7.png)
+![bytecode](Images/f7.png)
 
 Now that we have out byte code we also need ABI.
 
-![abi](/Images/Day6/f8.png)
+![abi](Images/f8.png)
 
 Now we've two main pieces to deploy, all we've to do is deploy.
 
@@ -153,7 +153,7 @@ This is where `Ganache` going to come to the rescue.Ganache is a simuated blockc
 
 You can download Ganache from [here](https://trufflesuite.com/ganache/).
 
-![ganache](/Images/Day6/f9.png)
+![ganache](Images/f9.png)
 
 User interface is really nice because it allows us to do one click blockchain or create our own local blockchain.That means this blockchain isn't connected to any other blockchain out there but it'll act like a blockchain and will be lot faster than us having to interact with a testnet and we control the entire blockchain because it's only one node.Ganache is our JavaScript VM.
 
@@ -161,7 +161,7 @@ User interface is really nice because it allows us to do one click blockchain or
 
 We go ahead and click quickstart which will automatically upload and get started with our own local fake blockchain.
 
-![ganacheUI](/Images/Day6/f10.png)
+![ganacheUI](Images/f10.png)
 
 You can even see it gives us some accounts.Each one of these addresses has a private key.In your ganache if you click key, it'll show key.
 
@@ -175,7 +175,7 @@ This is when we finally start working with web3.py.we just do below command in V
 
 Now we can start working with web3.py.
 
-![web3importing](/Images/Day6/f11.png)
+![web3importing](Images/f11.png)
 
 **Http/Rpc provider**
 
@@ -183,13 +183,13 @@ To connect the contract to blockchain we choose http provider.If we look at gana
 
 **Connecting to Ganache(RPC server,Documentation,Chain ID,address,Privatekey)**
 
-![connectingGanache](/Images/Day6/f12.png)
+![connectingGanache](Images/f12.png)
 
 With everything that we show you, you probably going to want to get really familier with the documentation because even after being a pro, you're going to want to use it more and more and more if you want to learn about other providers.You can go to providers page of the documentation. 
 
 The next thing that we always gonna need is `chain id` or `network id`.What is the id of the blockchain? For ganache it's 5777.We also need address.We can grab fake address to work with.
 
-![conectingGanache2](/Images/Day6/f13.png)
+![conectingGanache2](Images/f13.png)
 
 Similar to how in remix when we working with the JavaScript VM we're given a bunch of fake addresses.We're doing the same thing but with ganache.Then we also want our private key.We need the private key to sign our transactions.
 
@@ -202,7 +202,7 @@ Now we've all the parameters we need for interacting with and connecting to our 
 
 It's time to finally deploy our SimpleStorage.sol contract.Let's do it.So the credit contract that we're going to deploy with web3.py.
 
-![deployContract](/Images/Day6/f14.png)
+![deployContract](Images/f14.png)
 
 Does this mean we've deployed it ?Well no this just means we've a contract now.We've created a contract object.
 
@@ -223,7 +223,7 @@ Remember way back in our blockchain demo when we used a nonce to solve the answe
 
 If we look at our metamask, look at our activity and look at one of the transactions we've made recently on etherscan, we can see nonce here as well.
 
-![transaction_nonce](/Images/Day6/f15.png)
+![transaction_nonce](Images/f15.png)
 
 This nonce is the number of transaction that our account has actually made.Everytime we make another transaction, our transaction is hashed with a new nonce.This is what going on behind the scenes with our transaction and we need this to send our transaction.
 
@@ -231,7 +231,7 @@ This nonce is the number of transaction that our account has actually made.Every
 
 We can actually get our nonce by just grabbing our latest transaction count
 
- ![getting_nonce](/Images/Day6/f16.png)
+ ![getting_nonce](Images/f16.png)
  
 We'll get our ans as 0 if we print the nonce because on our local blockchain the address we're using hasn't been used before.
 
@@ -239,7 +239,7 @@ We'll get our ans as 0 if we print the nonce because on our local blockchain the
 
 Let's create a transaction object.
 
-![creating_transaction](/Images/Day6/f17.png)
+![creating_transaction](Images/f17.png)
 
 As you might have pointed out our SimpleStorage.sol doesn't actually have a constructor.Every contract technically has a constructor.In our case it's just blank.We're not telling our SimpleStorage.sol to do anything.
 
@@ -257,7 +257,7 @@ This is just a transaction and anybody could actually send the transaction as lo
 
 Remember when we were talking about public private keys, we right now have a message that is defining how to deploy SimpleStorage but it's not signed yet.So we're gonna need to use our private key to sign it to create unique message signature that we're the only ones that can create the private key but anybody else can verify it was us who signed it.
 
-![signing_transaction](/Images/Day6/f18.png)
+![signing_transaction](Images/f18.png)
 
 If you encounter the following error:
 - [Transaction must not include unrecognized fields](https://stackoverflow.com/questions/70458501/typeerror-transaction-must-not-include-unrecognized-value-solidity-python)
@@ -303,7 +303,7 @@ to view the key
 
 to retrieve using python:
 
-![gettingPrivateKeyInPython](/Images/Day6/f19.png)
+![gettingPrivateKeyInPython](Images/f19.png)
 
 **.env file, .gitignore, pip install python-dotenv **
 
@@ -321,7 +321,7 @@ If we close our shell and reopen it, run echo and the saved variable we'll get n
 
 `pip install python-dotenv`
 
-![loadEnv](/Images/Day6/f20.png)
+![loadEnv](Images/f20.png)
 
 
 load_dotenv() looks for .env file and automatically imports it into our scripts.
@@ -333,10 +333,10 @@ If we print our signed_txn, we could see a signed transaction.This is exactly wh
 
 We finally have our signed transaction.We want to send this to the blockchain so it can actually deploy.
 
-![signed_transaction](/Images/Day6/f21.png)
+![signed_transaction](Images/f21.png)
 
 **Deployment**
 
 This will send our transaction to the blockchain.Now if we look at our local ganache and we look at transaction right now, we can see that a transaction actually did go through.
 
-![ganache_transaction](/Images/Day6/f22.png)
+![ganache_transaction](Images/f22.png)

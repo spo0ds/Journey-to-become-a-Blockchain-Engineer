@@ -5,28 +5,28 @@ This is great but our deploy script is starting to look a little bit big and a l
 
 First we wanna do is fix big `2000000000000000000000` number.Looking at right away I'm not exactly sure how many zeroes it has.So to make it little bit nicer and more readable we can once again call on our friend web3.py
 
-![toWei](/Images/Day8/h22.png)
+![toWei](Images/h22.png)
 
 
 This toWei function will just add 18 decimals to this 2000.This is much more readable that the inital value for this is going to be 2000.The next bit is that we're always deploying this MockV3Aggregator and if we already have a mock deployed to whatever network that we're working on, we don't need two mocks.
 
-![mockLen](/Images/Day8/h23.png)
+![mockLen](Images/h23.png)
 
 If the length of MockV3Aggregator is less that equals to 0, only then we deploy it.MockV3Aggregator is just going to be a list of all the different V3Aggregators that we've deployed.
 
 Insted of using mock_aggregator.address we can just use 
 
-![v3Agg](/Images/Day8/h24.png)
+![v3Agg](Images/h24.png)
 
 This is going to used recently deployed MockV3Aggregator.Then ofcourse we no longer need to set it as a variable and that looks a little bit cleaner and we'll make this a little bit more efficient.
 
 
-![remVar](/Images/Day8/h25.png)
+![remVar](Images/h25.png)
 
 
 Deploying mock bit though is going to be something that we're actually going to do relatively frequently.So what I like to do is put this whole mock deploying bit in its own function in our helpful scripts.
 
-![mocksFunc](/Images/Day8/h26.png)
+![mocksFunc](Images/h26.png)
 
 We need to import MockV3Aggregator, Web3 and instead of account variable we'll use get_account function.
 
@@ -35,7 +35,7 @@ In our deploy.py we'll place deploy_mocks() in that code and import it from help
 
 This is starting to look lot more sophisticated and this is great because now we have a way to deploy base off if we're on a live chain or a development chain.And one more thing I'd like to do so that everything is parameterized, I'll set MockV3Aggregator parameters as static variable.
 
-![static](/Images/Day8/h27.png)
+![static](Images/h27.png)
 
 **Deploying to a persistant ganache**
 
@@ -51,25 +51,25 @@ We can add a new network to our brownie networks list.We want to deploy to ganac
 
 `brownie networks add Ethereum ganache-local host=http://127.0.0.1:7545 chainid=5777`
 
-![ganacheLocal](/Images/Day8/h28.png)
+![ganacheLocal](Images/h28.png)
 
 We can see a new blockchain called ganache-local and this is going to reach out to our ganache UI or our ganache CL depending on what we're running.
 
 If I try to deploy deploy.py in our ganache-local, we'll get this issue
 
-![FirstError](/Images/Day8/h29.png)
+![FirstError](Images/h29.png)
 
 Ganache-local isn't development.It's going to go ahead and try to pull from our config file.We don't want this.We want to actually deploy mock for our local ganache if a mock hasn't been deployed.So we can extend our definition of what a development environment is.
 
 In our helpful_Scripts we can add a flag.
 
-![Block_Env](/Images/Day8/h30.png)
+![Block_Env](Images/h30.png)
 
 We can import this environment into our deploy.py
 
-![ImportingEnv](/Images/Day8/h31.png)
+![ImportingEnv](Images/h31.png)
 
-![IfStat](/Images/Day8/h32.png)
+![IfStat](Images/h32.png)
 
 This is saying whatever network that we're on if it isn't development or ganache-local then go ahead and use config.If it's one of these two, we're going to deploy a mock.
 
@@ -77,7 +77,7 @@ Now we've this let's try this again.
 
 We run into a different issue saying we don't actually have enough gas.
 
-![2Error](/Images/Day8/h33.png)
+![2Error](Images/h33.png)
 
 Why's this? Let's look at our get_account function which is directly looking for development chain only.So we could do
 
@@ -87,11 +87,11 @@ If the network that we're working on is development or ganache-local, return acc
 
 Let's try this.
 
-![3Error](/Images/Day8/h34.png)
+![3Error](Images/h34.png)
 
 Now we're running to this key error of ganache-local.In our config we'll add this new network.
 
-![ganache](/Images/Day8/h35.png)
+![ganache](Images/h35.png)
 
 Let's try this one more time.
 
@@ -106,28 +106,28 @@ Now that we've deployed this let's write a script to interact with it.Create a n
 
 Since it's going to resemble ethUSD pricefeed, it actually only has 8 decimals because getPrice function has only 8 decimal places.
 
-![newStatic](/Images/Day8/h36.png)
+![newStatic](Images/h36.png)
 
 And for MockV3Aggregator we're going to use those exact values.We're not going to do web3 converting.
 
-![hardcoded](/Images/Day8/h37.png)
+![hardcoded](Images/h37.png)
 
 I've added a getEntranceFee function to our contract(FundMe.sol).
 
-![getEntrancePrice](/Images/Day8/h38.png)
+![getEntrancePrice](Images/h38.png)
 
 First we're going to run `brownie run scripts/deploy.py --network ganache-local` because we changed FundMe.sol
 
 and then we can run `brownie run scripts/fund_and_withdraw.py --network ganache-local`
 
-![fundWithdraw](/Images/Day8/h39.png)
+![fundWithdraw](Images/h39.png)
 
 and run the fund_and_withdraw.py which will work fine.
 
 
 **Withdraw**
 
-![withdraw](/Images/Day8/h40.png)
+![withdraw](Images/h40.png)
 
 You need to return fund_me contract in FundMe.sol.
 
@@ -142,7 +142,7 @@ We're going to move into actually writing those tests and for these tests we're 
 
 We're on this test we're going to want it to be able to work independent of the network that we're working on.We write a test to see if we can fund or withdrawl.
 
-![FundWithdrawTest](/Images/Day8/h41.png)
+![FundWithdrawTest](Images/h41.png)
 
 **Default Network**
 
@@ -156,16 +156,16 @@ We can use pytest skip functionality to do so.To work with pytest we need to ins
 
 To demonstrate this lets create a test that makes sure only the owner can withdraw and nobody else can.
 
-![imports](/Images/Day8/h42.png)
+![imports](Images/h42.png)
 
-![onlyOwner](/Images/Day8/h43.png)
+![onlyOwner](Images/h43.png)
 
 Well we want this to happen.How do we test that we wnt this to happen?We just need to tell our test that we want this to happen.
 
 First we need to import exceptions from brownie.This way we can tell our test exactly what exception we're expecting to see.
 
 
-![exceptions](/Images/Day8/h44.png)
+![exceptions](Images/h44.png)
 
 If it reverts with the VirtualMachineError that's good.We want it to revert when we try to withdraw from different account. 
 
@@ -184,7 +184,7 @@ Mainnet fork is a built in part of brownie and also pulls from infura the same w
 
 We can take the whole rinkeby section(brownie-config.yaml), copy it, paste it and we'll just change eth_usd_price_feed address to it's mainnet address.We'll go [docs.chain.link](https://docs.chain.link/docs/ethereum-addresses/), copy that address and put it on config file.
 
-![mainnet-fork](/Images/Day8/h45.png)
+![mainnet-fork](Images/h45.png)
 
 Since it's going to be a fork, verify needs to be False.
 
@@ -203,7 +203,7 @@ I like to create my own custom mainnet fork right in brownie.
 command to run the fork is ganache-cli
 fork is going to be from [alchemy](https://dashboard.alchemyapi.io/apps/5lw6891y7yijsa51) instead of infura because performance wise forking from infura pretty much always give an issue.So go ahead and create account in alchemy and create a project, view details and view key to copy http address to fork it.You'll know you've done it right if you can something like:
 
-![addedFork](/Images/Day8/h46.png)
+![addedFork](Images/h46.png)
 
 In our config we'll change mainnet-fork to mainnet-fork-dev and in our helpful scripts we'll add mainnet-fork-dev without removing mainnet-fork.
 

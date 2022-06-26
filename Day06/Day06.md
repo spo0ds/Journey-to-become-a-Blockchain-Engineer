@@ -269,7 +269,7 @@ Let's make a new function that converts that value that they send to its USD equ
 
 Let's test this out and see why we have to do one more thing?
 
-![deployconvert](/Images/Day5/e27.png)
+![deployconvert](Images/e27.png)
 
 This seems like a really big number i.e 2746194325900.00000000.This says that 1gwei is equal to 2746194325900 in USD.The price of 1ETH is not even that much.The reason that's off is we've to divide by 100000000.Both ethPrice and fundedAmount has 10<sup>19</sup> tacked on to them.
 
