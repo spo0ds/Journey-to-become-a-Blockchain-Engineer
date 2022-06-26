@@ -587,6 +587,17 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Implementing Chainlink Keepers (checkUpkeep continued) |
 | - Implementing Chainlink Keepers (performUpkeep) |
 | - Code Cleanup |
+| <p align="center"> [Day 42](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day42/Day42.md) </p> |
+| - Mock Chainlink VRFCoordinator |
+| - Raffle.sol Unit Tests |
+| - Testing Events & Chai Matchers |
+| - Raffle.sol Unit Tests Continued |
+| - Hardhat Methods & “Time Travel” |
+| - Callstatic |
+| - Massive Promise Test |
+| - Raffle.sol Staging Tests |
+| - Testing on a Testnet |
+
 
 
 
