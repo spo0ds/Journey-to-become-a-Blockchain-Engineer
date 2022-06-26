@@ -1045,3 +1045,217 @@ Let's do a quick refresher of just the recent it test.We're picking a winner, re
 But we could have assert and checked after, we called fulfillRandomness however on a testnet where we don't always know exactly when a transaction is going to finish, we have to wait, have to listen for an event to be fired.Before we can call the transaction that would end the whole thing, we needed to set something up to listen for that event to be fired and we said "Hey, only once the event is fired, only once the transaction is called, we do our testing."
 
 For our local network, we're mocking the VRFCoordinator, we've control.We know exactly when this is going to run but on a testnet we don't.You'll see in a staging test, we have to rely on setting up a listener to listen for the chainlink VRF and the keepers to fire their events.That's why staging test is going to be so important  to make sure that we're doing everything correct.That's why we setup our local test like above so that it mimics what we're going to be doing on a staging test.Again we're setting up the listener and we're saying "Once we do here the event, then we're going to try to actually check all the balances and everything is working as intended" and if we don't see it we're going to reject and there's a timeout if it takes more than 200 seconds, we're going to say "Something went wrong.We're going to cancel it."  
+
+
+**Raffle.sol Staging Tests**
+
+We're going to create a new test inside staging folder called "Raffle.staging.test.js".We can actually code this pretty quickly because most of our staging test is going to look really similar to our Raffle.test.js.For now let's just grab the whole first part and we'll adjust as we need.
+
+```javascript
+const { assert, expect } = require("chai")
+const { network, getNamedAccounts, ethers, deployments } = require("hardhat")
+const { developmentChains, networkConfig } = require("../../helper-hardhat-config")
+
+!developmentChains.includes(network.name)
+    ? Describe.skip
+    : describe("Raffle", function () {
+          let raffle, vrfCoordinatorV2Mock, raffleEntranceFee, deployer, interval
+          const chainId = network.config.chainId
+
+          beforeEach(async function () {
+              deployer = (await getNamedAccounts()).deployer
+              await deployments.fixture(["all"]) // deploys everything
+              raffle = await ethers.getContract("Raffle", deployer)
+              vrfCoordinatorV2Mock = await ethers.getContract("VRFCoordinatorV2Mock", deployer)
+              raffleEntranceFee = await raffle.getEntranceFee()
+              interval = await raffle.getInterval()
+          })
+      })
+```
+
+Something that we want to keep in mind is that when it comes to staging test, we only want our staging test to run when we're on a testnet.We don't need to run our unit tests because our unit test aren't checking that compatibility with a testnet.
+
+So adjusted code is:
+
+```javascript
+const { assert, expect } = require("chai")
+const { network, getNamedAccounts, ethers, deployments } = require("hardhat")
+const { developmentChains, networkConfig } = require("../../helper-hardhat-config")
+
+developmentChains.includes(network.name)
+    ? Describe.skip
+    : describe("Raffle", function () {
+          let raffle, raffleEntranceFee, deployer
+
+          beforeEach(async function () {
+              deployer = (await getNamedAccounts()).deployer
+              raffle = await ethers.getContract("Raffle", deployer)
+              raffleEntranceFee = await raffle.getEntranceFee()
+          })
+      })
+```
+
+So we've our describe and beforeEach.Let's now make our test.
+
+```javascript
+describe("fulfillRandomWords", function () {
+              it("works with live Chainlink Keepers and Chainlink VRF, we get a random winner", async function () {
+                  // enter the raffle
+              })
+          })
+```
+
+In this test we of course want to enter the raffle and we shouldn't have to do anything else except for enter the raffle because the chainlink VRF and the chainlink keepers are going to be the ones to actually kick off the lottery for us.Let's first grab the starting time stamp because later on we're going to test to see if the timestamp has indeed move forward.
+
+```javascript
+it("works with live Chainlink Keepers and Chainlink VRF, we get a random winner", async function () {
+                  // enter the raffle
+                  const startingTimeStamp = await raffle.getLatestTimeStamp()
+              })
+```
+
+We want to enter the lottery.We wanna do `await raffle.enterRaffle({value: raffleEntranceFee})` but we don't want to call it yet because same as what we did in our unit test, we want to set up our listener first.Now in unit test we probably should have setup our listener before we entered the lottery however we controlled the blockchain so putting it in that order was okay.But we want to set up a listener before we enter the raffle just in case the blockchain moves really fast.We're going to setup the listener the exact same way, we did it in our unit test.
+
+```javascript
+ await new Promise(async (resolve, reject) => {
+                      raffle.once("WinnerPicked", async () => {
+                          console.log("WinnerPicked event fired!")
+                          try {
+                          } catch (e) {
+                              reject(e)
+                          }
+                      })
+                  })
+```
+
+Let's just go ahead and write the rest of the test and then we'll go back and update the listener.
+
+```javascript
+it("works with live Chainlink Keepers and Chainlink VRF, we get a random winner", async function () {
+                  // enter the raffle
+                  const startingTimeStamp = await raffle.getLatestTimeStamp()
+
+                  await new Promise(async (resolve, reject) => {
+                      raffle.once("WinnerPicked", async () => {
+                          console.log("WinnerPicked event fired!")
+                          try {
+                          } catch (e) {
+                              reject(e)
+                          }
+                      })
+                  })
+                  await raffle.enterRaffle({ value: raffleEntranceFee })
+              })
+```
+
+That's it and our code won't complete untill the listener has finished listening.
+
+Now once we get the WinnerPicked emitted, we're going to get the recentWinner in our try.
+
+```javascript
+try {
+        const recentWinner = await raffle.getRecentWinner()
+        const raffleState = await raffle.getRaffleState()
+    }
+```
+
+Since we're only entering with our deployer, we should check to see the deployers balance at the end.We can't do it with the deployer object that we've defined in beforeEach so we've to do :
+
+```javascript
+const startingTimeStamp = await raffle.getLatestTimeStamp()
+const accounts = await ethers.getSigners()
+```
+
+then we'll get the winner balance.
+
+```javascript
+try {
+        const recentWinner = await raffle.getRecentWinner()
+        const raffleState = await raffle.getRaffleState()
+        const winnerEB = await accounts[0].getBalance()
+        const endingTimeStamp = await raffle.getLatestTimeStamp()
+    } 
+```
+
+We should also get the starting balance right after we enter.
+
+```javascript
+await raffle.enterRaffle({ value: raffleEntranceFee })
+const winnerSB = await accounts[0].getBalance()
+```
+
+So we should first expect the raffle to be reset.We could do this in few different ways.In our unit test, we did with the numOfPlayer.We can also say:
+
+```javascript
+await expect(raffle.getPlayer(0)).to.be.reverted
+```
+
+Because getPlayer of 0 should get reverted because there's not even going to be an object at zero.This is another way to check if our players array has been reset or not.
+
+```javascript
+try {
+        const recentWinner = await raffle.getRecentWinner()
+        const raffleState = await raffle.getRaffleState()
+        const winnerEB = await accounts[0].getBalance()
+        const endingTimeStamp = await raffle.getLatestTimeStamp()
+
+        await expect(raffle.getPlayer(0)).to.be.reverted
+        assert.equal(recentWinner.toString(), accounts[0].address)
+        assert.equal(raffleState, 0)
+        assert.equal(
+                        winnerEB.toStrig(),
+                        winnerSB.add(raffleEntranceFee).toStrig()
+                    )
+        assert(endingTimeStamp > startingTimeStamp)
+        resolve()
+    } 
+```
+
+We now have a staging test that looks really good here.Let's try our staging test out.
+
+**Testing on a Testnet**
+
+Let's try our staging test from start to finish.In order for us to test this staging test, from end to end, we first going to need to get the subscription id from the chainlink VRF then we're going to need to deploy our contract using the subscription Id, need to register the contract with the chainlink VRF and then need to register it with Chainlink keepers the ofcourse we're going to run the staging test.
+
+We're going to come over to vrf.chain.link and we're going to create a new subscription Id.If we don't have enough rinkeby ETH, Let's head over to [here](0x01BE23585060835E02B77ef475b0Cc51aA1e0709) and to import LINK token in your wallet head over [here](https://docs.chain.link/docs/link-token-contracts/).Now let's head over to VRF subscription management and we're going to create a new subscription.Again we could totally do this programmatically because UI here is only helping us facilitate call contracts to the registration contract that's completely decentralized and on chain.So let's go ahead and cretae subscription.
+
+![subId](Images/m70.png)
+
+So we can actually take this come back to our helper-hardhat-config and we can add the sunscription Id.
+
+```javascript
+4: {
+        name: "rinkeby",
+        vrfCoordinatorV2: "0x6168499c0cFfCaCD319c818142124B7A15E857ab",
+        entranceFee: ethers.utils.parseEther("0.01"),
+        gasLane: "0xd89b2bf150e3b9e13446986e571fb9cab24b13cea0a43ea20a6049a85cc807cc",
+        subId: "7061",
+        callBackGasLimit: "500000",
+        interval: "30",
+    },
+```
+
+Fund the subscription with 2 LINK and add the consumer.Our consumer is going to be a Raffle contract.We're funding our subscription so we can pay that oracle gas to get our random numbers.
+
+Let's go ahead and deploy our contract.
+
+`yarn hardhat deploy --network rinkeby`
+
+Now we've deployed the contract using that subID, we need to register the contract with Chainlink VRF and with Chainlink Keepers.We need to add the consumer address to tell Chainlink VRF that this is the contract that you're looking for now.
+
+While the consumer transaction goes through, we can go to keepers.chain.link and do the same thing.
+
+![keepers](Images/m71.png)
+
+We're keeping checkdata as blank because our checkUpkeep doesn't take anything.
+
+If we go back to our VRF, we can see the consumer has been added.
+
+We've got our subId, deployed the contract, registered with chainlink VRF, registered with chainlink Keepers, now all we need to do is run the staging tests.
+
+`yarn hardhat test --network  rinkeby`
+
+The first step that we're doing in this test is we're setting up a listener. The first transaction is going to be entering the raffle to kick everything off.If the raffle has been entered, if it's open, enough time has passed, there's are players and have balances, checkUpkeep will kicked off by the keepers.We'll see checkUpkeep passed and performUpkeep will go through.Well performUpkeep calls the chainlinkVRF.
+
+We've just successfully create a verifiably random, autonomous, decentralized raffle deployed on the blockchain.
+
