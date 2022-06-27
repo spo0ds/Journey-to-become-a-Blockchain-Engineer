@@ -474,3 +474,258 @@ if (account == null) {
 ```
 
 deactivateWeb3 is going to set isWeb3Enabled to false.
+
+In our frontend, We'll connect the metamask.If we just switch accounts, and go back to console it will say, "Account changed to ...".If we go to the storage, disconnect now, we can see the connected key and it's pair been removed from local storage.Also if I hit refresh, nothing will happen.
+
+Now we've essentially made way more robust connect button where it goes back and forth with when we're connected.
+
+**isWeb3Enable Loading**
+
+One more thing that we wanna do when we hit connect, we want to disable the connect button.We don't want it to be able to be pressed.We'll use isWeb3EnableLoading from useMoralis.It checks to see if MetaMask has popped up.
+
+```javascript
+const {enableWeb3, account, isWeb3Enabled, Moralis, deactivateWeb3, isWeb3EnableLoading} = useMoralis()
+```
+
+In our button after the onclick section, we can add:
+
+```javascript
+return (<div>
+          {account ? (<div>Connected to {account.slice(0,6)} ...{account.slice(account.length-4)}</div>) : (<button onClick={async ()=>{
+               await enableWeb3()
+
+               if (typeof window !== "undefined"){
+               window.localStorage.setItem("connected", "injected")
+               }
+          }}
+          disabled={isWeb3EnableLoading}
+          >
+          Connect</button>)}
+</div>)
+```
+
+Now if we hit connect, we can see the button can't be clicked.
+
+**web3uikit**
+
+Now that we've learned to do the mannual way, let's learn the easy way.In our components, let's create a new file "Header.js" and we're going to install the `web3uikit`.It's a frontend kit and has a whole bunch of the components already built for us.So we can build like a header component and a connect button component just by using this.So to install it, we're going to run:
+
+`yarn add web3uikit`
+
+Again we don't want it to be devDependency because we want it to be a part of our website.
+
+Then in our Header.js, we're going to import ConnectButton from web3uikit.
+
+```javascript
+import { ConnectButton } from "web3uikit"
+```
+
+In our function, we can use that ConnectButton.
+
+```javascript
+import { ConnectButton } from "web3uikit"
+
+export default function Header() {
+    return (
+        <div>
+            <ConnectButton moralisAuth={false} />
+        </div>
+    )
+}
+```
+
+This connectButton does everything that the MannualHeader bit we've done so far.So back in our index.js, we'll comment importing ManualHeader and then import Header.
+
+```javascript
+import Header from "../components/Header"
+```
+
+Then instead of MannualHeader, we'll just do Header.
+
+```html
+<div className={styles.container}>
+            <Head>
+                <title>Raffle</title>
+                <meta name="description" content="Decentralized Lottery" />
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
+            {/* <ManualHeader /> */}
+            <Header />
+            Hello!
+</div>
+```
+
+we start our app with `yarn dev` again, and go to our page, we now see we have a connect button.
+
+![connectButton](Images/m80.png)
+
+We can hit ConnectButton and it'll give us little model asking us which wallet we want to connect to.
+
+![wallets](Images/m81.png)
+
+Asking us which wallet we want to connect to is kind of similar to our MannualHeader to the setItem("connected", "injected").For WalletConnect we'll do connected walletconnect etc.It allows us to connect in different ways and if we hit MetaMask, we go ahead and connect like so.
+
+![connected](Images/m82.png)
+
+Even it has some nice styling here where it gives us our wallet address and the balance.Again if we go ahead and disconnect, it automatically disconnects.Setting the local storage in the background so that it knows where it's actually connected.But for headers moving forward, ueb3uikit is all you need.
+
+**Introduction to Calling Functions in NextJS**
+
+The main thing that the app need to do is just have a big button that says "Enter the lottery" and ideally show how many people are in the lottery and the recent winner as well.We'll create a new component called "LotteryEntrance.js".
+
+```javascript
+export default function LotteryEntrance() {
+    return <div>Hi from lottery entrance</div>
+}
+```
+
+Now that we do that, we need to import it in our index.js.
+
+If we go back to our website, we see "Hi from lottery entrance!".
+
+Well what is the first thing that we need to do in LotteryEntrance?
+
+We're going to have a function to enter the lottery.Let's go ahead and do this.Let's go with how we did with html FundMe.We call that fund function like this:
+
+![fund](Images/m83.png)
+
+Doing it like this won't rerender and there's a whole lot of other functionality that doing it like this won't give us.So we're going to use Moralis to actually call some of these functions because in react-moralis, they've hooks to do pretty much anything we want it to do and one of these hook is called `[useWeb3Contract](https://www.npmjs.com/package/react-moralis#useweb3contract)`.It gives us a hook that will give us the data returned from a function call, error returned, function that we can use to call any function and also really helpful isFetching and isLoading.
+
+![useWeb3Contract](Images/m84.png)
+
+So if we want everyone to have our UI or our website so something while it's fetching or while it's loading the transaction, we can use these two variables to do that and all we need to do is pass the contract information to the useWeb3Connect.We're going to use the above syntax to make that transaction to the blockchain and to call these functions.
+
+```javascript
+export default function LotteryEntrance() {
+
+    const {runContractFunction: enterRaffle} = useWeb3Contract({
+        abi://,
+        contractAddress: //,
+        functionName://,
+        params: {},
+        msgValue://,
+    })
+
+    return <div>Hi from lottery</div>
+}
+```
+
+Remember back into our Raffle, it doesn't take any parameters.All it takes is the `msg.value` bit.
+
+**Automatic Constant Value UI Updater**
+
+So how do we get all these stuff?We're going to comment it out for now.This is what we need to do but we need to get all these stuff into our code.So how do we actually get all these stuff?
+
+Well ABI is easy.ABI isn't going to change at all no matter what network that we're on.It's always going to stay the same.Now if you've already deployed your smart contracts and you know exactly what address it is because you've deployed to a mainnet or a testnet all the stuff isn't really going to change and we can hard code it all in another file or we could do what alot of people do is create a new folder "constants" and in here we'll add like abi.json, contractAddresses.json etc.
+
+We're going to build our application in a way we can actually test locally using our own hardhat network and then compare it to what it looks like on the actual test net.So we're going to make it network agnostic so that frontend work exactly the same no matter what network that we're on.
+
+We go back to one directory,go inside hardhat-lottery and spin up our node here with `yarn hardhat node` and we'll use this as a blockchain that we're going to connect to.The thing is if I go back to my smartcontract and I'm building the frontend and I be like this would be better if I did X, Y, Z and maybe I change the name of some functions.I want that change to be reflected on my frontend and I want to be able to code my frontend as such.Since we're the only developer right now, we kind of have the ability of where we both know the back end code and the frontend code.So to make lot easier let's create a updateFrontEnd deplot script.So after we deploy stuff, we run a scripts that will create a constants folder for us with a whole bunch of stuff.It'll give an ABI, contract addresses and anything else we might need in our frontend from our backend.
+
+We'll come back to our original code, in our deploy scripts, we'll create a new file called "02-update-frontend.js".We should always make this the last in our deploy folder.We can write a little script that's connected to our frontend so that whenever we deploy contracts no matter what chain, we can update that constants folder on our frontend.So let's go ahead and create that scripts right now.
+
+```javascript
+module.exports = async function () {}
+```
+
+We don't need to deploy any contracts because we're just updating the frontend.So the parameters are blank. 
+
+Other thing that I like to do is sometimes I don't care about the frontend so I'll only update the frontend if we've specified a .env variable.So we'll create a .env variable called UPDATE_FRONT_END and set it to true.
+
+Now in our scripts, we can say:
+
+```javascript
+module.exports = async function () {
+    if (process.env.UPDATE_FRONT_END) {
+        console.log("Updating front end...")
+    }
+}
+```
+
+So I'm going to create one function called updateContractAddresses and this function we're going to use to update contract addresses and then one called updateABI where we update the ABI's on the frontend.
+
+```javascript
+async function updateContractAddresses() {
+}
+```
+
+First we're going to get that raffle contract since we're going to need to get the address.
+
+```javascript
+const { ethers } = require("hardhat")
+
+async function updateContractAddresses() {
+    const raffle = await ethers.getContract("Raffle")
+}
+```
+
+We're going to pass this raffle address to our frontend.Since this is going to be a variable that we might use alot of places, we can just use it like:
+
+```javascript
+const FRONT_END_ADDRESSES_FILE = "../nextjs-raffle/constants/contractAddresses.json"
+const FRONT_END_ABI_FILE = "../nextjs-raffle/constants/abi.json"
+```
+
+Now in our updateContractAddresses function, we can do:
+
+```javascript
+async function updateContractAddresses() {
+    const raffle = await ethers.getContract("Raffle")
+    const currentAddresses = JSON.parse(fs.readFileSync(FRONT_END_ADDRESS_FILE, "utf8"))
+}
+```
+
+This is going to be our currentAddresses and we're going to update the list of currentAddresses with some new address because our contractAddresses we want it to be chain agnostic, we would do `4:address` on rinkeby and so on.We want to be able to keep track of all different addresses across all the different chains.
+
+If we don't have raffle.address, we're going to go ahead and add the new address.
+
+```javascript
+if (chainId in getContractAddress) {
+        if (!contractAddresses[chainId].includes(raffle.address)) {
+            contractAddresses[chainId].push(raffle.address)
+        }
+    }
+```
+
+And then if the chainId doesn't even exist, we're going to go ahead and add the new address array.
+
+```javascript
+async function updateContractAddresses() {
+    const raffle = await ethers.getContract("Raffle")
+    const currentAddresses = JSON.parse(fs.readFileSync(FRONT_END_ADDRESS_FILE, "utf8"))
+    const chainId = network.config.chainId.toString()
+    if (chainId in getContractAddress) {
+        if (!contractAddresses[chainId].includes(raffle.address)) {
+            contractAddresses[chainId].push(raffle.address)
+        }
+    }
+    {
+        contractAddresses[chainId] = [raffle.address]
+    }
+}
+```
+
+Then finally that we've updated the object, we're going to write it back to the FRONT_END_FILEs.
+
+```javascript
+fs.writeFileSync(FRONT_END_ADDRESSES_FILE, JSON.stringify(currentAddresses))
+```
+
+Now we export the module.
+
+```javascript
+module.exports.tags = ["all", "frontend"]
+```
+
+We updated the contract address but we also need the ABI so we'll also create a function for it.
+
+```javascript
+async function updateAbi() {
+    const raffle = await ethers.getContract("Raffle")
+    fs.writeFileSync(FRONT_END_ABI_FILE, raffle.interface.format(ethers.utils.FormatTypes.JSON))
+}
+```
+
+To pass just the ABI, we got it directly from the raffle object.raffle.interface turns a contract into a interface but it's different from a solidity interface but it allows us basically just to get the ABI.
+
+Now in our backend, if we run `yarn hardhat deploy`, we should automatically update our contract addresses and abi.json.
