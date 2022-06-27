@@ -597,7 +597,19 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Massive Promise Test |
 | - Raffle.sol Staging Tests |
 | - Testing on a Testnet |
-
+| <p align="center"> [Day 43](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day43/Day43.md) </p> |
+| **NextJS Smart Contract Lottery** |
+| - NextJS Intro |
+| - NextJS Setup |
+| - Manual Header I |
+| - React Hooks |
+| - Mannual Header II |
+| - useEffect Hook |
+| - Local Storage |
+| - isWeb3Enable Loading |
+| - web3uikit |
+| - Introduction to Calling Functions in NextJS |
+| - Automatic Constant Value UI Updater |
 
 
 
