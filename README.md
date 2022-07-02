@@ -610,6 +610,9 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - web3uikit |
 | - Introduction to Calling Functions in NextJS |
 | - Automatic Constant Value UI Updater |
+| <p align="center"> [Day 44](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day43/Day44.md) </p> |
+| - runContractFunction |
+| - useState |
 
 
 
