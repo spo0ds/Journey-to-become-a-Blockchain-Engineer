@@ -613,6 +613,12 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | <p align="center"> [Day 44](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day44/Day44.md) </p> |
 | - runContractFunction |
 | - useState |
+| - Calling Functions in NextJS |
+| - useNotification |
+| - Reading and Displaying Contract Data |
+| - A note about onSuccess |
+| - Tailwind & Styling |
+
 
 
 
