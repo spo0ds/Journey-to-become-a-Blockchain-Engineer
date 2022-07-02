@@ -618,7 +618,12 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Reading and Displaying Contract Data |
 | - A note about onSuccess |
 | - Tailwind & Styling |
-
+| - Introduction to Hosting your Site |
+| - IPFS |
+| - Hosting on IPFS |
+| - Hosting on IPFS & Filecoin using Fleek |
+| - Filecoin Overview |
+| - Summary |
 
 
 
