@@ -499,3 +499,99 @@ Something else we wanna do when it comes to loading or fetching.When it's loadin
 ```
 
 
+**Introduction to Hosting your Site**
+
+We have an app that we really like and we want to deploy it.Let's talk about how we can deploy this.We're going to deploy our contracts to Rinkeby and then we're going to deploy our website to a hosting provider.
+
+If we want to host our beautiful website that we just created, there are ways to deploy using things like Vercel or Google Cloud or AWS.Thing about these is that these are all centralized deployment places.Having a centralized deployment application can still be incredibly important.If you look at Etherscan for a second.Etherscan is a centralized application but it's still the one that we've been using alot.However if we want to have a frontend that's decentralized well that's a little bit harder.The more important thing for us is that our backend or smart contracts are decentralized.That's the most important thing because that will give users the ability to interact with our logic in a decentralized way but maybe we also want our frontends decentralized.
+
+Now at some point we will still use a centralized service like Vercel to deploy an application and we'll know why we get there.There are some features that right now they're really just hard to do without like a really solid centralized back end.What's important to keep in mind is that our backend, the logic of our contract is on a decentralized blockchain.So even if we host the frontend on a decentralized hosting provider, using some type of centralized database to make the frontend easier to work with, the logic of the application is decentralized.
+
+
+**IPFS**
+
+The tool that we're going to host our frontend in a decentralized manner is IPFS.It's the distributed decentralized data structure that's not exactly a blockchain but it's similar to a blockchain.There's no mining though but there's pinning data, you can add data to this.You can read how it works on the [site](https://ipfs.io/#how).
+
+We've our code or our file.We've some piece of data.Now as we know when you've really anything you can hash that thing, hash that data and get a unique output.So that's actually the first thing that IPFS does.It hashes our data to get a unique hash that only points to that data.You IPFS node does that hashing for you and every single IPFS node on the planet has the exact same hashing function kind of like blockchain.So we can hash our data on our IPFS node and get the unique output.
+
+We can then pin that data or pin that code to out node.Our node is connected to a network of other IPFS nodes.So there's a massive network of people running IPFS nodes, they're incredibly lightweight, way lighter weigth than any other blockchain node and they all talk to eachother.So if I ask the network, "Hey I want to get the hash", all the nodes talk to eachother and eventually they'd reach up at our node saying, "Oh I found a node that has that hash.Here's a file associated with it."
+
+Now you might be thinking that's kind of centralized because we have the data on one node here.You're right but what other nodes can do is they can say, "Oh that data looks really cool, I want to have that persist."They can pin our hash and they'll get a copy of your data on their node and you can keep doing this and so you easily allow an entire network to easily replicate any code or any data in a decentralized sense.They're incredibly easy to spin up and to work with.
+
+Something about IPFS that makes it drastically different than a blockchain is that they can't do smart contract.There's no execution.It can only store.It's just decentralized storage that IPFS can do.
+
+Now the issue here is that in order for our data to really be decentralized another node does need to pin our data because if we're the only IPFS node that's go the hash, it's kind of centralized on our node.If our node goes down, that data is gone and network won't be able to access that data anymore.So we'll talk about the strategies in the future about people having other people pin your data but for now this is a way we can host data, we can send code  and have it be in a decentralized context.
+
+So unlike a blockchain, where every single node in a blockchain is going to have a copy of the entire blockchain.IPFS nodes get to optionally choose which data they want to pin and they can't do any execution.So you could have a IPFS node half a megabyte and you could have an IPFS node that several terabytes.It's upto the node operators how much data and what data they want to pin.
+
+
+**Hosting on IPFS**
+
+Let's actually deploy our wonderful application to IPFS so that anybody can use it and anybody can connect to it so long as our node is up.
+
+First we're going to do this kind of the manual way because I'm going to show you how to install IPFS and work with IPFS.You can get it with a desktop application or a command line or also add IPFS to our browser.We want to use those hashes as urls.so we want to be able to put that url in our browser and connect to that node or that piece of code.
+
+We're going to have you install the [IPFS desktop](https://docs.ipfs.io/install/ipfs-desktop/#ubuntu).Once you install it, you might see IPFS is running, you can restart, stop and all other things.We want to go to the files section and get a little pop up that look like this.
+
+![ipfs](Images/m88.png)
+
+Let's just go ahead and import file and maybe for now we'll only import next.config.js.
+
+We can actually copy the CID and we can view this in our browser.
+
+`http://bafybeiam2xxvmnfprgxf7hzwhzfmdn6bixc2rojodpnm5iruafv67p7way.ipfs.localhost:8080/`
+
+![ipfsBrowser](Images/m89.png)
+
+So we're going to deploy our website to IPFS so that anybody else who wants to pin this can and we will now have the ability to have an incorruptible and unpulldownable website which is just awesome.We're going to learn how to do it the raw way first and then we're going to use the tool that's going to make it easier for us.
+
+NextJS has the ability to create static websites and that's going to be an important term to know.We're going to make a static website.At the moment we don't want our website to be tangled with any server stuff because if our website runs with server stuff and we deploy it to IPFS, well IPFS doesn't have the ability to run any code.It just hosts code.If our frontend has any server stuff.It won't work.
+
+In it's current state IPFS can't come to our project and know what to do.It doesn't know how to do `yarn dev`.It can't do yarn dev.We need to put all of our code into it's static equivalent.So to do that we're going to do ``yarn build` and running this build command is going to build our code what's called like a `production build`.
+
+![output](Images/m90.png)
+
+There's some server based application that NextJS comes with that if we use them, our static build won't work.You'll see when we run `yarn next export` it'll fail if you have any non-static stuff.
+
+Now we've a new folder called `out`.It's a folder that's just pure static code that we can use on IPFS.Now that we've the out folder, we can go back to the IPFS and can import a folder.We're going to import that whole folder here.We can pin the out folder to our local node.
+
+Once it's up, we can copy the CID and type `http://bafybeigt5vmzc36dsrngfd36ka7ofepy2yjxi3dqd3tnj7t7d643x4xezq.ipfs.localhost:8080/` and we immediately get dropped into smartcontract lottery in a browser.
+
+![website](Images/m91.png)
+
+
+**Hosting on IPFS & Filecoin using Fleek**
+
+Now we know to do the mannual way of adding our code to IPFS.Let me show you the easier way of adding your code to the IPFS.We're going to go to [fleek](https://fleek.co/).It's kind of an auto deployment for our websites and additionally it does some things to help out with that problem talking about how we want to get other nodes to pin our data.So it helps us out with that.
+
+Let's go ahead and sign up.Let's go ahead and add a new site.
+
+![buildsetting](Images/m92.png)
+
+If you get the error while deploy change the build command to `yarn install && yarn run build && yarn next export`.It's going to run these three commands and deploy us a site for us both on IPFS and it's going to give a regular URL that we can use for normies, if you will. 
+
+While this deploys, we'll actually see down here:
+
+![ids](Images/m93.png)
+
+IPFS like I said we need other people to host our node.Filecoin is actually a blockchain that helps you pin your data and uses decentralized storage to do so and fleek helps you create those deals and helps you pin your data with these filecoin Blockchain.And once it's done, we get a little deployed website.We can see, we've a little website in here.
+
+If we make changes to our repo, we add that repo in the github and hit refresh, in our fleek we can see new deploy script going through.It'll automatically deploys your new site.It'll automatically create a new IPFS hash for your new data.However it'll still be on the same website.
+
+
+**Filecoin Overview**
+
+Filecoin isn't going to be the technology we're going to go too deep into.Like I just said IPFS does have this limitation.It doesn't have data persistence.You have to have people pin your data in order for to stay distributed and stay decentralized.Filecoin is a blockchain dedicated to keep this data both decentralized and persistent.
+
+
+**Summary**
+
+We learned more about NextJS.We learned we can have an application using NextJS and it's framework that going to allow us to build really powerful frontends and fullstack application really easily.We learned about the layout of the NextJS project.We add components in a components folder which are basically minimalistic blocks of JavaScript and HTML that we can use to modularize and create our website our of these components.Constants is a folder that we can put constant variables, out folders is what happens when we export all of our code to a static example, pages are basically the routes for the different pages of our website.Everything goes through app.js.Styles is for any css or styling our application.
+
+In our app.js, we have our app surrounded by the NotificationProvider and MoralisProvider.All of our components and pages run through the app.This is kind of considered the entry point for our entire application.Having the MoralisProvider wrapped around our Notifications and components means that we don't have to pass parameters between our components and our lottery will just know what chainId that we're on because our header is going to pass it up to MoralisProvider and the MoralisProvider is going to pass to back down to our LotteryEntrance.
+
+We saw with our manual header the way that connect button works behind the scene.We learned about useEffect and useState and different hooks in our frontends where one of the main reason we want hooks is we want our websites to rerender when stuff changes.We want our components to be able to talk about the state of the blockchain with eachother and they're incredibly powerful for building React applications.
+
+useEffect is one of the most popular ones where if we don't have a dependency array, our function inside of our useEffect will run anytime something rerenders.A blank dependency array means it'll just run once on load and if there are dependencies in the array, it'll run anytime of the variable in those change.We also learned about the useState hook which is really similar to saying like let variables equals x but it also comes with rerendering ability.
+
+We learned how to call different contract functions with Moralis.Not only sending transactions but also calling data.Moralis is smart enough to know that when it sees getEntranceFee that it's going to be a view function.We added a button calling one of these Moralis pieces and then had an onSuccess section where when our transaction completed, we update the UI and add a little pop up for notifications.We learned how to deploy our code directly to IPFS and use that IPFS hash to interact and see our code.We also learned about fleek and how fleek automatically deploys to IPFS whenever we do a git push to our Github repository and it makes continuously updating our website much easier.It also gives us a regular canonical URL as well.We finally learned about IPFS and decentralized database storage.
