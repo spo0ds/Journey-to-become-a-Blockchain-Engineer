@@ -624,7 +624,8 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Hosting on IPFS & Filecoin using Fleek |
 | - Filecoin Overview |
 | - Summary |
-
+| <p align="center"> [Day 45](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day45/Day45.md) </p> |
+| **Hardhat Starter Kit** |
 
 
 
