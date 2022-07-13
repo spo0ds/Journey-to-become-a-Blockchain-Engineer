@@ -1,6 +1,6 @@
 ## Hardhat Smart Contract Lottery / Raffle
 
-We're building an application that allows users completely decentralized to allow us to engage in a fair and verifibaly random lottery.This is the application that would actually fix the McDonald's issue.We'll have a connect wallet button that we'll use to connect to more than just MetaMask.WalletConnect, True Wallet, Math Wallet eth are wallets that we'll customize even more.One can enter the raffle and allow anybody to pay 0.1 ETH to enter our smart contract.We'll get the notification that says transaction complete.We track the number of player that entered the lottery.We'll run the lottery on a timer and is going to automatically trigger somebody to win and to do this, to get a pure verifiable random number, we're going to be use ChainLink VRF to get a pure verifiable random number and then we're going to use chainlink keepers to trigger the automation to automatically have one of the winner get picked everytime those time intervals is up.
+We're building an application that allows users completely decentralized to allow us to engage in a fair and verifibaly random lottery.This is the application that would actually fix the McDonald's issue.We'll have a connect wallet button that we'll use to connect to more than just MetaMask.WalletConnect, True Wallet, Math Wallet etc are wallets that we'll customize even more.One can enter the raffle and allow anybody to pay 0.1 ETH to enter our smart contract.We'll get the notification that says transaction complete.We track the number of player that entered the lottery.We'll run the lottery on a timer and is going to automatically trigger somebody to win and to do this, to get a pure verifiable random number, we're going to be use ChainLink VRF to get a pure verifiable random number and then we're going to use chainlink keepers to trigger the automation to automatically have one of the winner get picked everytime those time intervals is up.
 
 Once the keepers kick it off, they will pick a winner, our lottery will display the recent winner and they'll get all the money from the lottery making it perfectly fair decentralized lottery.This is going to be the project if you learn this, you have the skill to learn all the rest of the smart contracts and you're going to be able to do great things in the space.
 
@@ -271,7 +271,7 @@ Now that we've this we shouldn't see the underscore in our Raffle anymore and we
 
 **Hardhat Shorthand**
 
-I'd prefer to write as little keys as possible.Hardhat also would like us to write as little keys as possible.So hardhat comes with a `[Shorthand and autocomplete](https://hardhat.org/guides/shorthand)`.So to install it:
+I'd prefer to write as little keys as possible.Hardhat also would like us to write as little keys as possible.So hardhat comes with a [Shorthand and autocomplete](https://hardhat.org/guides/shorthand).So to install it:
 
 `yarn global add hardhat-shorthand`
 
@@ -525,5 +525,6 @@ This tells our function that you need a uint256 but we're not going to use the r
 Now let's compile our code.
 
 `yarn hardhat compile`
+
 
 
