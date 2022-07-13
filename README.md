@@ -632,6 +632,8 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - What is an ERC20? |
 | - Why make an ERC20? |
 | - Manually Creating an ERC20 Token |
+| - Creating an ERC20 Token with OpenZeppelin |
+| - Recap |
 
 
 
