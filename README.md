@@ -626,7 +626,12 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Summary |
 | <p align="center"> [Day 45](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day45/Day45.md) </p> |
 | **Hardhat Starter Kit** |
-
+| **Hardhat ERC20s** |
+| - What is an ERC? |
+| - What is an EIP? |
+| - What is an ERC20? |
+| - Why make an ERC20? |
+| - Manually Creating an ERC20 Token |
 
 
 
