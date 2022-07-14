@@ -634,7 +634,13 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Manually Creating an ERC20 Token |
 | - Creating an ERC20 Token with OpenZeppelin |
 | - Recap |
-
+| <p align="center"> [Day 46](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day46/Day46.md) </p> |
+| **Hardhat Defi and Aave** |
+| - What is Aave? |
+| - Programatic Borrowing and Lending |
+| - WETH (Wrapped ETH) |
+| - Forking Mainnet |
+| - Depositing into Aave |
 
 
 
