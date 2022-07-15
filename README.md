@@ -641,6 +641,9 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - WETH (Wrapped ETH) |
 | - Forking Mainnet |
 | - Depositing into Aave |
+| - Borrowing from Aave |
+| - Repaying with Aave |
+
 
 
 
