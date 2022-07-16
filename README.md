@@ -643,8 +643,10 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Depositing into Aave |
 | - Borrowing from Aave |
 | - Repaying with Aave |
-
-
+| <p align="center"> [Day 47](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day47/Day47.md) </p> |
+| **The Ultimate NFT** |
+| - Hardhat Setup |
+| - Basic NFT |
 
 
 
