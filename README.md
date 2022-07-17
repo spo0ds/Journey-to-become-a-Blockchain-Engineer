@@ -652,6 +652,8 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Mapping ChainLink VRF Requests |
 | - Creating Rare NFTs |
 | - Setting the NFT Image |
+| - Setting an NFT Mint Price |
+
 
 
 
