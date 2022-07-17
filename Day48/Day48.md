@@ -210,3 +210,107 @@ function tokenURI(uint256) public view override returns (string memory) {}
 Now we can safeMint to the owner with the tokenId.
 
 **Creating Rare NFTs**
+
+We don't know what the token looks like and we want to make the NFTs different rarity.So how do we actually create these NFTs with different rarities.All we could do is we create a chance array.An array to show different chances of the different NFTs.We're going to create a function "getChanceArray" which is going to return uint256 of size 3 and the chanceArray is going to represent the different chances of the different NFTs.
+
+```solidity
+uint256 internal constant MAX_CHANCE_VALUE = 100;
+
+function getChanceArray() public pure returns (uint256[3] memory) {
+        return [10, 30, MAX_CHANCE_VALUE];
+    }
+```
+
+So by making this array, we're saying index 0 has a 10% chance of happening, index 1 has a 20% chance of happening.It's 30-10 so 20.Then we're saying index 2 is going to have a 60% chance of happening.We're going to use it to give the tokenId that we just minted it's cat breed.So we're going to create a new function "getBreedFromModdedRng" and the reason we're calling getBreedFromModdedRng is exactly the same way in our lottery, we got a random number.
+
+```solidity
+function fulfillRandomWords(uint256 requestId, uint256[] memory randomWords) internal override {
+        address nftOwner = s_requestIdToSender[requestId];
+        uint256 newTokenId = s_tokenCounter;
+        _safeMint(nftOwner, newTokenId);
+
+        uint256 moddedRng = randomWords[0] % MAX_CHANCE_VALUE;
+        
+        // getBreedFromModdedRng()
+    }
+```
+
+We're going to mod any number we get by 100.Doing it like this, we're always going to get a number between 0 and 99.If the moded number that we get by modding the randomWords is between 0 and 10, it's going to be Persian, 10 and 30 is Bengal and between 30 and 100 is Minx.Please don't go in the bread.I just made them up.It has no relation with the image.That's how we get the random values.
+
+Now that we've the moddedRng, we'll create the function getBreedFromModdedRng.
+
+```solidity
+function getBreedFromModdedRng(uint256 moddedRng) public pure returns (Breed) {}
+```
+
+The Breed of the cat is going to be an Enum similar to the raffle state that we did before.
+
+```solidity
+// Type Declaration
+    enum Breed {
+        Persian,
+        Bengal,
+        Minx
+    }
+```
+
+We're going to loop through this.
+
+```solidity
+function getBreedFromModdedRng(uint256 moddedRng) public pure returns (Breed) {
+        uint256 cumulativeSum = 0;
+        uint256[3] memory chanceArray = getChanceArray();
+        for (uint256 i = 0; i < chanceArray.length; i++) {
+            if (moddedRng >= cumulativeSum && moddedRng < cumulativeSum + chanceArray[i]) {
+                return Breed[i];
+            }
+            cumulativeSum += chanceArray[i];
+        }
+    }
+```
+
+Let's say moddedRng is 25, i is 0, cumulativeSum is 0 and if it's 25 it should be Bengal because it lies between 10 and 30.If moddedRng(25) >= cumulativeSum(0) and it's less than cummulativeSum(0) + chanceArray[0]=>(10) so sum is 10.Here the if condition fail.So it'll move towards next index.That's how the function is going to work.It's going to get us the breed from that modding bit.
+
+Then if some reason some really wacky stuff happens, we want to revert because we should be returning a breed but if we don't return a breed, we should just revert.So we're going to create a new error at the top.
+
+```solidity
+error RandomNft__RangeOutOfBounds();
+```
+
+So in our function, if some reason it doesn't return anything we'll just revert.
+
+```solidity
+function getBreedFromModdedRng(uint256 moddedRng) public pure returns (Breed) {
+        uint256 cumulativeSum = 0;
+        uint256[3] memory chanceArray = getChanceArray();
+        for (uint256 i = 0; i < chanceArray.length; i++) {
+            if (moddedRng >= cumulativeSum && moddedRng < cumulativeSum + chanceArray[i]) {
+                return Breed[i];
+            }
+            cumulativeSum += chanceArray[i];
+        }
+        revert RandomNft__RangeOutOfBounds();
+    }
+```
+
+Now we can get the breed from a moddedRng.So back in our fulfillRandomWords function, we'll uncomment the getBreedFromModdedRng function.
+
+```solidity
+Breed catBreed = getBreedFromModdedRng(moddedRng);
+```
+
+Let's move safeMint down the catBreed.
+
+```solidity
+function fulfillRandomWords(uint256 requestId, uint256[] memory randomWords) internal override {
+        address nftOwner = s_requestIdToSender[requestId];
+        uint256 newTokenId = s_tokenCounter;
+
+        uint256 moddedRng = randomWords[0] % MAX_CHANCE_VALUE;
+
+        Breed catBreed = getBreedFromModdedRng(moddedRng);
+        _safeMint(nftOwner, newTokenId);
+    }
+```
+
+**Setting the NFT Image**
