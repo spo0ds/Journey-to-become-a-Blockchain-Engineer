@@ -6,7 +6,16 @@ import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
 import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
+error RandomNft__RangeOutOfBounds();
+
 contract RandomNft is VRFConsumerBaseV2, ERC721 {
+    // Type Declaration
+    enum Breed {
+        Persian,
+        Bengal,
+        Minx
+    }
+
     VRFCoordinatorV2Interface private immutable i_vrfCoordinator;
     uint64 private immutable i_subscriptionId;
     bytes32 private immutable i_gasLane;
@@ -19,6 +28,7 @@ contract RandomNft is VRFConsumerBaseV2, ERC721 {
 
     // NFT variables
     uint256 public s_tokenCounter;
+    uint256 internal constant MAX_CHANCE_VALUE = 100;
 
     constructor(
         address vrfCoordinatorV2,
@@ -46,7 +56,27 @@ contract RandomNft is VRFConsumerBaseV2, ERC721 {
     function fulfillRandomWords(uint256 requestId, uint256[] memory randomWords) internal override {
         address nftOwner = s_requestIdToSender[requestId];
         uint256 newTokenId = s_tokenCounter;
+
+        uint256 moddedRng = randomWords[0] % MAX_CHANCE_VALUE;
+
+        Breed catBreed = getBreedFromModdedRng(moddedRng);
         _safeMint(nftOwner, newTokenId);
+    }
+
+    function getBreedFromModdedRng(uint256 moddedRng) public pure returns (Breed) {
+        uint256 cumulativeSum = 0;
+        uint256[3] memory chanceArray = getChanceArray();
+        for (uint256 i = 0; i < chanceArray.length; i++) {
+            if (moddedRng >= cumulativeSum && moddedRng < cumulativeSum + chanceArray[i]) {
+                return Breed[i];
+            }
+            cumulativeSum += chanceArray[i];
+        }
+        revert RandomNft__RangeOutOfBounds();
+    }
+
+    function getChanceArray() public pure returns (uint256[3] memory) {
+        return [10, 30, MAX_CHANCE_VALUE];
     }
 
     function tokenURI(uint256) public view override returns (string memory) {}
