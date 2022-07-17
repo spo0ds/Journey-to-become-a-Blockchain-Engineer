@@ -5,10 +5,13 @@ pragma solidity 0.8.8;
 import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
 import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
 error RandomNft__RangeOutOfBounds();
+error RandomNFT__NeedMoreEthSent();
+error RandomNft__TransferFailed();
 
-contract RandomNft is VRFConsumerBaseV2, ERC721URIStorage {
+contract RandomNft is VRFConsumerBaseV2, ERC721URIStorage, Ownable {
     // Type Declaration
     enum Breed {
         Persian,
@@ -30,22 +33,32 @@ contract RandomNft is VRFConsumerBaseV2, ERC721URIStorage {
     uint256 public s_tokenCounter;
     uint256 internal constant MAX_CHANCE_VALUE = 100;
     string[] internal s_catTokenUris;
+    uint256 internal immutable i_mintFee;
+
+    // Events
+    event NftRequested(uint256 indexed requestId, address requester);
+    event NftMinted(Breed catBreed, address minter);
 
     constructor(
         address vrfCoordinatorV2,
         uint64 subscriptionId,
         bytes32 gasLane,
         uint32 callbackGasLimit,
-        string[3] memory catTokenUris
+        string[3] memory catTokenUris,
+        uint256 mintFee
     ) VRFConsumerBaseV2(vrfCoordinatorV2) ERC721("Random NFT", "RN") {
         i_vrfCoordinator = VRFCoordinatorV2Interface(vrfCoordinatorV2);
         i_subscriptionId = subscriptionId;
         i_gasLane = gasLane;
         i_callbackGasLimit = callbackGasLimit;
         s_catTokenUris = catTokenUris;
+        i_mintFee = mintFee;
     }
 
-    function requestNft() public returns (uint256 requestId) {
+    function requestNft() public payable returns (uint256 requestId) {
+        if (msg.value < i_mintFee) {
+            revert RandomNFT__NeedMoreEthSent();
+        }
         requestId = i_vrfCoordinator.requestRandomWords(
             i_gasLane,
             i_subscriptionId,
@@ -54,6 +67,7 @@ contract RandomNft is VRFConsumerBaseV2, ERC721URIStorage {
             NUM_WORDS
         );
         s_requestIdToSender[requestId] = msg.sender;
+        emit NftRequested(requestId, msg.sender);
     }
 
     function fulfillRandomWords(uint256 requestId, uint256[] memory randomWords) internal override {
@@ -65,6 +79,15 @@ contract RandomNft is VRFConsumerBaseV2, ERC721URIStorage {
         Breed catBreed = getBreedFromModdedRng(moddedRng);
         _safeMint(nftOwner, newTokenId);
         _setTokenURI(newTokenId, s_catTokenUris[uint256(catBreed)]);
+        emit NftMinted(catBreed, nftOwner);
+    }
+
+    function withdraw() public onlyOwner {
+        uint256 amount = address(this).balance;
+        (bool success, ) = payable(msg.sender).call{value: amount}("");
+        if (!success) {
+            revert RandomNft__TransferFailed();
+        }
     }
 
     function getBreedFromModdedRng(uint256 moddedRng) public pure returns (Breed) {
@@ -72,7 +95,7 @@ contract RandomNft is VRFConsumerBaseV2, ERC721URIStorage {
         uint256[3] memory chanceArray = getChanceArray();
         for (uint256 i = 0; i < chanceArray.length; i++) {
             if (moddedRng >= cumulativeSum && moddedRng < cumulativeSum + chanceArray[i]) {
-                return Breed[i];
+                return Breed(i);
             }
             cumulativeSum += chanceArray[i];
         }
@@ -83,5 +106,15 @@ contract RandomNft is VRFConsumerBaseV2, ERC721URIStorage {
         return [10, 30, MAX_CHANCE_VALUE];
     }
 
-    function tokenURI(uint256) public view override returns (string memory) {}
+    function getMintFee() public view returns (uint256) {
+        return i_mintFee;
+    }
+
+    function getCatTokenUris(uint256 index) public view returns (string memory) {
+        return s_catTokenUris[index];
+    }
+
+    function getTokenCounter() public view returns (uint256) {
+        return s_tokenCounter;
+    }
 }
