@@ -650,7 +650,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | <p align="center"> [Day 48](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day48/Day48.md) </p> |
 | **Random NFT** |
 | - Mapping ChainLink VRF Requests |
-
+| - Creating Rare NFTs |
 
 
 
