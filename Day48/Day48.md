@@ -370,3 +370,79 @@ Down in setTokenURI, from that list that we created, we're going to set the toke
 With that we now have a way to actually programmatically get a provably random NFT with different randomness for different one of these NFTs.
 
 **Setting an NFT Mint Price**
+
+We minted NFT, we trigger chainlink VRF to call a random number, we got the rarities and minting down.We want users to pay for minting NFT and the owner of the contract can withdraw the ETH.So back in our requestNft function, we'll make it a public payable and all we need to do is the msg.value is less than mint fee, we'll revert it.We'll create a internal immutable mintFee variable.
+
+```solidity
+function requestNft() public payable returns (uint256 requestId) {
+        if (msg.value < i_mintFee) {
+            revert RandomNFT__NeedMoreEthSent();
+        }
+    }
+```
+
+Now we also want a way for our owner to withdraw.
+
+```solidity
+import "@openzeppelin/contracts/access/Ownable.sol";
+
+contract RandomNft is VRFConsumerBaseV2, ERC721URIStorage, Ownable {
+
+    function withdraw() public onlyOwner {
+        
+        }
+}
+```
+
+Inside the withdraw function, same as what we've done.We'll do:
+
+```solidity
+error RandomNft__TransferFailed();
+
+function withdraw() public onlyOwner {
+        uint256 amount = address (this).balance;
+        (bool success, ) = payable(msg.sender).call{value:amount}("")
+        if(!success){
+            revert RandomNft__TransferFailed();
+        }
+    }
+```
+
+Now we've a withdraw function and a way for people to pay for art here.We don't need the tokenURI anymore because when we called setTokenURI, this is going to set the tokenURI for us because in the back ERC721URIStorage already has that function laid out.So our contract will already have the tokenURI function and we don't have to explicitly set it ourselves.But we do have to set some other ones.
+
+```solidity
+
+    function getMintFee() public view returns (uint256) {
+        return i_mintFee;
+    }
+
+    function getCatTokenUris(uint256 index) public view returns (string memory) {
+        return s_catTokenUris[index];
+    }
+
+    function getTokenCounter() public view returns (uint256) {
+        return s_tokenCounter;
+    }
+```
+
+We also need some events.So when we request and NFT, we're going to emit an event.
+
+```solidity
+// Events
+event NftRequested(uint256 indexed requestId, address requester);
+event NftMinted(Breed catBreed, address minter);
+
+function requestNft() public payable returns (uint256 requestId) {
+        emit NftRequested(requestId, msg.sender);
+    }
+    
+function fulfillRandomWords(uint256 requestId, uint256[] memory randomWords) internal override {
+        emit NftMinted(catBreed, nftOwner);
+    }
+```
+
+**Recap**
+
+Let's go ahead and see if we can compile.`yarn hardhat compile`
+
+We created an NFT contract.When we mint NFTs you're going to get a Persian, Bengal or Minx based off of some rarity where the Persian is really rare, Bengal is sort of rare and Minx is pretty common.The way we do it is we've requestNft function which people have to pay to call and it makes a request to chainlink node to get a random number.Once our contract get's that random number, it uses a chanceArray to figure out which one of the NFTs we're going to actually use for that minting and we're going to set the tokenURI accordingly.We're going to store the image data for this on IPFS which we haven't done yet.So our deploy function for this is really the interesting part of the contract.
