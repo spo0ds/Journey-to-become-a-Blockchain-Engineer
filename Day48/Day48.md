@@ -314,3 +314,59 @@ function fulfillRandomWords(uint256 requestId, uint256[] memory randomWords) int
 ```
 
 **Setting the NFT Image**
+
+Now we can do few things to set the Cat breed here.We can create a mapping between the catBreed and the tokenURI and have that reflected in the tokenURI function.Or we could just call a function called "setTokenURI" and the openzeppelin ERC721, you have to set this tokenURI function yourself.However there's an extension in the openzeppelin code called "ERC721URIStorage" and this version of the ERC721 comes with a function called setTokenURI though it's `not much gas efficient`.We can just call setTokenURI and it'll automatically update that tokens tokenURI to whatever you set it as.So we're going to use this extension this setTokenURI in our contract.They way we do it is :
+
+Instead of importing ERC721 import this extension.
+
+```solidity
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+
+contract RandomNft is VRFConsumerBaseV2, ERC721URIStorage {}
+```
+
+Now what's cool is that our constructor will just use ERC721 because ERC721URIStorage is extending ERC721 and this contract comes with some additional functions like setTokenURI.So right after safeMint, we're actually going to call setTokenURI where we give it a tokenId and that breed tokenURI.
+
+```solidity
+_setTokenURI(newTokenId, /* that breed's tokenURI */)
+```
+
+Now to do this we could create a string array. 
+
+```solidity
+string[] internal s_catTokenUris = ["sdsds", "ddsd"];
+```
+
+Maybe we want to make it a little bit more variable and we want to parameterize this.
+
+```solidity
+string[] internal s_catTokenUris;
+```
+
+So we're going to create a string array which is just going to be a list of URLs or URIs that point to the image.We're going to do that in our code so that when we upload any image that we want to IPFS, we can then upload s_catTokenUris accordingly.In our constructor we're going to take another parameter.
+
+```solidity
+constructor(
+        address vrfCoordinatorV2,
+        uint64 subscriptionId,
+        bytes32 gasLane,
+        uint32 callbackGasLimit,
+        string[3] memory catTokenUris
+    ) VRFConsumerBaseV2(vrfCoordinatorV2) ERC721("Random NFT", "RN") {
+        i_vrfCoordinator = VRFCoordinatorV2Interface(vrfCoordinatorV2);
+        i_subscriptionId = subscriptionId;
+        i_gasLane = gasLane;
+        i_callbackGasLimit = callbackGasLimit;
+        s_catTokenUris = catTokenUris;
+    }
+```
+
+Down in setTokenURI, from that list that we created, we're going to set the tokenURI of the token based off of that array of the uint256 version of that Breed.
+
+```solidity
+ _setTokenURI(newTokenId, s_catTokenUris[uint256(catBreed)]);
+```
+
+With that we now have a way to actually programmatically get a provably random NFT with different randomness for different one of these NFTs.
+
+**Setting an NFT Mint Price**
