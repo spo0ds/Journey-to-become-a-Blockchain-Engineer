@@ -4,11 +4,11 @@ pragma solidity 0.8.8;
 
 import "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
 import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
 error RandomNft__RangeOutOfBounds();
 
-contract RandomNft is VRFConsumerBaseV2, ERC721 {
+contract RandomNft is VRFConsumerBaseV2, ERC721URIStorage {
     // Type Declaration
     enum Breed {
         Persian,
@@ -29,17 +29,20 @@ contract RandomNft is VRFConsumerBaseV2, ERC721 {
     // NFT variables
     uint256 public s_tokenCounter;
     uint256 internal constant MAX_CHANCE_VALUE = 100;
+    string[] internal s_catTokenUris;
 
     constructor(
         address vrfCoordinatorV2,
         uint64 subscriptionId,
         bytes32 gasLane,
-        uint32 callbackGasLimit
+        uint32 callbackGasLimit,
+        string[3] memory catTokenUris
     ) VRFConsumerBaseV2(vrfCoordinatorV2) ERC721("Random NFT", "RN") {
         i_vrfCoordinator = VRFCoordinatorV2Interface(vrfCoordinatorV2);
         i_subscriptionId = subscriptionId;
         i_gasLane = gasLane;
         i_callbackGasLimit = callbackGasLimit;
+        s_catTokenUris = catTokenUris;
     }
 
     function requestNft() public returns (uint256 requestId) {
@@ -61,6 +64,7 @@ contract RandomNft is VRFConsumerBaseV2, ERC721 {
 
         Breed catBreed = getBreedFromModdedRng(moddedRng);
         _safeMint(nftOwner, newTokenId);
+        _setTokenURI(newTokenId, s_catTokenUris[uint256(catBreed)]);
     }
 
     function getBreedFromModdedRng(uint256 moddedRng) public pure returns (Breed) {
