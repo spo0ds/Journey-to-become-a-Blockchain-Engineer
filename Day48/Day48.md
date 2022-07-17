@@ -154,3 +154,59 @@ function fulfillRandomWords(uint256 requestId, uint256[] memory randomWords) int
 ```
 
 This way it's not going to be the Chainlink nodes that are going to own the NFT, but it's going to be whoever actually called requestNft.
+
+So we've a way to request a random number for our random NFT.Now let's go ahead and mint the random NFT for the particular user.We've the user now using the mapping.Well we're going to need the tokenCounter.Let's create a tokenCounter variable.
+
+```solidity
+// NFT variables
+uint256 public s_tokenCounter;
+
+function fulfillRandomWords(uint256 requestId, uint256[] memory randomWords) internal override {
+        address nftOwner = s_requestIdToSender[requestId];
+        uint256 newTokenId = s_tokenCounter;
+    }
+```
+
+Now that we've the owner and the tokenId, we can go ahead and mint the NFT.
+
+```solidity
+function fulfillRandomWords(uint256 requestId, uint256[] memory randomWords) internal override {
+        address nftOwner = s_requestIdToSender[requestId];
+        uint256 newTokenId = s_tokenCounter;
+        _safeMint(nftOwner, newTokenId);
+    }
+```
+
+safeMint is going to be squiggly because it doesn't know where we got it from.We'll we're going to need to get it from OpenZeppelin again.
+
+```solidity
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+
+contract RandomNft is VRFConsumerBaseV2, ERC721 {}
+```
+
+In our constructor right after our VRFConsumerBase, we're going to put the ERC721 and we need to give it a name and a symbol.
+
+```solidity
+constructor(
+        address vrfCoordinatorV2,
+        uint64 subscriptionId,
+        bytes32 gasLane,
+        uint32 callbackGasLimit
+    ) VRFConsumerBaseV2(vrfCoordinatorV2) ERC721("Random NFT", "RN") {
+        i_vrfCoordinator = VRFCoordinatorV2Interface(vrfCoordinatorV2);
+        i_subscriptionId = subscriptionId;
+        i_gasLane = gasLane;
+        i_callbackGasLimit = callbackGasLimit;
+    }
+```
+
+After importing ERC721, we can see squiggly in tokenURI function.So do this:
+
+```solidity
+function tokenURI(uint256) public view override returns (string memory) {}
+```
+
+Now we can safeMint to the owner with the tokenId.
+
+**Creating Rare NFTs**
