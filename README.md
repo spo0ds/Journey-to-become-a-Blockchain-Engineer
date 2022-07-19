@@ -654,6 +654,8 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Setting the NFT Image |
 | - Setting an NFT Mint Price |
 | - Recap | 
+| **Deploy** |
+| - Uploading token images with Pinata |
 
 
 
