@@ -657,7 +657,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | **Deploy** |
 | - Uploading token images with Pinata |
 | - Uploading Metadata with Pinata |
-
+| - NFT tests |
 
 
 
