@@ -77,6 +77,7 @@ contract RandomNft is VRFConsumerBaseV2, ERC721URIStorage, Ownable {
         uint256 moddedRng = randomWords[0] % MAX_CHANCE_VALUE;
 
         Breed catBreed = getBreedFromModdedRng(moddedRng);
+        s_tokenCounter += 1;
         _safeMint(nftOwner, newTokenId);
         _setTokenURI(newTokenId, s_catTokenUris[uint256(catBreed)]);
         emit NftMinted(catBreed, nftOwner);
