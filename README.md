@@ -664,8 +664,9 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - What is a SVG? |
 | - Initial Code |
 | - Base64 Encoding |
-| - Advanced Section Encoding, Opcodes and Calls |
-
+| **Advanced Section Encoding, Opcodes and Calls** |
+| - abi.encode & abi.encodePacked|
+| - Introduction to Encoding Function Calls Directly |
 
 
 
