@@ -659,7 +659,12 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Uploading token images with Pinata |
 | - Uploading Metadata with Pinata |
 | - NFT tests |
-
+| <p align="center"> [Day 50](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day50/Day50.md) </p> |
+| **Dynamic SVG On-Chain NFT** |
+| - What is a SVG? |
+| - Initial Code |
+| - Base64 Encoding |
+| - Advanced Section Encoding, Opcodes and Calls |
 
 
 
