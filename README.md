@@ -654,6 +654,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Setting the NFT Image |
 | - Setting an NFT Mint Price |
 | - Recap | 
+| <p align="center"> [Day 49](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day49/Day49.md) </p> |
 | **Deploy** |
 | - Uploading token images with Pinata |
 | - Uploading Metadata with Pinata |
