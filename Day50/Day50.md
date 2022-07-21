@@ -289,3 +289,67 @@ function multiStringCastPacked() public pure returns(string memory){
 ![castPacked](Images/m113.png)
 
 **Introduction to Encoding Function Calls Directly**
+
+Now that we've learned more about abi.encode and decoding, we know that this is what the computer, Ethereum or any EVM compatible chain is looking for.It's looking for the bytecode.We just learned a little bit more about how to encode different variables into the binary into that data bit.
+
+Well what do we do now?
+
+Since we know that our transactions are going to be compiled down to the binary stuff, we can actually populate the data value of our transactions ourselves with the binary that code is going to use.For a function call, the data piece is going to be what to send to the address.
+
+![functionCall](Images/m114.png)
+
+Let's look at another transaction on the etherscan on our Raffle contract.I'm going to look at enterRaffle.
+
+![enterRaffle](Images/m115.png)
+
+But if we look at the original,
+
+![original](Images/m116.png)
+
+This is what getting sent to the data field.It's this hex weird low level bytes thing.This is how the Ethereum blockchain or any EVM chain that you're working with knows which function to call.It translates this into a function and we can do the exact same thing and call these functions ourselves.
+
+We can actually send the data field of a transaction ourselves in a transaction call.Remember back in ethers throwback, the data thing was the contract creation code.
+
+```javascript
+const tx = {
+      nonce: nonce,
+      gasPrice: 20000000000,
+      gasLimit: 1000000,
+      to: null,
+      value: 0,
+      data: "0x60806...",
+      chainId: 1337,
+    };
+```
+
+Instead we can populate this data thing with our function call code, the exact function that we wanna call in the binary in the hex edition.
+
+Now you might be thinking "Why would I do that? I can just use the interface, the ABI all tht stuff."What if maybe you don't have that.Maybe all you have is the function name, maybe all you have is the parameters you want to send or maybe you want to make your code be able to send arbitrary functions or make arbitrary calls or do random really advanced stuff.That's where sending our function calls directly by populating the data field is going to be incredibly important.
+
+Remember we always learned that we need the ABI and the contract address to send a function.Now when I said you always need the ABI, originally we're kind of talking about big JSON thing which is the human readable ABI.You can also do it with the non human readable ABI and additionally you don't need the whole JSON stuff.You can really use just the name of a function and then the input types to send a function call.
+
+`How do we send transactions that call function with just the data field populated?`
+`How do we populate the data field?`
+
+Solidity actually has some more low levels keywords namely `staticcall` and `call`.We've actually used call in the past.
+
+```solidity
+(bool success, ) = recentWinner.call{value: address(this).balance}("");
+// require(success);
+if (!success) {
+    revert Raffle__TransferFailed();
+}
+```
+
+We sent money doing the recentWinner.call.We use the call keyword.`call` is how we call functions to change the state of the blockchain.`staticcall` is basically how at a low level we call our view or pure functions.We updated the value directly of our transaction in solidity.So which again, if we have the transaction fields, and we just directly updated value in the `curly ({})` brackets of the call.We can also direcly update gasLimit and gasPrice directly if we wanted to.The parenthesis is where we're going to stick our data.Since all we wanted to do with our withdraw function previously was send money but don't pass any data.Keep that data bit empty.
+
+**Encoding Recap**
+
+If we want to combine strings, we could do abi.encodePacked and then typecast it to the string.In newer version of solidity, we can do string.concat.Then we learned lot about low level stuff.When we compiled our contracts, we get an ABI file and the weird binary file.That numbers and letters stuff that gets when we deploy a contract that gets sent in the data field of our contract creation transaction.So for contract creation, the data is populated with the binary code.For function calls is going to define which functions to call in with what parameters and this is what we're going to go over next.
+
+We learned we can actually encode stuff into the binary into the low level code and any program or any process that can read the low level stuff and execute accordingly is considered EVM compatible.We can encode numbers, strings or pretty much anything.To save space we do encodePacked.We can decode stuff that we've encoded but we can't decode stuff that we've encodePacked.We can multiencode stuff and multidecode stuff.Finally we can use the call function and add data in there to make any call that we want to any smart contract.
+
+**Encoding Function Calls Directly**
+
+
+
