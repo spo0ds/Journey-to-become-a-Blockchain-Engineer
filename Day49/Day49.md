@@ -493,7 +493,7 @@ s_tokenCounter += 1;
 Before writing any test, we need to fund the subscription which we didn't do.So in our deploy scripts, we need to fund the subscription.
 
 ```solidity
-const FUND_AMOUNT = ethers.parseUnits("10", "ether")
+const FUND_AMOUNT = ethers.utils.parseEther("10")
 
 if (developmentChains.includes(network.name)) {
         const vrfCoordinatorV2Mock = await ethers.getContract("VRFCoordinatorV2Mock")
@@ -506,3 +506,7 @@ if (developmentChains.includes(network.name)) {
 ```
 
 Before we can even deplot to Rinkeby, we should write some tests. So create a test folder, inside it create a unit folder and inside there create a new file called "randomNft.test.js".Once again there isn't anything new that we're going to learn here.It's going to be very similar to the lottery that we've written before.
+
+You can check the test from the Github repo.
+
+`yarn hardhat test`
