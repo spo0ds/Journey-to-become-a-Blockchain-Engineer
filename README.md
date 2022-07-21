@@ -669,6 +669,8 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Introduction to Encoding Function Calls Directly |
 | - Encoding Recap |
 | - Encoding Function Calls Directly |
+| **Dynamic SVG On-Chain NFT** |
+| - Creating an NFT TokenURI On-Chain |
 
 
 
