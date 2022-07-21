@@ -667,6 +667,8 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | **Advanced Section Encoding, Opcodes and Calls** |
 | - abi.encode & abi.encodePacked|
 | - Introduction to Encoding Function Calls Directly |
+| - Encoding Recap |
+| - Encoding Function Calls Directly |
 
 
 
