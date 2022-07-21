@@ -125,7 +125,7 @@ In our contract section let's go ahead and create a new file "Encoding.sol" and 
 ```solidity
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.8.9;
+pragma solidity 0.8.8;
 
 contract Encoding {}
 ```
@@ -351,5 +351,128 @@ We learned we can actually encode stuff into the binary into the low level code 
 
 **Encoding Function Calls Directly**
 
+Let's learn how we can populate data field so we can call any function and we can do essentially what the blockchain is going to do at the low level.We can work with just the binary or bytes or hex to interact with our smart contracts.So let's create a new file "CallAnything.sol".
 
+Now in order to call a function using only the data field of the call, we need to do:
+- encode the function name
+- encode parameters that we want to add
 
+We need to encode these down to the binary level so that the EVM or Ethereum based smart contracts and solidity stuff can understand what's actually going on.In order to do this, we need to work with two concepts.To encode the function name so that EVM or solidity can understand it, we actually have to grab something called `function selector`.It's going to be the first 4 bytes of the function signature and the function signature is just going to be a string which defines the function name and the parameters.
+
+Well if we have the transfer function `transfer(address, uint256)`, this is known as the function signature.So the function name is going to be the transfer and it's going to take address and the uint256 as it's inputs.If we encode the transfer function, we take the first 4 bytes of it which refers to the function selector.So that's how solidity knows.This is one of the first thing that we need to use call to call any function that we want.We need to get the function selector and one of the ways is by encoding the function signature and grabbing the first 4 bytes. 
+
+```solidity
+// SPDX-License-Identifier: MIT
+
+pragma solidity 0.8.8;
+
+contract CallAnything {
+    address public s_someAddress;
+    uint256 public s_amount;
+
+    function transfer(address someAddress, uint256 amount) public {
+        s_someAddress = someAddress;
+        s_amount = amount;
+    }
+}
+```
+
+Here's going to be the function that we're going to be work with.The function selector for that function is `0x9059cbb` and the function signature is `transfer(address, uint256)`.
+
+We can write a function to get that function selector.
+
+```solidity
+function getSelectorOne() public pure returns(bytes4 selector){
+        selector = bytes4(keccak256(bytes("transfer(address,uint256)")));
+    }
+```
+
+![functionselector1](Images/m117.png)
+
+This tell our smart contract "When we make a call to this contract, if you see 0x9059cbb in the function data, this is referring to our transfer function with an address and a uint256 as input parameter."
+
+We can also see what happens when we call the transfer function.It takes an address and an amount so let's just give it it's own address and 7 for the amount.This is us directly calling transfer.When we directly call transfer, we're basically saying "Hey grab this function selector and do some other stuff."
+
+Now we have the function selector, what else do we need? We also need the parameters  we want to add.So we need to encode those parameters with our function selector.
+
+```solidity
+function getDataToCallTransfer(address someAddress, uint256 amount) public pure returns(bytes memory){
+        return abi.encodeWithSelector(getSelectorOne(), someAddress, amount);
+    }
+```
+
+It's going to give us all the data that we need to put in that data field of our transaction to send to the contract to let the contract know "Hey go use the transfer function, pass in someAddress and amount."
+
+![getDataToCall](Images/m118.png)
+
+This thing right here is what we're going to put in the data fieldof our transaction in order for us to call transfer from anywhere.So this is the binary encoded data of transfer function with the address that we specified with 7 amount.
+
+Once we have all this, we can call the transfer function without even having to directly call it.
+
+```solidity
+function callTranferDirectly(address someAddress, uint256 amount) public returns(bytes4, bool){
+        (bool success, bytes memory returnData) = address(this).call(
+            // getDataToCallTransfer(someAddress, amount)
+            abi.encodeWithSelector(getSelectorOne(), someAddress, amount)
+        );
+        return(bytes4(returnData), success);
+    }
+```
+
+This function have us directly call the transfer function by passing the someAddress and amount parameters without us having to do like contract.transfer or transfer.You can do this across multiple contracts just by changing the address that you call on.
+
+![callTransferDirectly](Images/m119.png)
+
+We can also do encodeWithSignature instead of Selector.
+
+```solidity
+function callTranferDirectlySig(address someAddress, uint256 amount) public returns(bytes4, bool){
+        (bool success, bytes memory returnData) = address(this).call(
+            // getDataToCallTransfer(someAddress, amount)
+            abi.encodeWithSignature("transfer(address,uint256)", someAddress, amount)
+        );
+        return(bytes4(returnData), success);
+    }
+```
+
+![callTransferDirectlySig](Images/m120.png)
+
+We're going to create a new contract below in CallAnything.sol.We're going to call the transfer function just by using the address and the function selector signature and stuff.We're going to update the storage variable s_someAddress and s_amount in our CallAnything contract from another contract just by doing the binary calling.
+
+```solidity
+contract CallFunctionWithoutContract {
+    address public s_selectorsAndSignaturesAddress;
+
+    constructor(address selectorsAndSignaturesAddress) {
+        s_selectorsAndSignaturesAddress = selectorsAndSignaturesAddress;
+    }
+
+    
+
+    // with a staticcall, we can have this be a view function!
+    function staticCallFunctionDirectly() public view returns (bytes4, bool) {
+        (bool success, bytes memory returnData) = s_selectorsAndSignaturesAddress.staticcall(
+            abi.encodeWithSignature("getSelectorOne()")
+        );
+        return (bytes4(returnData), success);
+    }
+
+    function callTransferFunctionDirectlyThree(address someAddress, uint256 amount)
+        public
+        returns (bytes4, bool)
+    {
+        (bool success, bytes memory returnData) = s_selectorsAndSignaturesAddress.call(
+            abi.encodeWithSignature("transfer(address,uint256)", someAddress, amount)
+        );
+        return (bytes4(returnData), success);
+    }
+}
+```
+
+![updatingFromAnotherContract](Images/m121.png)
+
+Doing this call stuff is considered low level and it's a best practice to try to avoid it when you can.So if you can import an interface, it's much better to do it like that because you're going to have the compiler on your side, you're going to be able to check to see if the types are matching and all other stuff.So usually doing these low level calls, some security auditor checkers might say "This spooks me out a little bit."
+
+If you want to check other ways to call transfer function, it's in my Github repo.If you want to learn more, I recommend you to check out [Deconstructing Solidity](https://blog.openzeppelin.com/deconstructing-a-solidity-contract-part-ii-creation-vs-runtime-6b9d60ecb44c/).It really breaks down exactly what's going on behind the scenes of a contract if you want to learn more about opcodes, about low level stuff.It breaks down little bit more than what we went over here.
+
+**Creating an NFT TokenURI On-Chain**
