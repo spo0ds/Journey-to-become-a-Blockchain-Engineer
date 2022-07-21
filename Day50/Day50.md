@@ -114,8 +114,178 @@ function svgToImageURI(string memory svg) public pure returns (string memory) {
 
 Just these function will take an any SVG and spit us back out URI.
 
-**Advanced Section Encoding, Opcodes and Calls**
+## Advanced Section Encoding, Opcodes and Calls**
 
+**abi.encode & abi.encodePacked**
 
+From a really really high level `abi.encodePacked` is how you concatenate strings.We're going to jump over to remix to actually explore this abi.encodePacked a little bit more.This is really advanced.We're going to go over really low level stuff and how solidity works behind the scenes, how the binary works and this thing called opcodesLet's jump over to remix.  
 
+In our contract section let's go ahead and create a new file "Encoding.sol" and let's just make iur basic code here.
 
+```solidity
+// SPDX-License-Identifier: MIT
+
+pragma solidity 0.8.9;
+
+contract Encoding {}
+```
+
+The whole purpose for this is to understand what's going on `string(abi.encodePacked(BASE64_ENCODED_SVG_PREFIX, svgBase64Encoded))` and more about the abi.encodePacked stuff.So let's first just write a function that shows us wrapping abi.encodePacked with some strings and wrapping around string is going to return a string.
+
+```solidity
+contract Encoding {
+    function concatenateStrings() public pure returns(string memory){
+        return string(abi.encodePacked("Hello! ", "How's it going?"));
+    }
+}
+```
+
+Let's go ahead and deploy this.
+
+![output](Images/m101.png)
+
+We get that whole string output "Hello! How's it going?".So we're encoding "Hello!" and "How's it going?" together into its bytes form because abi.encodePacked returns a bytes object and we're typecasting it by wrapping in the string.
+
+abi.encodePacked is one of these globally available methods and units and actually in solidity there's a whole bunch of these.There's this [solidity cheatsheet](https://docs.soliditylang.org/en/v0.8.13/cheatsheet.html?highlight=encodewithsignature) which has a whole bunch of operators and global variables.In `0.8.12+`, you can actually do string.concat(string1, string2) instead of doing abi.encodePacked.
+
+Let's focus on encodePAcked thing.What's actually going on here? Well before we dive deeper into this encodePacked, let's understand a little bit more about what happens when you send a transaction.
+
+So when we compile our code, remember back to ethers.js we have two files.We got a `.abi` file and a `.bin` file.
+
+![compiled](Images/m102.png)
+
+Back in our ethers SimpleStorage, when we ran `yarn compile`, the two main files that we got were the SimpleStorage.abi and then the SimpleStorage.bin which is the binary.You can see that in remix too, go to compilation details, you could see the ABI and BYTECODE bit.It's the object that has the same stuff those random numbers and letters.
+
+![object](Images/m103.png)
+
+This is actually what's getting put on the blockchain.It's this binary.It's this low level stuff.
+
+When we actually send the contracts to the blockchain, we're sending the binary thing.Remember again back in our ethers project, we saw what is a transaction.
+
+![transaction-fields](Images/m104.png)
+
+When we send the transaction that actually creates a contract, the two is going to be empty.We're not going to send the contract deployment to any address but the data of this is going to have the contract initialization code contract bytecode.So when we compile, we get all this code like how you initialize the contract and then the contract actually looks like.So if you look at any of the contracts that you've deployed let's look at raffle contract, if you go to the transactions of the contract, you can see the `createRaffle` and click there to the transaction.We can see the input Data thing and it got all the random number and letters which is the binary data of the contract initialization code and the contract byte code.What we send in our transaction is the data thing.We send the bunch of garbled nonsense.
+
+![bytecode](Images/m105.png)
+
+In order for the blockchain to understand what do these numbers and letters even mean, you need a special reader.Ethereum or the blockchain needs to be able to read all the stuff.It needs to be able to map all these random numbers and letters to what they actually do.`How does Ethereum or Polygon or Avalanche know that all the nonsense is basically telling it to make a contract?`
+
+You kind of think of it as like some saying "Let's go for a walk".The only reason that we as a human beings understand what let's go for a walk means is that we understand English.For solidity and blockchain, instead of English they read those nonsense numbers and letters which kind of like words.Just instead of let's go for a walk, it's like deploy contract and the contract does xyz.The bytecode represents the low level computer instructions to make our contract happen and all the nonsense number and letter represent kind of an alphabet just like how let's go for an walk is an alphabet.When you combine them it makes something that to us makes sense.You can kind of think of the alphabet for these as whats called `opcodes`. 
+
+If you go to [evm.codes](https://www.evm.codes/), we'll get to the place where it has a list of all instructions.On the left side you can see `OPCODE` and you can see `NAME`.The OPCODE section is saying "If you see a 00 in the bytecode, that 00 represents STOP which halts execution."If we look at our byte code, `61`, which is place 2 byte item on the stack.That's exactly how Ethereum or blockchain is reading it.Any language that compiles down to the opcode stuff, is what's known as the EVM (Ethereum Virtual Machine).So being able to read these opcodes is sometimes abstractly called the EVM.
+
+The EVM basically represents all the instructions a computer must be able to read for it to interact with the Ethereum or Ethereum like application.This is why so many blockchains all work with solidity because solidity compiles down to the bytescode.Polygon, Avalanche, Ethereum they all compiled down to the exact same type of binary and they all have the exact same readers.
+
+Why do you need all these information because abi.encodePacked just concatenate strings?
+
+abi.encodePacked can actually do way more.If we look at the cheat cheet, abi.encodePacked is like what the third one down the list because it's a non standard way to encode stuff to the binary stuff that we just talked about.We can actually encode pretty much anything we want to being in the bytecode format.Let's take a look at encoding something.
+
+```solidity
+function encodeNumber() public pure returns(bytes memory) {
+        bytes memory number = abi.encode(1);
+        return number;
+    }
+```
+
+We're going to encode number down to its abi or it's binary format.A lot of the times when we say "What's the ABI?", we go to the compilation details and view the ABI which is kind of the human readable format of the ABI.
+
+We want to encode our numbers down to basically it's binary.The abi.encode is going to be a little bit different than the ABI that you see in the compilation details.Compilation detail ABI is technically like the ABI.Technically is how to interact with the contract however it's not the actual binary version of it.So we're saying encode the number 1 down to its binary version so that our contracts can interact with it in a way that they understand.So we're just saying "Let's make that number 1 to machine readable."We compile and deploy our code.
+
+![encodeNumber](Images/m106.png)
+
+We get the big hex thing.This is how the computer is going to understand the number 1.Now we can encode pretty much anything.We can encode a string.
+
+```solidity
+function encodeString() public pure returns(bytes memory){
+        bytes memory x = abi.encode("Hi");
+        return x; 
+    }
+```
+
+![encodeString](Images/m107.png)
+
+You notice here a tons of zeros and those zeros take up space.That's alot of space for the computer to take up even though they're not really doing anything.So solidity also comes with `abi.encodePacked` which performs packed encoding of the given arguments.You can kind of think as encodePacked as a sort of compressor.It's the encode function but it compresses stuff.If we want to encode some string and we want to save some space, we didn't need the perfect low level binary of it, we could use the encodePacked.
+
+```solidity
+function encodeStringPacked() public pure returns(bytes memory){
+        bytes memory x = abi.encodePacked("Hi");
+        return x; 
+    }
+```
+
+![encodePacked](Images/m108.png)
+
+It returns much much smaller bytes object.If we're trying to save gas encodeStringPacked is going to be a way for us to save a lot more gas.
+
+Now abi.encodePacked is really similar to something that we've done before which is typecasting.
+
+```solidity
+function encodeStringBytes() public pure returns(bytes memory){
+        bytes memory x = bytes("Hi");
+        return x;
+    }
+```
+
+These encodeStringBytes and encodeStringPacked are going to look identical.
+
+![typeCasting](Images/m109.png)
+
+The two of these get the same result but behind the scenes, they're doing something a little bit different.You can check it out [here](https://forum.openzeppelin.com/t/difference-between-abi-encodepacked-string-and-bytes-string/11837).
+
+This is exactly what we're doing in our NFT.We're combining two string with abi.encodePacked and then we're just typecasting them back from bytes to string.
+
+This seems pretty cool but this encode and encodePacked aren't just here to concatenate strings.Not only you can encode stuff like strings or number or really anything, but you can decode stuff.
+
+```solidity
+function decodeString() public pure returns(string memory){
+        string memory x = abi.decode(encodeString(), (string));
+        return x; 
+    }
+```
+
+![decodeString](Images/m110.png)
+
+We can multi encode and multi decode.
+
+```solidity
+function multiEncode() public pure returns(bytes memory){
+        bytes memory x = abi.encode("Hi", "there");
+        return x; 
+    }
+
+function multiDecode() public pure returns(string memory, string memory){
+        (string memory x, string memory y) = abi.decode(multiEncode(), (string, string));
+        return (x, y); 
+    }
+```
+
+![multi](Images/m111.png)
+
+You can even multi encode with that packed thing but decoding isn't going to work this because it's the packed encoding.
+
+```solidity
+function multiEncodePacked()public pure returns(bytes memory){
+        bytes memory x = abi.encodePacked("Hi", "there");
+        return x;
+    }
+
+function multiDecodePacked() public pure returns(string memory, string memory){
+        (string memory x, string memory y) = abi.decode(multiEncodePacked(), (string, string));
+        return (x, y); 
+    }
+```
+
+![multiPAcked](Images/m112.png)
+
+But instead we could use the typecast.
+
+```solidity
+function multiStringCastPacked() public pure returns(string memory){
+        string memory x = string(multiEncodePacked());
+        return x;
+    }
+```
+
+![castPacked](Images/m113.png)
+
+**Introduction to Encoding Function Calls Directly**
