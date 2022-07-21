@@ -23,7 +23,7 @@ let tokenUris = [
     "ipfs://QmNkKJAYmuRGSdVTM34o4qS9G23cNGbNpY2YDJWshvUvMP",
 ]
 
-const FUND_AMOUNT = ethers.parseUnits("10", "ether")
+const FUND_AMOUNT = ethers.utils.parseEther("10")
 
 module.exports = async function ({ getNamedAccounts, deployments }) {
     const { deploy, log } = deployments
