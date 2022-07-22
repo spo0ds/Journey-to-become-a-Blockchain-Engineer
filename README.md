@@ -669,8 +669,10 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Introduction to Encoding Function Calls Directly |
 | - Encoding Recap |
 | - Encoding Function Calls Directly |
+| <p align="center"> [Day 51](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day51/Day51.md) </p> |
 | **Dynamic SVG On-Chain NFT** |
 | - Creating an NFT TokenURI On-Chain |
+| - Making the NFT Dynamic |
 
 
 
