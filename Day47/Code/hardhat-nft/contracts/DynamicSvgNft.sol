@@ -4,6 +4,8 @@ pragma solidity 0.8.8;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "base64-sol/base64.sol";
 
+error DynamicSvgNft__NonExistentToken();
+
 contract DynamicSvgNft is ERC721 {
     uint256 private s_tokenCounter;
     string private immutable i_lowImageURI;
@@ -22,5 +24,34 @@ contract DynamicSvgNft is ERC721 {
     function mintNft() public {
         _safeMint(msg.sender, s_tokenCounter);
         s_tokenCounter++;
+    }
+
+    function tokenURI(uint256 tokenId) public view override returns (string memory) {
+        if (!(_exists(tokenId))) {
+            revert DynamicSvgNft__NonExistentToken();
+        }
+        string memory imageURI = "hi!";
+        return
+            string(
+                abi.encodePacked(
+                    _baseURI(),
+                    Base64.encode(
+                        bytes(
+                            abi.encodePacked(
+                                '{"name":"',
+                                name(),
+                                '", "description": "An NFT that changes based on the Chainlink Feed", ',
+                                '"attributes":[{"trait_type":"coolness", "value":100}], "image":"',
+                                imageURI,
+                                '"}'
+                            )
+                        )
+                    )
+                )
+            );
+    }
+
+    function _baseURI() internal pure override returns (string memory) {
+        return "data:application/json;base64,";
     }
 }
