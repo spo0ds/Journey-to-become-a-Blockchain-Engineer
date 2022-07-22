@@ -475,4 +475,4 @@ Doing this call stuff is considered low level and it's a best practice to try to
 
 If you want to check other ways to call transfer function, it's in my Github repo.If you want to learn more, I recommend you to check out [Deconstructing Solidity](https://blog.openzeppelin.com/deconstructing-a-solidity-contract-part-ii-creation-vs-runtime-6b9d60ecb44c/).It really breaks down exactly what's going on behind the scenes of a contract if you want to learn more about opcodes, about low level stuff.It breaks down little bit more than what we went over here.
 
-**Creating an NFT TokenURI On-Chain**
+
