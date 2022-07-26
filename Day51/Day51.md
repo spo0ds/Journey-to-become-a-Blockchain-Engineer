@@ -194,3 +194,99 @@ function mintNft(int256 highValue) public {
 
 Let's just make sure everything compiles here `yarn hardhat compile`
 
+First thing we need to do is write our deploy function.Now we're going to do a dynamic NFT that's hosted 100% on chain and it changes based off the price of as asset.
+
+**Dynamic SVG On-Chain NFT Deploy Script**
+
+Let's create a new file called "03-deploy-dynamic-nft.js" inside deploy folder and grab the boilerplate from the basic NFT.
+
+```javascript
+const { network } = require("hardhat")
+const { developmentChains } = require("../helper-hardhat-config")
+const { verify } = require("../utils/verify")
+
+module.exports = async function ({ getNamedAccounts, deployments }) {
+    const { deploy, log } = deployments
+    const { deployer } = await getNamedAccounts()
+}
+```
+
+What do we need for our constructor? well we need the priceFeedAddress, lowSvg and highSvg.So let's get all of those.Price feed address is something that we've already done before and we can add that in our helper-hardhat-config.If we're on local, we're going to use a mock and if we're on Rinkeby or actual network, we're going to use an actual address.So let's head to [chainlink docs](https://docs.chain.link/docs/ethereum-addresses/) and grab the price feed address.
+
+```javascript
+4: {
+        name: "rinkeby",
+        vrfCoordinatorV2: "0x6168499c0cFfCaCD319c818142124B7A15E857ab",
+        ethUsdPriceFeed: "0x8A753747A1Fa494EC906cE90E9f37563A8AF630e",
+    },
+```
+
+Since for local host we need to do a mock.So let's create a "MockV3Aggregator.sol" inside contracts/test.
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.6.0;
+
+import "@chainlink/contracts/src/v0.6/tests/MockV3Aggregator.sol";
+```
+
+This is using 0.6.0 version of solidity so we're going to make sure that in our hardhat.config, we've atleast one 0.6.0 version.
+
+```javascript
+solidity: {
+        compilers: [{ version: "0.8.8" }, { version: "0.4.19" }, { version: "0.6.12" }],
+    },
+```
+
+It means in our deploy mocks, we're going to add code to deploy MockV3Aggregator.
+
+```javascript
+// outside of model.exports
+const DECIMALS = "18"
+const INITIAL_PRICE = ethers.utils.parseUnits("2000", "ethers") 
+
+// inside of model.exports
+await deploy("MockV3Aggregator", {
+            from: deployer,
+            log: true,
+            args: [DECIMALS, INITIAL_PRICE],
+        })
+```
+
+So we've waited to deploy mocks for that priceFeed.
+
+```javascript
+let ethUsdPriceFeedAddress
+
+if (developmentChains.includes(network.name)) {
+    const EthUsdAggregator = await ethers.getContract("MockV3Aggregator")
+    ethUsdPriceFeedAddress = EthUsdAggregator.address
+} else {
+    ethUsdPriceFeedAddress = networkConfig[chainId].ethUsdPriceFeedAddress
+}
+```
+
+We've the EthUsdPriceFeed, now we need the lowSvg and the highSvg.So we're going to create a new folder in our images folder called "dynamicNft" and put the frown and happy svg images there.Now we've those we want to read them into our scripts here.
+
+```javascript
+const lowSvg = await fs.readFileSync("./images/dynamicNft/frown.svg", { encoding: "utf8" })
+const highSvg = await fs.readFileSync("./images/dynamicNft/happy.svg", { encoding: "utf8" })
+```
+
+When price is good, we're going to do happy.svg but if it's bad, we'll do frown.svg.
+Now let's go ahead and let's deploy this contract.
+
+```javascript
+args = [ethUsdPriceFeedAddress, lowSvg, highSvg]
+
+const dynamicSvgNft = await deploy("DynamicSvgNft", {
+    from: deployer,
+    args: args,
+    log: true,
+    waitConfirmations: network.config.blockConfirmations || 1,
+})
+```
+
+So let's try to see the deploy script that we just created works.
+
+`yarn hardhat deploy --tags dynamicsvg`
