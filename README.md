@@ -673,6 +673,8 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | **Dynamic SVG On-Chain NFT** |
 | - Creating an NFT TokenURI On-Chain |
 | - Making the NFT Dynamic |
+| - Dynamic SVG On-Chain NFT Deploy Script |
+
 
 
 
