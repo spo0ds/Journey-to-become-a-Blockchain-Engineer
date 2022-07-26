@@ -31,6 +31,8 @@ contract NftMarketplace {}
 
 So let's start with listing the items.How are we going to keep track of listing people's items? We're going to start with listItem function and we're going to make it look really really good.so we're going to do natSpec and everything.It's going to be an external function because we probably don't want any of our internal funtions calling listItem.It's going to be called by external projects or external accounts.We probably going to need NFT address, the token id and set a price.
 
+**listItem function**
+
 ```solidity
 function listItem(
         address nftAddress,
@@ -193,3 +195,121 @@ This is our listItem method here.Let's go ahead and do a little bit of natSpec h
 ```
 
 Now that we've a listItem function.What's next? Let's make a buyItem function for people to buy the NFTs after they have been listed.
+
+**buyItem function**
+
+```solidity
+function butItem(address nftAddress, uint256 tokenId) external payable {
+        
+    }
+```
+
+External function because we know only people or contracts outside of this contract are going to call buyItem and payable so that people can spend ETH or layer1 currencies to actually buy these NFTs.
+
+We're going to choose which NFT in which tokenId, we're going to buy.So what's the first thing that we probably want to do? Well we probably want to check that the buyItem is actually listed.So we're going to make a new modifier called "isListed".
+
+```solidity
+modifier isListed(address nftAddress, uint256 tokenId) {
+        Listing memory listing = s_listings[nftAddress][tokenId];
+        if (listing.price <= 0) {
+            revert NftMarketplace__NotListed(nftAddress, tokenId);
+        }
+        _;
+    }
+```
+
+If there's no price, nft is not listed.
+
+```solidity
+function butItem(address nftAddress, uint256 tokenId)
+        external
+        payable
+        isListed(nftAddress, tokenId)
+    {
+        Listing memory listedItem = s_listings[nftAddress][tokenId];
+        if (msg.value < listedItem.price) {
+            revert NftMarketplace__PriceNotMet(nftAddress, tokenId, listedItem.price);
+        }
+    }
+```
+
+We're making sure that they're sending us enough money.When they send the money, it needs to belong to whomever listed the item.So we actually need to keep track of how much money these people have.So let's create another data structure called "proceeds" where we keep track of how much money people have earned selling their NFTs.
+
+```solidity
+// Seller Address -> amount earned
+mapping(address => uint256) private s_proceeds;
+```
+
+When somebody buy's an item, we'll update their proceeds.
+
+```solidity
+s_proceeds[listedItem.seller] = s_proceeds[listedItem.seller] + msg.value;
+```
+
+Now once we buy this item, we're going to delete the listing.so to delete a mapping from a wreck, we'll just use `delete`.
+
+```solidity
+delete (s_listings[nftAddress][tokenId]);
+```
+
+So we remove that mapping and then finally, we're going to go ahead and transfer it.
+
+```solidity
+IERC721(nftAddress).transferFrom(listedItem.seller, msg.sender, tokenId);
+```
+
+Now you'll notice something here.We don't just send the seller the money.Now why's that ? 
+
+Well solidity has the concept called [Pull over Push](https://fravoll.github.io/solidity-patterns/pull_over_push.html) and is considered best practice when working with solidity.You want to shift the risk associated with transferring Ether to the user.so `instead of sending the money to the user, we want to have them withdraw the money`.We always want to shift the risk of working with money and working with ETH or any layer 1 you're working with to the actual user.We want to create s_proceeds data structure and we can have them withdraw from it later on.
+
+Now we could probably do some checking here to make sure NFT was transferred and if we look at IERC721 though, we look at the transferFrom, we don't see it actually has a return.But if we go to EIP-721, we can see none of these have a return type however we do see `safeTransferFrom`.SafeTransferFrom is going to be a litte bit better because look at the [EIP-721](https://eips.ethereum.org/EIPS/eip-721).So instead of transferFrom, we're going to use safeTransferFrom just to be little bit safer.
+
+```solidity
+IERC721(nftAddress).safeTransferFrom(listedItem.seller, msg.sender, tokenId);
+```
+
+Then since we're updating a mapping, we're going to emit an event.
+
+```solidity
+function butItem(address nftAddress, uint256 tokenId)
+        external
+        payable
+        isListed(nftAddress, tokenId)
+    {
+        Listing memory listedItem = s_listings[nftAddress][tokenId];
+        if (msg.value < listedItem.price) {
+            revert NftMarketplace__PriceNotMet(nftAddress, tokenId, listedItem.price);
+        }
+        s_proceeds[listedItem.seller] = s_proceeds[listedItem.seller] + msg.value;
+        delete (s_listings[nftAddress][tokenId]);
+        IERC721(nftAddress).safeTransferFrom(listedItem.seller, msg.sender, tokenId);
+        emit ItemBought(msg.sender, nftAddress, tokenId, listedItem.price);
+    }
+```
+
+**Reentrancy Attacks**
+
+Now is this buyItem, we set this up in a way that is safe from `Reentracy Attack`.Well technically not because event has been emitted.We've been coding the contracts in a way where we kind of do all the state change first and then we transfer the NFT.But why are we doing that ?
+
+Cognitively we think it might make sense to first send the NFT.
+
+```solidity
+function butItem(address nftAddress, uint256 tokenId)
+        external
+        payable
+        isListed(nftAddress, tokenId)
+    {
+        Listing memory listedItem = s_listings[nftAddress][tokenId];
+        IERC721(nftAddress).safeTransferFrom(listedItem.seller, msg.sender, tokenId);
+
+        if (msg.value < listedItem.price) {
+            revert NftMarketplace__PriceNotMet(nftAddress, tokenId, listedItem.price);
+        }
+        s_proceeds[listedItem.seller] = s_proceeds[listedItem.seller] + msg.value;
+        delete (s_listings[nftAddress][tokenId]);
+
+        emit ItemBought(msg.sender, nftAddress, tokenId, listedItem.price);
+    }
+```
+
+This is actually a huge security vulnerability and to understand why let's learn about one of the most common hacks in blockchain "The Reentrancy Attack".
