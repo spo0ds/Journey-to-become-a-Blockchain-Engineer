@@ -677,11 +677,11 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | <p align="center"> [Day 52](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day52/Day52.md) </p> |
 | **Full Stack NFT Marketplace** |
 | - NFT Marketplace Contracts |
-|   - Hardhat Setup |
-|   - NFTMarketplace.sol |
-|     - listItem function |
-|     - buyItem function |
-
+| - Hardhat Setup |
+| - NFTMarketplace.sol |
+| - listItem function |
+| - buyItem function |
+| - Reentrancy Attacks |
 
 
 
