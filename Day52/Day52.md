@@ -312,4 +312,168 @@ function butItem(address nftAddress, uint256 tokenId)
     }
 ```
 
-This is actually a huge security vulnerability and to understand why let's learn about one of the most common hacks in blockchain "The Reentrancy Attack".
+This is actually a huge security vulnerability and to understand why let's learn about one of the most common hacks in blockchain "The Reentrancy Attack".The code that we're looking is based off of [solidity by example](https://solidity-by-example.org/hacks/re-entrancy/) one.
+
+Now I've a sample contract here.
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.7;
+
+contract ReentrantVulnerable {
+    mapping(address => uint256) public balances;
+
+    function deposit() public payable {
+        balances[msg.sender] += msg.value;
+    }
+
+    function withdraw() public {
+        uint256 bal = balances[msg.sender];
+        require(bal > 0);
+
+        (bool sent, ) = msg.sender.call{value: bal}("");
+        require(sent, "Failed to send Ether");
+
+        balances[msg.sender] = 0;
+    }
+
+    // Helper function to check the balance of this contract
+    function getBalance() public view returns (uint256) {
+        return address(this).balance;
+    }
+}
+```
+
+It's a place where you can deposit and withdraw your ETH.It has a mapping called "balances" where you can call deposit and it'll update how much you've deposited into the protocol.It also has withdraw function.It first grabs your balance from the balances mapping, makes sure that you've more than zero and the way that we've been sending eth the whole time (msg.sender.call) and then we update the balance of msg.sender to 0.This `balances[msg.sender]=0` is the line that makes this contract incredibly vulnerable.
+
+If we run this right now though, we'll say "It looks like as we expected."We deploy the contract, copy the address that deployed the contract, we see the balance is 0.We'll deposit 5 Ether and hit balances of that address, we see it's updated to 5 Ether.Then we'll hit withdraw and the balances of that address goes back to 0 and it seems like it's working as intended.
+
+Now there's actually a way we can attack withdraw function to drain all the money in the contract and this is what's know as reentrancy attack.The two most common kinds of attacks in the space are going to be reentrancy attacks which is what we're talking about here and oracle attacks which usually only happen when a protocol doesn't use a decentralized Oracle.Lucky for us we've been using decentralized orcale(Chainlink) from the get go so that we're protected.It's these two types of attacks that often result in the most amount of money lost.There's a lederboard called [rekt.news](https://rekt.news/leaderboard/) which keeps track of many of the top attacks that have ever happened in the defi space.With many of them if you go into the retrospective are either an Oracle attack or a reentracy attack.
+
+You might be saying "We're just talking about NFTs and this doesn't have anything to do with NFTs."We'll get there don't worry.Below we're going to create a new contract called "Attack".We'll grab the "ReentrantVulnerable" and create a variable of it.
+
+```solidity
+contract Attack {
+    ReentrantVulnerable public immutable i_reentrantVulnerable;
+}
+```
+
+Then we'll set the address of the global variable in the constructor.
+
+```solidity
+contract Attack {
+    ReentrantVulnerable public immutable i_reentrantVulnerable;
+
+    constructor(address _reentrantVulnerable){
+        i_reentrantVulnerable = ReentrantVulnerable(_reentrantVulnerable);
+    }
+}
+```
+
+We're going to create a function called attack and it's this function that's going to call withdraw in a malicious way.
+
+```solidity
+function attack() external payable {
+        i_reentrantVulnerable.deposit{value: 1 ether}();
+        i_reentrantVulnerable.withdraw();
+    }
+```
+
+Now at first glance this seems pretty harmless but remember when we call `msg.sender.call` like in above contract, we're calling back to the `"Attack"` contract.When we call the Attack contract, `is there a way to execute any other code ?`
+
+Well there is.Remember how we learned about fallback functions.If we put a fallback function or receive function in here, when the Contract runs `msg.sender.call` sends the contract Ether, we can have it trigger our fallback function to call withdraw again so that we'll send our contract more Ether than it's do before we update the balance i.e `balances[msg.sender] = 0`.
+
+```solidity
+fallback() external payable {
+        if(address(i_reentrantVulnerable).balance >= 1 ether){
+            i_reentrantVulnerable.withdraw();
+        }
+    }
+```
+
+Then we'll put getBalance function in our attacking contract.
+
+```solidity
+function getBalance() public view returns (uint256) {
+        return address(this).balance;
+    }
+```
+
+We're going to attack ReentrantVulnerable by calling withdraw function.When we get to the `.call` section, we're going to have our fallback function calling withdraw again.Now when we call withdraw again, balances of msg.sender has not been zeroed out yet.So the contract code will go "So you still have money in here" and send that Attack contract that which again triggers the withdraw.So we'll keep calling withdraw untill we're done.So let's see what this looks like.
+
+First we'll deploy ReentrantVulnerable contract.Let's do the deposit of 1 Ether.
+
+![deposit](Images/m122.png)
+
+Now we'll deposit 10 Ether so the total balance of that address is 11 and also the contract balance.If we withdrew, we'd withdraw all of it.If we switched accounts to somebody else, we hit withdraw it'll error out because it doesn't have anything.
+
+On a different account, let's deploy the Attack contract and we'll pass it the address of the ReentrantVulnerable Contract.Now we'll call attack and you'll see even though Attack contract doesn't have anything deposited in the ReentrantVulnerable contract, we'll steal all the funds in here.We're going to deposit just 1 Ether and we're going to withdrawing because our fallback function is going to keep calling withdraw.All we had to do is deposit 1 Ether and we'll be able to pull all the money money that are in ReentrantVulnerable contract.
+
+![attack](Images/m123.png)
+
+It's 12 because 11 from the ReentrantVulnerable contract and 1 we've deposited.The new balance of the ReentrantVulnerable contract is now zero.
+
+![newBalance](Images/m124.png)
+
+Basically since we call a function in another contract in the middle of our withdraw, we allow code to run on a different contract and the code that runs of caller contract recall withdraw before balances is set to zero.
+
+This is an issue obviously and there's two way we can prevent it.There's the easy way and then the mutex way.So one of the things that you always see in security tools is you always want to call any external contract as the last step in your function and we want to update balances to zero before we call that external contract because of balances[msg.sender] = 0 before we call external code then if it were to try to re enter the contract, it would hit the require step`require(bal>0)` and just cancles out and wouldn't be able to send any Eth again.
+
+```solidity
+function withdraw() public {
+        uint256 bal = balances[msg.sender];
+        require(bal > 0);
+
+        balances[msg.sender] = 0;
+
+        (bool sent, ) = msg.sender.call{value: bal}("");
+        require(sent, "Failed to send Ether");
+    }
+```
+
+The next step that we can do is using something called a mutex lock and this is what OpenZeppelin does with one of the modifiers that they have.We can have some type of boolean called "locked" and we can say `require(!locked)` otherwise revert.
+
+```solidity
+bool lock;
+function withdraw() public {
+    require(!lock, "revert");
+}
+```
+
+And the first thing that we do is we can set locked to true and then the last thing that we do is set locked to false.
+
+```solidity
+bool locked;
+function withdraw() public {
+    require(!locked, "revert");
+    locked = true;
+    uint256 bal = balances[msg.sender];
+    require(bal > 0);
+
+    balances[msg.sender] = 0;
+
+    (bool sent, ) = msg.sender.call{value: bal}("");
+    require(sent, "Failed to send Ether");
+    locked = false;
+}
+```
+
+Using the lock in here we only allow one piece of code to ever execute in here at a time and we only unlock it once the code finishes.
+
+Now OpenZeppelin comes with a [ReentrancyGuard](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/security/ReentrancyGuard.sol) which we can use in our code and it has a modifier `nonReentrant` which does essentially what we're talking about with our locks.It creates a variable called `status` and changes it to entered whenever function has been entered,runs all the code and changes it back to not entered when it finishes.Whenever any code runs, it requires that it's not entered.
+
+So if we wanted to use this in our code, we can import it.
+
+```solidity
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+```
+
+We can inherit the Contract and then any function that we're nervous is going to have the reentrancy issue, we're going to add the modifier nonReentrant.This will add that mutex that locking mechanism that we talked about.
+
+But How does this relate to NFTs?
+
+Well imagine for a second instead of msg.sender.call, it's nft.transferFrom and instead of doing some fallback stuff, our nfts function transferFrom does some malicious code to reenter into our withdraw.If we update the balance at the last step, since we're still calling an external contract with nft.transferFrom that transferFrom in that external contract could be malicious and try to reenter our contract.
+
+As a best practice you always want to change you state before you call any external contracts that you might not have control of.
+
+**Marketplace.sol Continued**
