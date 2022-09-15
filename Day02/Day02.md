@@ -124,7 +124,7 @@ So the gas price of Ethereum fluctuates with how much people use it, and the gas
 
 So typically, when you're setting your gas price in a transaction, you can take a look-see at your gas station to see the price based on your needs, but it all depends on how many people are looking to work with this blockchain at the same time.
 
-The reason that these gas prices exist is that nodes can only put so many transactions into a block, so they're highly incentivized to input the transactions that are going to give them a higher fee. So, when there are a lot of people looking to use a blockchain, prices will be very high; when there are a lot of people looking to use a blockchain, prices will be very low.
+The reason that these gas prices exist is that nodes can only put so many transactions into a block, so they're highly incentivized to input the transactions that are going to give them a higher fee. So, when there are a lot of people looking to use a blockchain, prices will be very high; when there aren't a lot of people looking to use a blockchain, prices will be very low.
 
 With just this little bit of information, you now know how to interact with blockchains and how to interact with the Ethereum protocol. So if you don't want to learn how to code anything, you can go and you can start interacting with Ethereum and interacting with protocols with just this information.
 
