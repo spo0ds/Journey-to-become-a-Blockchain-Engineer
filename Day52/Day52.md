@@ -572,4 +572,4 @@ Let's run a little compile here.
 
 `yarn hardhat compile`
 
-Guess what you have successfully created a minimilastic NFTMarketplace that's completely decentralized.But we're not done we need to write some deploy and tests.Let's jump into that.
+Guess what you have successfully created a minimilastic NFTMarketplace that's completely decentralized.But we're not done we need to write some deploy and tests. Let's jump into that.
