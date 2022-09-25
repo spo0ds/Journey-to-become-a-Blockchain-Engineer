@@ -105,7 +105,7 @@ contract NftMarketplace {
         emit ItemListed(msg.sender, nftAddress, tokenId, price);
     }
 
-    function butItem(address nftAddress, uint256 tokenId)
+    function buyItem(address nftAddress, uint256 tokenId)
         external
         payable
         isListed(nftAddress, tokenId)
