@@ -658,4 +658,111 @@ We can test both of these with `yarn hardhat deploy`.
 
 Now we've our deploy bits in, it's time to write some tests.So let's create a new folder called "test", inside it create a new folder called "unit" and create a new file called "NftMarketplace.test.js" and we'll start some tests.
 
+```javascript
+const { assert, expect } = require("chai")
+const { network, deployments, ethers } = require("hardhat")
+const { developmentChains } = require("../../helper-hardhat-config")
 
+!developmentChains.includes(network.name)
+    ? describe.skip
+    : describe("NFT Marketplace Tests", function () {
+
+    })
+```
+
+Now let's get some variables and do beforeEach.
+
+```javascript
+!developmentChains.includes(network.name)
+    ? describe.skip
+    : describe("NFT Marketplace Tests", function () {
+        let nftMarketplace, basicNft, deployer
+        const PRICE = ethers.utils.parseEther("0.1")
+        const TOKEN_ID = 0
+    })
+```
+
+we'll use beforeEach to get the deployer.
+
+```javascript
+beforeEach(async function () {
+            deployer = (await getNamedAccounts()).deployer
+        })
+```
+
+Then also in our hardhat.config.js, under namedAccounts, we also have something called player.We're going to have second account which is default to the first index. 
+
+```javascript
+beforeEach(async function () {
+            deployer = (await getNamedAccounts()).deployer
+            player = (await getNamedAccounts()).player
+        })
+```
+
+Now we've deployer, we'll deploy every contracts.
+
+```javascript
+await deployments.fixture(["all"])
+```
+
+then we'll got our contract.
+
+```javascript
+nftMarketplace = await ethers.getContract("NftMarketplace") basicNft = await ethers.getContract("BasicNft")
+```
+
+The way ethers.getContract works is it defaults to grabbing whatever account is at account 0 which right now is a deployer.If we wanna call a function on a nftMarketplace with player being the one calling the function, we'd have to say:
+
+```javascript
+nftMarketplace = await nftMarketplace.connect(player)
+```
+
+and now whenever we call a function, we'd use the player instead of the deployer.
+
+Now that we've the NFT, we're probably need to mint the NFT so that we can place it on the market.So we'll do:
+
+```javascript
+await basicNft.mintNft()
+```
+
+Then we'll approve to send it on the marketplace.
+
+```javascript
+await basicNft.approve(nftMarketplace.address, TOKEN_ID)
+```
+
+The NFT Marketplace it can't call approve because it doesn't own that NFT.So we need to have the deployer call approve.Since we didn't tell ethers who to connect to the BasicNft, it'll automatically connect to our deployer.So it's the deployer calling mintNft and then deployer approving to send it to the marketplace.Only after the approve function has been called, only then NFT Marketplace is going to do the transferFrom.
+
+Now let's list the NFT in the marketplace.
+
+```javascript
+it("list and can be bought", async function () {
+            await nftMarketplace.listItem(basicNft.address, TOKEN_ID, PRICE)
+        })
+```
+
+deployer own the NFT and deployer is listing it.
+
+Now we want to buy it.Let's have the player be the one to buy it.So we're going to connect the player to the nftMarketplace.
+
+```javascript
+const playerConnectedNftMarketplace = nftMarketplace.connect(player)
+```
+
+Then we can buy the item.
+
+```javascript
+await playerConnectedNftMarketplace.buyItem(basicNft.address, TOKEN_ID, { value: PRICE })
+```
+
+After this is bought, we should check to see that the player actually does indeed owned that NFT.
+
+```javascript
+assert(newOwner.toString() == player.address)
+            assert(deployerProceeds.toString() == PRICE.toString())
+```
+
+Now we can run this off with `yarn hardhat test`
+
+So our NFT Marketplace is able to faciliate the buying and selling of NFT with arbitrary humans.
+ 
