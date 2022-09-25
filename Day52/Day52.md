@@ -573,3 +573,89 @@ Let's run a little compile here.
 `yarn hardhat compile`
 
 Guess what you have successfully created a minimilastic NFTMarketplace that's completely decentralized.But we're not done we need to write some deploy and tests.Let's jump into that.
+
+**NFTMarketplace Deploy Script**
+
+We're going to create a new folder called "deploy" and let's create a deploy script called "01-deploy-nft-marketplace.js".
+
+```javascript
+const { network } = require("hardhat")
+const { developmentChains } = require("../helper-hardhat-config")
+const { verify } = require("../utils/verify")
+
+module.exports = async ({ getNamedAccounts, deployments }) => {
+    const { deploy, log } = deployments
+    const { deployer } = await getNamedAccounts()
+
+    let args = []
+
+    const nftMarketplace = await deploy("NftMarketplace", {
+        from: deployer,
+        args: args,
+        log: true,
+        waitConfirmations: network.config.blockConfirmations || 1,
+    })
+}
+```
+
+Then we'll verify only if we're not in development chain.
+
+```javascript
+if (!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY) {
+        log("Verifying....")
+        await verify(nftMarketplace.address, args)
+    }
+
+    log("_________________________________________________________")
+```
+
+Then finally we'll export the module.
+
+```javascript
+module.exports.tags = ["all", "nftmarketplace"]
+```
+
+We can test this deploy function with `yarn hardhat deploy`.
+
+Now we've a deploy function and we can verify our contract, what else do we need? Since this is an NFT Marketplace, we probably going to need some NFTs.So in our contracts, we'll create a new folder "test" and inside there "BasicNft.sol" and in here we can add that BasicNFT from our last project.
+
+The BasicNft that we're using is just pointing to picture for us to test it out.So now we've the BasicNft, we're going to create a new deploy script "02-deploy-basic-nft.js".
+
+```javascript
+const { network } = require("hardhat")
+const { developmentChains } = require("../helper-hardhat-config")
+const { verify } = require("../utils/verify")
+
+module.exports = async ({ getNamedAccounts, deployments }) => {
+    const { deploy, log } = deployments
+    const { deployer } = await getNamedAccounts()
+
+    let args = []
+
+    const basicNft = await deploy("BasicNft", {
+        from: deployer,
+        args: args,
+        log: true,
+        waitConfirmations: network.config.blockConfirmations || 1,
+    })
+
+
+    if (!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY) {
+        log("Verifying....")
+        await verify(basicNft.address, args)
+    }
+
+    log("_________________________________________________________")
+
+}
+
+module.exports.tags = ["all", "nftmarketplace"]
+```
+
+We can test both of these with `yarn hardhat deploy`.
+
+**NFT Marketplace Tests**
+
+Now we've our deploy bits in, it's time to write some tests.So let's create a new folder called "test", inside it create a new folder called "unit" and create a new file called "NftMarketplace.test.js" and we'll start some tests.
+
+
