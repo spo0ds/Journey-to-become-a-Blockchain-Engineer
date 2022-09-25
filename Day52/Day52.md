@@ -548,9 +548,9 @@ function withdrawProceeds() external {
             revert NftMarketplace__TransferFailed();
         }
     }
-    ```
+```
     
-    Let's just create a couple of getters.
+ Let's just create a couple of getters.
     
 ```solidity
 // Getter functions
