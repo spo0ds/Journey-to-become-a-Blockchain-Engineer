@@ -765,4 +765,71 @@ assert(newOwner.toString() == player.address)
 Now we can run this off with `yarn hardhat test`
 
 So our NFT Marketplace is able to faciliate the buying and selling of NFT with arbitrary humans.
- 
+
+
+**NFT Marketplace Scripts**
+
+Let's just write couple of scripts because we need these a little bit later.We'll write some scripts to mint some NFTs, to buy some NFTs and more.We need this to fiddle and play around in the frontend.So create a new folder "scripts" and inside create a file called "mint-and-list.js".This will be to mint a NFT and then immediately list it on marketplace.
+
+```javascript
+const { ethers } = require("hardhat")
+
+const PRICE = ethers.utils.parseEther("0.1")
+
+async function mintAndList() {
+    const nftMarketplace = await ethers.getContract("NftMarketplace")
+    const basicNft = await ethers.getContract("BasicNft")
+}
+
+mintAndList()
+    .then(() => process.exit(0))
+    .catch((error) => {
+        console.error(error)
+        process.exit(1)
+    })
+```
+
+First we'll mint the basicNft.
+
+```javascript
+console.log("Minting....")
+const mintTx = await basicNft.mintNft()
+const mintTxReceipt = await mintTx.wait(1)
+```
+
+In the Receipt, when we mint the NFT, we're emitting the tokenID in an event called NftMinted.
+
+```solidity
+event NftMinted(uint256 indexed tokenId);
+
+function mintNft() public returns (uint256) {
+        _safeMint(msg.sender, s_tokenCounter);
+        emit NftMinted(s_tokenCounter);
+        s_tokenCounter++;
+        return s_tokenCounter;
+}
+```
+
+So we could retrieve the tokenId from the emitted event.
+
+```javascript
+const tokenId = mintTxReceipt.events[0].args.tokenId
+```
+
+Now that we've the tokenId and the basicNft minted, we can call listItems in our NFT Marketplace.
+
+```javascript
+console.log("Approving Nft...")
+const approvalTx = await basicNft.approve(nftMarketplace.address, tokenId)
+await approvalTx.wait(1)
+
+console.log("Listing NFT...")
+const tx = await nftMarketplace.listItems(basicNft.address, tokenId, PRICE)
+await tx.wait(1)
+console.log("Listed!")
+```
+
+We can try this out by running `yarn hardhat node` which is going to run through the deploy scripts and then in a new terminal we'll run our scripts `yarn hardhat run scripts/mint-and-list.js --network localhost`
+
+
+Now that we've a script, we essentially have really solid code for our decentraized marketplace.
