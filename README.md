@@ -1,5 +1,3 @@
-I am pausing my journey due to my papers, but will be back as soon as they are finished. If you want to contribute to the repo, you absolutely can :) For the time being, enjoy the learning.
-
 # Journey-to-become-a-Blockchain-Engineer
 
 I'm sharing everything I'm learning to become a Blockchain Engineer
