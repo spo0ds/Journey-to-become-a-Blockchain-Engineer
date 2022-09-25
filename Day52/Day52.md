@@ -477,3 +477,99 @@ Well imagine for a second instead of msg.sender.call, it's nft.transferFrom and 
 As a best practice you always want to change you state before you call any external contracts that you might not have control of.
 
 **Marketplace.sol Continued**
+
+Now we know why we're doing the `safeTransferFrom` at the bottom of our function because if our safeTransferFrom function is little bit higher maybe what ends up happening is we send multiple NFTs to the wrong address before we update them.
+
+We have our buyItem and listItem functions.Let's do a cancelItem now.
+
+```soidity
+function cancelListing(address nftAddress, uint256 tokenId)
+        external
+        isOwner(nftAddress, tokenId, msg.sender)
+        isListed(nftAddress, tokenId)
+    {
+        
+    }
+```
+
+We want to make sure only the owner of the NFT could cancel it(i.e isOwner) and make sure that the NFT is actuallylisted(i.e isListed).
+
+Now to cancel this all we're going to do is delete the listings of the NFT address.
+
+```solidity
+function cancelListing(address nftAddress, uint256 tokenId)
+        external
+        isOwner(nftAddress, tokenId, msg.sender)
+        isListed(nftAddress, tokenId)
+    {
+        delete s_listings[nftAddress][tokenId];
+        emit ItemCanceled(msg.sender, nftAddress, tokenId);
+    }
+```
+
+Now let's update our listings.
+
+```solidity
+function updateListing(
+        address nftAddress,
+        uint256 tokenId,
+        uint256 newPrice
+    ) external isListed(nftAddress, tokenId) isOwner(nftAddress, tokenId, msg.sender) {
+        
+    }
+```
+
+To update our  listing, we'll just update the price. 
+
+```solidity
+function updateListing(
+        address nftAddress,
+        uint256 tokenId,
+        uint256 newPrice
+    ) external isListed(nftAddress, tokenId) isOwner(nftAddress, tokenId, msg.sender) {
+        s_listings[nftAddress][tokenId].price = newPrice;
+        emit ItemListed(msg.sender, nftAddress, tokenId, newPrice);
+    }
+```
+
+We only have one more function to do.We need to have withdrawProceeds.
+
+```solidity
+function withdrawProceeds() external {
+        uint256 proceeds = s_proceeds[msg.sender];
+        if (proceeds <= 0) {
+            revert NftMarketplace__NoProceeds();
+        }
+        // before sending any proceeds
+        s_proceeds[msg.sender] = 0;
+
+        (bool success, ) = payable(msg.sender).call{value: proceeds}("");
+        if (!success) {
+            revert NftMarketplace__TransferFailed();
+        }
+    }
+    ```
+    
+    Let's just create a couple of getters.
+    
+```solidity
+// Getter functions
+
+function getListing(address nftAddress, uint256 tokenId)
+        external
+        view
+        returns (Listing memory)
+    {
+        return s_listings[nftAddress][tokenId];
+    }
+
+function getProceeds(address seller) external view returns (uint256) {
+        return s_proceeds[seller];
+    }
+```
+
+Let's run a little compile here.
+
+`yarn hardhat compile`
+
+Guess what you have successfully created a minimilastic NFTMarketplace that's completely decentralized.But we're not done we need to write some deploy and tests.Let's jump into that.
