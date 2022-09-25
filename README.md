@@ -683,3 +683,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - buyItem function                                                                                                           |
 | - Reentrancy Attacks                                                                                                         |
 | - Marketplace.sol Continued                                                                                                  |
+| - NFTMarketplace Deploy Script |
+| - NFT Marketplace Tests |
+| - NFT Marketplace Scripts |
+
