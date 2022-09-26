@@ -237,3 +237,115 @@ We just want to connect with our metamask and we'll change the NFT Marketplace l
     Home
 </a>
 ```
+
+
+**Introducing to Indexing in Web3**
+
+Now let's move on to showing these NFTs in our marketplace.We're going to grab the Head piece from index.js and just going to have it in app.js.
+
+```javascript
+import Head from 'next/head'
+
+
+function MyApp({ Component, pageProps }) {
+  return (
+    <div>
+      <Head>
+        <title>NFT Marketplace</title>
+        <meta name="description" content="NFT Marketplace" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <MoralisProvider initializeOnMount={false}>
+        <Header />
+        <Component {...pageProps} />
+      </MoralisProvider>
+    </div>
+  )
+}
+```
+
+This way no matter what page we're on, we're always going to have that header as our header and we don't have to define it in each page.
+
+So we want the home page to show recently listed NFTs.Let's go back to the marketplace smart contract.How do we actually see where the NFT is stored in the contract? Well it's stored in the s_listings mapping.However how do we see all of the listings that are in the mapping? 
+
+This is a mapping which means we've every single address on the planet.We can't loop through the mapping.We have to loop through every single address on the planet.What are some solutions that we can take this problem? 
+
+One of the first solutions might be to create an array of listings.This might be a good approach but what if we want to get some other data like we want to get all the NFTs a use owns?There's no array of NFTs that a user owns.That's just a mapping.What if array will be very gas expensive? IF we make it an array and to loop through would be really gas expensive.
+
+We don't want to change our protocol for just the website.If we were to make s_listings an array it'd be really gas inefficient and much harder to make the NFT Marketplace.As you build more and more complex protocols, you're going to realize that having an array for every single mapping that you've isn't feasible.`This is one of the reasons where events some into play`.
+
+So every single time we list an NFT, we'll call the listItem function and we emit ItemListed event.This ItemListed event is stored in a data structure that's still on chain but smart contract can't access it.However off-chain services can access these events.What we do in this case?
+
+We'll index the events off-chain and read from our database.We're going to setup a server to listen for those events to be fired, and we'll add them to our database to query.Every single time an item is listed, we're going to index it in a database and we're going to call our centralized database to do that.
+
+Now the question that becomes isn't that centralized? The answer to that is not necessarily.The grap protocol does exactly this.It's a protocol that indexes off-chain and sticks them into the graph protocol and does it in a decentralized way.Moralis does it in a centralized way which might be a route that you wanna go for speed, extra bells and whistles.So that you can do local development or any of the other functionality that moralis comes with.
+
+Something to keep in mind is that even though we're adding a centralized component, our logic, our smart contract is decentralized and you can verify all you interactions are working with this decentralized smart contract.We've actually been using that alot of protocols are centralized like etherscan, opensea and some of these centralized protocols are really important to the space.
+
+Let's learn how we can list the most recently listed NFTs.
+
+**What is Moralis?**
+
+We've been using the [moralis](https://docs.moralis.io/docs) open source packages and tools however moralis also comes optionally with a sever backend to give your web3 application more functionlity.
+
+**Connecting Moralis to our Local Hardhat Node**
+
+This is where we're actually going to start using Moralis with it's sever capabilities.We're going to sign up for a sever and use Moralis as our backend for our application.So we'll create a server.For now we're going to choose local dev chain sever.We can actually index our events from our local hardhat node which is incerdibly powerful.You can give any region and chose Ethereum chain for working with any EVM chains while create a server in Moralis.
+
+Now that we've our server, we can go to the Moralis documentation and look at [events](https://v1docs.moralis.io/moralis-dapp/automatic-transaction-sync/smart-contract-events).Basically this server our database is going to looking for these events to be emitted but before we do that we need to hook up our application to our server.If you go to the react-moralis Github, right at the top you can see:
+
+![react-moralisGithub](Images/m106.png)
+
+When you have the MoralisProvider, in their docs they actually pass an app id and a server url.This is how we can actually connect to our servers on Moralis.
+
+So we're going to go back to the app.js and originally, we've been saying initializeOnMount = {false}.When we say this we're saying we're not going to use a moralis server.We're just going to use the open source moralis tools that you all provide.Now we actually do want to use their servers .So we're going to change that.So instead of saying initializeOnMount= {false}, we're going to give the app id and the server url.
+
+
+But instead of hard coding them, we're going to put them into environment variables.So we'll create a new file called .env and this is where we're going to put all of our environment variables.Nextjs comes in built in support for environment variables which allow us to do:
+
+![nextJsEnv](Images/m107.png)
+
+So there's a couple of different environment variables paths we can use.We can use `.env.local` or other but we're going to use .env to keep it simple.In order for our frontends to read from our .env files, we've to do `NEXT_PUBLIC_XXXXXX`.NextJs will look into .env file for variables that start with NEXT_PUBLIC and only stick these environment variables into our application.
+
+```javascript
+// outside function
+const APP_ID = process.env.NEXT_PUBLIC_APP_ID
+const SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL
+
+<MoralisProvider appId={APP_ID} serverUrl={SERVER_URL}>
+        <Header />
+        <Component {...pageProps} />
+</MoralisProvider>
+```
+
+This is how we can connect our application to the moralis server.
+
+We need to tell our server that you need to start listening for events so we can show the most recently listed NFTs and whenever somebody buys an item or cancels an item, you need to remove that from your database.How do we start telling moralis to start listening for an events?
+
+Well first off we need to connect it to our blockchain.Then we're going to say which contract, which events and what to do when it hears those events.
+
+How do we connect our Moralis server to the hardhat blockchain? Let's go and start running our hardhat blockchain inside the smart contract directory.
+
+`yarn hardhat node`
+
+Now that we've the node running, we could go to view details in our Moralis Server.To connect with the blockchain, we need to download the [reverse proxy](https://github.com/fatedier/frp/releases).
+
+
+The main thing that we're going to need are going to be frpc and frpc.ini. frpc is going to be the executable.It's going to be what we're going to run to connect our blockchain node to Moralis and frpc.ini is going to be basically the config file to do this.
+
+So create a new folder inside hardhat-moralis-nft-marketplace called "frp" and copy frpc and frpc.ini and paste inside the folder.We're going to adjust frpc.ini file.
+
+```
+[common]
+  server_addr = wciosc5v5doe.usemoralis.com
+  server_port = 7000
+  token = kUEUiuIbh2
+[hardhat]
+  type = http
+  local_port = 8545
+  custom_domains = wciosc5v5doe.usemoralis.com
+```
+  
+Create a new terminal, go inside the frp directory and run `./frpc -c frpc.ini`
+  
+  
