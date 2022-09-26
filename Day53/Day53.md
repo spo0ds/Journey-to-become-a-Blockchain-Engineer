@@ -119,3 +119,121 @@ We're going to add some stuff to the header but let's just make sure we're impor
 ![connectButton](Images/m100.png)
 
 
+What else we want to put in our header? Well we probably want to give it a name, make it look a little bit nicer and probably want to give it a link as well for our sell-nft page.So let's create a nav bar.So instead of just returning the connect button, we'll return nav bar using nav tag.
+
+```javascript
+export default function Header() {
+    return (
+        <nav>
+            <ConnectButton />
+        </nav>
+    )
+}
+```
+
+In next js we can actually make links using next js link tag.Link allows us to connect to different urls or links in our application.
+
+```javascript
+import { ConnectButton } from "web3uikit";
+import Link from "next/link"
+
+export default function Header() {
+    return (
+        <nav>
+            <Link href="/">
+                <a>
+                    NFT Marketplace
+                </a>
+            </Link>
+
+            <Link href="/sell-nft">
+                <a>
+                    Sell NFT
+                </a>
+            </Link>
+            <ConnectButton />
+        </nav>
+    )
+}
+```
+
+![navBar](Images/m101.png)
+
+**Adding Tailwind**
+
+Now we've incredibly minimalistic header.Obviously it looks terrible.So let's just do a little bit of formatting.To use our formatting, we're going to use [tailwind](https://tailwindcss.com/docs/guides/nextjs).
+
+`yarn add --dev tailwindcss postcss autoprefixer`
+
+Then we'll do:
+
+`yarn tailwindcss init -p`
+
+Now we've got our postcss and tailwind config.We'll grab tailwind.config.js from the [site](https://tailwindcss.com/docs/guides/nextjs) and paste it in our project.Then we're going to grab gobal.css from the site and put it in our global.css.Now we've tailwind in our project.We could do some tailwindy stuff here.
+
+Let's create a div for all the Link tag.
+
+```javascript
+<div>
+       <Link href="/">
+           <a>
+                NFT Marketplace
+            </a>
+        </Link>
+
+        <Link href="/sell-nft">
+            <a>
+                Sell NFT
+            </a>
+        </Link>
+        <ConnectButton />
+</div>
+```
+
+We'll make a big section for a sign saying NFT Marketplace.
+
+```html
+<h1 className="py-4 px-4 font-bold text-3xl">NFT Marketplace</h1>
+```
+
+![header](Images/m102.png)
+
+Let's give our whole nav a class name.
+
+```html
+<nav className="p-5 border-b-2 flex flex-row justify-between items-center">
+```
+
+![navBarwithTailwind](Images/m103.png)
+
+Let's make our div have a class name too.
+
+```html
+<div className="flex flex-row items-center">
+```
+
+![divStyle](Images/m104.png)
+
+We'll also give a class name for the link.
+
+```html
+<a className="mr-4 p-6">
+    NFT Marketplace
+</a>
+```
+
+![linkStyle](Images/m105.png)
+
+We need to make moralis auth false so that we're not automatically connected to the moralis database.
+
+```javascript
+<ConnectButton moralisAuth={false} />
+```
+
+We just want to connect with our metamask and we'll change the NFT Marketplace link to home.
+
+```html
+<a className="mr-4 p-6">
+    Home
+</a>
+```
