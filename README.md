@@ -686,4 +686,9 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - NFTMarketplace Deploy Script |
 | - NFT Marketplace Tests |
 | - NFT Marketplace Scripts |
+| <p align="center"> [Day 53](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day53/Day53.md) </p> |
+| **Moralis Front End** | 
+| - NextJS Setup |
+
+
 
