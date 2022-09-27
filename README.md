@@ -694,7 +694,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - What is Moralis? |
 | - Connecting Moralis to our Local Hardhat Node |
 | <p align="center"> [Day 54](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day54/Day54.md) </p> |
-| -Moralis Event Sync |
+| - Moralis Event Sync |
 
 
 
