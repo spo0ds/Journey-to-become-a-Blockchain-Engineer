@@ -689,6 +689,11 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | <p align="center"> [Day 53](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day53/Day53.md) </p> |
 | **Moralis Front End** | 
 | - NextJS Setup |
+| - Adding Tailwind |
+| - Introducing to Indexing in Web3 |
+| - What is Moralis? |
+| - Connecting Moralis to our Local Hardhat Node |
+
 
 
 
