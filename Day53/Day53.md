@@ -347,5 +347,28 @@ So create a new folder inside hardhat-moralis-nft-marketplace called "frp" and c
 ```
   
 Create a new terminal, go inside the frp directory and run `./frpc -c frpc.ini`
+
+If you want to run this you absolutely can but I'm going to show you another way to do this and this is using the Moralis Admin CLI.
+
+`yarn global add moralis-admin-cli` 
+
+and you should be able to start moralis admin cli using `yarn moralis-admin-cli`yarn 
+
+![command](Images/m108.png)
+
+One of the big ones that we're going to be working with is `connect-local-devchain`.Running frpc is same as running connect-local-devchain.We'll jump into package.json and we'll create additiona script in there for us to just run yarn and whatever the name is we want and just to do that.And also to make it easier for us to connect to devchain.
+
+```json
+"moralis:sync": "moralis-admin-cli connect-local-devchain --chain hardhat --moralisSubdomain *App URL** --frpcPath ./frp/frpc"
+```
+
+APP URL will be `abcdefgh.usemoralis.com` this part only.
+
+If I run `yarn moralis:sync`, it's going to ask to specify API and Secret key.We can go into our .env and we can add those as environment variables that Moralis is expecting.
+
+We don't need to name them as NEXT_PUBLIC_XXX because these are not going to be the part of our frontend.These are keys that we're using on the backend to test for our local devchain connection.If you see the image below, you're connected to the Moralis server.
+
+![moralisServer](Images/m109.png)
+
   
   
