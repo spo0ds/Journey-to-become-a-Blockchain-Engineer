@@ -2,12 +2,22 @@ const { ethers, network } = require("hardhat")
 const fs = require("fs")
 
 const frontEndContractsFile = "../../../Day53/Code/nextjs-moralis-nft-marketplace/constants/networkMapping.json"
+const frontendAbiLocation = "../../../Day53/Code/nextjs-moralis-nft-marketplace/constants/"
 
 module.exports = async function () {
     if (process.env.UPDATE_FRONT_END) {
         console.log("Updating front end ....")
         await updateContractAddresses()
+        await updateAbi()
     }
+}
+
+async function updateAbi() {
+    const nftMarketplace = await ethers.getContract("NftMarketplace")
+    fs.writeFileSync(`${frontendAbiLocation}NftMarketplace.json`, nftMarketplace.interface.format(ethers.utils.FormatTypes.json))
+
+    const basicNft = await ethers.getContract("BasicNft")
+    fs.writeFileSync(`${frontendAbiLocation}BasicNft.json`, basicNft.interface.format(ethers.utils.FormatTypes.json))
 }
 
 async function updateContractAddresses() {
