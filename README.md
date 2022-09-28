@@ -699,6 +699,6 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Resetting the Local Chain |
 | - Moralis Cloud Functions |
 | - Moralis Cloud Functions II |
-
+| - Querying the Moralis Database |
 
 
