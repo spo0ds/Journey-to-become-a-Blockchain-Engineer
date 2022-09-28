@@ -159,4 +159,193 @@ Now we've a cloud function that's going to create a new entry in a new table cal
 
 Now if we upload the new script to our Moralis cloud server by `yarn moralis:cloud `, go to our database, we don't see ActiveItem table.But if we go back to our our mint-and-list script, and run it , we should see ActiveItem update.
 
+If you get the error below while running moralis cloud,
 
+"TypeError: Cannot read properties of undefined (reading 'afterSave') in Moralis"
+
+It's because you're importing Moralis cloud.We should not import it because cloud function works on the Moralis environment so everything is set up there.
+
+If we restart the whole thing, we need to fix one issue.The thing is our database will still have entries even when we refresh it even though we reset the local blockchain.These entries in our database are entries from a blockchain that no longer exists.What we could do is manually delete the entries in database and run `mint-and-list` script.Then on a Moralis server, we now see ItemListed is one and ActiveItem is one all at the same time.This is how we're going to make sure that Moralis always indexes whenever we call a function.We're just going to mine one additional blocks to tell Moralis that transaction has indeed confirmed.
+
+**Moralis Cloud Functions II**
+
+What if somebody buys a NFT or sells a NFT? We should have ActiveItem removed.Right now if we but an item, ActiveItem will still show that item is listed.Let's go ahead and update cloud function to also say anytime an item is bought , we remove that item from being active.First we'll build for cancelling the item then we'll build for buying the item.
+
+```javascript
+Moralis.Cloud.afterSave("ItemCanceled", async (request) => {
+    const confirmed = request.object.get("confirmed")
+    const logger = Moralis.Cloud.getLogger()
+    logger.info(`Marketplace | Object: ${request.object}`)
+    if (confirmed){
+        
+    }
+})
+```
+
+If the transaction is confirmed, we're going to remove it from ActiveItem.We're going to be using the `query` to first find that active item that's getting canceled.We're going to get that table by:
+
+```javascript
+const ActiveItem = Moralis.Object.extend("ActiveItem")
+```
+
+We're going to create a new query, to query our ActiveItem table before we set or save anything.
+
+```javascript
+if (confirmed){
+        const ActiveItem = Moralis.Object.extend("ActiveItem")
+        const query = new Moralis.Query(ActiveItem)
+    }
+```
+
+So we're going to query our Moralis database to find an ActiveItem that's in there that's going to match the request, so we can cancel it.
+
+```javascript
+query.equalTo("marketplaceAddress", request.object.get("address"))
+```
+
+We're looking for an ActiveItem where the marketplaceAddress is going to be the same as the address of the ItemCanceled.
+
+To find the first active item in the database that has the same marketplaceAddress, nftaddress and tokenId that just got canceled:
+
+```javascript
+const canceledItem = await query.first()
+```
+
+But if query doesn't find anything, it'll return undefined.If if founds, we remove from the activeItem.
+
+```javascript
+if (canceledItem){
+            logger.info(`Deleting ${request.object.get("tokenId")} at address ${request.object.get("address")} since it was canceled.`)
+            await canceledItem.destroy()
+        }
+```
+ Else we'll just print item not found.We can upload this to the Moralis cloud by running `yarn moralis:cloud`.
+ 
+ To test this is working, let's create a new script in our hardhat-nft-marketplace called "cancel-item.js".
+ 
+ ```javascript
+ const TOKEN_ID = 0
+
+async function cancel() {
+
+}
+
+cancel()
+    .then(() => process.exit(0))
+    .catch((error) => {
+        console.error(error)
+        process.exit(1)
+    })
+```
+
+We want to delete tokenID=0 item that's present in ActiveItem table that was minted and listed using mint-and-list script.
+
+```javascript
+const { ethers, network } = require("hardhat")
+const { moveBlocks } = require("../utils/move-blocks")
+
+const TOKEN_ID = 0
+
+async function cancel() {
+    const nftMarketplace = await ethers.getContract("NftMarketplace")
+    const basicNft = await ethers.getContract("BasicNft")
+    const tx = await nftMarketplace.cancelListing(basicNft.address, TOKEN_ID)
+    await tx.wait(1)
+    console.log("NFT Canceled !")
+    if (network.config.chainId == "31337") {
+        await moveBlocks(2, sleepAmount = 1000)
+    }
+}
+
+cancel()
+    .then(() => process.exit(0))
+    .catch((error) => {
+        console.error(error)
+        process.exit(1)
+    })
+```
+
+Let's go ahead and run this:
+
+`yarn hardhat run scripts/cancel-item.js --network localhost`
+
+Now if we go back to the datr ItemCanceled, we could see it's been removed from the ActiveItem table.
+
+We also need something for buying item.
+
+```javascript
+Moralis.Cloud.afterSave("ItemBought", async (request) => {
+    const confirmed = request.object.get("confirmed")
+    const logger = Moralis.Cloud.getLogger()
+    logger.info(`Marketplace | Object: ${request.object}`)
+    if (confirmed) {
+        const ActiveItem = Moralis.Object.extend("ActiveItem")
+        const query = new Moralis.Query(ActiveItem)
+        query.equalTo("marketplaceAddress", request.object.get("address"))
+        query.equalTo("nftAddress", request.object.get("nftAddress"))
+        query.equalTo("tokenId", request.object.get("tokenId"))
+        logger.info(`Marketplace | Query ${query}`)
+        const boughtItem = await query.first()
+        logger.info(`Marketplace | CanceledItem: ${boughtItem}`)
+        if (boughtItem) {
+            logger.info(`Deleting ${request.object.get("tokenId")} at address ${request.object.get("address")} since it was canceled.`)
+            await canceledItem.destroy()
+        } else {
+            logger.info(`No item found with address ${request.object.get("address")} and tokenId ${request.object.get("tokenId")}`)
+        }
+    }
+})
+```
+
+To test out this part is working, we'll write another script called "buy-item.js".We'll run mint-and-list script first because our ActiveItem table is empty.
+
+```javascript
+const { ethers, network } = require("hardhat")
+const { moveBlocks } = require("../utils/move-blocks")
+
+const TOKEN_ID = 2
+
+async function buyItem() {
+    const nftMarketplace = await ethers.getContract("NftMarketplace")
+    const basicNft = await ethers.getContract("BasicNft")
+
+    const listing = await nftMarketplace.getListing(basicNft.address, TOKEN_ID)
+    const price = listing.price.toString()
+
+    const tx = await nftMarketplace.buyItem(basicNft.address, TOKEN_ID, { value: price })
+    await tx.wait(1)
+    console.log("Bought NFT!")
+    if (network.config.chainId = "31337") {
+        await moveBlocks(2, sleepAmount = 1000)
+    }
+}
+
+buyItem()
+    .then(() => process.exit(0))
+    .catch((error) => {
+        console.error(error)
+        process.exit(1)
+    })
+```
+
+We'll run the script `yarn hardhat run scripts/buy-item.js --network localhost`.We'll do little refresh on our database and boom item is removed from ActiveItem table.
+
+One more thing we should do.In our NftMarketplace, we actually have an updateListing function that also emits an ItemListed event.So we also want to check to see is coming from updateListing.So back in our ItemListed cloud function, before we actually start saving stuff, we want to check to see if it already exists.
+
+```javascript
+const query = new Moralis.Query(ActiveItem)
+        query.equalTo("nftAddress", request.object.get("nftAddress"))
+        query.equalTo("tokenId", request.object.get("tokenId"))
+        query.equalTo("marketplaceAddress", request.object.get("address"))
+        query.equalTo("seller", request.object.get("seller"))
+        const alreadyListedItem = await query.first()
+        if (alreadyListedItem) {
+            logger.info(`Deleting already listed ${request.object.get("objectId")}`)
+            await alreadyListedItem.destroy()
+            logger.info(`Deleted item with tokenId ${request.object.get("tokenId")} at address ${request.object.get("address")} since it's already been listed.`)
+}
+```
+
+We'll delete that item and resave it for it's updated price.With this now we have a way to constantly have this ActiveItem table only be the item that are actively on our marketplace without having to spend any additional gas in our application and this is going to be way better for user experience because they're not going to pay extra gas to keep all these NFTs in maybe in array or some data structure.
+
+Now let's learn to call all the object in our ActiveItem database.
