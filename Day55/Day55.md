@@ -349,3 +349,86 @@ const query = new Moralis.Query(ActiveItem)
 We'll delete that item and resave it for it's updated price.With this now we have a way to constantly have this ActiveItem table only be the item that are actively on our marketplace without having to spend any additional gas in our application and this is going to be way better for user experience because they're not going to pay extra gas to keep all these NFTs in maybe in array or some data structure.
 
 Now let's learn to call all the object in our ActiveItem database.
+
+**Querying the Moralis Database**
+
+It's time to finally come back to our index.js and answer the question "How do we show the recently listed NFTs?"
+
+We only want to show the active NFTs on the marketplace.Now we've the system for getting one the ActiveOnes, only the ones that are currently on the market because we're indexing these events .
+
+We're going to use this thing called "useMoralisQuery" which allows us to fetch and make queries to our database in a react content.We're going to import the useMoralisQuery.
+
+```javascript
+import { useMoralisQuery } from "react-moralis"
+```
+
+If you look at the [docs](https://github.com/MoralisWeb3/react-moralis#usemoralisquery), it returns data, error and isLoading which will automatically run the query the instant our index pops up.So to get all the active items from the database,
+
+```javascript
+export default function Home() {
+  const { data: listedNfts, isFetching: fetchingListedNfts } = useMoralisQuery(
+    // TableNAme to search on
+    // Function for the query
+  )
+
+  return (<div className={styles.container}></div>)
+}
+```
+
+So the table name that we're going to be looking for is the ActiveItem and the function is going to limit only 10 items in descending order based off the tokenId.
+
+```javascript
+  const { data: listedNfts, isFetching: fetchingListedNfts } = useMoralisQuery(
+    // TableNAme to search on
+    // Function for the query
+    "ActiveItem",
+    (query) => query.limit(10).descending("tokenId")
+  )
+```
+
+It's going to save the reasult of the function to the listedNfts section.To see if it's working, let's print the listedNfts on our console.We've our local blockchain running, we've our connection to Moralis server and we've our frontend running.
+
+We'll go to our frontend, do a little refresh, right click and hit inspect and go to console tab.We can see Array being spit out.
+
+The first time it console.logs, it's empty because when it initially loads listedNfts hasn't returned yet.But when it finished loading, we're going to get an array of size 1 because ActiveItem only has one item.
+
+So how do we actually show and list the NFT for people who aren't developers  and aren't going to go to the console.log?
+
+First we should check to see we're fetching those listedNfts.
+
+```javascript
+{fetchingListedNfts ? (<div>Loading...</div>) : listedNfts.map((nft) => {
+      console.log(nft.attributes)
+    })}
+```
+
+.map basically loops through and does some function on all of the listedNfts.We're looping through each nft and logging the attributes of the Nft.Inside of the attribute, there're different pieces that we want.We can get those pieces by:
+
+```javascript
+{fetchingListedNfts ? (<div>Loading...</div>) : listedNfts.map((nft) => {
+      console.log(nft.attributes)
+      const { price, nftAddress, tokenId, marketplaceAddress, seller } = nft.attributes
+    })}
+```
+
+We can show them by returning some HTML.
+
+```javascript
+{fetchingListedNfts ? (<div>Loading...</div>) : listedNfts.map((nft) => {
+      console.log(nft.attributes)
+      const { price, nftAddress, tokenId, marketplaceAddress, seller } = nft.attributes
+      return (<div>
+        Price: {price}. NftAddress: {nftAddress}. TokenId: {tokenId}. Seller: {seller}
+      </div>)
+    })}
+```
+
+Now if I go to the frontend, I can information about our NFT from the database.
+
+![nftInfo](Images/m115.png)
+
+If we go back to NftMarketplace smart contract and mint another one, refresh our frontend, we could see it's also getting displayed in the frontend.
+
+We've a way to show the recently listed NFTs in our marketplace.
+
+
