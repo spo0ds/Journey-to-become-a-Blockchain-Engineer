@@ -700,5 +700,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Moralis Cloud Functions |
 | - Moralis Cloud Functions II |
 | - Querying the Moralis Database |
+| - Rendering the NFT Images |
+
 
 
