@@ -698,7 +698,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | <p align="center"> [Day 55](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day55/Day55.md) </p> |
 | - Resetting the Local Chain |
 | - Moralis Cloud Functions |
-
+| - Moralis Cloud Functions II |
 
 
 
