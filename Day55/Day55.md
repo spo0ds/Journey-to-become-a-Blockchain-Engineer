@@ -431,4 +431,322 @@ If we go back to NftMarketplace smart contract and mint another one, refresh our
 
 We've a way to show the recently listed NFTs in our marketplace.
 
+**Rendering the NFT Images**
+
+We should come up with the component to show our listed NFTs that looks a lot nicer.So instead of just printing raw information, we probably want to show the image.So we're going to create a new component that we're going to return in index.js to format all of our NFTs appropriately.So we're going to go to component, create a new file called "NFTBox.js" and this is where we're going to grab all the information on how to show what our NFT actually looks like.
+
+In our index, we've all the attributes information so we're going to pass all those variables to our NFTBox component.So to do that we'll add them as input parameter to our component.
+
+```javascript
+export default function NFTBox({ price, nftAddress, tokenId, marketplaceAddress, seller }) {
+}
+```
+
+Tokens have their token URI which points to an image URL of what the actual token looks like.We're going to call that token URI and then call the image URI to show the image.So we're going to actually have to wait those two API requests to get the actual image and we're going to save that image as a state variable on NFTBox component.We're going to work with useState to keep track of that imageURI.
+
+```javascript
+import { useState } from "react"
+
+export default function NFTBox({ price, nftAddress, tokenId, marketplaceAddress, seller }) {
+    const [imageURI, setImageURI] = useState("")
+}
+```
+
+Now let's create a function called updateUI to update our UI and grab the tokenURI and the image URI.First thing we've to do is get the token URI and using the image tag from the tokenURI, we'll get the image.We get the tokenURI from the useWeb3Contract.
+
+```javascript
+import { useState } from "react"
+import { useWeb3Contract } from "react-moralis"
+
+export default function NFTBox({ price, nftAddress, tokenId, marketplaceAddress, seller }) {
+    const [imageURI, setImageURI] = useState("")
+
+    // const {runContractFunction: getTokenURI} = useWeb3Contract({
+    //     abi:
+    // })
+
+    async function updateUI() {
+
+    }
+}
+```
+
+Now to get the abi, once again we need to update the frontend.Move to the smart contract piece and in our deploy script we've update frontend script which is only updating contract addresses.We're also going to want to add ABIs to our frontend.So let's create another function called updateAbi and we'll pass ABI as well.
+
+```javascript
+async function updateAbi() {
+    const nftMarketplace = await ethers.getContract("NftMarketplace")
+    fs.writeFileSync(`${frontendAbiLocation}NftMarketplace.json`, nftMarketplace.interface.format(ethers.utils.FormatTypes.json))
+
+    const basicNft = await ethers.getContract("BasicNft")
+    fs.writeFileSync(`${frontendAbiLocation}BasicNft.json`, basicNft.interface.format(ethers.utils.FormatTypes.json))
+}
+```
+
+Now we've the updateAbi function, let's also add this to our module.exports. 
+
+```javascript
+module.exports = async function () {
+    if (process.env.UPDATE_FRONT_END) {
+        console.log("Updating front end ....")
+        await updateContractAddresses()
+        await updateAbi()
+    }
+}
+```
+
+We'll run just the part of our hardhat frontend `yarn hardhat deploy --tags frontend`.If we go back to the frontend, go to constants and we can see two json objects in there which are going to be the ABI of the BasicNft and the NftMarketplace.
+
+Now that we have them, we can import those into our frontend.
+
+```javascript
+import nftMarketplaceAbi from "../constants/NftMarketplace.json"
+import nftAbi from "../constants/BasicNft.json"
+```
+
+Now in our runContractFunction, our tokenURI function is the part of the nftAbi.
+
+```javascript
+const { runContractFunction: getTokenURI } = useWeb3Contract({
+        abi: nftAbi,
+        contractAddress: nftAddress,
+        functionName: "tokenURI", // function in our smart contract
+        params: {
+            tokenId: tokenId
+        }
+    })
+```
+
+So in our updateUI, we'll get the tokenURI.
+
+```javascript
+async function updateUI() {
+        const tokenURI = await getTokenURI()
+        console.log(tokenURI)
+    }
+```
+
+Make sure updateUI is called to the useEffect and make sure updateUI will run only isWeb3Enabled is true.
+
+```javascript
+useEffect(() => {
+    if (isWeb3Enabled) {
+        updateUI()
+    }
+}, [isWeb3Enabled])
+```
+
+Let's add this NFTBox to the index to see if it's working well so far.
+
+```javascript
+<NFTBox
+          price={price}
+          nftAddress={nftAddress}
+          tokenId={tokenId}
+          marketplaceAddress={marketplaceAddress}
+          seller={seller}
+          key={`${nftAddress}${tokenId}`}
+        />
+```
+
+Also we need to import isWeb3Enabled in our NFTBox component.
+
+```javascript
+const { isWeb3Enabled } = useMoralis()
+```
+
+As long as we're on the Hardhat-LocalHost, you could see the IPFS url.The piece that we want now is the image bid.For this it's a HTTPS which technically isn't decentralized.It need to come from IPFS:// but actually having it as HTTPS://ipfs.io for now it's good.
+
+Now that we're getting the tokenURI, we can call the URL and get back the image that we want to actually show on the frontend.Not every browser is going to have IPFS companion, so we're going to have to cheat a little bit.We're actually going to change the tokenURI from it's IPFS edition to a HTTPS edition.This is using IPFS gateway which is a server that will return IPFS files from a normal URL.We're going to use IPFS gateway, which we can just make regular HTTPs calls to and it'll return those IPFS files.
+
+So technically, are we making it centralized doing this? Yes and is that ideal? No.However untill the world adopts IPFS, it's kind of what we have to do right now because otherwise frontend will just show up as blank to them.
+
+```javascript
+if (tokenURI) {
+            const requestUrl = tokenURI.replace("ipfs://", "https://ipfs.io/ipfs/")
+        }
+```
+
+```javascript
+if (tokenURI) {
+            const requestUrl = tokenURI.replace("ipfs://", "https://ipfs.io/ipfs/")
+            const tokenURIResponse = await (await fetch(requestUrl)).json()
+        }
+```
+
+fetch is a keyword that you can use in Javascript to fetch or get an url.So await to get the response and we await to convert the response to json.So now we've whole tokenURI in javascript. 
+
+```javascript
+if (tokenURI) {
+            const requestUrl = tokenURI.replace("ipfs://", "https://ipfs.io/ipfs/")
+            const tokenURIResponse = await (await fetch(requestUrl)).json()
+            const imageURI = tokenURIResponse.image
+            const imageURIURL = imageURI.replace("ipfs://", "https://ipfs.io/ipfs/")
+        }
+```
+
+that's how we get the url and we can finally set the URL.
+
+```javascript
+if (tokenURI) {
+            const requestUrl = tokenURI.replace("ipfs://", "https://ipfs.io/ipfs/")
+            const tokenURIResponse = await (await fetch(requestUrl)).json()
+            const imageURI = tokenURIResponse.image
+            const imageURIURL = imageURI.replace("ipfs://", "https://ipfs.io/ipfs/")
+            setImageURI(imageURIURL)
+        }
+```
+
+Now we've our imageURI.
+
+But there are number of better ways that we can do this.
+ - We could use Moralis to render the image on our server and just call our server.
+ - For testnets and mainnet, Moralis actually comes with bunch of hooks like useNFTBalances that will show us all the information about NFTs but it only works on testnet and mainnet.
+ 
+ Now that we're setting the imageURI, we have what this actually looks like.So finally we can create a return in here.
+ 
+ ```javascript
+ return (
+        <div>
+            <div>
+                {imageURI ? (<div>Found it</div>) : <div>Loading...</div>}
+            </div>
+        </div>
+    )
+```
+
+So how do we actually show these NFTs? We finally have the URL that we can use to show the NFT but we want to actually use them.
+
+NextJS actually comes with the component called the Image component that we can use to render images really easily just by using a URI.Because we're going to use the Image tag and does some optimization on the backend, that means this website won't be able to be deployed to a static site like IPFS because now our website requires a server.Technically it requires a server just because we've used Moralis.
+
+```javascript
+return (
+        <div>
+            <div>
+                {imageURI ? <Image
+                    loader={() => imageURI}
+                    src={imageURI}
+                    height="200"
+                    weidth="200"
+                /> : <div>Loading...</div>}
+            </div>
+        </div>
+    )
+```
+
+If we did this right, after we save we should see image on our UI.
+
+Let's make this look a little bit nicer.We're going to use web3uiki.It has a section called `card` where we can make clickable card and we can display some information about NFTs.So let's import card from web3uikit.
+
+```javascript
+return (
+        <div>
+            <div>
+
+                {imageURI ?
+                    <Card>
+                        <Image
+                            loader={() => imageURI}
+                            src={imageURI}
+                            height="200"
+                            weidth="200"
+                        />
+                    </Card>
+                    : <div>Loading...</div>}
+            </div>
+        </div>
+    )
+```
+
+Now in our frontend we'll get the clickable section that looks little bit nicer.We could even label it with title and description.We can grab them from tokenURIResponse.So let's do that as state variable. 
+
+```javascript
+const [tokenName, setTokenName] = useState("")
+const [tokenDescription, setTokenDescription] = useState("")
+```
+
+Now in updateUI bit, we'll call setTokenName.
+
+```javascript
+setImageURI(imageURIURL)
+setTokenName(tokenURIResponse.name)
+setTokenDescription(tokenURIResponse.description)
+```
+
+Then we'll use those description and title in the cart.
+
+```javascript
+<Card title={tokenName} description={tokenDescription}>
+```
+
+Now we've the name and description of the NFT.
+
+Well we probably want who it's owned by.So we'll put a div inside the card.
+
+```javascript
+<Card title={tokenName} description={tokenDescription}>
+                        <div>#{tokenId}</div>
+                        <div className="italic text-sm">Owned by {seller}</div>
+                        <Image
+                            loader={() => imageURI}
+                            src={imageURI}
+                            height="200"
+                            weidth="200"
+                        />
+                        <div className="font-bold">{ethers.utils.formatUnits(price, "ether")} ETH</div>
+</Card>
+```
+
+Now we'll go back to index and add some formatting there too.
+
+```javascript
+return (<div className="container mx-auto">
+    <h1 className='py-4 px-4 font-bold text-2xl'>Recently Listed</h1>
+    <div className='flex flex-wrap'>
+
+      {fetchingListedNfts ? (<div>Loading...</div>) : listedNfts.map((nft) => {
+        console.log(nft.attributes)
+        const { price, nftAddress, tokenId, marketplaceAddress, seller } = nft.attributes
+        return (<div>
+          <NFTBox
+            price={price}
+            nftAddress={nftAddress}
+            tokenId={tokenId}
+            marketplaceAddress={marketplaceAddress}
+            seller={seller}
+            key={`${nftAddress}${tokenId}`}
+          />
+        </div>)
+      })}
+    </div>
+  </div>)
+```
+
+Now we've done a home page to show recently listed NFTs.We only want the NFT to show if we're connected to web3.So we need to update it a little bit.So in our index.js, right before we checking to see fetching the NFT, we'll check for web3 enable.
+
+```javascript
+{isWeb3Enabled ? (
+          fetchingListedNfts ? (
+            <div>Loading...</div>
+          ) : (
+            listedNfts.map((nft) => {
+              console.log(nft.attributes)
+              const { price, nftAddress, tokenId, marketplaceAddress, seller } =
+                nft.attributes
+              return (
+                <NFTBox
+                  price={price}
+                  nftAddress={nftAddress}
+                  tokenId={tokenId}
+                  marketplaceAddress={marketplaceAddress}
+                  seller={seller}
+                  key={`${nftAddress}${tokenId}`}
+                />
+              )
+            })
+          )
+        ) : (
+          <div>Web3 Currently Not Enabled</div>
+        )}
+```
 
