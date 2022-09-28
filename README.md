@@ -695,6 +695,9 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Connecting Moralis to our Local Hardhat Node |
 | <p align="center"> [Day 54](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day54/Day54.md) </p> |
 | - Moralis Event Sync |
+| <p align="center"> [Day 55](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day55/Day55.md) </p> |
+| - Resetting the Local Chain |
+| - Moralis Cloud Functions |
 
 
 
