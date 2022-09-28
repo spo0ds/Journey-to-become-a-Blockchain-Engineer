@@ -179,7 +179,7 @@ let itemListedOptions = {
 
 We also need an ABI of just the event.Again we can find if we go back to the contract project and in the artifacts we'll have the ABI.
 
-```json
+```javascript
 abi: {
             "anonymous": false,
             "inputs": [
