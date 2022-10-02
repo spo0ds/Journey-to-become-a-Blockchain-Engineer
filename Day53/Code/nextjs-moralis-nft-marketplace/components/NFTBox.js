@@ -25,6 +25,8 @@ export default function NFTBox({ price, nftAddress, tokenId, marketplaceAddress,
     const [tokenDescription, setTokenDescription] = useState("")
     const [showModal, setShowModal] = useState(false)
 
+    const hideModal = () => setShowModal(false)
+
     const { runContractFunction: getTokenURI } = useWeb3Contract({
         abi: nftAbi,
         contractAddress: nftAddress,
@@ -69,6 +71,10 @@ export default function NFTBox({ price, nftAddress, tokenId, marketplaceAddress,
                     <div>
                         <UpdateListingModal
                             isVisible={showModal}
+                            tokenId={tokenId}
+                            marketplaceAddress={marketplaceAddress}
+                            nftAddress={nftAddress}
+                            onClose={hideModal}
                         />
                         <Card title={tokenName} description={tokenDescription} onClick={handleCardClick}>
                             <div className="p-2">
