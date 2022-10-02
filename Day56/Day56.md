@@ -316,3 +316,87 @@ const handleUpdateListingSuccess = async (tx) => {
 
 We need to add tx to the handle function.Whenever we call runContract function , they've onSuccess or unError.This unSuccess automatically passes the result of the call to whatever callback function is there.For example updateListing returns a transaction and we'll pass that transaction to whatever you add to the unSuccess.The handler tx parameter  is going to be the transaction that's going to go on the blockchain to update the price.Also we want to make it an async function so we can do await tx.wait(1).
 
+
+When we call updateListing function, we're going to emit an Itemisted event.Inside of our Moralis dashboard, the price should actually update in our ActiveItem because of our cloud function.
+
+Now we're going to put this all together.We'll update the price of the NFT,hit ok, metamask is gonna pop up, confirm the transaction, now if we go to ActiveItem, give it a little refresh , right now we see ItemListed event but the issue is that it's not confirmed yet.So we're going to move a block by one.
+
+So in our NftMarketplace we're going to create a new script called "mine.js" just to move a block once.
+
+```javascript
+const { moveBlocks } = require("../utils/move-blocks")
+
+const BLOCKS = 2
+const SLEEP_AMOUNT = 1000
+
+async function mine() {
+    await moveBlocks(BLOCKS, (sleepAmount = SLEEP_AMOUNT))
+}
+
+mint()
+    .then(() => process.exit(0))
+    .catch((error) => {
+        console.error(error)
+        process.exit(1)
+    })
+```
+
+Now we want to mine these two blocks.so we'll run `yarn hardhat run scripts/mine.js --network localhost`.Now if we go back to the database, go to ActiveItem we can see it's been updated because now in our ItemListed that event is a confirmed transaction.Since this is confirmed back in our frontend, if we give it a refresh, we can see the updated price.
+
+**Buy NFT Listing**
+
+Let's go back to our website, switch user to a different account.We'll go back to NFTBox  and somewhere we did a handleCardClick.If the NFT is owned by the user, we'll have the modal pop up.If not  let's do the buy functionality.So we're going to do another runContract function.
+
+```javascript
+const { runContractFunction: buyItem } = useWeb3Contract({
+        abi: nftMarketplaceAbi,
+        contractAddress: marketplaceAddress,
+        functionName: "buyItem",
+        msgValue: price,
+        params: {
+            nftAddress: nftAddress,
+            tokenId: tokenId,
+        },
+    })
+```
+
+Now that we've the buyItem, on handleCardClick, otherwise we'll call buyItem.
+
+```javascript
+const handleCardClick = () => {
+        isOwnedByUser ? setShowModal(true) : buyItem({
+            onError: (error) => console.log(error),
+            onSuccess: () => handleBuyItemSuccess()
+        })
+    }
+```
+
+We'll create a new handle for this right underneath it.
+
+```javascript
+const handleBuyItemSuccess = async (tx) => {
+        
+    }
+```
+
+For this we'll also have ot do a little notification.So we're going to import useNotification from web3uikit.
+
+```javascript
+const dispatch = useNotification()
+```
+
+Then in handleBuyItemSuccess,
+
+```javascript
+const handleBuyItemSuccess = async (tx) => {
+        dispatch({
+            type: "success",
+            message: "Item bought!",
+            title: "Item Bought",
+            position: "topR",
+        })
+    }
+```
+
+Our homepage is done.
+
