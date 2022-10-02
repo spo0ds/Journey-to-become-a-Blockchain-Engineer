@@ -703,6 +703,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Rendering the NFT Images |
 | <p align="center"> [Day 56](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day56/Day56.md) </p> |
 | - Updating the Listing |
+| - Buy NFT Listing |
 
 
 
