@@ -400,3 +400,245 @@ const handleBuyItemSuccess = async (tx) => {
 
 Our homepage is done.
 
+
+**Sell Page Listing NFTs for Sale**
+
+In the sell page we need to list the NFTs and withdraw proceeds.We can remove the head stuff from our sell-page.For us to submit a new NFT, we probably need a space to add the address, tokenId and the price.We need a form to do this which we can also grab from web3uikit.
+
+```javascript
+import Head from 'next/head'
+import Image from 'next/image'
+import styles from '../styles/Home.module.css'
+import { Form, From } from "web3uikit"
+
+export default function Home() {
+    return (
+        <div className={styles.container}>
+            <Form>
+
+            </Form>
+        </div>
+    )
+}
+```
+
+The parameters that we can add to our form is the data piece which is going to be an object.
+
+![data](Images/m116.png)
+
+```javascript
+<Form
+                data={[
+                    {
+                        name: "NFT Address",
+                        type: "text",
+                    },
+                ]}
+            >
+            </Form>
+```
+
+Now if we save that and go back to the sell page, we can now see a NFT address and a submit button.
+
+```javascript
+<Form
+                data={[
+                    {
+                        name: "NFT Address",
+                        type: "text",
+                        inputWidth: "50%",
+                        value: "",
+                        key: "nftAddress"
+                    },
+                    {
+                        name: "Token ID",
+                        type: "number",
+                        value: "",
+                        key: "tokenId"
+                    },
+                    {
+                        name: "Price (in ETH)",
+                        type: "number",
+                        value: "",
+                        key: "price"
+                    }
+                ]}
+                title="Sell your NFT!"
+                id="Main Form"
+            />
+```
+
+![moreData](Images/m117.png)
+
+Right now our form doesn't do anything.We probably want to give it the functionality to actually do stuff.So we'll create an onSubmit to actually create a new function to list a NFTs.We're going to create a function called approveAndList.We have to approve our marketplace to pull the NFT from our wallet.
+
+```javascript
+ async function approveAndList(data){
+        
+    }
+
+    return (
+        <div className={styles.container}>
+            <Form
+                onSubmit={approveAndList}
+                data={[
+                .....
+                
+                .....
+```
+
+On our form when we hit on Submit, it's automatically going to pass the data object to our approveAndList function.That's how we're going to get the value of the address, tokenId and the price.
+
+```javascript
+async function approveAndList(data) {
+        console.log("Approving...")
+        const nftAddress = data.data[0].inputResult
+        const tokenId = data.data[1].inputResult
+        const price = ethers.utils.parseUnits(data.data[2].inputResult, "ether").toString()
+
+    }
+```
+
+We're going to specify the approve options for the listed NFT.
+
+```javascript
+const approveOptions = {
+            abi: nftAbi,
+            contractAddress : nftAddress,
+            functionName: "approve",
+            params: {
+                to: marketplaceAddress,
+                tokenId: tokenId,
+            },
+        }
+```
+
+In our NFTBox we're getting marketplace address directly from index and index is getting from our database.We want our app to be smart enough to be able to grab the nft marketplace itself.In our constants we have it in our network mapping.We need to grab of the chainId of the nftMarketplace at 0th index
+
+```javascript
+const { chainId } = useMoralis()
+```
+
+ChainId actually comes in it's hex form from Moralis.We need to convert the chainId to its string readable version.
+
+```javascript
+const chainString = chainId ? parseInt(chainId).toString() : "31337"
+```
+
+Now we can grab the marketplace address.
+
+```javascript
+const marketplaceAddress = networkMapping[chainString].NftMarketplace[0]
+```
+
+This is all we need to call approve function on our NFT.We can now call runContract function for approve.
+
+```javascript
+const { runContractFunction } = useWeb3Contract()
+```
+
+We could import just runContractFunction and then pass all those options to it.
+
+```javascript
+await runContractFunction({
+            params: approveOptions,
+            onSuccess:"do something",
+            onError:(error) => {
+                console.log("error")
+            }
+        })
+```
+
+Now on success, once we send the transaction after the approve goes through we're going to want to call the list function.Right underneath we'll call handleApproveSuccess.
+
+```javascript
+await runContractFunction({
+            params: approveOptions,
+            onSuccess: () => handleApproveSuccess(nftAddress, tokenId, price),
+            onError: (error) => {
+                console.log("error")
+            }
+        })
+```
+
+```javascript
+async function handleApproveSuccess(nftAddress, tokenId, price) {
+        console.log("Time to list")
+        const listOptions = {
+
+        }
+    }
+```
+
+listOptions is going to be all the options for calling the list function.
+
+```javascript
+async function handleApproveSuccess(nftAddress, tokenId, price) {
+        console.log("Time to list")
+        const listOptions = {
+            abi: nftMarketplaceAbi,
+            contractAddress: marketplaceAddress,
+            functionName: "listItem",
+            params: {
+                nftAddress: nftAddress,
+                tokenId: tokenId,
+                price: price,
+            },
+        }
+
+        await runContractFunction({
+            params: listOptions,
+            onSuccess: () => handleListSuccess(),
+            onError: (error) => {
+                console.log("error")
+            },
+        })
+    }
+```
+
+Now let's make the handleListSuccess which is going to call dispatch to make a notification.
+
+```javascript
+async function handleListSuccess() {
+        dispatch({
+            type: "success",
+            message: "NFT listing",
+            title: "NFT listed",
+            position: "topR",
+        })
+    }
+```
+
+Now to test this out, we need to create another script.In our hardhat-nftmarketplace, create a new file called "mint.js".We're just going to mint the NFT so we can list our selves from the UI.
+
+```javascript
+const { ethers, network } = require("hardhat")
+const { moveBlocks } = require("../utils/move-blocks")
+
+
+async function mint() {
+    const basicNft = await ethers.getContract("BasicNft")
+
+    console.log("Minting....")
+    const mintTx = await basicNft.mintNft()
+    const mintTxReceipt = await mintTx.wait(1)
+    const tokenId = mintTxReceipt.events[0].args.tokenId
+    console.log(`NFT Address: ${basicNft.address}`)
+    console.log(`Got tokenId: ${tokenId}`)
+
+    if (network.config.chainId == "31337") {
+        await moveBlocks(2, sleepAmount = 1000)
+    }
+}
+
+mint()
+    .then(() => process.exit(0))
+    .catch((error) => {
+        console.error(error)
+        process.exit(1)
+    })
+```
+
+to run the script `yardhat run scripts/mint.js --network locahost`
+
+We can grab the nftAddress and tokenID and you can now list your NFT.You can see new item listed in our ActiveItem table.Withdraw proceeds is same like we've done.
