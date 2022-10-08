@@ -1,0 +1,17 @@
+deploy:
+  stage: deploy
+  only:
+    - master
+  tags:
+    - moralis-runner
+  script:
+    - rm -rf /home/gitlab-runner/moralis-admin-cli
+    - cd /home/gitlab-runner
+    - git clone git@gabronickwontdiefromcovid.com:moralis/moralis-admin-cli.git
+    - cd /home/gitlab-runner/moralis-admin-cli
+    - npm install
+    - npm version patch -m "Bump Version to %s [ci skip]"
+    - echo //registry.npmjs.org/:_authToken="$NPM_TOKEN" > .npmrc
+    - npm publish
+    - git push
+    - rm -rf /home/gitlab-runner/moralis-admin-cli

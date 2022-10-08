@@ -1,0 +1,35 @@
+{
+  "name": "moralis-admin-cli",
+  "version": "2.1.16",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "moralis-admin-cli": "./index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@sentry/node": "^6.4.1",
+    "@sentry/tracing": "^6.4.1",
+    "@vercel/ncc": "^0.29.0",
+    "archiver": "^5.3.0",
+    "axios": "^0.21.1",
+    "btoa": "^1.2.1",
+    "chokidar": "^3.5.1",
+    "dotenv": "^8.2.0",
+    "form-data": "^4.0.0",
+    "fs": "0.0.1-security",
+    "glob": "^7.1.7",
+    "keypress": "^0.2.1",
+    "ora": "^5.4.1",
+    "path": "^0.12.7",
+    "prompt-sync": "^4.2.0",
+    "ps-grab": "^1.0.1",
+    "rimraf": "^3.0.2",
+    "syntax-error": "^1.4.0"
+  }
+}
