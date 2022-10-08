@@ -252,7 +252,7 @@ For now, let's compile our FundMe contract and then deploy it to the JavaScript 
 
 ![gas](Images/e48.png)
 
-Right now we're creating this contract for about `seven hundred thirty nine thousand of gas, and we're going to add a couple of tricks to bring this number down. The two tricks that we're going to learn are the `constant` keyword and the `immutable` keyword. If you assign a variable once outside of a function and they never change it, you can add the constant keyword.
+Right now we're creating this contract for about seven hundred thirty nine thousand of gas, and we're going to add a couple of tricks to bring this number down. The two tricks that we're going to learn are the `constant` keyword and the `immutable` keyword. If you assign a variable once outside of a function and they never change it, you can add the constant keyword.
 
 ![constant](Images/e49.png)
 
@@ -276,7 +276,7 @@ We can see that the gas price has indeed increased, i.e. 23493 gas. In a more ex
 
 So let's keep the constant keyword there.
 
-Another variable that we set once is the owner variable. Variables that we set one time but outside of the same line where they're declared, we can mark as `immutable. Typically, a good convention for marking immutable variables is:
+Another variable that we set once is the owner variable. Variables that we set one time but outside of the same line where they're declared, we can mark as `immutable`. Typically, a good convention for marking immutable variables is:
 
 ![immutable](Images/e54.png)
 
