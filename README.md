@@ -705,7 +705,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Updating the Listing |
 | - Buy NFT Listing |
 | - Sell Page Listing NFTs for Sale |
-| | <p align="center"> [Day 57](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day57/Day57.md) </p> |
+| <p align="center"> [Day 57](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day57/Day57.md) </p> |
 | **The Graph Front End** |
 | - What is The Graph? |
 | - Building a Subgraph |
