@@ -179,7 +179,7 @@ Now we can start working with web3.py.
 
 **Http/Rpc provider**
 
-To connect the contract to blockchain we choose http provider.If we look at ganache instance, we've rpc server which has the url HTTP://127.0.0.1:7545.This is the url that we're going to use to connect to this blockchain.In remix we're actually using our metamasks directly to connect to the blockchain.However we wanna connect directly to our simulated blockchain.
+To connect the contract to blockchain we choose http provider.If we look at ganache instance, we've rpc server which has the url HTTP://127.0.0.1:7545. This is the url that we're going to use to connect to this blockchain.In remix we're actually using our metamasks directly to connect to the blockchain.However we wanna connect directly to our simulated blockchain.
 
 **Connecting to Ganache(RPC server,Documentation,Chain ID,address,Privatekey)**
 
@@ -245,7 +245,7 @@ As you might have pointed out our SimpleStorage.sol doesn't actually have a cons
 
 **Transaction Parameters**
 
-In web3.py we need to give atleast a  couple of parameters.We always have to give `chainId`, `from` and `nonce`.
+In web3.py we need to give at least a  couple of parameters.We always have to give `chainId`, `from` and `nonce`.
 
 If we print the transaction, we could see even more parameters.We have `value` which is the ether that we're going to send, `gas`, `gasPrice` which we can arbitrarily set if we'd like, `chainId`, `from`, `nonce`, `data` and `to` which is just empty because it's sending it to the blockchain.
 
@@ -305,7 +305,7 @@ to retrieve using python:
 
 ![gettingPrivateKeyInPython](Images/f19.png)
 
-**.env file, .gitignore, pip install python-dotenv **
+**`.env` file, `.gitignore`, pip install python-dotenv**
 
 Other thing we can do is create a `.env` file.A .env is typically where people store environment variables.It's important to not push this to source if this is what you're going to do.In this .env file in python, we could do:
 
