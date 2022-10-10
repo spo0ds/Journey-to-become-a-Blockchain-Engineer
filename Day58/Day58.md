@@ -4,7 +4,7 @@ For understanding what is upgrades and why we need them refer back to my [Day22]
 
 **Delegate call**
 
-It's going to be really similar to the call function which we've learned much earlier.It like one contract burrowing a function of another contract.We're going to take example of [soidity by example ](https://solidity-by-example.org/delegatecall/) website.
+It's going to be really similar to the call function which we've learned much earlier.It like one contract burrowing a function of another contract.We're going to take example of [solidity by example ](https://solidity-by-example.org/delegatecall/) website.
 
 ![code](Images/m118.png)
 
@@ -60,4 +60,132 @@ Our transaction will actually goes through and when we look at firstValue it say
 What of we made the firstValue to address?This is where working with delegate call can get really weird.
 
 
+**Small Proxy Example**
 
+```solidity
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.8.7;
+
+import "@openzeppelin/contracts/proxy/Proxy.sol";
+```
+
+We're importing Proxy.sol from OpenZeppelin.OpenZeppelin has this minimalistic proxy contract that we can use to actually start woking with this delegate call. This contract uses lots of assembly called "Yul" and it's an intermediate that can be compiled to bytecode for different backends.It's a sort of `inline assembly` inside Solidity and allows you to write really low level code close to the opcodes.
+
+In the [Proxy.sol](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/proxy/Proxy.sol) contract, we've the delegate function which inside of it is inline assembly which does low level stuff but the main thing it does is goes ahead and does delegate call functionality.If we look we can see it's using fallback and receive function.So whenever it receives a function that doesn't recognize, it'll call fallback and fallback call our delegate function.So anytime a proxy contract receives data for a function it doesn't recognize, it sends it over to some implementation contract where it'll call it with delegate call.
+
+```Solidity
+contract SmallProxy is Proxy {
+    // This is the keccak-256 hash of "eip1967.proxy.implementation" subtracted by 1
+    bytes32 private constant _IMPLEMENTATION_SLOT =
+        0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc;
+
+    function setImplementation(address newImplementation) public {
+        assembly {
+            sstore(_IMPLEMENTATION_SLOT, newImplementation)
+        }
+    }
+
+    function _implementation()
+        internal
+        view
+        override
+        returns (address implementationAddress)
+    {
+        assembly {
+            implementationAddress := sload(_IMPLEMENTATION_SLOT)
+        }
+    }
+}
+```
+
+In our minimalistic example here, we have a function called setImplementation which will change where those delegate calls are going to be sending.This could be equivalent to upgrading your smart contract and the we've _implementation to read where that implementation contract is.
+
+Now to work with proxies, we really don't want to have anything in storage because if we do delegate call and that delegate call changes some storage, we're going to screw up our contract storage.The one caveat though to this, we do still need to store that implementations address somewhere so we can call it.
+
+So [EIP-1967](https://eips.ethereum.org/EIPS/eip-1967) which is an Ethereum improvement proposal for having certain storage slots specifically used for proxies.In our minimalistic example, we set _IMPLEMENTATION_SLOT to that location in storage and whatever is that storage slot, it's going to be the location of the implementation address.
+
+So the way proxy is going to work is any contract that calls the proxy contract, if it's not the setImplementation function, it's going to pass it over to whatever is inside the implementation slot address.That's what we're going to build here.We'll create a real minimalistic contract.
+
+```solidity
+contract ImplementationA {
+    uint256 public value;
+
+    function setValue(uint256 newValue) public {
+        value = newValue;
+    }
+}
+```
+
+This is going to be our implementation.So now anytime someone calls SmallProxy it's going to delegate call over to ImplementationA and then save the storage in our SmallProxy address.We're going to call SmallProxy with the data to use the setValue function selector. 
+
+So let's make it a little easier just to figure out how to get that data by creating a new helper function.We can get the data with abi.encodeWithSignature.We'll give it the number that we want to call  a new value.
+
+```solidity
+// helper function
+    function getDataToTransact(uint256 numberToUpdate)
+        public
+        pure
+        returns (bytes memory)
+    {
+        return abi.encodeWithSignature("setValue(uint256)", numberToUpdate);
+    }
+```
+
+We know when we call ImplementationA from our SmallProxy, we're going to update SmallProxy storage.So we'll create a function in solidity just to read our storage in SmallProxy.
+
+```solidity
+function readStorage()
+        public
+        view
+        returns (uint256 valueAtStorageSlotZero)
+    {
+        assembly {
+            valueAtStorageSlotZero := sload(0)
+        }
+    }
+```
+
+In assembly `:=` this is how we set things.We're reading directly from storage.Now let's go ahead and deploy SmallProxy and ImplementationA.
+
+![smallProxy](Images/m123.png)
+
+SmallProxy has a function setImplementation.So anytime we call the proxy contract, we're going to delegate call over to     ImplementationA.We're going to grab ImplementationA address and pass it to the setImplementation function.
+
+![SettingImplementation](Images/m124.png)
+
+So if we call SmallProxy with 777 value, proxy contract is going to go "I don't see that function."We're going to call fallback which is coming from OpenZeppelin and it's going to do the delegate.We're going to call our fallback function  and get the function in ImplementationA borrow it and use it ourself.
+
+So if I copy the bytes data of 777, implementation has been set to the contract address.When I go ahead paste the bytes into calldata and hit transact, then if I read storage, we see it's indeed 777.
+
+Before passing bytes:
+
+![before](Images/m125.png)
+
+After passing bytes:
+
+![after](Images/m126.png)
+
+This is incredibly beneficial because now we can update our code.If we don't like contract ImplementationA anymore, so let's create ImplementationB.
+
+```solidity
+contract ImplementationB {
+    uint256 public value;
+
+    function setValue(uint256 newValue) public {
+        value = newValue + 2;
+    }
+}
+```
+
+Let's deploy ImplementationB.We'll grab it's address and set it in SmallProxy and essentially we've now upgraded from ImplementationA to ImplementationB.
+
+Now if we use the same bytes which is still going to call setValue but now instead we're delegate calling to implementation B.
+
+![upgrade](Images/m127.png)
+
+This is the minimalistic example of how upgrading actually works.Now this is incredibly beneficial because we can always just tell people to make function call to SmallProxy and you'll be good to go but this also means developers of this protocol can essentially change the underlying logic at any time.This is why it's so important to read contracts and check to see who has the developer keys and if a contract can be updated.If a contract can be updated and a single person can update it, you've single centralized point of failure and technically contract isn't even decentralized.
+
+**Function Selector Clashes**
+
+Right now whenever we call setImplementation, the proxy function setImplementation gets called because we don't trigger the fallback because the function is there.However if I have a function called setImplementation in our Implementation, this can never be called.Whenever we send a function signature of setImplementation, it's always going to call the one on the proxy.This is where the transparent proxy that we're going to be working with help us out here and universal upgradeable proxy can too.
