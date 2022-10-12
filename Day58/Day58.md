@@ -189,3 +189,169 @@ This is the minimalistic example of how upgrading actually works.Now this is inc
 **Function Selector Clashes**
 
 Right now whenever we call setImplementation, the proxy function setImplementation gets called because we don't trigger the fallback because the function is there.However if I have a function called setImplementation in our Implementation, this can never be called.Whenever we send a function signature of setImplementation, it's always going to call the one on the proxy.This is where the transparent proxy that we're going to be working with help us out here and universal upgradeable proxy can too.
+
+**Transparent Upgradeable Proxy Contract**
+
+We're going to do the basic hardhat setup that we've been doing.If you get lost for the basic hardhat setup checkout [Day40](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day40/Day40.md).So let's create a new folder "contracts" and we're going to create a new file called Box.sol.This is going to be our implementation or logic contract.
+
+```solidity
+// SPDX-License-Identifier: MIT
+
+pragma solidity 0.8.7;
+
+contract Box {
+    uint256 internal value;
+
+    event ValueChanged(uint256 newValue);
+
+    function store(uint256 newValue) public {
+        value = newValue;
+        emit ValueChanged(newValue);
+    }
+
+    function retrieve() public view returns (uint256) {
+        return value;
+    }
+
+    function version() public pure returns (uint256) {
+        return 1;
+    }
+}
+```
+
+We're going to copy all this code and paste it into BoxV2.sol, rename the contract name to BoxV2 and update the version to 2.We're going to create a new function called increment.
+
+```solidity
+    function increment() public {
+        value = value + 1;
+        emit ValueChanged(value);
+    }
+```
+
+To make sure this works, we'll do `yarn hardhat compile`.
+
+```markdown
+1. Upgrade Box -> BoxV2
+2. Proxy -> Box at the beginning
+         -> BoxV2 later on
+```
+
+First thing we need to do is deploy proxy.We can deploy a proxy manually and build the proxy contract and do all that stuff.Hardhat deploy also comes built in with deploying and upgrading proxies itself where we can just specify that we want to use a proxy and we can specify the type of proxy that we want to use.Another way is OpenZeppelin actually has the plugin which allow you to write scripts that allows to have an API like upgrades.deployProxy and upgrade.upgradeProxy.We're going to be doing the hardhat deploys built in function.
+
+So we're going to create a new folder "deploy" and create a file "01-deploy-box.js".
+
+```javascript
+const { network } = require("hardhat")
+
+module.exports = async ({ getNamedAccounts, deployments }) => {
+    const { deploy, log } = deployments
+    const { deployer } = await getNamedAccounts()
+
+    log("-----------------")
+    const box = await deploy("Box", {
+        from: deployer,
+        args: [],
+        waitConfirmations: network.config.blockConfirmations,
+        proxy: {
+
+        }
+    })
+}
+```
+
+We're going to use the transparent upgradable proxy from openzeppelin.So:
+
+`yarn add --dev @openzeppelin/contracts`
+
+We can tell hardhat to deploy box contract behind a proxy.
+
+```javascript
+proxy: {
+            proxyContract: "OpenZeppelinTransparentProxy",
+            viaAdminContract: {
+                name: "BoxProxyAdmin",
+                artifact: "BoxProxyAdmin"
+            }
+        }
+```
+
+Instead of having an admin address for the proxy contract, we have the proxy contract owned by the admin contract and doing it this way is considered the best practice.So we need to create a BoxProxyAdmin contract to be the admin of our Box.
+
+So in our contracts folder, we'll create a new folder "proxy" and inside there new file called "BoxProxyAdmin.sol".This is going to be the admin contract we're going to have for controlling the proxy of our box.
+
+```solidity
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.8.7;
+
+contract BoxProxyAdmin {}
+```
+
+Once again we're going to use one of the OpenZeppelin tools "ProxyAdmin.sol" which is essentially what our BoxProxyAdmin is going to be.So we're going to import it.
+
+```solidity
+import "@openzeppelin/contracts/proxy/transparent/ProxyAdmin.sol";
+```
+
+and we'll say BoxProxyAdmin is ProxyAdmin.
+
+```solidity
+contract BoxProxyAdmin is ProxyAdmin{}
+```
+
+To have BoxProxyAdmin work with the hardhat deploy plugin, our constructor needs to take an address owner  as an input parameter.
+
+```solidity
+contract BoxProxyAdmin is ProxyAdmin {
+    constructor(
+        address /* owner */
+    ) ProxyAdmin() {}
+}
+```
+
+BoxProxyAdmin contract has all the functionaities to do upgrades and change ProxyAdmin all stuff.
+
+We're going to deploy our Box contract behind a proxy and openzeppelin transparent proxy that is owned by our BoxProxyAdmin contract.Then we'll do our verifications.
+
+```javascript
+if (!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY) {
+        log("Verifying...")
+        await verify(box.address, [])
+    }
+```
+
+We can test this out by running `yarn hardhat deploy`.
+
+You'll see we've deployed a couple of contracts.We've deployed BoxProxyAdmin which is going to be our admin contract, Box_Implementation; hardhat deploy went ahead and took our Box contract and renamed it to Box_Implementation contract and then deployed it.Then it deployed BoxProxy.Whenever we call the BoxProxy address, it actually will point to the logic of our Box.
+
+Now we can write a deploy script to deploy BoxV2_Implementation and then upgrade our Box to BoxV2.We'll create a new deploy script "02-deploy-box2.js" and we'll something really similar here.
+
+```javascript
+const { network } = require("hardhat")
+const { developmentChains } = require("../helper-hardhat-config")
+const { verify } = require("../utils/verify")
+
+module.exports = async ({ getNamedAccounts, deployments }) => {
+    const { deploy, log } = deployments
+    const { deployer } = await getNamedAccounts()
+
+    log("-----------------")
+    const boxv2 = await deploy("BoxV2", {
+        from: deployer,
+        args: [],
+        log: true,
+        waitConfirmations: network.config.blockConfirmations,
+    })
+
+    if (!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY) {
+        log("Verifying...")
+        await verify(boxv2.address, [])
+    }
+}
+```
+
+We now have some code where we can deploy Box and BoxV2.Now let's actually write a script to actually upgrade these.Let's create a new folder "scripts" and a new file "upgrade-box.js".
+
+We're going to do the mannual way here because I want to show you exactly the functions that we're calling to do this upgrade process.However hardhat deploy also comes with an API to make it really easy to actually just upgrade your Box contracts.
+
+First we're going to get the BoxProxyAdmin contract.
