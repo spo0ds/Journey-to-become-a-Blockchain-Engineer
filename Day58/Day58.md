@@ -355,3 +355,58 @@ We now have some code where we can deploy Box and BoxV2.Now let's actually write
 We're going to do the mannual way here because I want to show you exactly the functions that we're calling to do this upgrade process.However hardhat deploy also comes with an API to make it really easy to actually just upgrade your Box contracts.
 
 First we're going to get the BoxProxyAdmin contract.
+
+```javascript
+async function main() {
+    const boxProxyAdmin = await ethers.getContract("BoxProxyAdmin")
+}
+```
+
+Then we're going to get the actual proxy which is our transparent proxy.
+
+```javascript
+async function main() {
+    const boxProxyAdmin = await ethers.getContract("BoxProxyAdmin")
+    const transparentProxy = await ethers.getContract("Box_Proxy")
+}
+```
+
+Since hardhat deploy will just name the proxy to name of the implementation _Proxy, and then we need our BoxV2 contract.
+
+```javascript
+const boxV2 = await ethers.getContract("BoxV2")
+```
+
+Now we're going to call the upgrade function in our BoxProxyAdmin which calls it in our transparent proxy which will change the implementation from Box to BoxV2.
+
+```javascript
+const upgradeTx = await boxProxyAdmin.upgrade(transparentProxy.address, boxV2.address)
+```
+
+If we look at our ProxyAdmin contract, it has an upgrade function which calls `upgradeTo` on our transparent upgradeable proxy.
+
+```solidity
+function upgrade(TransparentUpgradeableProxy proxy, address implementation) public virtual onlyOwner {
+        proxy.upgradeTo(implementation);
+    }
+```
+
+Now to work with the function on our BoxV2, we're going get the BoxV2 and load it to the transparent proxy address.
+
+```solidity
+const proxyBox = await ethers.getContractAt("BoxV2", transparentProxy.address)
+```
+
+This way ethers knows we're going to call all our our functions on the transparent proxy address but the proxyBox is going to have the ABI of the BoxV2.Now we could log the version.
+
+```javascript
+const version = await proxyBox.version()
+console.log(version)
+```
+Let's spin our local hardhat node `yarn hardhat node`
+
+![hardhatNode](Images/m128.png)
+
+We've deployed our admin, implementation, proxy and then our BoxV2 implementation.Make a new terminal and run `yarn hardhat run scripts/upgrade-box.js --network localhost`. The ouput will show that we retrieve version 2.
+
+With this code we've successfully learned how to upgrade our smart contracts programmatically.
