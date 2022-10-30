@@ -714,6 +714,8 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Delegate call |
 | - Small Proxy Example |
 | - Function Selector Clashes |
+| - Transparent Upgradeable Proxy Contract |
+
 
 
 
