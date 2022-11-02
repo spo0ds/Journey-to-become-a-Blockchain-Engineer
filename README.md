@@ -715,6 +715,11 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Small Proxy Example |
 | - Function Selector Clashes |
 | - Transparent Upgradeable Proxy Contract |
+| <p align="center"> [Day 59](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day59/Day59.md) </p> |
+| **Build a DAO** |
+| - What is a DAO? |
+| - How to build a DAO? |
+
 
 
 
