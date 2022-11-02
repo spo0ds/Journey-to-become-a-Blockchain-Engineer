@@ -1,0 +1,17 @@
+node_modules
+.env
+.encryptedKey.json
+coverage
+coverage.json
+typechain
+
+#Hardhat files
+cache
+artifacts
+proposals.json
+.notes.md
+typechain-types
+gas-report.txt
+deployments
+.video.md
+.article.md 
