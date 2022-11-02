@@ -61,6 +61,277 @@ For those of you who don't know about `Gnosis Safe`, it's a multi-sig wallet and
 The future of DAOs is interesting for all these reasons that we just talked about, but especially on the legal front. Does it make sense for a DAO to live by the same regulations as another company? Why would you even force a DAO to do something? It's a little gray. It's hard to nail down who to even keep accountable for these DAOs.
 
 
+**How to build a DAO**
+
+We're going to build our own DAO inspired by compound.This is going to be on-chain voting and on-chain governance.We're going to learn an easiest way to spin up an NFT or ERC20 voting type DAO all using solidity and hardhat.
+
+We're going to have a very basic smart contract called "Box" and all it can do is store a value and then retrieve a value but the thing is it's ownable and only the owner of the contract can call the store function and the owner is going to be the DAO.Only through a process of governance, can anyone store a different number.
+
+Here's our agenda:
+- Write the smart contracts.
+- Write deployment scripts.
+- Write scripts to interact with them. 
+
+So let's jump in.
+
+Let's create a new folder "hardhat-dao" and open the folder in VScode.Then we install hardhat.
+
+`yarn add --dev hardhat`
+
+After we install hardhat, we can run `yarn hardhat` and we're going to create an empty config.js project.Now let's go and create a "contracts" folder and here we'll add all of our contracts.The first contract that we want to add is the contract that we want to have govern which in our case is going to be Box.sol.
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+import "@openzeppelin/contracts/access/Ownable.sol";
+
+contract Box is Ownable {
+    uint256 private value;
+
+    // Emitted when the stored value changes
+    event ValueChanged(uint256 newValue);
+
+    // Stores a new value in the contract
+    function store(uint256 newValue) public onlyOwner {
+        value = newValue;
+        emit ValueChanged(newValue);
+    }
+
+    // Reads the last stored value
+    function retrieve() public view returns (uint256) {
+        return value;
+    }
+}
+```
+
+We're importing from openzeppelin contracts, so we want to add this.
+
+`yarn add --dev @openzeppelin/contracts`
+
+Now we want to check to see if this compiles.
+
+`yarn hardhat compile`
+
+Let's create the governance part.We're going to be building off an ERC20 standard.So you're going to get an ERC20 token  and that's going to be the token that you get to vote.So create a new file "GovernanceToken.sol" and this is going to be the code for the token that we use to actually vote.
+
+We're going to create a normal ERC20 token and then we're going to extend it to make it governance.
+
+```solidity
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.8.8;
+
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+
+contract GovernanceToken is ERC20 {}
+```
+
+We're going to change this but don't worry about that yet.We're going to mint an ERC20 token to whoever deploys the contract.
+
+```solidity
+contract GovernanceToken is ERC20 {
+    uint256 public s_maxSupply = 1000000000000000000000000;
+
+    constructor() ERC20("GovernanceToken", "GT") {
+        _mint(msg.sender, s_maxSupply);
+    }
+}
+```
+
+If this was the normal ERC20 token, you're all done.But this isn't a normal ERC20 token.When we do votes, we need to make sure that it's fair.Imagine this for a second.Someone knows a hot proposal is coming up, they want to vote on.So they just buy a ton of tokens and then they dump it after the vote is over.We want to avoid this.We want to avoid people just buying and selling tokens to get in on governance.So we actually create a snapshot of how many tokens people have at a certain block.We want to make sure once a proposal goes through, we actually pick a snapshot from the past that we want to use.This kind of incentivizes people to not just jump in when it's a propsal and jump out because once proposal hits, it uses a block snapshot from the past.So we're actually going to need to change our GovernanceToken little bit.
+
+We're going to change this from ERC20 to ERC20Votes.
+
+```solidity
+import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Votes.sol";
+
+contract GovernanceToken is ERC20Votes {
+}
+```
+
+Some of the main functions are it has these checkpoints.
+
+```solidity
+function checkpoints(address account, uint32 pos) public view virtual returns (Checkpoint memory) {
+        return _checkpoints[account][pos];
+    }
+```
+
+These checkpoints are basically "Hey what is the snapshot?"
+
+There's numCheckpoints.You can also delegate your token to different people.Maybe you're not available to actually vote, so you can give your token to somebody else.
+
+You can get how many votes somebody has.
+
+It has all these functions that make the token much better as a voting tool.
+
+After we inherit from ERC20Votes, we need to add additional constructor  ERC20Permit.
+
+```solidity
+constructor()
+        ERC20("GovernanceToken", "GT")
+        ERC20Permit("GovernanceToken")
+    {
+        _mint(msg.sender, s_maxSupply);
+    }
+```
+
+Now we have a governance token that is little bit capable of doing actual voting because it has the snapshot, delegating functionality and checkpoints  for doing votes in a fair way.
+
+The only thing that we need to do is add some overrides.Anytime we do `_afterTokenTransfer`, we want to make sure that we call the _afterTokenTransfer of the ERC20Votes.
+
+```solidity
+    function _afterTokenTransfer(
+        address from,
+        address to,
+        uint256 amount
+    ) internal override(ERC20Votes) {
+        super._afterTokenTransfer(from, to, amount);
+    }
+```
+
+The reason that we do this is because we want to make sure that the snapshots are updated.We want to make sure that we know how many people have how many tokens at each checkpoints.
+
+Same thing with the `_mint` and `_burn`.
+
+```solidity
+    function _mint(address to, uint256 amount) internal override(ERC20Votes) {
+        super._mint(to, amount);
+    }
+
+    function _burn(address account, uint256 amount)
+        internal
+        override(ERC20Votes)
+    {
+        super._burn(account, amount);
+    }
+```
+
+At which checkpoint are you going to use for your token voting.
+
+Now we have a Governance Token that we can use for governance.
+
+Let's actually start creating our Governance contracts.We're going to make a folder called "governance_standard" because this is going to be the standard governance model.This is going to be the on-chain ERC20.Inside it we need to contracts "GovernorContract" and "TimeLock" which will make sense in a second.
+
+GovernorContract is going to be the contract that has all the voting logic that our governance token is going to use.The TimeLock is actually going to be an additional contract that is actually the owner.So these two contract are sort of one in the same but the difference is the TimeLock is going to be the owner of the Box contract.This  is important because whenever we propose or cue something to a proposal to go through, we want to wait.We want to wait for a new vote to be "executed".
+
+Why do we want to do that?
+
+Let's say some proposal goes through that's bad.We've a Box contract and a proposal goes through that says "Everyone that holds the governance token has to pay 5 tokens."This is something that you really don't want to be part of.So all of these governance contracts give time to users to "get out" if they don't like a governance update.So we always want to have some type of time lock.Once a proposal passes, it won't go in effect right away.It'll have to wait some duration and then go in effect.So that's what TimeLock is for.
+
+OpenZeppelin has a thing called [Contracts Wizard](https://docs.openzeppelin.com/contracts/4.x/wizard).This wizard is a way for us to write really basic boilerplate code right in there wizard.
+
+![governanceWizard](Images/m131.png)
+![governanceWizard](Images/m132.png)
+
+Voting Delay is the deplay since the proposal is created untill voting starts.So once we create a proposal, you gotta wait a little bit.
+
+The voting period is how long votes should go for.The reason that 1 block = 13.2 seconds is imporant is because they actually do voting period in terms of blocks.So it's an anti pattern to actually do timed based things in smart contracts.It's much better to do block based things.We're saying 1 week but that's going to be if average blocktime is 13.2 seconds, we're going to figure out the week.
+
+Proposal threshold is going to be the minimum number of votes an account must have to create a proposal.So maybe you only want people who have a lot of your governance token to make votes.
+
+Quorum percentage is what percentage of people need to vote it all.So we're saying 4% of all token holders need to vote.
+
+We also have some updatable settings and Brave compatible.Bravo is the compound type contract.So if you want to make it integratable with compound, you can do that.
+
+Votes comp-like or ERC20Votes  and we're working with ERC20Votes.
+
+We always want to do TimeLock  and we're doing the openzeppelin implementation of a time lock.
+
+We are not going to do upgradability here.
+
+This pretty much it.We're going to copy the whole code  and paste it in GovernorContract.
+
+We've our GovernorContract which inherits from bunch of contracts.
+
+```solidity
+contract GovernorContract is
+    Governor,
+    GovernorSettings,
+    GovernorCountingSimple,
+    GovernorVotes,
+    GovernorVotesQuorumFraction,
+    GovernorTimelockControl
+{
+}
+```
+
+All these are just implementations to make it easier to be a governor.GovernorCountingSimple is a way of counting votes, GovernorVotes is a way of integrating with that ERC20 contract and QuorumFraction is a way to understand Quorum.
+
+We'll talk about constructor later but let's talk about functions.We've a `votingDelay` which we're going to get from `GovernorSettings` contract that we're going to set.We've `votingPeriod` that we're going to set in our `GovornorSettings` and the rest function like `quorum`, `getVotes` and `state`.
+
+Then we've some interesting function called `propose`.This is where we're actually going to do to propose new governance. We've `proposalThreshold`, `_execute` which executes queued proposal, `_cancel`, `_executor` which is going to be who can actually execute stuff and we're going to make it anybody and then `supportInterface` that you can ignore.
+
+Let's make the parameter of GovernorSettings little bit more customizable.We've IVotes _token which is going to be our governance token, TimelockController _timelock which is going to be the timelock controller which we'll make and we need this because we don't want to let any proposal just go through once it passes.We want to give people time to get out.But let's add `_votingDelay` , `_votingPeriod`  and `_quorumPercentage`.
+
+```solidity
+    constructor(
+        IVotes _token,
+        TimelockController _timelock,
+        uint256 _votingDelay,
+        uint256 _votingPeriod,
+        uint256 _quorumPercentage
+    )
+        Governor("GovernorContract")
+        GovernorSettings(
+            _votingDelay, /* 1 block */
+            _votingPeriod, /* 45818 blocks ~= 1 week*/
+            0
+        )
+        GovernorVotes(_token)
+        GovernorVotesQuorumFraction(_quorumPercentage)
+        GovernorTimelockControl(_timelock)
+    {}
+```
+
+Now this is completely customizable for votingDelay, votingPeriod and quorumPercentage.
+
+
+Now you've a simple Governance contract.This contract is going to have all the functions that we're going to go over for proposing, executing and for queuing different proposals.
+
+Now we start to code on our TimeLock contract.We're going to import from openzeppelin a contract called the `TimelockController.sol`.This has all the functionality for creating roles, who can actually propose, who can execute, who's a timelock admin but it also has the execute stuff which is going to work in tandam with our governance contract.This contract makes sure that our Governance contract doesn't just push stuff through willy nilly.
+
+```solidity
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.8.0;
+
+import "@openzeppelin/contracts/governance/TimelockController.sol";
+
+contract Timelock is TimelockController {}
+```
+
+We'll create a constructor here  which takes couple of different parameters.It takes `minDelay` which is how long you have to wait before executing.Once the proposal passes, we need to wait this minDelay.Then we're going to list of `proposors` which is the list of the addresses that can propose  which for us is everyone to be able to propose and then at last an array of `executors` who can execute when a proposal passes.
+
+```solidity
+constructor(
+        uint256 minDelay,
+        address[] memory proposers,
+        address[] memory executors
+    ) {}
+```
+
+The reason that we need this is because we need to pass these to our TimelockController.
+
+```solidity
+contract Timelock is TimelockController {
+    constructor(
+        uint256 minDelay,
+        address[] memory proposers,
+        address[] memory executors
+    ) TimelockController(minDelay, proposers, executors) {}
+}
+```
+
+This is going to be what owns everything.Timelock is going to be owning our Box.It's not the GovernorContract.GovernorContract is where we're going to send our votes and stuff.But at the Timelock that actually everything needs to flow through in order for governance to actually happen because we want to make sure we have this minDelay,  go through right process and everything.
+
+
+
+
+
+
+
 
 
 
