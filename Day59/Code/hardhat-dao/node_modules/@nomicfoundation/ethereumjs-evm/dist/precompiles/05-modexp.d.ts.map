@@ -1,0 +1,1 @@
+{"version":3,"file":"05-modexp.d.ts","sourceRoot":"","sources":["../../src/precompiles/05-modexp.ts"],"names":[],"mappings":"AASA,OAAO,KAAK,EAAE,UAAU,EAAE,MAAM,QAAQ,CAAA;AACxC,OAAO,KAAK,EAAE,eAAe,EAAE,MAAM,SAAS,CAAA;AA4D9C,wBAAgB,MAAM,CAAC,CAAC,EAAE,MAAM,EAAE,KAAK,EAAE,MAAM,EAAE,MAAM,EAAE,MAAM,UAW9D;AAED,wBAAgB,YAAY,CAAC,IAAI,EAAE,eAAe,GAAG,UAAU,CA+E9D"}

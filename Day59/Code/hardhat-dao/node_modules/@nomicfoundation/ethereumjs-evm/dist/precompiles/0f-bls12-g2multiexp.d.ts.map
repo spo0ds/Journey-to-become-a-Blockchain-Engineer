@@ -1,0 +1,1 @@
+{"version":3,"file":"0f-bls12-g2multiexp.d.ts","sourceRoot":"","sources":["../../src/precompiles/0f-bls12-g2multiexp.ts"],"names":[],"mappings":"AAKA,OAAO,KAAK,EAAE,UAAU,EAAE,MAAM,QAAQ,CAAA;AACxC,OAAO,KAAK,EAAE,eAAe,EAAE,MAAM,SAAS,CAAA;AAQ9C,wBAAsB,YAAY,CAAC,IAAI,EAAE,eAAe,GAAG,OAAO,CAAC,UAAU,CAAC,CAiF7E"}

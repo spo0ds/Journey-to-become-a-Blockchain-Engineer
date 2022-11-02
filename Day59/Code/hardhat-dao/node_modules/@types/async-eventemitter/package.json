@@ -1,0 +1,24 @@
+{
+    "name": "@types/async-eventemitter",
+    "version": "0.2.1",
+    "description": "TypeScript definitions for async-eventemitter",
+    "license": "MIT",
+    "contributors": [
+        {
+            "name": "patarapolw",
+            "url": "https://github.com/patarapolw",
+            "githubUsername": "patarapolw"
+        }
+    ],
+    "main": "",
+    "types": "index.d.ts",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+        "directory": "types/async-eventemitter"
+    },
+    "scripts": {},
+    "dependencies": {},
+    "typesPublisherContentHash": "c41cfe951a0a7a6a86815279a9f441828cff63acf19b8d72366ba87156301d6a",
+    "typeScriptVersion": "3.5"
+}

@@ -1,0 +1,1 @@
+{"version":3,"file":"extension.d.ts","sourceRoot":"","sources":["../../../src/trie/node/extension.ts"],"names":[],"mappings":";AAEA,OAAO,EAAE,IAAI,EAAE,MAAM,QAAQ,CAAA;AAE7B,OAAO,KAAK,EAAE,OAAO,EAAE,MAAM,aAAa,CAAA;AAE1C,qBAAa,aAAc,SAAQ,IAAI;gBACzB,OAAO,EAAE,OAAO,EAAE,KAAK,EAAE,MAAM;IAI3C,MAAM,CAAC,SAAS,CAAC,GAAG,EAAE,OAAO,GAAG,OAAO;CAGxC"}

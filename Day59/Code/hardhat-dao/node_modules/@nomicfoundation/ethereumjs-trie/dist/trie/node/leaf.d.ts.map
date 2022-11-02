@@ -1,0 +1,1 @@
+{"version":3,"file":"leaf.d.ts","sourceRoot":"","sources":["../../../src/trie/node/leaf.ts"],"names":[],"mappings":";AAEA,OAAO,EAAE,IAAI,EAAE,MAAM,QAAQ,CAAA;AAE7B,OAAO,KAAK,EAAE,OAAO,EAAE,MAAM,aAAa,CAAA;AAE1C,qBAAa,QAAS,SAAQ,IAAI;gBACpB,OAAO,EAAE,OAAO,EAAE,KAAK,EAAE,MAAM;IAI3C,MAAM,CAAC,SAAS,CAAC,GAAG,EAAE,OAAO,GAAG,OAAO;CAGxC"}

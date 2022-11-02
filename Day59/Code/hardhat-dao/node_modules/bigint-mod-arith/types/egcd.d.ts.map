@@ -1,0 +1,1 @@
+{"version":3,"file":"egcd.d.ts","sourceRoot":"","sources":["../src/ts/egcd.ts"],"names":[],"mappings":"AAAA,MAAM,WAAW,IAAI;IACnB,CAAC,EAAE,MAAM,CAAA;IACT,CAAC,EAAE,MAAM,CAAA;IACT,CAAC,EAAE,MAAM,CAAA;CACV;AACD;;;;;;;;;;GAUG;AACH,wBAAgB,IAAI,CAAE,CAAC,EAAE,MAAM,GAAC,MAAM,EAAE,CAAC,EAAE,MAAM,GAAC,MAAM,GAAG,IAAI,CA4B9D"}

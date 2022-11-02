@@ -1,0 +1,1 @@
+{"version":3,"file":"01-ecrecover.d.ts","sourceRoot":"","sources":["../../src/precompiles/01-ecrecover.ts"],"names":[],"mappings":"AAUA,OAAO,KAAK,EAAE,UAAU,EAAE,MAAM,QAAQ,CAAA;AACxC,OAAO,KAAK,EAAE,eAAe,EAAE,MAAM,SAAS,CAAA;AAE9C,wBAAgB,YAAY,CAAC,IAAI,EAAE,eAAe,GAAG,UAAU,CAwC9D"}
