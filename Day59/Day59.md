@@ -327,6 +327,255 @@ contract Timelock is TimelockController {
 This is going to be what owns everything.Timelock is going to be owning our Box.It's not the GovernorContract.GovernorContract is where we're going to send our votes and stuff.But at the Timelock that actually everything needs to flow through in order for governance to actually happen because we want to make sure we have this minDelay,  go through right process and everything.
 
 
+Now we're going to flip over to actually writing the scripts to deploy and interact with everything using Typescript here.We're going to use a package for deployment called `hardhat-deploy`.To install the package, we're going to do:
+
+`yarn add --dev @nomiclabs/hardhat-ethers@npm:hardhat-deploy-ethers ethers`
+
+Then we'll add hardhat-deploy.
+
+`yarn add --dev hardhat-deploy`
+
+This allows us to instead of having to write scripts and do all this stuff that kind of makes it hard to save your deployments, we're just going to create a deploy folder where we're going to add all of our deploy scripts.
+
+Let's create a new file inside deploy folder called "01-deploy-governor-token.ts".Also we're going to change hardhat.config.js to typescript.
+
+We need to install typescript and all it's stuff.
+
+`yarn add  --dev typescript typechain ts-node @typechain/ethers-v5 @typechain/hardhat @types/chai @types/node`
+
+Let's create a deploy script for a governor token.We're going to import hardhat runtime environment from hardhat types, import deploy function from hardhat-deploy  types and these are the two main thing that you need to create a deploy function with hardhat-deploy.
+
+```typescript
+import { HardhatRuntimeEnvironment } from "hardhat/types"
+import { DeployFunction } from "hardhat-deploy/types"
+```
+
+We're going to create a function called deployGovernanceToken which is going to be of type deploy function so in order for this to actually work, we just create a whole bunch of deploy functions that we run with hardhat which is going to be an async function which takes hardhat runtime environment as a parameter.
+
+```typescript
+const deployGovernanceToken: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
+
+}
+```
+
+So when we run hardhat-deploy, we're actually passing our fake hardhat chain that gets spun up in the background for us.
+
+First we need an account to deploy this first.
+
+```typescript
+const { getNamedAccounts, deployments, network } = hre
+```
+
+We're getting these from hardhat runtime environment which is being updated from hardhat-deploy.So getNamedAccounts is a way for us to actually import accounts from hardhat-config right into our deploy script.So we're going to go to our hardhat-config and we're going to create a new config.First we need to import the hardhat config type.
+
+```typescript
+import { HardhatUserConfig } from "hardhat/config"
+```
+
+Then we're going to create a config which is going to be of type HardhatUserConfig.
+
+```typescript
+const config: HardhatUserConfig = {}
+```
+
+We'll add our default blockchain to be hardhat, networks to be hardhat and localhost, then the version of solidity and namedAccounts which is going to be the list of accounts that we can use.For accounts, we'll say deployer which will be the name of our account that does all the deploying in which default is going to be 0 so whenever we run on any chain our 0th account is going to be named deployer.
+
+```typescript
+const config: HardhatUserConfig = {
+  defaultNetwork: "hardhat",
+  networks: {
+    hardhat: {
+      chainId: 31337
+    },
+    localhost: {
+      chainId: 31337
+    }
+  },
+  solidity: "0.8.17",
+  namedAccounts: {
+    deployer: {
+      default: 0,
+
+    }
+  }
+}
+```
+
+Hardhat and localhost looks like they're pretty much same  but they're not and you'll understand in a second but we need them now just to tell hardhat that here are the development fake blockchains that we're working on.
+
+Now that we've getNamedAccounts and network because anytime you deploy something, it's going to be on a network and when we deploy something by running `yarn hardhat node` hardhat is going to spin up a fake blockchain in the background which is a hardhat node running.
+
+When you run hardhat node, oddly enough it's actually the localhost network.The hardhat network is what is uses when it runs tests.
+
+Now we're going to grab deploy and log from deployments object  then we grab the deployer from getNamedAccounts.
+
+```typescript
+const { deploy, log } = deployments
+const { deployer } = await getNamedAccounts();
+}
+
+Then we deploy the GovernanceToken contract.
+
+```typescript
+const governanceToken = await deploy("GovernanceToken", {
+        from: deployer,
+        args: [],
+        log: true,
+    })
+```
+
+and we'll do `yarn hardhat deploy`.
+
+We're going to add delegate function too.When you actually deployed this contract, nobody has voting power yet.The reason is because nobody has the token delegated to them.We want to delegate this token to our deployer.So we're going to call the delegate function.
+
+```typescript
+const delegate = async (governanceTokenAddress: string, delegatedAccount: string) => {
+    
+}
+```
+
+We basically saying who do we want to vote with our token with those parameters.  
+
+```typescript
+const delegate = async (governanceTokenAddress: string, delegatedAccount: string) => {
+    const governanceToken = await ethers.getContractAt("GovernanceToken", governanceTokenAddress)
+}
+```
+
+Then we call the delegate call to that delegated account.
+
+```typescript
+const delegate = async (governanceTokenAddress: string, delegatedAccount: string) => {
+    const governanceToken = await ethers.getContractAt("GovernanceToken", governanceTokenAddress)
+    const tx = await governanceToken.delegate(delegatedAccount)
+    await tx.wait(1)
+    console.log(`Checkpoints ${await governanceToken.numCheckpoints(delegatedAccount)}`)
+}
+```
+
+We've the delegate function when somebody calls it, they can use their vote.Take their vote and use however they want.If we look at numCheckpoints, we can see how many checkpoints that actually has.The reason that this is so important is because when people do a vote they do it based off of some checkpoints and anytime you transfer a token or delegate a token, you'll basically call the function `_moveVotingPower`  which happens in the backend which writes the checkpoint that says "At checkpoint x, here's what everybody has for voting powers."
+
+![checkpointOutput](Images/m133.png)
+
+It's one which makes sense because it's just deployed, just delegated and the address has 1 checkpoint.The reason to check for the this is because if you see zero checkpoints, it means you haven't delegated correctly.So be sure to check for checkpoints.
+
+What do we want to do after we deploy our Governance Token? Well let's deploy that timelock.Create a new file called "02-deploy-time-lock.ts" and we're going to copy lots of stuff from 01-deploy.
+
+```typescript
+import { HardhatRuntimeEnvironment } from "hardhat/types"
+import { DeployFunction } from "hardhat-deploy/types"
+
+const deployTimeLock: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
+    const { getNamedAccounts, deployments } = hre
+    const { deploy, log } = deployments
+    const { deployer } = await getNamedAccounts();
+}
+```
+
+Let's deploy the timelock contract the same way we did with governance token contract.
+
+```typescript
+const timeLock = await deploy("TimeLock", {
+        from: deployer,
+        args: [],
+        log: true,
+    })
+```
+
+But this TimeLock contract takes parameter in the constructor.It takes minDeplay, proposers and executors.So what do we want our minDelay to be?Well this is a value that we're actually going to use alot.So I'll create a ne file called "helper-hardhat-config.ts" and export minDelay.
+
+```typescript
+export const MIN_DELAY = 3600;
+```
+
+We'll import that in our 02-deploy script.
+
+```typescript
+import { MIN_DELAY } from "../helper-hardhat-config"
+```
+
+We'll leave proposers and executors be blank for now.
+
+```typescript
+const timeLock = await deploy("Timelock", {
+        from: deployer,
+        args: [MIN_DELAY, [], []],
+        log: true,
+    })
+```
+
+We'll export the function.
+
+```typescript
+export default deployTimeLock
+```
+
+Now we want to deploy that governance contract.So create a new file called "03-deploy-governor-contract.ts" and this is also going to look pretty similar to what we just did.
+
+```typescript
+import { HardhatRuntimeEnvironment } from "hardhat/types"
+import { DeployFunction } from "hardhat-deploy/types"
+
+const deployGovernorContract: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
+    const { getNamedAccounts, deployments } = hre
+    const { deploy, log } = deployments
+    const { deployer } = await getNamedAccounts();
+
+}
+
+```
+
+For this we're going to need the governance token and the timelock  contract.
+
+```typescript
+const governanceToken = await get("GovernanceToken")
+const timeLock = await get("Timelock")
+```
+
+We need these to pass as parameters for our governor contract.We'll export those other parameters from helper-hardhat-config file.
+
+```typescript
+export const MIN_DELAY = 3600
+export const VOTING_PERIOD = 5
+export const VOTING_DELAY = 1
+export const QUORUM_PERCENTAGE = 4
+```
+
+And we'll use these variables in our deploy script.
+
+```typescript
+const deployGovernorContract: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
+    const { getNamedAccounts, deployments } = hre
+    const { deploy, log, get } = deployments
+    const { deployer } = await getNamedAccounts();
+
+    const governanceToken = await get("GovernanceToken")
+    const timeLock = await get("Timelock")
+
+    log("Deploying Governor...")
+
+    const governorContract = await deploy("GovernorContract", {
+        from: deployer,
+        args: [
+            governanceToken.address,
+            timeLock.address,
+            VOTING_DELAY,
+            VOTING_PERIOD,
+            QUORUM_PERCENTAGE,
+        ],
+        log: true,
+    })
+}
+
+export default deployGovernorContract
+```
+
+
+
+
+
+
+
 
 
 
