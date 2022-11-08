@@ -570,6 +570,145 @@ const deployGovernorContract: DeployFunction = async function (hre: HardhatRunti
 export default deployGovernorContract
 ```
 
+We're not done yet.We've two more deploy scripts to do.The first one we're going to say "setupGovernanceContract" and this one is really important.Right now our timelock contract has no proposers and no executors.We want to change that.We wanna only allow the proposer to be the governor, the governor contract should be only one that proposes things to the TimeLock and then anybody should be able to execute.The way this works is we say "Hey governance contract proposes something to the TimeLock, once it's in the TimeLock, and it waits that period, anybody can go ahead and execute it."So Governor contract everybody votes and everything.Once the vote passes, Governor says "Hey TimeLock can you propose this?" and TimeLock goes "Yeah sure but you need to wait for minDelay."Once minDelay happens anybody can execute it.
+
+So we're going to create a new deploy thing "04-setup-governance-contracts.ts" and this is going to be the code that does all the setting up.This is also going to look really similar to other deploy script.
+
+```typescript
+import { HardhatRuntimeEnvironment } from "hardhat/types"
+import { DeployFunction } from "hardhat-deploy/types"
+
+const setupContracts: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
+    const { getNamedAccounts, deployments } = hre
+    const { deploy, log, get } = deployments
+    const { deployer } = await getNamedAccounts();
+}
+```
+
+Now we're going to get those contracts so that we can interact with them.This is another reason why hardhat-deploy is so nice because we can just do:
+
+```typescript
+const timeLock = await ethers.getContract("TimeLock", deployer)
+const governor = await ethers.getContract("GovernorContract", deployer)
+```
+
+We're going to setup the roles.Again we're setting it up so that only the governor can send things to the TimeLock because Timelock is going to be like president.Everything goes to the Senate, the House Representative which is the governor and then the President says "Yeah sure but we need to wait for minDelay."President will be the one to actually execute everything.
+
+So way that this is going to work is we're actually going to get the bytecodes of different roles.If you look at the TimelockController contract,
+
+![roles](Images/m133.png)
+
+These are just hashes of the strings as we can see in the image.But these are bytes32 saying "Anybody who has this bytes 32 is an proposer and so on."Right now our deployer account is the `TIMELOCK_ADMIN_ROLE` and that's bad.We don't want that.We don't want anyone to be TimeLockAdmin.We don't want anyone to have power over this TimeLock.We don't want any centralized force here.
+
+```typescipt
+const proposerRole = await timeLock.PROPOSER_ROLE()
+const executorRole = await timeLock.EXECUTOR_ROLE()
+const adminRole = await timeLock.TIMELOCK_ADMIN_ROLE()
+```
+
+These are the three roles that we need to fix.We're going to set the PROPOSER_ROLE to governor contract.
+
+```typescrip    
+const proposerTx = await timeLock.grantRole(proposerRole, governor.address)
+```
+
+Once you tell the TimeLock to do something, we'll wait for timelock period to be over and then we'll be done.We're going to give the executor role to nobody.
+
+```typescript
+const proposerTx = await timeLock.grantRole(proposerRole, governor.address)
+await proposerTx.wait(1)
+const executorTx = await timeLock.grantRole(executorRole, ADDRESS_ZERO)
+await executorTx.wait(1)
+```
+
+We're giving executor role to nobody which means everybody.We have set ADDRESS_ZERO in helper-hardhat-config to be:
+
+```typescript
+export const ADDRESS_ZERO = "0x0000000000000000000000000000000000000000"
+```
+
+We need to revoke role.Right now our deployer account owns that TimelockController and that's how we can do these transactions.We can actually grant role because our deployer account owns it.Now that we've given everybody access and given all the decentralized access we need, we want to revoke that role.
+
+```typescript
+const revokeTx = await timeLock.revokeRole(adminRole, deployer)
+await revokeTx.wait(1)
+```
+
+Anything that timeLock wants to do has to go through governance and nobody owns the timelock controller.It's currently after this runs, it's impossible for anyone to do anything with the TimeLock without governance happening.And ofcourse we need to export.
+
+```typescript
+export default setupContracts
+```
+
+The last step we need to do here is we need to deploy the contract that we actually want to govern over.We'll create a new file called "05-deploy-box.ts" and we're going to do the same exact stuff that we're doing.
+
+```typescript
+import { HardhatRuntimeEnvironment } from "hardhat/types"
+import { DeployFunction } from "hardhat-deploy/types"
+
+const deployBox: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
+    const { getNamedAccounts, deployments } = hre
+    const { deploy, log, get } = deployments
+    const { deployer } = await getNamedAccounts();
+}
+```
+
+Now we're going to deploy this box.
+
+```typescript
+log("Deploying Box...")
+    const box = await deploy("Box", {
+        from: deployer,
+        args: [],
+        log: true,
+    })
+```
+
+Right now our deployer has actually deployed this not timeLock.So we want to give the boxes ownership over to our governance process.
+
+```typescript
+const timeLock = await ethers.getContract("TimeLock")
+```
+
+Then we're going to transfer the ownership of our box to the timelock.`box` is a box deployment object which doesn't have contract functions.We want to get the box contract object.
+
+```typescript
+const boxContract = await ethers.getContractAt("Box", box.address)
+```
+
+We can do getContract too.If we have address we can do getContractAt.
+
+Now that we've the box contract, we could transfer the owner.
+
+```typescript
+const transferOwnerTx = await boxContract.transferOwnership(timeLock.address)
+await transferOwnerTx.wait(1)
+```
+
+We’re deploying the governor token, timelock, which owns the governor process, deploying the governance process, setting up the governance process so that it’s totally decentralized, and then we’ve deployed and set up our box so that it can only be updated through the governance process.
+
+`yarn hardhat deploy`
+
+You've just set up a script to set the entire governance process up so you can build your own DAO.
+
+We've one more piece to go through, we just got to write those scripts so we can actually interact with, we can actually do a governance.We can see exactly what the governance process looks like.
+
+Now we're going to make some scripts to actually interact with propose queue and vote on anything that happens in our DAO and these are the kinds of things that you would do on your frontend when you build your DAO on the frontend or you can do an integration with a snapshot or tally.
+
+So we're going to create a new folder called "scripts" and this is where we're going to put all of our scripts.The process for this is going to be we first going to propose something maybe we want to propose our box contract starts with the value 77, once proposing is done, we start voting on it and then if it passes, we would go to queue and execute.So the scripts are "propose.ts", "vote.ts" and "queue-and-execute.ts".
+
+```typescript
+export async function propose() {
+    
+}
+```
+
+This is where we're actually going to propose on our governor contract.So the first thing that we're going to need is the governor.
+
+
+
+
+
 
 
 
