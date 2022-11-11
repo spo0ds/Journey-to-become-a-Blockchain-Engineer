@@ -915,7 +915,79 @@ Let's go ahead and actually run this`yarn run scripts/propose.ts --network local
 
 ![proposalId](Images/m136.png)
 
+Now let's create the vote script.We've proposed, it's time to vote.This is going to look pretty similar to the script that we just created.
 
+```typescript
+async function main(proposalIndex: number) {
+
+}
+```
+
+We're calling this main because we're going to have the vote function to be little bit different.
+
+```typescript
+const index = 0
+
+async function main(proposalIndex: number) {
+}
+
+main(index)
+    .then(() => process.exit(0))
+    .catch((error) => {
+        console.error(error)
+        process.exit(1)
+    })
+```
+
+We're going to get the 0th index; first index in our proposals.json.Whatever the first one is in the list, we're going to use it.
+
+First thing we're going to need is grab the list of proposals.
+
+```typescript
+const proposals = JSON.parse(fs.readFileSync(proposalsFile, "utf-8"))
+```
+
+Now let's get our proposalId.
+
+```typescript
+const proposalId = proposals[network.config.chainId!][proposalIndex]
+```
+
+We're going to choose how we want to vote.
+
+```typescript
+// 0 = Against, 1 = For, 2 = Abstain
+const voteWay = 1
+```
+
+We're also going to do a reason.If we go back to the Governor, there's couple of different functions to vote.There's `casteVote`, `casteVoteWithReason` and `castVoteBySig` where we actually do a signature here.`castVoteBySig` implements a meta transaction and allow a project to subsidize voting fees.The voters could generate a signature for free and the project can then submit those and pay for the gas.This function allows that snapshot chainlink integration.Since we're not doing meta transactions, we're going to do castVoteWithReason.
+
+To cast vote, we need to get the GovernorContract.
+
+```typescript
+const governor = await ethers.getContract("GovernorContract")
+```
+
+Now we could call castVoteWithReason function.
+
+```typescript
+const reason = "I like it."
+const voteTxResponse = await governor.castVoteWithReason(proposalId, voteWay, reason)
+```
+
+We're voting for.We're saying "Yes we do indeed want to change the box to 77 and the reason is because you like it."
+
+Now that we've vote, we're going to be the only ones to vote.So we're going to move the blocks away because we want to get to the end of that voting period.
+
+```typescript
+if (developmentChains.includes(network.name)) {
+        await moveBlocks(VOTING_PERIOD + 1)
+    }
+```
+
+The reason that I checked the proposal state is because there's this state function in the GovernorContract which tells the state of the proposal in.If you call that function and get the state, we should get a 1 for this having passed.
+
+Our proposal is in a succeded state, and we've actually moved the blocks along the voting period.Now let's go ahead, queue and execute the proposal.
 
 
 
