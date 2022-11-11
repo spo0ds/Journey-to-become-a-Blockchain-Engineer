@@ -596,7 +596,7 @@ We're going to setup the roles.Again we're setting it up so that only the govern
 
 So way that this is going to work is we're actually going to get the bytecodes of different roles.If you look at the TimelockController contract,
 
-![roles](Images/m133.png)
+![roles](Images/m134.png)
 
 These are just hashes of the strings as we can see in the image.But these are bytes32 saying "Anybody who has this bytes 32 is an proposer and so on."Right now our deployer account is the `TIMELOCK_ADMIN_ROLE` and that's bad.We don't want that.We don't want anyone to be TimeLockAdmin.We don't want anyone to have power over this TimeLock.We don't want any centralized force here.
 
@@ -705,6 +705,215 @@ export async function propose() {
 
 This is where we're actually going to propose on our governor contract.So the first thing that we're going to need is the governor.
 
+```typescript
+import { ethers } from "hardhat"
+
+export async function propose() {
+    const governor = await ethers.getContract("GovernorContract")
+}
+```
+
+We also need the box contract to propose the box contract changes the store value.
+
+```typescript
+const box = await ethers.getContract("Box")
+```
+
+If we look at the propose function in [Governor.sol](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/governance/Governor.sol),we pick a list of targets which is going to be just our box contract,values is how much eth we want to send, calldatas are the encoded parameters for the function that we want to call and then a description.This is exactly what we're going to do.
+
+If we look at box, we're going to call the store function with the new value and also we need to encode the box and the upgrade.
+
+```typescript
+const encodedFunctionCall = box.interface.encodeFunctionData(
+        //functionToCall, 
+        //args
+    )
+```
+
+So let get these arguments.
+
+```typescript
+export async function propose(args: any[], functionToCall: string) {
+}
+```
+
+Then right at the bottom, we're going to call the propose function.
+
+```typescript
+propose([77], "store")
+```
+
+We're actually going to use the parameters all over the place, we want to stick them in the helper-hardhat-config.
+
+```typescript
+export const NEW_STORE_VALUE = 77
+export const FUNC = "store"
+```
+
+In our propose, we're just going to import those.
+
+```typescript
+import { NEW_STORE_VALUE, FUNC } from "../helper-hardhat-config"
+```
+
+Then we pass them as a parameter.
+
+```typescript
+propose([NEW_STORE_VALUE], FUNC).then(() => process.exit(0)).catch((error) => {
+    console.log(error)
+    process.exit()
+})
+```
+
+We've encodedFunctionCall which has the functionToCall and args which we're combining these into the bytes.We can even print this to see what it looks like.
+
+```typescript
+const encodedFunctionCall = box.interface.encodeFunctionData(
+        functionToCall,
+        args
+    )
+console.log(encodedFunctionCall)
+```
+
+To test this, we'll do `yarn hardhat node`  which will spin up our fake blockchain but additionally with hardhat deploy, it'll deploy all of our contracts and after that in another terminal do `yarn hardhat run scripts/propose.ts --network localhost`.
+
+If you get error like `cannot estimate gas; transaction may fail or may require manual gas limit` then Add `allowUnlimitedContractSize: true` to your hardhat.config.ts under defaultNetworks.networks both "hardhat" and "localhost".
+
+![bytecode](Images/m135.png)
+
+But if you were to decode this using box.interface, you'd get the function call and the arguments.We've encoded to bytes and now we're going to create that proposal transaction.
+
+```typescript
+console.log(`Proposing ${functionToCall} on ${box.address} with ${args}`)
+console.log(`Proposal Description: \n ${proposalDescription}`)
+```
+
+We don't have proposal description yet.So let's add another parameter to the propose function.
+
+```typescript
+export async function propose(args: any[], functionToCall: string, proposalDescription: string) {
+}
+```
+
+We'll export proposal description from helper-hardhat-config.
+
+```typescript
+export const PROPOSAL_DESCRIPTION = "Proposal #1: Store 77 in the Box!"
+```
+
+and pass it in the propose function.
+
+```typescript
+propose([NEW_STORE_VALUE], FUNC, PROPOSAL_DESCRIPTION)
+```
+
+We can now call propose function of the Governor.sol contract.
+
+```typescript
+const proposeTx = await governor.propose(
+        [box.address],  //targets
+        [0],  //values
+        [encodedFunctionCall],  //calldatas
+        proposalDescription,
+    )
+await proposeTx.wait(1)
+```
+
+This transaction is literally going to be the same as created thing of the compound.We could see these exact same thing on a compound proposal.
+
+Now since we've a voting delay, people actually can't vote untill the voting delay passes.With a local blockchain, nobody actually processing blocks and time doesn't really pass as quick as we want.So we're just going to speed things up for testing purposes.We'll create a developmentChains variable in helper-hardhat-config.
+
+```typescript
+export const developmentChains = ["hardhat", "localhost"]
+```
+
+So if we're on a development chain let's speed things for us.
+```typescript
+if (developmentChains.includes(network.name)) {
+}
+```
+
+If it includes network.name then we're going to move the blocks forward.So we'll create a "utils" folder and in here I'll create a script called "move-blocks.ts" and we're going to create a function called "moveBlocks" which moves blocks for us.
+
+```typescript
+import { network } from "hardhat"
+
+export async function moveBlocks(amount: number) {
+    console.log("Moving blocks...")
+    for (let index = 0; index < amount; index++) {
+        await network.provider.request({ method: "evm_mine", params: [] })
+    }
+}
+```
+
+We're going to import this function in propose.ts.
+
+```typescript
+import { moveBlocks } from "../utils/move-blocks"
+```
+
+Then we move blocks by that VOTING_DELAY.
+
+```typescript
+if (developmentChains.includes(network.name)) {
+        await moveBlocks(VOTING_DELAY + 1)
+    }
+```
+
+Now this proposeTx does some stuff that we actually want.One of the big things that it wants is the `proposalId` and event `ProposalCreated` that it emits proposalId.We actually need proposalId for later on when we actually go to vote.So we're going to get proposeReceipt from proposeTx to get those events. 
+
+```typescript
+const proposeReceipt = await proposeTx.wait(1)
+```
+
+Then we're going to get the proposalId. 
+
+```typescript
+const proposalId = proposeReceipt.events[0].args.proposalId;
+```
+
+We want save the proposalId so that our other scripts know what the proposalId is going to be when we run those.So we're going to create a file called "proposals.json" which stores all of our proposals.We're going to add the file to the helper-hardhat-config.
+
+```typescript
+export const proposalsFile = "proposals.json"
+```
+
+Once we get the proposalId, we're going to read all the proposals.
+
+```typescript
+let proposals = JSON.parse(fs.readFileSync(proposalsFile, "utf-8"))
+```
+
+We need to install fs `yard add --dev fs`
+ and then import fs.
+ 
+```typescript
+import * as fs from "fs"
+```
+
+Let's make it a blank JSON in proposals.json.
+
+```json
+{
+    "31337": []
+}
+```
+
+Now we're going to save the proposalId.
+
+```typescript
+proposals[network.config.chainId!.toString()].push(proposalId.toString())
+```
+
+`!` means "Yes there will be a chainId".we're storing them by their chainId.Then we'll write it back.
+
+```typescript
+fs.writeFileSync(proposalsFile, JSON.stringify(proposals))
+```
+
+Let's go ahead and actually run this`yarn run scripts/propose.ts --network localhost`
+
+![proposalId](Images/m136.png)
 
 
 
