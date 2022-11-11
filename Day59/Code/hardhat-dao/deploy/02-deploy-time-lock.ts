@@ -9,7 +9,7 @@ const deployTimeLock: DeployFunction = async function (hre: HardhatRuntimeEnviro
 
     log("Deploying Timelock...")
 
-    const timeLock = await deploy("Timelock", {
+    const timeLock = await deploy("TimeLock", {
         from: deployer,
         args: [MIN_DELAY, [], []],
         log: true,
