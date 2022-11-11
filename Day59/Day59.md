@@ -990,6 +990,104 @@ The reason that I checked the proposal state is because there's this state funct
 Our proposal is in a succeded state, and we've actually moved the blocks along the voting period.Now let's go ahead, queue and execute the proposal.
 
 
+```typescript
+export async function queueAndExecute() {
+
+}
+
+queueAndExecute()
+    .then(() => process.exit(0))
+    .catch((error) => {
+        console.error(error)
+        process.exit(1)
+    })
+```
+
+So in order to queue and execute, we'll look out the queue function which is present in GovernorTimelockController and it does exactly the same as propose.We take everything that we did in the proposal and then we just queue it.Pass the same value and then queue it.
+
+```typescript
+export async function queueAndExecute() {
+    const args = [NEW_STORE_VALUE]
+    const box = await ethers.getContract("Box")
+}
+```
+
+Then once again we're going to encode the function call.
+
+```typescript
+const encodedFunctionCall = box.interface.encodeFunctionData(
+        FUNC,
+        args
+    )
+```
+
+Then we're going to hash the description.
+
+```typescript
+const descriptionHash = ethers.utils.keccack256(ethers.utils.toUft8Bytes(PROPOSAL_DESCRIPTION))
+```
+
+With our proposal we just passed the proposal description however it actually gets hashed on-chain and that what our queue and execute is going to look for.
+
+Now we've all the same parameters that we did with the propose, it's time to queue them.
+
+```typescript
+const governor = await ethers.getContract("GovernorContract")
+const queueTx = await governor.queue([box.address], [0], [encodedFunctionCall], descriptionHash)
+await queueTx.wait(1)
+```
+
+We're all queued up but we still have to wait that minimum delay.So we're going to speed up time again.We're going to move blocks and also we actually have to move time here.So let's create a new utils called "move-time.ts" and this allows us to move time.
+
+```typescript
+import { network } from "hardhat"
+
+export async function moveTime(amount: number) {
+    console.log("Moving time...")
+    for (let index = 0; index < amount; index++) {
+        await network.provider.send("evm_increaseTime", [amount])
+        console.log(`Moved forward ${amount} seconds`)
+    }
+}
+```
+
+So first we're going to move time then move blocks.
+
+```typescript
+if (developmentChains.includes(network.name)) {
+        await moveTime(MIN_DELAY + 1)
+        await moveBlocks(1)
+    }
+```
+
+Now that's it's all queued up, the voters passed, let's execute the proposal.
+
+```typescript
+console.log("Executing...")
+const executeTx = await governor.execute([box.address], [0], [encodedFunctionCall], descriptionHash)
+await executeTx.wait(1)
+```
+
+The final hour we'll see if the governance our box contract.
+
+```typescript
+const boxNewValue = await box.retrieve()
+console.log(`New Box Value: ${boxNewValue.toString()}`)
+```
+
+Let's see we did it right.
+
+`yarn hardhat   run scripts/queue-and-execute.ts --network localhost`
+
+![newBoxValue](Images/m137.png)
+
+
+
+
+
+
+
+
 
 
 
