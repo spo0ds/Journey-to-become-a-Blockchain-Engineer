@@ -719,6 +719,13 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | **Build a DAO** |
 | - What is a DAO? |
 | - How to build a DAO? |
+| <p align="center"> [Day 60](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day60/Day60.md) </p> |
+| **Security and Auditing** |
+| - What is an Audit? |
+| - Process |
+| - Slither |
+| - Fuzzing and eth-security-toolbox |
+
 
 
 
