@@ -1,6 +1,7 @@
 import { developmentChains, proposalsFile, VOTING_PERIOD } from "../helper-hardhat-config"
 import { moveBlocks } from "../utils/move-blocks"
 import * as fs from "fs"
+// @ts-ignore
 import { network, ethers } from "hardhat"
 
 const index = 0

@@ -1,4 +1,5 @@
 import { NEW_STORE_VALUE, FUNC, PROPOSAL_DESCRIPTION, developmentChains, VOTING_DELAY, proposalsFile } from "../helper-hardhat-config"
+// @ts-ignore
 import { ethers, network } from "hardhat"
 import { moveBlocks } from "../utils/move-blocks"
 import * as fs from "fs"
