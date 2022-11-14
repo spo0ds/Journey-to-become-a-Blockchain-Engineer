@@ -246,6 +246,107 @@ if (!itemBought) {
  ```
  
  This is our full function of handleItemBought.Whenever somebody buys an Item, we update a new item bought object and we update our active item to be a new buyer.We're not going to delete it from our ActiveItem list, we're just going to update it with a new buyer.Also we'll say if it has a buyer, it means it has been bought but if not then it's still on the market.
+ 
+ So now that we've done handleItemBought, let's now do our handleItemListed which will hopefully make our handleItemBought a little bit easier to understand.We're going to do the same piece here.
+
+```typescript
+export function handleItemListed(event: ItemListedEvent): void {
+  let itemListed = ItemListed.load(getIdFromEventParams(event.params.tokenId, event.params.nftAddress))
+  let activeItem = ActiveItem.load(getIdFromEventParams(event.params.tokenId, event.params.nftAddress))
+
+  if (!itemListed) {
+    itemListed = new ItemListed(
+      getIdFromEventParams(event.params.tokenId, event.params.nftAddress)
+    )
+  }
+}
+```
+
+Unlike what we did above, we're also going to check for activeItem. If there's no activeItem, we're going to create a new activeItem because we're listing an item, that is not on the marketplace.But if we're updating the price of the nft, activeItem will already exists.
+
+```typescript
+if (!activeItem) {
+    activeItem = new ActiveItem(
+      getIdFromEventParams(event.params.tokenId, event.params.nftAddress)
+    )
+  }
+```
+
+Now all we gotta do is update these new objects.
+
+```typescript
+itemListed.seller = event.params.seller
+activeItem.seller = event.params.seller
+
+itemListed.nftAddress = event.params.nftAddress
+activeItem.nftAddress = event.params.nftAddress
+
+itemListed.tokenId = event.params.tokenId
+activeItem.tokenId = event.params.tokenId
+
+itemListed.price = event.params.price
+activeItem.price = event.params.price
+
+itemListed.save()
+activeItem.save()
+```
+
+So in our protocol here, if there's already an activeItem, then we just go ahead and get that activeItem.This would be for a listing that we're updating the price.If not, we make a new one.We populate with whatever came in through the event and then we save it our graph protocol.
+
+Let's figure our how to do ItemCanceled.It's going to look really similar to ItemBought.
+
+```typescript
+export function handleItemCanceled(event: ItemCanceledEvent): void {
+  let itemCanceled = ItemCanceled.load(getIdFromEventParams(event.params.tokenId, event.params.nftAddress))
+  let activeItem = ActiveItem, load(getIdFromEventParams(event.params.tokenId, event.params.nftAddress))
+
+  if (!itemCanceled) {
+    itemCanceled = new ItemCanceled(
+      getIdFromEventParams(event.params.tokenId, event.params.nftAddress)
+    )
+  }
+
+  itemCanceled.seller = event.params.seller
+  itemCanceled.nftAddress = event.params.nftAddress
+  itemCanceled.tokenId = event.params.tokenId
+}
+```
+
+Finally we're going to change the activeItem a little bit different that what we've seen.
+
+```typescript
+activeItem!.buyer = Address.fromString("0x000000000000000000000000000000000000dEaD")
+```
+
+This is known as the dead address and this is how we're going to decide if an item is still on the marketplace or not or if an item has been bought or not.If we have the dead address as it's buyer, that's going to mean that the item has been cancelled  and that's how we're going to be able to tell that an item is on the marketplace or not.Dead address means it's been cancelled, an empty address means which is what will happen for handleItemListed means it's on the market and an actual real address means that it actually been bought by somebody.So the way we can tell if it's on the market is it's 0x00000... because the dead address is obviously going to be different than all zeros.The dead address is a commonly used address kind of as a burner address that nobody owns then we can just save them.
+
+```typescript
+itemCanceled.save()
+activeItem!.save()
+```
+
+This file is now completed.We now have a three different functions to define how to handle when items are bought, cancelled or listed.With this we're almost ready to tell our subgraph to start listening to our contracts.There's atleast one more thing that we want to do.In our subgraph.yaml, we'll see source, which is telling us to start indexing events since the beginning of the ethereum.Now we don't want it to do that, because it will take a really long time.We want to tell our subgraph, just start from right before our contract was deployed.So we can add startBlock to tell it what block number to start deploying.We can copy the contract address and paste it in goerli etherscan and we'll see what block number our contract was deployed.
+`Subtract 1 from actual block Number`.
+
+```yaml
+source:
+      address: "0x7C79E5158f8A1D90aE6AaFe1239DbAa38AB6d6F8"
+      abi: NftMarketplace
+      startBlock: 7732577
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
