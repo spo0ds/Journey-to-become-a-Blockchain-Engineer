@@ -12,7 +12,10 @@
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.35.0",
-    "@graphprotocol/graph-ts": "0.28.1"
+    "@graphprotocol/graph-ts": "0.28.1",
+    "abort-controller": "^3.0.0"
   },
-  "devDependencies": { "matchstick-as": "0.5.0" }
+  "devDependencies": {
+    "matchstick-as": "0.5.0"
+  }
 }

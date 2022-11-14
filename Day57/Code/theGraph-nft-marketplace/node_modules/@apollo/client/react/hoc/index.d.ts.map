@@ -1,0 +1,1 @@
+{"version":3,"file":"index.d.ts","sourceRoot":"","sources":["../../../src/react/hoc/index.ts"],"names":[],"mappings":"AAAA,OAAO,yBAAyB,CAAC;AAEjC,OAAO,EAAE,OAAO,EAAE,MAAM,WAAW,CAAC;AAEpC,OAAO,EAAE,SAAS,EAAE,MAAM,aAAa,CAAC;AACxC,OAAO,EAAE,YAAY,EAAE,MAAM,gBAAgB,CAAC;AAC9C,OAAO,EAAE,gBAAgB,EAAE,MAAM,oBAAoB,CAAC;AACtD,OAAO,EAAE,UAAU,EAAE,MAAM,cAAc,CAAC;AAE1C,cAAc,SAAS,CAAC"}

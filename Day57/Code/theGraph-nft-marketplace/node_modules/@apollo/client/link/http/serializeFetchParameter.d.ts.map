@@ -1,0 +1,1 @@
+{"version":3,"file":"serializeFetchParameter.d.ts","sourceRoot":"","sources":["../../../src/link/http/serializeFetchParameter.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,cAAc,EAAE,MAAM,yBAAyB,CAAC;AAEzD,oBAAY,gBAAgB,GAAG,cAAc,GAAG;IAC9C,UAAU,EAAE,KAAK,CAAC;CACnB,CAAC;AAEF,eAAO,MAAM,uBAAuB,MAAO,GAAG,SAAS,MAAM,WAY5D,CAAC"}

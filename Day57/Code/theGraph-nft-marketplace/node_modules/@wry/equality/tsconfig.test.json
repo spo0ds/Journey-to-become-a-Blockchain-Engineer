@@ -1,0 +1,6 @@
+{
+  "extends": "./tsconfig.rollup.json",
+  "compilerOptions": {
+    "target": "esnext",
+  },
+}

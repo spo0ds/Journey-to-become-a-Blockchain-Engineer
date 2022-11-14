@@ -1,0 +1,3 @@
+import { ReactElement } from 'react';
+export declare function renderToStringWithData(component: ReactElement<any>): Promise<string>;
+//# sourceMappingURL=renderToStringWithData.d.ts.map

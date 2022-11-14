@@ -1,0 +1,1 @@
+{"version":3,"file":"throwServerError.d.ts","sourceRoot":"","sources":["../../../src/link/utils/throwServerError.ts"],"names":[],"mappings":"AAAA,oBAAY,WAAW,GAAG,KAAK,GAAG;IAChC,QAAQ,EAAE,QAAQ,CAAC;IACnB,MAAM,EAAE,MAAM,CAAC,MAAM,EAAE,GAAG,CAAC,CAAC;IAC5B,UAAU,EAAE,MAAM,CAAC;CACpB,CAAC;AAEF,eAAO,MAAM,gBAAgB,aACjB,QAAQ,UACV,GAAG,WACF,MAAM,UAQhB,CAAC"}

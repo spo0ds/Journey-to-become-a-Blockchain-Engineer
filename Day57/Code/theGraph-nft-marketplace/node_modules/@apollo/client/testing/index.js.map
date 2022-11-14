@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","sourceRoot":"","sources":["../../src/testing/index.ts"],"names":[],"mappings":"AAAA,OAAO,sBAAsB,CAAC;AAC9B,OAAO,EAAE,cAAc,EAAuB,MAAM,wBAAwB,CAAC;AAC7E,cAAc,QAAQ,CAAC","sourcesContent":["import '../utilities/globals';\nexport { MockedProvider, MockedProviderProps } from './react/MockedProvider';\nexport * from './core';\n"]}

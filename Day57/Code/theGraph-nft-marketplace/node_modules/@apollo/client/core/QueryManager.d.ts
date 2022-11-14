@@ -1,0 +1,120 @@
+import { DocumentNode } from 'graphql';
+import { ApolloLink, FetchResult } from '../link/core';
+import { Cache, ApolloCache } from '../cache';
+import { Observable, Concast } from '../utilities';
+import { QueryOptions, WatchQueryOptions, SubscriptionOptions, MutationOptions, ErrorPolicy, MutationFetchPolicy } from './watchQueryOptions';
+import { ObservableQuery } from './ObservableQuery';
+import { NetworkStatus } from './networkStatus';
+import { ApolloQueryResult, OperationVariables, MutationUpdaterFunction, OnQueryUpdated, InternalRefetchQueriesInclude, InternalRefetchQueriesOptions, InternalRefetchQueriesMap } from './types';
+import { LocalState } from './LocalState';
+import { QueryStoreValue } from './QueryInfo';
+interface MutationStoreValue {
+    mutation: DocumentNode;
+    variables: Record<string, any>;
+    loading: boolean;
+    error: Error | null;
+}
+declare type UpdateQueries<TData> = MutationOptions<TData, any, any>["updateQueries"];
+interface TransformCacheEntry {
+    document: DocumentNode;
+    hasClientExports: boolean;
+    hasForcedResolvers: boolean;
+    clientQuery: DocumentNode | null;
+    serverQuery: DocumentNode | null;
+    defaultVars: OperationVariables;
+    asQuery: DocumentNode;
+}
+declare type DefaultOptions = import("./ApolloClient").DefaultOptions;
+export declare class QueryManager<TStore> {
+    cache: ApolloCache<TStore>;
+    link: ApolloLink;
+    defaultOptions: DefaultOptions;
+    readonly assumeImmutableResults: boolean;
+    readonly ssrMode: boolean;
+    private queryDeduplication;
+    private clientAwareness;
+    private localState;
+    private onBroadcast?;
+    mutationStore?: {
+        [mutationId: string]: MutationStoreValue;
+    };
+    private queries;
+    private fetchCancelFns;
+    constructor({ cache, link, defaultOptions, queryDeduplication, onBroadcast, ssrMode, clientAwareness, localState, assumeImmutableResults, }: {
+        cache: ApolloCache<TStore>;
+        link: ApolloLink;
+        defaultOptions?: DefaultOptions;
+        queryDeduplication?: boolean;
+        onBroadcast?: () => void;
+        ssrMode?: boolean;
+        clientAwareness?: Record<string, string>;
+        localState?: LocalState<TStore>;
+        assumeImmutableResults?: boolean;
+    });
+    stop(): void;
+    private cancelPendingFetches;
+    mutate<TData, TVariables, TContext, TCache extends ApolloCache<any>>({ mutation, variables, optimisticResponse, updateQueries, refetchQueries, awaitRefetchQueries, update: updateWithProxyFn, onQueryUpdated, fetchPolicy, errorPolicy, keepRootFields, context, }: MutationOptions<TData, TVariables, TContext>): Promise<FetchResult<TData>>;
+    markMutationResult<TData, TVariables, TContext, TCache extends ApolloCache<any>>(mutation: {
+        mutationId: string;
+        result: FetchResult<TData>;
+        document: DocumentNode;
+        variables?: TVariables;
+        fetchPolicy?: MutationFetchPolicy;
+        errorPolicy: ErrorPolicy;
+        context?: TContext;
+        updateQueries: UpdateQueries<TData>;
+        update?: MutationUpdaterFunction<TData, TVariables, TContext, TCache>;
+        awaitRefetchQueries?: boolean;
+        refetchQueries?: InternalRefetchQueriesInclude;
+        removeOptimistic?: string;
+        onQueryUpdated?: OnQueryUpdated<any>;
+        keepRootFields?: boolean;
+    }, cache?: ApolloCache<TStore>): Promise<FetchResult<TData>>;
+    markMutationOptimistic<TData, TVariables, TContext, TCache extends ApolloCache<any>>(optimisticResponse: any, mutation: {
+        mutationId: string;
+        document: DocumentNode;
+        variables?: TVariables;
+        fetchPolicy?: MutationFetchPolicy;
+        errorPolicy: ErrorPolicy;
+        context?: TContext;
+        updateQueries: UpdateQueries<TData>;
+        update?: MutationUpdaterFunction<TData, TVariables, TContext, TCache>;
+        keepRootFields?: boolean;
+    }): void;
+    fetchQuery<TData, TVars>(queryId: string, options: WatchQueryOptions<TVars, TData>, networkStatus?: NetworkStatus): Promise<ApolloQueryResult<TData>>;
+    getQueryStore(): Record<string, QueryStoreValue>;
+    resetErrors(queryId: string): void;
+    private transformCache;
+    transform(document: DocumentNode): TransformCacheEntry;
+    private getVariables;
+    watchQuery<T, TVariables = OperationVariables>(options: WatchQueryOptions<TVariables, T>): ObservableQuery<T, TVariables>;
+    query<TData, TVars = OperationVariables>(options: QueryOptions<TVars, TData>, queryId?: string): Promise<ApolloQueryResult<TData>>;
+    private queryIdCounter;
+    generateQueryId(): string;
+    private requestIdCounter;
+    generateRequestId(): number;
+    private mutationIdCounter;
+    generateMutationId(): string;
+    stopQueryInStore(queryId: string): void;
+    private stopQueryInStoreNoBroadcast;
+    clearStore(options?: Cache.ResetOptions): Promise<void>;
+    getObservableQueries(include?: InternalRefetchQueriesInclude): Map<string, ObservableQuery<any, OperationVariables>>;
+    reFetchObservableQueries(includeStandby?: boolean): Promise<ApolloQueryResult<any>[]>;
+    setObservableQuery(observableQuery: ObservableQuery<any, any>): void;
+    startGraphQLSubscription<T = any>({ query, fetchPolicy, errorPolicy, variables, context, }: SubscriptionOptions): Observable<FetchResult<T>>;
+    stopQuery(queryId: string): void;
+    private stopQueryNoBroadcast;
+    removeQuery(queryId: string): void;
+    broadcastQueries(): void;
+    getLocalState(): LocalState<TStore>;
+    private inFlightLinkObservables;
+    private getObservableFromLink;
+    private getResultsFromLink;
+    fetchQueryObservable<TData, TVars>(queryId: string, options: WatchQueryOptions<TVars, TData>, networkStatus?: NetworkStatus): Concast<ApolloQueryResult<TData>>;
+    refetchQueries<TResult>({ updateCache, include, optimistic, removeOptimistic, onQueryUpdated, }: InternalRefetchQueriesOptions<ApolloCache<TStore>, TResult>): InternalRefetchQueriesMap<TResult>;
+    private fetchQueryByPolicy;
+    private getQuery;
+    private prepareContext;
+}
+export {};
+//# sourceMappingURL=QueryManager.d.ts.map

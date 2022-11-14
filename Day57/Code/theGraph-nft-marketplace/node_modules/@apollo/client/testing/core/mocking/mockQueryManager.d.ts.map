@@ -1,0 +1,1 @@
+{"version":3,"file":"mockQueryManager.d.ts","sourceRoot":"","sources":["../../../../src/testing/core/mocking/mockQueryManager.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,YAAY,EAAE,MAAM,4BAA4B,CAAC;AAC1D,OAAO,EAAkB,cAAc,EAAE,MAAM,YAAY,CAAC;0CAMzC,GAAG,KAAK,GAAG,sBACR,cAAc,EAAE;AAFtC,wBAQE"}
