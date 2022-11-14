@@ -336,17 +336,213 @@ source:
 ```
 
 
+**Deploying our Subgraph**
+
+We actually have the auth and deploy code in the graph dashboard.We can run it in our code editor.
+
+`yarn graph auth --studio 2416d608e74c5e11731c15e32a82b726`
+
+So this is just setting us up so that whenever we push our code, it's going to push it to the subgraph configuration that we've made on their site to help us deploy automatically.Now we need to build the subgraph.
+
+`yarn graph codegen`
+
+This is going to make sure that our schema.graphql looks good and then we're going to run `yarn graph build`.This command is going to compile and run all of our subgraph stuff  and put it into a real build folder.The generated folder is kind of like the pseudo build folder.The real build folder is what we're actually going to be deploying and sending to the graph and we can actually deploy our subgraph now with :
+
+`yarn graph deploy --studio nft-marketplace`
+
+It's going to give us the version label which we're going to give    `v0.0.1` and goes ahead and start deploying to the graph.We also get to upload our subgraph to IPFS and then we've a hash for IPFS for a subgraph that we could look at.
+
+We now have the build completed thing and graphend points for queries.We can actually start quering to our subgraph.If we go to the graph studio, we can see the status deployed and now we have some nodes that are listening for our events to be emitted here.Let's pull our hardhat-nft-marketplace code of Day52 and run mint-and-list script for goerli.
+
+`yarn hardhat run scripts/mint-and-list.js --network goerli`
+
+So we're going to mint an NFT.Once it's listed, it's going to emit an ItemListed event and we should see we have an ActiveItem and ItemListed data in our graphql.This means in a decentralized context, we have a off-chain service that is indexing our events for our contract so that we can update our frontend and we can update people in a decentralized way.
+
+**Reading from The Graph**
+
+Now that we've all setup, we can finally go back to our nextJs project.Right now in our code base, we're reading from a moralis database which we're not going to do anymore.Instead of reading from a moralis database, we're going to read from the graph.Let's update index.js to read from the graph instead.
+
+To show this we're actually going to create a new page "graph.js".We're going to make this a really minimalistic page to show you how to do a graph query.
+
+```javascript
+export default function graph() {
+
+}
+```
+
+We're going to use this tool called `apollo client` and we're going to add it with yarn.
+
+`yarn add  @apollo/client`
+
+We also need to add graphql.
+
+`yarn add graphql`
+
+This apollo/client is how we're going to make a queries to our newly created graphql.So we're going to import useQuery from apollo client and we'll also import gql.
+
+```javascript
+import { useQuery, gql } from "@apollo/client"
+```
+
+So to create a new query, we'll say:
+
+```javascript
+const GET_ACTIVE_ITEMS = gql`
+{
+}
+`
+```
+
+We're going to add all the graphql stuff inside the brackets.We only want to get the active item.We'll gran the first 5 where the buyer address is 0x.Then we're going to get the Id, buyer, seller, nftAddress, tokenId and the price.
+
+```javascript
+const GET_ACTIVE_ITEMS = gql`
+    {
+        activeItems(first:5, where:{buyer:"0x00000000"})
+        {
+            id
+            buyer
+            seller
+            nftAddress
+            tokenId
+            price
+        }
+    }
+`
+```
+
+Now we have a graphql query that we can use for our graph example.We'll use the query with useQuery hook.
+
+```javascript
+const { loading, error, data } = useQuery(GET_ACTIVE_ITEMS)
+```
+
+Then we're going to return a div.
+
+```javascript
+export default function graph() {
+    const { loading, error, data } = useQuery(GET_ACTIVE_ITEMS)
+    console.log(data)
+    return <div>Hi</div>
+}
+```
+
+We'll go back to app.js, we also need to wrap everything in apollo provider and we need to initialize it kind of similar to how we initialize connecting to moralis server, but we're going to initialize connecting to GraphQl.
+
+```javascript
+import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client"
+```
+
+Then we have to initialize  so we can delete the moralis stuff and we'll initialize client by:
+
+```javascript
+const client = new ApolloClient({
+  cache: new InMemoryCache(),
+  uri: "https://api.studio.thegraph.com/query/26581/nft-marketplace/v0.0.1",
+})
+```
+
+This client tells our graphql where it should be making those queries.This starts with https.Is this centralized?Yes because we're directly calling the graph website however all the data is still going to be stored in this decentralized graph indexer and kind of similar to what we did with IPFS we're doing this as a gateway to make it a lot easier for us to connect and read the data from the graph studio.However in the future as more protocols and more browsers adopt the graph and IPFS, this will become alot easier.
+
+Inside of our MoralisProvider but outside of NotificationProvider, we're going to do:
+
+```typescript
+<MoralisProvider initializeOnMount={false}>
+        <ApolloProvider client={client}>
+          <NotificationProvider>
+            <Header />
+            <Component {...pageProps} />
+          </NotificationProvider>
+        </ApolloProvider>
+      </MoralisProvider>
+```
+
+Now we'll try to run our frontend.
+
+`yarn dev`
+
+If we go to the graph page and then to console, we can see an activeItem which is returned from the graph with buyer, Id, nftAddress, price and all other stuff.
 
 
+All we have to do now is update, instead of useMoralis query, we're going to query from apollo from our graphql and everything else stays the same.First we're going to get the address of the contract.
 
+```javascript
+import networkMapping from "../constants/networkMapping.json"
+```
 
+We're going to get the marketplace address like we did in sell-nft page.
 
+```javascript
+const { isWeb3Enabled, chainId } = useMoralis()
+const chainString = chainId ? parseInt(chainId).toString() : "31337"
+const marketplaceAddress = networkMapping[chainString].NftMarketplace[0]
+```
 
+Now we'll use useQuery.
 
+```javascript
+const { loading, error, data: listedNfts } = useQuery()
+```
 
+And we can get that activeItems.So I'm going to create a new file in constants "subGraphQueries.js".We're going to pass that get activeItem thing.We're going to import gql from apollo/client.
 
+```javascript
+import { gql } from "apollo/client"
 
+const GET_ACTIVE_ITEMS = gql`
+ {
+     activeItems(first:5, where:{buyer:"0x00000000"})
+     {
+         id
+         buyer
+         seller
+         nftAddress
+         tokenId
+         price
+     }
+ }
+`
 
+export default GET_ACTIVE_ITEMS
+```
+
+We'll import this query from sub graph query into our index.js.
+
+```javascript
+import GET_ACTIVE_ITEMS from "../constants/subGraphQueries"
+```
+
+Now in our useQuery, we'll pass that.
+
+```javascript
+  const { loading, error, data: listedNfts } = useQuery(GET_ACTIVE_ITEMS)
+```
+
+This should return our listedNfts.We'll change it from fetchingListedNfts to loading or we don't have listed Nfts.
+
+```javascript
+loading || !listedNfts ? (
+            <div>Loading...</div>
+          ) 
+```
+
+Otherwise we're going to do another mapping but the return of the graphql is going to be little bit different.So instead of listedNfts.map, it's going to be listedNfts.activeItems.map((nft)).
+
+```javascript
+listedNfts.activeItems.map((nft) => {}
+```
+
+We're not going to get marketplaceAddress and it's going to be only nft not nft.attributes.
+
+```javascript
+const { price, nftAddress, tokenId, seller} = nft
+```
+
+Then everything is all same.So really all we're doing is swapping out the query methodology.We save that and restart our website with `yarn dev` we should see everything exactly the same except from the images being pulled from the graph instead of the moralis.We now have updated to get our events from a decentralized data structure.
+
+**Hosting our Dapp**
+
+We're using image tag from nextJs which comes with preprocessing so it's little hard to use an IPFS.So we need to update the way we do images in order to host this in IPFS.But we still could do that.Some other options we've actually are we can even host our apps on Moralis, vercel or netlify or really any traditional centralized hosting service.
 
 
 
