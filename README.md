@@ -709,6 +709,9 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | **The Graph Front End** |
 | - What is The Graph? |
 | - Building a Subgraph |
+| - Deploying our Subgraph |
+| - Reading from The Graph |
+| - Hosting our Dapp |
 | <p align="center"> [Day 58](https://github.com/spo0ds/Journey-to-become-a-Blockchain-Engineer/blob/main/Day58/Day58.md) </p> |
 | **Hardhat Upgrades** |
 | - Delegate call |
