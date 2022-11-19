@@ -728,9 +728,21 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Process |
 | - Slither |
 | - Fuzzing and eth-security-toolbox |
-
-
-
+| ##Deep Dive into DEFI |
+| **Traditional Finance System** |
+| <p align="center"> [Day 61](https://github.com/spo0ds/Deep-Dive-into-DEFI/blob/main/Day61/Day61.md) </p> |
+| - Income Statement |
+| - Fractional Reserve |
+| - The multiplier effect and the money supply |
+| - Bank Notes |
+| - Bank notes and checks |
+| - Giving out loans without giving out gold |
+| - Reserve ratios |
+| - Reserve ratio requirement |
+| - Leverage |
+| - Reserve Bank |
+| - Treasury (government debt) |
+| - Open market operations |
 
 
 
