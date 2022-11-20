@@ -743,7 +743,13 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Reserve Bank |
 | - Treasury (government debt) |
 | - Open market operations |
-
+| <p align="center"> [Day 62](https://github.com/spo0ds/Deep-Dive-into-DEFI/blob/main/Day62/Day62.md) </p> |
+| - The Federal Funds Rate |
+| - More on the fed funds rate |
+| - How do target interest rates differ from money supply? |
+| - What happened to the gold? |
+| - Overall discussion |
+| - The discount rate |
 
 
 
