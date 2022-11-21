@@ -750,6 +750,11 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - What happened to the gold? |
 | - Overall discussion |
 | - The discount rate |
+| - Repurchase agreements (repo transactions) |
+| - Fractional reserve banking |
+| - Deposit insurance |
+| - Big picture |
+| - LIBOR |
 
 
 
