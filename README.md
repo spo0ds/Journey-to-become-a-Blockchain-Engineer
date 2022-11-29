@@ -755,6 +755,11 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Deposit insurance |
 | - Big picture |
 | - LIBOR |
+| <p align="center"> [Day 63](https://github.com/spo0ds/Deep-Dive-into-DEFI/blob/main/Day63/Day63.md) </p> |
+| **Connecting TradFi and DeFi** |
+| **Stablecoins** |
+| - Volatility |
+| - Liquidity |
 
 
 
