@@ -760,6 +760,14 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | **Stablecoins** |
 | - Volatility |
 | - Liquidity |
+| - Collateral |
+| - Floating and Fixed Interest Rates |
+| - Currency pegs |
+| **Types of stablecoins and comparison** |
+| - USDT |
+| - USDC |
+| - BUSD |
+| - DAI |
 
 
 
