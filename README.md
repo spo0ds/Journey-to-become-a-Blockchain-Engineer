@@ -768,6 +768,20 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - USDC |
 | - BUSD |
 | - DAI |
+| <p align="center"> [Day 64](https://github.com/spo0ds/Deep-Dive-into-DEFI/blob/main/Day64/Day64.md) </p> |
+| - Tether(USDT) |
+| **MakerDAO** |
+| - DAI and MakerDAO |
+| **Mechanism Design of Maker (DAI and MKR)** |
+| - Dual Token Mechanism |
+| - Reserve Mechanism |
+| - Creating DAI and How it works |
+| - Maintaining Stability |
+| - Crashes,  Liquidations |
+| - How is this different from lending and borrowing? |
+| - Transparency |
+| - Global Settlement |
+| - Interacting with a Maker Vault |
 
 
 
