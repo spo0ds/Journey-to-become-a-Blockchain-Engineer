@@ -773,7 +773,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | **MakerDAO** |
 | - DAI and MakerDAO |
 | **Mechanism Design of Maker (DAI and MKR)** |
-| - Dual Token Mechanism |
+| - Dual Token Mechanism | 
 | - Reserve Mechanism |
 | - Creating DAI and How it works |
 | - Maintaining Stability |
@@ -782,6 +782,23 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Transparency |
 | - Global Settlement |
 | - Interacting with a Maker Vault |
+| <p align="center"> [Day 65](https://github.com/spo0ds/Deep-Dive-into-DEFI/blob/main/Day65/Day65.md) </p> |
+| **Smart contract module of MakerDAO** |
+| <p align="center"> [Day 66](https://github.com/spo0ds/Deep-Dive-into-DEFI/blob/main/Day66/Day66.md) </p> |
+| **Decentralized Exchanges (DEXs)** |
+| - Stocks |
+| - Financial Instruments |
+| - Order Book |
+| - Market |
+| - Exchange |
+| - Broker-Dealer |
+| - Market Makers |
+| - Market Index |
+| - Long Trade vs. Short Trade |
+| - Leverage |
+| - Margin Trading |
+| - Counterparty risks |
+| - Trade Slippage |
 
 
 
