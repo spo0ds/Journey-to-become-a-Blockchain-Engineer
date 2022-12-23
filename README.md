@@ -808,6 +808,21 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - AMM |
 | - impermanent loss |
 | - Rug Pull |
+| <p align="center"> [Day 68](https://github.com/spo0ds/Deep-Dive-into-DEFI/blob/main/Day68/Day68.md) </p> |
+| **Uniswap** |
+| **High Level Working of Uniswap** |
+| - Creating markets using Uniswap Exchange Factories |
+| - Adding liquidity to markets via Uniswap Exchanges |
+| - Swapping Ether for Tokens |
+| - Swapping tokens for Ether |
+| - Swapping tokens for tokens |
+| **Comparison of Unswap v1 vs v2 vs v3** |
+| - Uniswap V1 |
+| - Uniswap V2 |
+| - Uniswap V3 |
+| **Frontrunning and sandwich attacks** |
+| - How is it related to slippage? |
+| - MemPool |
 
 
 
