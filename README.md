@@ -799,6 +799,16 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Margin Trading |
 | - Counterparty risks |
 | - Trade Slippage |
+| <p align="center"> [Day 67](https://github.com/spo0ds/Deep-Dive-into-DEFI/blob/main/Day67/Day67.md) </p> |
+| - DEX risk |
+| - How a Decentralized Cryptocurrency Exchange Works |
+| - Atomic Swaps |
+| **Liquidity pools and automated market makers** |
+| - Liquidity pools |
+| - AMM |
+| - impermanent loss |
+| - Rug Pull |
+
 
 
 
