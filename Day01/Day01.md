@@ -14,7 +14,7 @@ A Smart Contract is a self-executing set of instructions that is executed withou
 
 **Bitcoin Vs Ethereum**
 
-Technically, Bitcoin also has smart contracts; however, they're not `touring complete`: they don't have the full range of capabilities as a Turing-complete application like Ethereum. This is actually an intentional move by the Bitcoin developers. They view the bitcoin network as an asset, whereas the Ethereum and Ethereum developers view that asset as an asset and also a utility for people to build these smart contracts. These smart contracts are revolutionary technologies, but they actually come with a fatal flaw with what's known as `The Oracle Problem`.
+Technically, Bitcoin also has smart contracts; however, they're not `Turing Complete`: they don't have the full range of capabilities as a Turing-complete application like Ethereum. This is actually an intentional move by the Bitcoin developers. They view the bitcoin network as an asset, whereas the Ethereum and Ethereum developers view that asset as an asset and also a utility for people to build these smart contracts. These smart contracts are revolutionary technologies, but they actually come with a fatal flaw with what's known as `The Oracle Problem`.
 
 **Oracle Problem & Solution**
 
