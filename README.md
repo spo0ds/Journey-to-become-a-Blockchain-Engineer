@@ -823,6 +823,14 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | **Frontrunning and sandwich attacks** |
 | - How is it related to slippage? |
 | - MemPool |
+| <p align="center"> [Day 69](https://github.com/spo0ds/Deep-Dive-into-DEFI/blob/main/Day69/Day69.md) </p> |
+| **Balancer** |
+| - Index |
+| - Index fund |
+| - What is Balancer? |
+| - Liquidity bootstrapping pools |
+| - How does the balancer work? |
+| - Smart Contract walkthrough |
 
 
 
