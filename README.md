@@ -829,8 +829,10 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Index fund |
 | - What is Balancer? |
 | - Liquidity bootstrapping pools |
-| - How does the balancer work? |
-| - Smart Contract walkthrough |
+| **How does the balancer work?** |
+| **Smart Contract walkthrough** |
+| - BFactory.sol |
+| - BPool.sol |
 
 
 
