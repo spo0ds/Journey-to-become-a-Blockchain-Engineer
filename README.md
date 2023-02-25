@@ -833,6 +833,11 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | **Smart Contract walkthrough** |
 | - BFactory.sol |
 | - BPool.sol |
+| <p align="center"> [Day 70](https://github.com/spo0ds/Deep-Dive-into-DEFI/blob/main/Day70/Day70.md) </p> |
+| **Curve Finance** |
+| - Why not Uniswap? |
+| - How does curve finance work? |
+
 
 
 
