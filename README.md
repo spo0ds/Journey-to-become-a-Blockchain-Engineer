@@ -839,6 +839,7 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - How does curve finance work? |
 | - Math behind Curve Finance |
 | <p align="center"> [Day 71](https://github.com/spo0ds/Deep-Dive-into-DEFI/blob/main/Day71/Day71.md) </p> |
+| **Bancor** |
 
 
 
