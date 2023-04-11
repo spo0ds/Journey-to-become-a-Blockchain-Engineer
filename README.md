@@ -840,6 +840,12 @@ I'm sharing everything I'm learning to become a Blockchain Engineer
 | - Math behind Curve Finance |
 | <p align="center"> [Day 71](https://github.com/spo0ds/Deep-Dive-into-DEFI/blob/main/Day71/Day71.md) </p> |
 | **Bancor** |
+| **Smart contract walkthrough** |
+| - Vault.sol |
+| - MasterVault.sol |
+| - ExternalProtectionVault.sol |
+| - ExternalRewardsVault.sol |
+
 
 
 
