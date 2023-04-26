@@ -175,4 +175,18 @@ It has found an usecase where it can make s_locked = false and the use case is "
 
 So if you're not going to be an auditor, you just want to deploy things to mainnet, always before you deploy anything the absolute minimum that you should be doing is always running slither and then looking manually for oracle manipulation and re-entrancy attack.If you see in your code that you're getting pricing information from a centralized location, rethink that scenario.If you're getting random number or anytype of automation from a centralized location, rethink it and change your strategy.The chainlink oracle network has been created for a reason to prevent getting hacked like this.
 
+#### The types of smart contract vulnerabilities that have occurred in the past:
 
+Reentrancy Attacks: This type of vulnerability allows attackers to repeatedly enter and exit a smart contract to steal funds or cause it to malfunction.
+
+Integer Overflow/Underflow: This type of vulnerability occurs when a contract's arithmetic calculations exceed the maximum or minimum value that can be represented, causing unexpected behavior.
+
+Authorization Flaws: This type of vulnerability occurs when a smart contract's access control mechanism is not correctly implemented, allowing unauthorized access to sensitive functions or data.
+
+Time Manipulation: This type of vulnerability occurs when smart contracts rely on time-based events to execute their functions, which can be manipulated by attackers.
+
+Front-Running Attacks: This type of vulnerability occurs when attackers can see and copy transactions before they are executed, allowing them to exploit price discrepancies or manipulate the contract's behavior.
+
+Lack of Input Validation: This type of vulnerability occurs when smart contracts do not properly validate input data, allowing attackers to inject malicious code or data.
+
+Misconfigured Parameters: This type of vulnerability occurs when a smart contract's configuration parameters are not set correctly, causing unexpected behavior or opening up security risks.
